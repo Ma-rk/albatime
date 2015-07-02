@@ -46,6 +46,7 @@
     self.activityIndicator.hidden = YES;
     self.networkHandler = [NetworkHandler new];
     
+    
     if (self.email) {
         self.emailTextField.text = self.email;
         
@@ -66,6 +67,11 @@
             }
         }
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(disconnectionAlert:)
+                                                 name:@"networkDisconnected"
+                                               object:nil];
 }
 
 - (BOOL)validateEmail: (NSString *)candidate {
@@ -235,6 +241,12 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [self.emailTextField endEditing:YES];
     [self.pswdTextField endEditing:YES];
+}
+
+- (void)disconnectionAlert:(NSNotification *)notification {
+    NSString *title = @"WARNING!\nYou have no network connection!";
+    NSString *message = @"Connect internet before doing further modification, otherwise you may lose your recent changes";
+    [self showAlertViewTitle:title withMessage:message];
 }
 
 - (void)didReceiveMemoryWarning {

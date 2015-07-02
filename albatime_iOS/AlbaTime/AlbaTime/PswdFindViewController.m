@@ -35,6 +35,10 @@
                                              selector:@selector(showSendResult:)
                                                  name:@"resetRequestSent"
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(disconnectionAlert:)
+                                                 name:@"networkDisconnected"
+                                               object:nil];
 }
 
 - (void)setTextFieldOption {
@@ -134,6 +138,12 @@
     [self.emailTextField endEditing:YES];
 }
 
+- (void)disconnectionAlert:(NSNotification *)notification {
+    NSString *title = @"WARNING!\nYou have no network connection!";
+    NSString *message = @"Connect internet before doing further modification, otherwise you may lose your recent changes";
+    [self showAlertViewTitle:title withMessage:message];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -151,8 +161,7 @@
     }
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     return YES;
 }

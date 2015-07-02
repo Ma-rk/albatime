@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "AFNetworking.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,17 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    // Start monitoring the internet connection
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        NSLog(@"Reachability status: %@", AFStringFromNetworkReachabilityStatus(status));
+        if (status <= 0) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"networkDisconnected"
+                                                                object:nil
+                                                              userInfo:nil];
+        }
+    }];
     
     return YES;
 }
