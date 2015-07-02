@@ -1,0 +1,11 @@
+.DS_Store
+albatime_web/.DS_Store
+albatime_web/target
+albatime_web/.settings
+albatime_web/.classpath
+albatime_web/.project
+albatime_web/tomcat.8080/
+albatime_web/build/
+albatime_web/webapp/WEB-INF/classes/
+albatime_web/resources/local_properties
+albatime_web/bin

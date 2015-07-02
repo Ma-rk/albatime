@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+	<context:component-scan base-package="at.cont" />
+
+	<mvc:annotation-driven />
+
+	<context:property-placeholder location="classpath:local_properties/database.properties" />
+
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass" value="${database.driverClass}" />
+		<property name="url" value="${database.url}" />
+		<property name="username" value="${database.username}" />
+		<property name="password" value="${database.password}" />
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="userDao" class="at.dao.UserDaoJdbc">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="userBizImpl" class="at.biz.UserBizImpl">
+		<property name="userDao" ref="userDao" />
+	</bean>
+	<bean id="userBiz" class="at.biz.UserBizTx">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="userBiz" ref="userBizImpl" />
+	</bean>
+
+	<bean id="userCont" class="at.cont.UserCont">
+		<property name="userBiz" ref="userBiz" />
+	</bean>
+
+	<bean id="jwtMgr" class="at.supp.JwtMgr" />
+
+	<!-- <bean id="requestFilter" class="at.filter.RequestFilter"> <property name="jwtMgr" ref="jwtMgr" /> </bean> -->
+
+	<!-- <bean id="rsaJwkSupplier" class="jwtPractice.supp.RsaJwkSupplier" /> <bean id="userCont" class="jwtPractice.cont.UserCont"> <property name="rsaJwkSupplier" 
+		ref="rsaJwkSupplier" /> </bean> -->
+	<!-- <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" /> -->
+</beans>
