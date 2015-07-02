@@ -267,13 +267,6 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ltg-f9-Pvo">
-                                <rect key="frame" x="276" y="249" width="48" height="30"/>
-                                <state key="normal" title="Search"/>
-                                <connections>
-                                    <action selector="searchButtonTapped:" destination="ec1-Z4-9On" eventType="touchUpInside" id="CeD-Gh-dDn"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r9i-ZK-GA3">
                                 <rect key="frame" x="276" y="550" width="48" height="30"/>
                                 <state key="normal" title="Cancel"/>
@@ -282,55 +275,52 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ire-5y-yli">
-                                <rect key="frame" x="279" y="161" width="42" height="21"/>
+                                <rect key="frame" x="279" y="244" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="nhb-h9-iyG">
+                                <rect key="frame" x="290" y="235" width="20" height="20"/>
+                            </activityIndicatorView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3C6-rC-Rlv">
+                                <rect key="frame" x="176" y="285" width="250" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="250" id="lBE-R7-CoD"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JQ1-yf-n9U">
-                                <rect key="frame" x="282" y="305" width="36" height="30"/>
+                                <rect key="frame" x="282" y="345" width="36" height="30"/>
                                 <state key="normal" title="Send"/>
                                 <connections>
                                     <action selector="sendButtonTapped:" destination="ec1-Z4-9On" eventType="touchUpInside" id="Syw-2w-p34"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="nhb-h9-iyG">
-                                <rect key="frame" x="290" y="161" width="20" height="20"/>
-                            </activityIndicatorView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3C6-rC-Rlv">
-                                <rect key="frame" x="151" y="191" width="300" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="300" id="5GV-zA-uRS"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="ire-5y-yli" firstAttribute="top" secondItem="FDW-hm-Cb8" secondAttribute="bottom" constant="100" id="2ke-OQ-ob7"/>
-                            <constraint firstItem="3C6-rC-Rlv" firstAttribute="top" secondItem="ire-5y-yli" secondAttribute="bottom" constant="9" id="5OD-JV-RIA"/>
-                            <constraint firstItem="nhb-h9-iyG" firstAttribute="top" secondItem="FDW-hm-Cb8" secondAttribute="bottom" constant="100" id="62p-Wf-ITe"/>
-                            <constraint firstItem="r9i-ZK-GA3" firstAttribute="centerX" secondItem="ivJ-xb-QXp" secondAttribute="centerX" id="6FH-BD-h9P"/>
-                            <constraint firstItem="3C6-rC-Rlv" firstAttribute="centerX" secondItem="ivJ-xb-QXp" secondAttribute="centerX" id="84r-OE-VTI"/>
-                            <constraint firstItem="FDW-hm-Cb8" firstAttribute="top" secondItem="IbF-Jf-xxO" secondAttribute="bottom" constant="20" id="8Bu-f9-T1A"/>
-                            <constraint firstItem="ire-5y-yli" firstAttribute="centerX" secondItem="ivJ-xb-QXp" secondAttribute="centerX" id="GFG-Bb-aZI"/>
-                            <constraint firstItem="amU-Ie-iUf" firstAttribute="top" secondItem="r9i-ZK-GA3" secondAttribute="bottom" constant="20" id="GUR-UW-Uut"/>
-                            <constraint firstItem="JQ1-yf-n9U" firstAttribute="top" secondItem="ltg-f9-Pvo" secondAttribute="bottom" constant="26" id="Mg0-LQ-qAs"/>
-                            <constraint firstItem="ltg-f9-Pvo" firstAttribute="centerX" secondItem="ivJ-xb-QXp" secondAttribute="centerX" id="XvP-w6-4TY"/>
-                            <constraint firstItem="nhb-h9-iyG" firstAttribute="centerX" secondItem="ivJ-xb-QXp" secondAttribute="centerX" id="YH3-Rc-Gye"/>
-                            <constraint firstItem="JQ1-yf-n9U" firstAttribute="centerX" secondItem="ivJ-xb-QXp" secondAttribute="centerX" id="fbT-EH-mrN"/>
-                            <constraint firstItem="ltg-f9-Pvo" firstAttribute="top" secondItem="3C6-rC-Rlv" secondAttribute="bottom" constant="28" id="uCJ-nD-quh"/>
-                            <constraint firstItem="FDW-hm-Cb8" firstAttribute="centerX" secondItem="ivJ-xb-QXp" secondAttribute="centerX" id="yy4-J0-U8J"/>
+                            <constraint firstItem="FDW-hm-Cb8" firstAttribute="centerX" secondItem="ivJ-xb-QXp" secondAttribute="centerX" id="Eyp-J4-eBi"/>
+                            <constraint firstItem="r9i-ZK-GA3" firstAttribute="centerX" secondItem="ivJ-xb-QXp" secondAttribute="centerX" id="K6W-7Z-A4r"/>
+                            <constraint firstItem="3C6-rC-Rlv" firstAttribute="top" secondItem="ire-5y-yli" secondAttribute="bottom" constant="20" id="Meh-5D-6jK"/>
+                            <constraint firstItem="JQ1-yf-n9U" firstAttribute="top" secondItem="3C6-rC-Rlv" secondAttribute="bottom" constant="30" id="Rb4-1F-0vf"/>
+                            <constraint firstItem="nhb-h9-iyG" firstAttribute="centerX" secondItem="ivJ-xb-QXp" secondAttribute="centerX" id="Rsd-FG-Nhx"/>
+                            <constraint firstItem="ire-5y-yli" firstAttribute="centerX" secondItem="ivJ-xb-QXp" secondAttribute="centerX" id="VCx-lr-fK8"/>
+                            <constraint firstItem="3C6-rC-Rlv" firstAttribute="centerX" secondItem="ivJ-xb-QXp" secondAttribute="centerX" id="Zrd-Dg-0zd"/>
+                            <constraint firstItem="3C6-rC-Rlv" firstAttribute="top" secondItem="nhb-h9-iyG" secondAttribute="bottom" constant="30" id="dgC-8S-TI0"/>
+                            <constraint firstItem="amU-Ie-iUf" firstAttribute="top" secondItem="r9i-ZK-GA3" secondAttribute="bottom" constant="20" id="dhQ-62-3NB"/>
+                            <constraint firstItem="3C6-rC-Rlv" firstAttribute="centerY" secondItem="ivJ-xb-QXp" secondAttribute="centerY" id="rE3-wd-v3V"/>
+                            <constraint firstItem="FDW-hm-Cb8" firstAttribute="top" secondItem="IbF-Jf-xxO" secondAttribute="bottom" constant="20" id="tbl-Ig-cbZ"/>
+                            <constraint firstItem="JQ1-yf-n9U" firstAttribute="centerX" secondItem="ivJ-xb-QXp" secondAttribute="centerX" id="xjD-an-fH2"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="nhb-h9-iyG" id="Phc-Dn-rc8"/>
                         <outlet property="cancelButton" destination="r9i-ZK-GA3" id="Dk6-LE-TFk"/>
+                        <outlet property="checkEmailResult" destination="ire-5y-yli" id="z9N-j5-BXx"/>
                         <outlet property="emailTextField" destination="3C6-rC-Rlv" id="DoY-xO-jOg"/>
-                        <outlet property="searchButton" destination="ltg-f9-Pvo" id="WUp-ni-4hX"/>
                         <outlet property="sendButton" destination="JQ1-yf-n9U" id="JGO-Nd-yT7"/>
-                        <outlet property="statusLabel" destination="ire-5y-yli" id="joB-FY-8gv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BO0-UM-3aY" userLabel="First Responder" sceneMemberID="firstResponder"/>

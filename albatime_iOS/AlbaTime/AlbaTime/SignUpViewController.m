@@ -151,8 +151,9 @@
 
 - (void)uploadUserCredential:(NSMutableDictionary *)userCredential {
     self.activityIndicator.hidden = NO;
-    [self.view setUserInteractionEnabled:NO];
     [self.activityIndicator startAnimating];
+    [self.view setUserInteractionEnabled:NO];
+    
     [self.networkHandler uploadUserCredential:userCredential];
 }
 

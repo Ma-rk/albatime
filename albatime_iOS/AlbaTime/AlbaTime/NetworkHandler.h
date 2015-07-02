@@ -12,5 +12,6 @@
 
 - (void)uploadUserCredential:(NSMutableDictionary *)userCredential;
 - (BOOL)checkEmailAvailability:(NSString *)email;
+- (void)sendResetRequest:(NSString *)email;
 
 @end
