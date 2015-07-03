@@ -32,6 +32,7 @@ public class AccountBizImpl implements IAccountBiz {
 	 */
 	public List<Map<String, Object>> login(UserEty user) {
 		lgr.debug("====>login");
-		return this.accountDao.login(user);
+		List<Map<String, Object>> userInfoMap = this.accountDao.login(user);
+		return userInfoMap;
 	}
 }

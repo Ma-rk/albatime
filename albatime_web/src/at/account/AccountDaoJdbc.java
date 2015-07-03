@@ -7,12 +7,11 @@ import javax.sql.DataSource;
 
 import at.account.interfaces.IAccountDao;
 import at.model.UserEty;
+import at.supp.interfaces.ISqlService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
-
-import account.AccountTest;
 
 public class AccountDaoJdbc implements IAccountDao {
 	private static final Logger lgr = LoggerFactory.getLogger(AccountDaoJdbc.class);
@@ -25,13 +24,17 @@ public class AccountDaoJdbc implements IAccountDao {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
+	private ISqlService sqls;
+
+	public void setSqls(ISqlService sqls) {
+		this.sqls = sqls;
+	}
+
 	/*
 	 * functional methods
 	 */
 	public List<Map<String, Object>> login(UserEty user) {
 		lgr.debug("====>login");
-		return this.jdbcTemplate.queryForList(
-				"select usr_id, usr_email, usr_nick, usr_gender, usr_birth, usr_stus from tb_usr where usr_email = ? and usr_pw = ?",
-				user.getEmail(), user.getPw());
+		return this.jdbcTemplate.queryForList(this.sqls.getSql("accountLogin"), user.getEmail(), user.getPw());
 	}
 }

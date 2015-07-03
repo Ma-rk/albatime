@@ -48,6 +48,7 @@
 
 	<bean id="accountDao" class="at.account.AccountDaoJdbc">
 		<property name="dataSource" ref="dataSource" />
+		<property name="sqls" ref="sqls" />
 	</bean>
 
 	<bean id="accountBizImpl" class="at.account.AccountBizImpl">
@@ -63,4 +64,12 @@
 	</bean>
 
 	<bean id="jwtMgr" class="at.supp.JwtMgr" />
+
+	<bean id="sqls" class="at.supp.SqlServiceImpl">
+		<property name="sqlMap">
+			<map>
+				<entry key="accountLogin" value="select usr_id, usr_email, usr_nick, usr_gender, usr_birth, usr_stus from tb_usr where usr_email = ? and usr_pw = ?" />
+			</map>
+		</property>
+	</bean>
 </beans>
