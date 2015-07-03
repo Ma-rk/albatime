@@ -1,4 +1,4 @@
-package at.biz.interfaces;
+package at.user.interfaces;
 
 import at.model.UserEty;
 

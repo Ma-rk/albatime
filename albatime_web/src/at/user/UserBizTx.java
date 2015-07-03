@@ -1,4 +1,4 @@
-package at.biz;
+package at.user;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,8 +6,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import at.biz.interfaces.IUserBiz;
 import at.model.UserEty;
+import at.user.interfaces.IUserBiz;
 
 public class UserBizTx implements IUserBiz {
 	private static final Logger logger = LoggerFactory.getLogger(UserBizTx.class);

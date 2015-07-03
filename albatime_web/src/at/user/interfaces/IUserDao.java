@@ -1,4 +1,4 @@
-package at.dao.interfaces;
+package at.user.interfaces;
 
 import javax.sql.DataSource;
 

@@ -1,9 +1,9 @@
-package at.dao;
+package at.user;
 
 import javax.sql.DataSource;
 
-import at.dao.interfaces.IUserDao;
 import at.model.UserEty;
+import at.user.interfaces.IUserDao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 

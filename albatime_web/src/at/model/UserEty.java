@@ -15,6 +15,11 @@ public class UserEty {
 	public UserEty(String email) {
 		this.email = email;
 	}
+	
+	public UserEty(String email, String pw) {
+		this.email = email;
+		this.pw = pw;
+	}
 
 	public long getId() {
 		return id;

@@ -1,11 +1,11 @@
-package at.biz;
+package at.user;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import at.biz.interfaces.IUserBiz;
-import at.dao.interfaces.IUserDao;
 import at.model.UserEty;
+import at.user.interfaces.IUserBiz;
+import at.user.interfaces.IUserDao;
 
 public class UserBizImpl implements IUserBiz {
 	private static final Logger logger = LoggerFactory.getLogger(UserBizImpl.class);
