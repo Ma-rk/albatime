@@ -19,13 +19,14 @@ public class SupportTest {
 
 	@Test
 	public void generateJwTokenKeyTest() {
-	String jwtKey = JwtMgr.generateJwTokenKey();
-	lgr.info(jwtKey);
+		String jwtKey = JwtMgr.generateJwTokenKey();
+		lgr.info(jwtKey);
 	}
+
 	@Test
 	public void generateJwTokenKey10000TimesTest() {
-		int i=0;
-		while( i++ <10000){
+		int i = 0;
+		while (i++ < 10000) {
 			generateJwTokenKeyTest();
 		}
 	}

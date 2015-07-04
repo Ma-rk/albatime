@@ -33,7 +33,7 @@ public class UserCont {
 		this.userBiz = userBiz;
 	}
 
-	@RequestMapping(value = "/view-user", method = RequestMethod. POST)
+	@RequestMapping(value = "/view-user", method = RequestMethod.POST)
 	public @ResponseBody String userRegister(
 			@RequestParam(value = "userName", defaultValue = "default") String userName) {
 		System.out.println("[" + userName + "] looked at me!!!");
@@ -64,7 +64,8 @@ public class UserCont {
 	public @ResponseBody String test3(HttpServletResponse response) {
 		System.out.println("/ccc");
 		response.addCookie(new Cookie("COOKIENAME", "The cookie's value"));
-		response.addCookie(new Cookie("jwtoken", "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJZb3VyQ29tcGFueU9yQXBwTmFtZUhlcmUiLCJhdWQiOiJOb3RSZWFsbHlJbXBvcnRhbnQiLCJpYXQiOjE0MzU4OTkxNDYsImV4cCI6MTQzNjMzMTE0NiwiaW5mbyI6eyJ1c2VySWQiOiJhYWEiLCJ1c2VyQmlydGgiOiJhYWEiLCJ1c2VyR2VuZGVyIjoiYWFhIn19.6icXstD5e1_Q8wA4EnbpfrEvel03Csp4pzHEhahEeSk"));
+		response.addCookie(new Cookie("jwtoken",
+				"eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJZb3VyQ29tcGFueU9yQXBwTmFtZUhlcmUiLCJhdWQiOiJOb3RSZWFsbHlJbXBvcnRhbnQiLCJpYXQiOjE0MzU4OTkxNDYsImV4cCI6MTQzNjMzMTE0NiwiaW5mbyI6eyJ1c2VySWQiOiJhYWEiLCJ1c2VyQmlydGgiOiJhYWEiLCJ1c2VyR2VuZGVyIjoiYWFhIn19.6icXstD5e1_Q8wA4EnbpfrEvel03Csp4pzHEhahEeSk"));
 		return "hello world\n\n";
 	}
 

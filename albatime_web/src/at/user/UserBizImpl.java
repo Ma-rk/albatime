@@ -22,8 +22,6 @@ public class UserBizImpl implements IUserBiz {
 		this.userDao = userDao;
 	}
 
-
-
 	/*
 	 * functional methods
 	 */

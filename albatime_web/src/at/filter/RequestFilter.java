@@ -33,14 +33,16 @@ public class RequestFilter implements Filter {
 	// this.jwtMgr = jwtMgr;
 	// }
 
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
 		request.setCharacterEncoding(DEFAULT_ENCODING);
 		response.setCharacterEncoding(DEFAULT_ENCODING);
 		lgr.debug("servlet filtering...");
 
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-		String requestedPage = httpRequest.getRequestURL().toString().substring(21, httpRequest.getRequestURL().toString().length());
+		String requestedPage = httpRequest.getRequestURL().toString().substring(21,
+				httpRequest.getRequestURL().toString().length());
 		lgr.debug("requestedPage: " + requestedPage);
 		lgr.debug("full url: " + httpRequest.getRequestURL().toString());
 
@@ -77,9 +79,7 @@ public class RequestFilter implements Filter {
 		chain.doFilter((ServletRequest) httpRequest, response);
 	}
 
-	public void init(FilterConfig filterConfig) throws ServletException {
-	}
+	public void init(FilterConfig filterConfig) throws ServletException {}
 
-	public void destroy() {
-	}
+	public void destroy() {}
 }

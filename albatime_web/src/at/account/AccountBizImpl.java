@@ -25,31 +25,30 @@ public class AccountBizImpl implements IAccountBiz {
 	private IAccountDao accountDao;
 
 	public void setAccountDao(IAccountDao accountDao) {
-	this.accountDao = accountDao;
+		this.accountDao = accountDao;
 	}
 
 	/*
 	 * functional methods
 	 */
 	public List<Map<String, Object>> login(UserEty user) {
-	lgr.debug("====>login");
-	List<Map<String, Object>> userInfoMap = this.accountDao.checkUserExistance(user);
+		lgr.debug("====>login");
+		List<Map<String, Object>> userInfoMap = this.accountDao.checkUserExistance(user);
 
-	if (userInfoMap == null)
-		return null;
+		if (userInfoMap == null)
+			return null;
 
-//	Map<String, Object> aaa = new HashMap<String, Object>();
-//	aaa.put("", value)
-	
-	userInfoMap.add(new HashMap<String, Object>());
-	
-	lgr.debug("<====login");
-	return userInfoMap;
+		// Map<String, Object> aaa = new HashMap<String, Object>();
+		// aaa.put("", value)
+
+		userInfoMap.add(new HashMap<String, Object>());
+
+		lgr.debug("<====login");
+		return userInfoMap;
 	}
 
 	/*
 	 * supporting methods
 	 */
-
 
 }

@@ -31,7 +31,7 @@ public class JwtMgr {
 	private static final String ISSUER = "YourCompanyOrAppNameHere";
 
 	private static final String SIGNING_KEY = "xxfhi84g4g#$g234r@!#rd3!@r@#f$gvj676I8z";
-	
+
 	public static String createJsonWebToken(String userId, Long durationDays) {
 		// Current time and signing algorithm
 		Calendar calender = Calendar.getInstance(TimeZone.getTimeZone("GMT+9"));
@@ -46,7 +46,8 @@ public class JwtMgr {
 		JsonToken token = new net.oauth.jsontoken.JsonToken(signer);
 		token.setAudience(AUDIENCE);
 		token.setIssuedAt(new org.joda.time.Instant(calender.getTimeInMillis()));
-		token.setExpiration(new org.joda.time.Instant(calender.getTimeInMillis() + 1000L * 60L * 60L * 24L * durationDays));
+		token.setExpiration(
+				new org.joda.time.Instant(calender.getTimeInMillis() + 1000L * 60L * 60L * 24L * durationDays));
 
 		// Configure request object, which provides information of the item
 		JsonObject request = new JsonObject();
@@ -63,7 +64,7 @@ public class JwtMgr {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public static TokenEty verifyToken(String token) {
 		try {
 			final Verifier hmacVerifier = new HmacSHA256Verifier(SIGNING_KEY.getBytes());
@@ -106,8 +107,8 @@ public class JwtMgr {
 			throw new RuntimeException(e1);
 		}
 	}
-	
+
 	public static String generateJwTokenKey() {
-	return new BigInteger(130, new SecureRandom()).toString(32);
+		return new BigInteger(130, new SecureRandom()).toString(32);
 	}
 }

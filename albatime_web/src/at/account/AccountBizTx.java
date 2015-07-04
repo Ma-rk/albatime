@@ -43,7 +43,7 @@ public class AccountBizTx implements IAccountBiz {
 		TransactionStatus status = this.transactionManager.getTransaction(new DefaultTransactionDefinition());
 		lgr.info("transaction info: begin on [{}]", this.toString());
 		try {
-//			this.accountBiz.upgradeLevelOfEveryUser();
+			// this.accountBiz.upgradeLevelOfEveryUser();
 			this.transactionManager.commit(status);
 			lgr.info("transaction info: commit");
 		} catch (RuntimeException e) {

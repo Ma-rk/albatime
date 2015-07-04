@@ -21,7 +21,8 @@ public class UserDaoJdbc implements IUserDao {
 	 * functional methods
 	 */
 	public void add(UserEty user) {
-		this.jdbcTemplate.update("insert into tb_usr(usr_email, usr_pw, usr_nick, usr_birth, usr_stus) values (?,?,?,?,?)", user.getEmail(), user.getPw(),
-				user.getNick(), user.getBirth(), user.getStus());
+		this.jdbcTemplate.update(
+				"insert into tb_usr(usr_email, usr_pw, usr_nick, usr_birth, usr_stus) values (?,?,?,?,?)",
+				user.getEmail(), user.getPw(), user.getNick(), user.getBirth(), user.getStus());
 	}
 }

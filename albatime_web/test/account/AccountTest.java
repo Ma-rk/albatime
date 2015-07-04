@@ -21,10 +21,10 @@ public class AccountTest {
 	private static final Logger lgr = LoggerFactory.getLogger(AccountTest.class);
 
 	UserEty user1;
-	
+
 	@Autowired
 	AccountCont accountCont;
-	
+
 	@Before
 	public void setUp() throws Exception {
 		this.user1 = new UserEty("email@mail.com", "pwpw");

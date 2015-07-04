@@ -18,7 +18,7 @@ import at.model.UserEty;
 @Controller
 public class AccountCont {
 	private static final Logger lgr = LoggerFactory.getLogger(AccountCont.class);
-	
+
 	@Autowired
 	IAccountBiz accountBiz;
 

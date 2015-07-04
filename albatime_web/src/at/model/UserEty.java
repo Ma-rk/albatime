@@ -15,7 +15,7 @@ public class UserEty {
 	public UserEty(String email) {
 		this.email = email;
 	}
-	
+
 	public UserEty(String email, String pw) {
 		this.email = email;
 		this.pw = pw;
@@ -54,7 +54,7 @@ public class UserEty {
 	}
 
 	public String toString() {
-		return "\nUserEty [id=" + id + ", email=" + email + ", pw=" + pw + ", nick=" + nick + ", gender=" + gender + ", birth=" + birth + ", DateTime=" + signIn
-				+ "]";
+		return "\nUserEty [id=" + id + ", email=" + email + ", pw=" + pw + ", nick=" + nick + ", gender=" + gender
+				+ ", birth=" + birth + ", DateTime=" + signIn + "]";
 	}
 }

@@ -4,7 +4,8 @@ import javax.servlet.http.Cookie;
 
 public class CookieMgr {
 	public static String getCookie(Cookie[] cookies, String name) {
-		if (cookies == null || cookies.length == 0) return null;
+		if (cookies == null || cookies.length == 0)
+			return null;
 
 		String jwtokenValueFromCookie = null;
 
@@ -15,7 +16,8 @@ public class CookieMgr {
 			}
 		}
 
-		if (jwtokenValueFromCookie.isEmpty()) jwtokenValueFromCookie = null;
+		if (jwtokenValueFromCookie.isEmpty())
+			jwtokenValueFromCookie = null;
 
 		return jwtokenValueFromCookie;
 	}
