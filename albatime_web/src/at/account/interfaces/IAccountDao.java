@@ -10,5 +10,5 @@ import at.model.UserEty;
 public interface IAccountDao {
 	void setDataSource(DataSource dataSource);
 
-	public List<Map<String, Object>> login(UserEty user);
+	public List<Map<String, Object>> checkUserExistance(UserEty user);
 }

@@ -1,6 +1,8 @@
 package at.supp;
 
+import java.math.BigInteger;
 import java.security.InvalidKeyException;
+import java.security.SecureRandom;
 import java.security.SignatureException;
 import java.util.Calendar;
 import java.util.List;
@@ -105,4 +107,7 @@ public class JwtMgr {
 		}
 	}
 	
+	public static String generateJwTokenKey() {
+	return new BigInteger(130, new SecureRandom()).toString(32);
+	}
 }

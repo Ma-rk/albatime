@@ -33,7 +33,7 @@ public class AccountDaoJdbc implements IAccountDao {
 	/*
 	 * functional methods
 	 */
-	public List<Map<String, Object>> login(UserEty user) {
+	public List<Map<String, Object>> checkUserExistance(UserEty user) {
 		lgr.debug("====>login");
 		return this.jdbcTemplate.queryForList(this.sqls.getSql("accountLogin"), user.getEmail(), user.getPw());
 	}

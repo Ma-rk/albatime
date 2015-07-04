@@ -1,5 +1,8 @@
 package at.account;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,17 +25,31 @@ public class AccountBizImpl implements IAccountBiz {
 	private IAccountDao accountDao;
 
 	public void setAccountDao(IAccountDao accountDao) {
-		this.accountDao = accountDao;
+	this.accountDao = accountDao;
 	}
-
-
 
 	/*
 	 * functional methods
 	 */
 	public List<Map<String, Object>> login(UserEty user) {
-		lgr.debug("====>login");
-		List<Map<String, Object>> userInfoMap = this.accountDao.login(user);
-		return userInfoMap;
+	lgr.debug("====>login");
+	List<Map<String, Object>> userInfoMap = this.accountDao.checkUserExistance(user);
+
+	if (userInfoMap == null)
+		return null;
+
+//	Map<String, Object> aaa = new HashMap<String, Object>();
+//	aaa.put("", value)
+	
+	userInfoMap.add(new HashMap<String, Object>());
+	
+	lgr.debug("<====login");
+	return userInfoMap;
 	}
+
+	/*
+	 * supporting methods
+	 */
+
+
 }
