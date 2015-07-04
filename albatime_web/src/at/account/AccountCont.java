@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import account.AccountTest;
 import at.account.interfaces.IAccountBiz;
 import at.model.UserEty;
+import at.supp.CC;
 
 @Controller
 public class AccountCont {
@@ -26,15 +27,5 @@ public class AccountCont {
 		this.accountBiz = accountBiz;
 	}
 
-	@RequestMapping(value = "/api-login", method = RequestMethod.POST)
-	public List<Map<String, Object>> login(@RequestParam("email") String email, @RequestParam("pw") String pw) {
-		lgr.debug("==>login");
-		lgr.debug("email: " + email);
-		lgr.debug("pw: " + pw);
 
-		List<Map<String, Object>> map = accountBiz.login(new UserEty(email, pw));
-
-		lgr.debug("<==login");
-		return map;
-	}
 }

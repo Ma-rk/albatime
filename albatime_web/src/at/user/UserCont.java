@@ -1,9 +1,14 @@
 package at.user;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
@@ -13,13 +18,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import at.account.AccountCont;
 import at.model.UserEty;
+import at.supp.CC;
 import at.user.interfaces.IUserBiz;
 
 //import at.supp.RsaJwkSupplier;
 
 @Controller
 public class UserCont {
+	private static final Logger lgr = LoggerFactory.getLogger(UserCont.class);
 	// @Autowired
 	// RsaJwkSupplier rsaJwkSupplier;
 	//
@@ -33,6 +41,17 @@ public class UserCont {
 		this.userBiz = userBiz;
 	}
 
+	@RequestMapping(value = "/api-login", method = RequestMethod.POST)
+	public List<Map<String, Object>> login(@RequestParam("email") String email, @RequestParam("pw") String pw) {
+		lgr.debug(CC.GETTING_INTO_2 + "login");
+		lgr.debug("email: " + email);
+		lgr.debug("pw: " + pw);
+
+		List<Map<String, Object>> map = userBiz.login(new UserEty(email, pw));
+
+		lgr.debug(CC.GETTING_OUT_2 + "login");
+		return map;
+	}
 	@RequestMapping(value = "/view-user", method = RequestMethod.POST)
 	public @ResponseBody String userRegister(
 			@RequestParam(value = "userName", defaultValue = "default") String userName) {
@@ -89,4 +108,6 @@ public class UserCont {
 		System.out.println("/ttt");
 		return jwt;
 	}
+	
+	
 }

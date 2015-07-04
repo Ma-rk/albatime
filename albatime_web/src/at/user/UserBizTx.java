@@ -1,5 +1,8 @@
 package at.user;
 
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -32,6 +35,9 @@ public class UserBizTx implements IUserBiz {
 	 */
 	public void add(UserEty user) {
 		this.userBiz.add(user);
+	}
+	public List<Map<String, Object>> login(UserEty user) {
+		return this.userBiz.login(user);
 	}
 
 	public void upgradeLevelOfEveryUser() {

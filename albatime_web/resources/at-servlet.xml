@@ -30,8 +30,12 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
+
+
+
 	<bean id="userDao" class="at.user.UserDaoJdbc">
 		<property name="dataSource" ref="dataSource" />
+		<property name="sqls" ref="sqls" />
 	</bean>
 
 	<bean id="userBizImpl" class="at.user.UserBizImpl">
@@ -45,6 +49,9 @@
 	<bean id="userCont" class="at.user.UserCont">
 		<property name="userBiz" ref="userBiz" />
 	</bean>
+
+
+
 
 	<bean id="accountDao" class="at.account.AccountDaoJdbc">
 		<property name="dataSource" ref="dataSource" />

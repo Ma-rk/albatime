@@ -34,9 +34,6 @@ public class AccountBizTx implements IAccountBiz {
 	/*
 	 * functional methods
 	 */
-	public List<Map<String, Object>> login(UserEty user) {
-		return this.accountBiz.login(user);
-	}
 
 	public void upgradeLevelOfEveryUser() {
 		lgr.info("upgradeLevelOfEveryUser()==>");

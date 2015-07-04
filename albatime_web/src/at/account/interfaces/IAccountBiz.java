@@ -7,5 +7,4 @@ import at.model.UserEty;
 
 public interface IAccountBiz {
 
-	List<Map<String, Object>> login(UserEty user);
 }

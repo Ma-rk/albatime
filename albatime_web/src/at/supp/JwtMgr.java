@@ -47,7 +47,7 @@ public class JwtMgr {
 		token.setAudience(AUDIENCE);
 		token.setIssuedAt(new org.joda.time.Instant(calender.getTimeInMillis()));
 		token.setExpiration(
-				new org.joda.time.Instant(calender.getTimeInMillis() + 1000L * 60L * 60L * 24L * durationDays));
+				new org.joda.time.Instant(calender.getTimeInMillis() + CC.MS_FOR_ONE_DAY * durationDays));
 
 		// Configure request object, which provides information of the item
 		JsonObject request = new JsonObject();
