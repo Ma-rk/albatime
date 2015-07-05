@@ -23,7 +23,6 @@
 @property (strong, nonatomic) LoginModel *loginModel;
 @property (strong, nonatomic) NetworkHandler *networkHandler;
 
-
 @end
 
 @implementation PswdFindViewController
@@ -34,11 +33,10 @@
     self.loginModel = [(AppDelegate *)[[UIApplication sharedApplication] delegate] loginModel];
     [self observeDisconnectedNotification];
     
-    // set view elements
-    [self setTextFieldOption];
+    [self setViewElements];
 }
 
-- (void)setTextFieldOption {
+- (void)setViewElements {
     self.activityIndicator.hidden = YES;
     self.invalidEmailWarning.hidden = YES;
     self.resetRequestResult.hidden = YES;
@@ -165,12 +163,33 @@
 }
 
 - (void)resetEmailNotSent {
-    self.resetRequestResult.text = @"Sending e-amil failed";
-    self.resetRequestResult.hidden = NO;
-    
     self.activityIndicator.hidesWhenStopped = YES;
     [self.activityIndicator stopAnimating];
     [self.view setUserInteractionEnabled:YES];
+    
+    UIAlertController *alertController = [UIAlertController
+                                          alertControllerWithTitle:@"E-mail NOT sent"
+                                          message:@"Failed to send reset request e-mail"
+                                          preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *retryAction = [UIAlertAction
+                                  actionWithTitle:NSLocalizedString(@"Retry", @"Retry action")
+                                  style:UIAlertActionStyleCancel
+                                  handler:^(UIAlertAction *action)
+                                  {
+                                      NSString *email = self.emailTextField.text;
+                                      [self.loginModel sendResetRequest:email];
+                                  }];
+    
+    UIAlertAction *okAction = [UIAlertAction
+                               actionWithTitle:NSLocalizedString(@"OK", @"OK action")
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction *action)
+                               {
+                                   NSLog(@"OK tapped");
+                               }];
+    [alertController addAction:retryAction];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 

@@ -46,15 +46,12 @@
     self.loginModel.delegate = self;
     self.networkHandler.delegate = self;
     
-    // set view elements
-    [self setTextFieldOption];
-    self.activityIndicator.hidden = YES;
-    self.invalidEmailWarning.hidden = YES;
+    [self setViewElements];
     
     [self observeDisconnectedNotification];
 }
 
-- (void)setTextFieldOption {
+- (void)setViewElements {
     self.emailTextField.delegate = self;
     self.emailTextField.tag = FIELD_ONE_TAG;
     self.pswdTextField.delegate = self;
@@ -76,6 +73,9 @@
     self.pswdTextField.placeholder = self.placeHolderTextForPswd;
     self.identityTextField.placeholder = self.placeHolderTextForIdentity;
     self.usernameTextField.placeholder = self.placeHolderTextForUsername;
+    
+    self.activityIndicator.hidden = YES;
+    self.invalidEmailWarning.hidden = YES;
 }
 
 - (IBAction)submitButtonTapped:(id)sender {

@@ -45,9 +45,7 @@
     [self.loginModel loadUserDefaults];
     [self observeDisconnectedNotification];
     
-    // set view elements
-    [self setTextFieldOption];
-    self.activityIndicator.hidden = YES;
+    [self setViewElements];
     
     // auto login process
     if (self.loginModel.email) {
@@ -59,7 +57,7 @@
     }
 }
 
-- (void)setTextFieldOption {
+- (void)setViewElements {
     self.emailTextField.delegate = self;
     self.pswdTextField.delegate = self;
     self.pswdTextField.secureTextEntry = YES;
@@ -73,6 +71,8 @@
     
     self.emailTextField.placeholder = self.placeHolderTextForEmail;
     self.pswdTextField.placeholder = self.placeHolderTextForPswd;
+    
+    self.activityIndicator.hidden = YES;
 }
 
 - (IBAction)loginButtonTapped:(id)sender {
