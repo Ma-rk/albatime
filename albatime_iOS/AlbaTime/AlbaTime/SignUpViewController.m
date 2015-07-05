@@ -8,12 +8,13 @@
 
 #import "SignUpViewController.h"
 #import "Definitions.h"
+#import "AppDelegate.h"
+#import "LoginModel.h"
 #import "NetworkHandler.h"
-#import "SSKeychain.h"
 
 // 각각의 값 입력시 오류나면 해당 항목 텍스트필드에 붉은색 라운드처리
 
-@interface SignUpViewController () <UITextFieldDelegate>
+@interface SignUpViewController () <UITextFieldDelegate, LoginModelDelegate, NetworkHandlerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *pswdTextField;
@@ -29,6 +30,7 @@
 @property (weak, nonatomic) NSString *placeHolderTextForPswd;
 @property (weak, nonatomic) NSString *placeHolderTextForIdentity;
 @property (weak, nonatomic) NSString *placeHolderTextForUsername;
+@property (strong, nonatomic) LoginModel *loginModel;
 @property (strong, nonatomic) NetworkHandler *networkHandler;
 
 @property BOOL userGranted;
@@ -40,22 +42,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.loginModel = [(AppDelegate *)[[UIApplication sharedApplication] delegate] loginModel];
+    self.loginModel.delegate = self;
+    self.networkHandler.delegate = self;
+    
+    // set view elements
     [self setTextFieldOption];
     self.activityIndicator.hidden = YES;
     self.invalidEmailWarning.hidden = YES;
-    self.networkHandler = [NetworkHandler new];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(disconnectionAlert:)
-                                                 name:@"networkDisconnected"
-                                               object:nil];
+    [self observeDisconnectedNotification];
 }
 
 - (void)setTextFieldOption {
     self.emailTextField.delegate = self;
+    self.emailTextField.tag = FIELD_ONE_TAG;
     self.pswdTextField.delegate = self;
     self.usernameTextField.delegate = self;
-    self.emailTextField.tag = FIELD_ONE_TAG;
     self.pswdTextField.secureTextEntry = YES;
     self.identityTextField.userInteractionEnabled = NO;
     
@@ -82,18 +85,12 @@
         [userCredential setObject:self.pswdTextField.text forKey:@"password"];
         [userCredential setObject:self.identityTextField.text forKey:@"identity"];
         [userCredential setObject:self.usernameTextField.text forKey:@"username"];
-
-        [self uploadUserCredential:userCredential];
         
-        if (self.userGranted) {
-            [self savePassword];
-            [self signUpSucceed];
-        }
-        else {
-            // 등록 실패 원인 알람
-            [self.view setUserInteractionEnabled:YES];
-            [self.activityIndicator stopAnimating];
-        }
+        self.activityIndicator.hidden = NO;
+        [self.activityIndicator startAnimating];
+        [self.view setUserInteractionEnabled:NO];
+
+        [self.loginModel signUpWithUserCredential:userCredential];
     }
 }
 
@@ -125,18 +122,8 @@
 }
 
 - (BOOL)validateEmail:(NSString *)candidate {
-    NSString *emailRegex =
-    @"(?:[a-z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-z0-9!#$%\\&'*+/=?\\^_`{|}"
-    @"~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\"
-    @"x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-"
-    @"z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5"
-    @"]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-"
-    @"9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21"
-    @"-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
-    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES[c] %@", emailRegex];
-    
-    if ([emailTest evaluateWithObject:candidate]) {
-        if ([self.networkHandler checkEmailAvailability:candidate]) {
+    if ([self.loginModel validateEmail:candidate]) {
+        if ([self.loginModel checkEmailAvailability:candidate]) {
             return YES;
         }
         else {
@@ -153,70 +140,6 @@
         return NO;
     }
     return NO;
-}
-
-- (void)uploadUserCredential:(NSMutableDictionary *)userCredential {
-    self.activityIndicator.hidden = NO;
-    [self.activityIndicator startAnimating];
-    [self.view setUserInteractionEnabled:NO];
-    
-    [self.networkHandler uploadUserCredential:userCredential];
-}
-
-- (void)savePassword {
-    if (![SSKeychain setPassword:self.pswdTextField.text forService:SERVICE_TITLE account:self.emailTextField.text]) {
-        UIAlertController *alertController = [UIAlertController
-                                              alertControllerWithTitle:@"Warning"
-                                              message:@"Failed to save password in keychain"
-                                              preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *retryAction = [UIAlertAction
-                                      actionWithTitle:NSLocalizedString(@"Retry", @"Retry action")
-                                      style:UIAlertActionStyleCancel
-                                      handler:^(UIAlertAction *action)
-                                      {
-                                          [self savePassword];
-                                      }];
-        
-        UIAlertAction *okAction = [UIAlertAction
-                                   actionWithTitle:NSLocalizedString(@"OK", @"OK action")
-                                   style:UIAlertActionStyleDefault
-                                   handler:^(UIAlertAction *action)
-                                   {
-                                       NSLog(@"OK tapped");
-                                   }];
-        [alertController addAction:retryAction];
-        [alertController addAction:okAction];
-        [self presentViewController:alertController animated:YES completion:nil];
-    }
-}
-
-- (void)signUpSucceed {
-    [self.activityIndicator stopAnimating];
-    [self saveUserDefaults];
-    [self dismissViewControllerAnimated:YES completion:nil];
-    // SignUp 화면을 내려서 로그인 화면에 이메일 자동으로 삽입되어 있는지 확인 / 아님 바로 Wage View 보여주던가
-}
-
-- (void)saveUserDefaults {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:self.emailTextField.text forKey:@"email"];
-    [defaults synchronize];
-}
-
-- (void)showAlertViewTitle:(NSString *)title withMessage:(NSString *)message {
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:title
-                                          message:message
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okAction = [UIAlertAction
-                               actionWithTitle:NSLocalizedString(@"OK", @"OK action")
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction *action)
-                               {
-                                   NSLog(@"ok button tapped");
-                               }];
-    [alertController addAction:okAction];
-    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (IBAction)cancelButtonTapped:(id)sender {
@@ -275,12 +198,6 @@
     [self.usernameTextField endEditing:YES];
 }
 
-- (void)disconnectionAlert:(NSNotification *)notification {
-    NSString *title = @"WARNING!\nYou have no network connection!";
-    NSString *message = @"Connect internet before doing further modification, otherwise you may lose your recent changes";
-    [self showAlertViewTitle:title withMessage:message];
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -289,36 +206,20 @@
 #pragma mark - UITextField Delegate Methods
 
 - (void)textFieldDidBeginEditing:(nonnull UITextField *)textField {
-    if (textField.tag == 1) {
+    if (textField.tag == FIELD_ONE_TAG) {
         self.invalidEmailWarning.hidden = YES;
     }
 }
 
 - (void)textFieldDidEndEditing:(nonnull UITextField *)textField {
-    if (textField.tag == 1 && textField.text.length > 0) {
-        [self fastValidateEmail:textField.text];
+    if (textField.text.length > 0 && textField.tag == FIELD_ONE_TAG) {
+        [self instantValidateEmail:textField.text];
     }
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return YES;
-}
-
-- (void)fastValidateEmail:(NSString *)candidate {
-    NSString *emailRegex =
-    @"(?:[a-z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-z0-9!#$%\\&'*+/=?\\^_`{|}"
-    @"~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\"
-    @"x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-"
-    @"z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5"
-    @"]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-"
-    @"9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21"
-    @"-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
-    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES[c] %@", emailRegex];
-    
-    if ([emailTest evaluateWithObject:candidate]) {
-        if ([self.networkHandler checkEmailAvailability:candidate]) {
+- (void)instantValidateEmail:(NSString *)candidate {
+    if ([self.loginModel validateEmail:candidate]) {
+        if ([self.loginModel checkEmailAvailability:candidate]) {
             self.invalidEmailWarning.text = @"This e-mail is good to go!";
             self.invalidEmailWarning.textColor = [UIColor blueColor];
             self.invalidEmailWarning.hidden = NO;
@@ -332,6 +233,59 @@
         self.invalidEmailWarning.text = @"Invalid e-mail, please check again";
         self.invalidEmailWarning.hidden = NO;
     }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
+
+#pragma mark - Set internet disconnection notification
+
+- (void)observeDisconnectedNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(disconnectionAlert:)
+                                                 name:@"networkDisconnected"
+                                               object:nil];
+}
+
+- (void)disconnectionAlert:(NSNotification *)notification {
+    NSString *title = @"WARNING!\nYou have no network connection!";
+    NSString *message = @"Connect internet before doing further modification, otherwise you may lose your recent changes";
+    [self showAlertViewTitle:title withMessage:message];
+}
+
+#pragma mark - NetworkHandler Delegate Methods
+
+- (void)signUpSucceed {
+    [self.activityIndicator stopAnimating];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    // SignUp 화면을 내려서 로그인 화면에 이메일 자동으로 삽입되어 있는지 확인 / 아님 바로 Wage View 보여주던가
+}
+
+- (void)signUpFailed {
+    NSString *title = @"SignUp failed";
+    NSString *message = @"SignUp failed with unknown reason";
+    [self showAlertViewTitle:title withMessage:message];
+    [self.activityIndicator stopAnimating];
+    [self.view setUserInteractionEnabled:YES];
+}
+
+- (void)showAlertViewTitle:(NSString *)title withMessage:(NSString *)message {
+    UIAlertController *alertController = [UIAlertController
+                                          alertControllerWithTitle:title
+                                          message:message
+                                          preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction
+                               actionWithTitle:NSLocalizedString(@"OK", @"OK action")
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction *action)
+                               {
+                                   NSLog(@"ok button tapped");
+                               }];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 /*

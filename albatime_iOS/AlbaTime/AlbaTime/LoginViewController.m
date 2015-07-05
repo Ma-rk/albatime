@@ -8,14 +8,14 @@
 
 #import "LoginViewController.h"
 #import "Definitions.h"
-#import "SSKeychain.h"
-#import "NetworkHandler.h"
-#import "WageViewController.h"
 #import "SignUpViewController.h"
 #import "WageViewController.h"
 #import "PswdFindViewController.h"
+#import "AppDelegate.h"
+#import "LoginModel.h"
+#import "NetworkHandler.h"
 
-@interface LoginViewController () <UITextFieldDelegate>
+@interface LoginViewController () <UITextFieldDelegate, LoginModelDelegate, NetworkHandlerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *pswdTextField;
@@ -27,11 +27,8 @@
 
 @property (weak, nonatomic) NSString *placeHolderTextForEmail;
 @property (weak, nonatomic) NSString *placeHolderTextForPswd;
-@property (nonatomic, strong) NSString *email;
-@property (nonatomic, strong) NetworkHandler *networkHandler;
-
-@property BOOL autoLogin;
-@property BOOL userGranted;
+@property (strong, nonatomic) LoginModel *loginModel;
+@property (strong, nonatomic) NetworkHandler *networkHandler;
 
 @end
 
@@ -41,51 +38,25 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self loadUserDefaults];
+    self.loginModel = [(AppDelegate *)[[UIApplication sharedApplication] delegate] loginModel];
+    self.loginModel.delegate = self;
+    self.networkHandler.delegate = self;
+
+    [self.loginModel loadUserDefaults];
+    [self observeDisconnectedNotification];
+    
+    // set view elements
     [self setTextFieldOption];
     self.activityIndicator.hidden = YES;
-    self.networkHandler = [NetworkHandler new];
     
-    
-    if (self.email) {
-        self.emailTextField.text = self.email;
+    // auto login process
+    if (self.loginModel.email) {
+        self.emailTextField.text = self.loginModel.email;
         
-        if (self.autoLogin) {
-            NSString *password = [SSKeychain passwordForService:SERVICE_TITLE account:self.emailTextField.text];
-
-            if (password.length > 0) {
-                [self userAuthenticationWithEmail:self.email andPassword:password];
-                
-                // set password textfield with garbage data for security reason - autologin only
-                self.pswdTextField.text = @"Ub!$o5%p";
-                if (self.userGranted) {
-                    [self loginSucceed];
-                }
-                else {
-                    // 로그인 실패 원인 알람, 비번이 틀렸을 경우에는 비번 칸 비우고 플레이스홀더 세팅, 이메일은 틀렸어도 그냥 둠
-                }
-            }
+        if (self.loginModel.autoLogin) {
+            [self.loginModel tryAutoLogin];
         }
     }
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(disconnectionAlert:)
-                                                 name:@"networkDisconnected"
-                                               object:nil];
-}
-
-- (BOOL)validateEmail: (NSString *)candidate {
-    NSString *emailRegex =
-    @"(?:[a-z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-z0-9!#$%\\&'*+/=?\\^_`{|}"
-    @"~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\"
-    @"x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-"
-    @"z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5"
-    @"]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-"
-    @"9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21"
-    @"-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
-    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES[c] %@", emailRegex];
-    
-    return [emailTest evaluateWithObject:candidate];
 }
 
 - (void)setTextFieldOption {
@@ -106,62 +77,11 @@
 
 - (IBAction)loginButtonTapped:(id)sender {
     if ([self validateUserInput]) {
-        [self userAuthenticationWithEmail:self.emailTextField.text andPassword:self.pswdTextField.text];
-        
-        if (self.userGranted) {
-            [self savePassword];
-            [self loginSucceed];
-        }
-        else {
-            // 로그인 실패 원인 알람, 비번이 틀렸을 경우에는 비번 칸 비우고 플레이스홀더 세팅, 이메일은 틀렸어도 그냥 둠
-            NSString *title = @"Login failed";
-            NSString *message = @"E-mail or password is NOT valid, please check again";
-            [self showAlertViewTitle:title withMessage:message];
-            [self.view setUserInteractionEnabled:YES];
-            [self.activityIndicator stopAnimating];
-        }
-    }
-}
-
-- (void)userAuthenticationWithEmail:(NSString *)email andPassword:(NSString *)password {
-    self.activityIndicator.hidden = NO;
-    [self.view setUserInteractionEnabled:NO];
-    [self.activityIndicator startAnimating];
-    // 서버로 이메일/비번 전송
-}
-
-- (void)loginSucceed {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    WageViewController *wvc = [storyboard instantiateViewControllerWithIdentifier:@"WageViewController"];
-    [self.activityIndicator stopAnimating];
-    [self saveUserDefaults];
-    [self presentViewController:wvc animated:YES completion:nil];
-}
-
-- (void)savePassword {
-    if (![SSKeychain setPassword:self.pswdTextField.text forService:SERVICE_TITLE account:self.emailTextField.text]) {
-        UIAlertController *alertController = [UIAlertController
-                                              alertControllerWithTitle:@"Warning"
-                                              message:@"Failed to save password in keychain"
-                                              preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *retryAction = [UIAlertAction
-                                      actionWithTitle:NSLocalizedString(@"Retry", @"Retry action")
-                                      style:UIAlertActionStyleCancel
-                                      handler:^(UIAlertAction *action)
-                                      {
-                                          [self savePassword];
-                                      }];
-        
-        UIAlertAction *okAction = [UIAlertAction
-                                   actionWithTitle:NSLocalizedString(@"OK", @"OK action")
-                                   style:UIAlertActionStyleDefault
-                                   handler:^(UIAlertAction *action)
-                                   {
-                                       NSLog(@"OK tapped");
-                                   }];
-        [alertController addAction:retryAction];
-        [alertController addAction:okAction];
-        [self presentViewController:alertController animated:YES completion:nil];
+        [self.loginModel userAuthenticationWithEmail:self.emailTextField.text
+                                         andPassword:self.pswdTextField.text];
+        self.activityIndicator.hidden = NO;
+        [self.view setUserInteractionEnabled:NO];
+        [self.activityIndicator startAnimating];
     }
 }
 
@@ -171,13 +91,15 @@
         NSString *message = @"Please enter your e-mail";
         [self showAlertViewTitle:title withMessage:message];
         return NO;
-    } else if (self.pswdTextField.text.length == 0) {
+    }
+    else if (self.pswdTextField.text.length == 0) {
         NSString *title = @"Incomplete form";
         NSString *message = @"Please enter your password";
         [self showAlertViewTitle:title withMessage:message];
         return NO;
-    } else {
-        if ([self validateEmail:self.emailTextField.text]) {
+    }
+    else {
+        if ([self.loginModel validateEmail:self.emailTextField.text]) {
             return YES;
         }
         else {
@@ -190,40 +112,11 @@
     return NO;
 }
 
-- (void)showAlertViewTitle:(NSString *)title withMessage:(NSString *)message {
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:title
-                                          message:message
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okAction = [UIAlertAction
-                               actionWithTitle:NSLocalizedString(@"OK", @"OK action")
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction *action)
-                               {
-                                   NSLog(@"ok button tapped");
-                               }];
-    [alertController addAction:okAction];
-    [self presentViewController:alertController animated:YES completion:nil];
-}
-
 - (IBAction)autoLoginChanged:(id)sender {
     if ([self.autoLoginSwitch isOn])
-        self.autoLogin = YES;
+        self.loginModel.autoLogin = YES;
     else
-        self.autoLogin = NO;
-}
-
-- (void)loadUserDefaults {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    self.autoLogin = [defaults objectForKey:@"autoLogin"];
-    self.email = [defaults objectForKey:@"email"];
-}
-
-- (void)saveUserDefaults {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:self.autoLogin forKey:@"autoLogin"];
-    [defaults setObject:self.email forKey:@"email"];
-    [defaults synchronize];
+        self.loginModel.autoLogin = NO;
 }
 
 - (IBAction)signUpButtonTapped:(id)sender {
@@ -243,15 +136,40 @@
     [self.pswdTextField endEditing:YES];
 }
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Set internet disconnection notification
+
+- (void)observeDisconnectedNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(disconnectionAlert:)
+                                                 name:@"networkDisconnected"
+                                               object:nil];
+}
+
 - (void)disconnectionAlert:(NSNotification *)notification {
     NSString *title = @"WARNING!\nYou have no network connection!";
     NSString *message = @"Connect internet before doing further modification, otherwise you may lose your recent changes";
     [self showAlertViewTitle:title withMessage:message];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)showAlertViewTitle:(NSString *)title withMessage:(NSString *)message {
+    UIAlertController *alertController = [UIAlertController
+                                          alertControllerWithTitle:title
+                                          message:message
+                                          preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction
+                               actionWithTitle:NSLocalizedString(@"OK", @"OK action")
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction *action)
+                               {
+                                   NSLog(@"ok button tapped");
+                               }];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - UITextField Delegate Methods
@@ -260,6 +178,49 @@
 {
     [textField resignFirstResponder];
     return YES;
+}
+
+#pragma mark - LoginModel Delegate Methods
+
+- (void)savePswdSucceed {
+    NSLog(@"Save password to keyCahin succeed");
+}
+
+- (void)savePswdFailed {
+    NSString *title = @"Warning";
+    NSString *message = @"Failed to save password in keychain";
+    [self showAlertViewTitle:title withMessage:message];
+}
+
+- (void)findPswdSucceed {
+    // found password so process auto login
+    self.activityIndicator.hidden = NO;
+    [self.view setUserInteractionEnabled:NO];
+    [self.activityIndicator startAnimating];
+    
+    // set dummy text in password texfield for security reason
+    self.pswdTextField.text = @"Ub!$o5%p";
+}
+
+- (void)findPswdFailed {
+    NSLog(@"Find password from keychain failed");
+}
+
+#pragma mark - NetworkHandler Delegate Methods
+
+- (void)loginSucceed {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    WageViewController *wvc = [storyboard instantiateViewControllerWithIdentifier:@"WageViewController"];
+    [self.activityIndicator stopAnimating];
+    [self presentViewController:wvc animated:YES completion:nil];
+}
+
+- (void)loginFailed {
+    NSString *title = @"Login failed";
+    NSString *message = @"E-mail or password is NOT valid, please check again";
+    [self showAlertViewTitle:title withMessage:message];
+    [self.view setUserInteractionEnabled:YES];
+    [self.activityIndicator stopAnimating];
 }
 
 /*

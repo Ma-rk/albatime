@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "LoginModel.h"
+#import "NetworkHandler.h"
 #import "AFNetworking.h"
 
 @interface AppDelegate ()
@@ -15,6 +17,19 @@
 
 @implementation AppDelegate
 
+- (LoginModel *)loginModel {
+    if (!_loginModel) {
+        _loginModel = [LoginModel new];
+    }
+    return _loginModel;
+}
+
+- (NetworkHandler *)networkHandler {
+    if (!_networkHandler) {
+        _networkHandler = [NetworkHandler new];
+    }
+    return _networkHandler;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.

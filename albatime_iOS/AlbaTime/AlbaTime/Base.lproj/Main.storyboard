@@ -277,8 +277,8 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ire-5y-yli">
-                                <rect key="frame" x="279" y="244" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <rect key="frame" x="175" y="323" width="33" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -300,28 +300,37 @@
                                     <action selector="sendButtonTapped:" destination="ec1-Z4-9On" eventType="touchUpInside" id="Syw-2w-p34"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uak-2o-MMA">
+                                <rect key="frame" x="279" y="256" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="3C6-rC-Rlv" firstAttribute="top" secondItem="Uak-2o-MMA" secondAttribute="bottom" constant="8" id="CSU-ju-LaS"/>
                             <constraint firstItem="FDW-hm-Cb8" firstAttribute="centerX" secondItem="ivJ-xb-QXp" secondAttribute="centerX" id="Eyp-J4-eBi"/>
+                            <constraint firstItem="ire-5y-yli" firstAttribute="top" secondItem="3C6-rC-Rlv" secondAttribute="bottom" constant="8" id="Hd5-Dj-gyq"/>
                             <constraint firstItem="r9i-ZK-GA3" firstAttribute="centerX" secondItem="ivJ-xb-QXp" secondAttribute="centerX" id="K6W-7Z-A4r"/>
-                            <constraint firstItem="3C6-rC-Rlv" firstAttribute="top" secondItem="ire-5y-yli" secondAttribute="bottom" constant="20" id="Meh-5D-6jK"/>
+                            <constraint firstItem="ire-5y-yli" firstAttribute="leading" secondItem="3C6-rC-Rlv" secondAttribute="leading" id="NCf-ut-xxY"/>
                             <constraint firstItem="JQ1-yf-n9U" firstAttribute="top" secondItem="3C6-rC-Rlv" secondAttribute="bottom" constant="30" id="Rb4-1F-0vf"/>
                             <constraint firstItem="nhb-h9-iyG" firstAttribute="centerX" secondItem="ivJ-xb-QXp" secondAttribute="centerX" id="Rsd-FG-Nhx"/>
-                            <constraint firstItem="ire-5y-yli" firstAttribute="centerX" secondItem="ivJ-xb-QXp" secondAttribute="centerX" id="VCx-lr-fK8"/>
                             <constraint firstItem="3C6-rC-Rlv" firstAttribute="centerX" secondItem="ivJ-xb-QXp" secondAttribute="centerX" id="Zrd-Dg-0zd"/>
                             <constraint firstItem="3C6-rC-Rlv" firstAttribute="top" secondItem="nhb-h9-iyG" secondAttribute="bottom" constant="50" id="dgC-8S-TI0"/>
                             <constraint firstItem="amU-Ie-iUf" firstAttribute="top" secondItem="r9i-ZK-GA3" secondAttribute="bottom" constant="20" id="dhQ-62-3NB"/>
                             <constraint firstItem="3C6-rC-Rlv" firstAttribute="centerY" secondItem="ivJ-xb-QXp" secondAttribute="centerY" id="rE3-wd-v3V"/>
                             <constraint firstItem="FDW-hm-Cb8" firstAttribute="top" secondItem="IbF-Jf-xxO" secondAttribute="bottom" constant="20" id="tbl-Ig-cbZ"/>
                             <constraint firstItem="JQ1-yf-n9U" firstAttribute="centerX" secondItem="ivJ-xb-QXp" secondAttribute="centerX" id="xjD-an-fH2"/>
+                            <constraint firstItem="Uak-2o-MMA" firstAttribute="centerX" secondItem="ivJ-xb-QXp" secondAttribute="centerX" id="xxm-yh-d93"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="nhb-h9-iyG" id="Phc-Dn-rc8"/>
                         <outlet property="cancelButton" destination="r9i-ZK-GA3" id="Dk6-LE-TFk"/>
-                        <outlet property="checkEmailResult" destination="ire-5y-yli" id="z9N-j5-BXx"/>
                         <outlet property="emailTextField" destination="3C6-rC-Rlv" id="DoY-xO-jOg"/>
+                        <outlet property="invalidEmailWarning" destination="ire-5y-yli" id="sk0-Vy-P6l"/>
+                        <outlet property="resetRequestResult" destination="Uak-2o-MMA" id="vPy-Lh-8Kt"/>
                         <outlet property="sendButton" destination="JQ1-yf-n9U" id="JGO-Nd-yT7"/>
                     </connections>
                 </viewController>
