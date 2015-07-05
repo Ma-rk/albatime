@@ -19,6 +19,7 @@
 		3D4B188B1B42D9E000F7D615 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D4B188A1B42D9E000F7D615 /* Assets.xcassets */; };
 		3D4B188E1B42D9E000F7D615 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D4B188C1B42D9E000F7D615 /* LaunchScreen.storyboard */; };
 		3D631BF41B42FD5F0070A851 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D631BF31B42FD5F0070A851 /* LoginViewController.m */; };
+		3DF3ADF11B46BA990004B742 /* LoginModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF3ADF01B46BA990004B742 /* LoginModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,8 @@
 		3D631BF21B42FD5F0070A851 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		3D631BF31B42FD5F0070A851 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		3DD5EC691B44123600F724AD /* Definitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Definitions.h; sourceTree = "<group>"; };
+		3DF3ADEF1B46BA990004B742 /* LoginModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginModel.h; sourceTree = "<group>"; };
+		3DF3ADF01B46BA990004B742 /* LoginModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginModel.m; sourceTree = "<group>"; };
 		47AAB82166EEF8298DA6A5C1 /* Pods-AlbaTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlbaTime.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlbaTime/Pods-AlbaTime.release.xcconfig"; sourceTree = "<group>"; };
 		EAB38D05ADD06AD37501462F /* Pods-AlbaTime.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlbaTime.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AlbaTime/Pods-AlbaTime.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -92,6 +95,8 @@
 				3D0A55C21B445E9100FCAE2D /* PswdFindViewController.m */,
 				3D0A55BE1B445DFA00FCAE2D /* WageViewController.h */,
 				3D0A55BF1B445DFA00FCAE2D /* WageViewController.m */,
+				3DF3ADEF1B46BA990004B742 /* LoginModel.h */,
+				3DF3ADF01B46BA990004B742 /* LoginModel.m */,
 				3D0A55BB1B44413E00FCAE2D /* NetworkHandler.h */,
 				3D0A55BC1B44413E00FCAE2D /* NetworkHandler.m */,
 				3D4B18871B42D9E000F7D615 /* Main.storyboard */,
@@ -241,6 +246,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D0A55C01B445DFA00FCAE2D /* WageViewController.m in Sources */,
+				3DF3ADF11B46BA990004B742 /* LoginModel.m in Sources */,
 				3D631BF41B42FD5F0070A851 /* LoginViewController.m in Sources */,
 				3D0A55C31B445E9100FCAE2D /* PswdFindViewController.m in Sources */,
 				3D4B18831B42D9E000F7D615 /* AppDelegate.m in Sources */,
