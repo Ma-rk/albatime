@@ -25,7 +25,7 @@ public class UserTest {
 
 	@Autowired
 	private UserDaoJdbc userDao;
-	
+
 	@Before
 	public void setUp() throws Exception {
 		this.user1 = new UserEty("email@mail.com", "pwpw");

@@ -1,8 +1,5 @@
 package at.account;
 
-import java.util.List;
-import java.util.Map;
-
 import javax.sql.DataSource;
 
 import at.account.interfaces.IAccountDao;
@@ -28,7 +25,7 @@ public class AccountDaoJdbc implements IAccountDao {
 	private ISqlService sqls;
 
 	public void setSqls(ISqlService sqls) {
-		
+
 		this.sqls = sqls;
 	}
 
@@ -37,7 +34,8 @@ public class AccountDaoJdbc implements IAccountDao {
 	 */
 	public int registerUserDao(UserEty user) {
 		lgr.debug(CC.GETTING_INTO_6 + "registerUserDao");
-		int registerUserResult = this.jdbcTemplate.update(this.sqls.getSql("accountRegisterLogin"), user.getEmail(), user.getPw(), user.getNick(), user.getGender(), user.getBirth(), user.getType(), user.getStus());
+		int registerUserResult = this.jdbcTemplate.update(this.sqls.getSql("accountRegisterLogin"), user.getEmail(),
+				user.getPw(), user.getNick(), user.getGender(), user.getBirth(), user.getType(), user.getStus());
 		lgr.debug(CC.GETTING_OUT_6 + "registerUserDao");
 		return registerUserResult;
 	}

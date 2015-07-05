@@ -2,18 +2,14 @@ package at.user;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
-import at.account.AccountDaoJdbc;
 import at.model.UserEty;
 import at.supp.CC;
 import at.supp.interfaces.ISqlService;
 import at.user.interfaces.IUserDao;
 
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanInstantiationException;
@@ -40,15 +36,8 @@ public class UserDaoJdbc implements IUserDao {
 	/*
 	 * functional methods
 	 */
-	public void add(UserEty user) {
-		this.jdbcTemplate.update(
-				"insert into tb_usr(usr_email, usr_pw, usr_nick, usr_birth, usr_stus) values (?,?,?,?,?)",
-				user.getEmail(), user.getPw(), user.getNick(), user.getBirth(), user.getStus());
-	}
-
 	public UserEty getUserInfoByEmailAndPw(String userEmail, String userPw) {
 		lgr.debug(CC.GETTING_INTO_6 + "checkUserExistance");
-
 		RowMapper<UserEty> rowMapper = new RowMapper<UserEty>() {
 			public UserEty mapRow(ResultSet rs, int rowNum) {
 				try {
@@ -60,19 +49,20 @@ public class UserDaoJdbc implements IUserDao {
 				}
 			}
 		};
+		lgr.debug(CC.GETTING_OUT_6 + "checkUserExistance");
 		return this.jdbcTemplate.queryForObject(this.sqls.getSql("accountLogin"), rowMapper, userEmail, userPw);
 	}
 
 	public int insertJwTokenKey(Long userId, String jwTokenKey) {
 		lgr.debug(CC.GETTING_INTO_6 + "insertJwTokenKey");
-		int usertJwTokenResult = this.jdbcTemplate.update(this.sqls.getSql("login_InsertJwTokenKey"), userId, jwTokenKey);
+		int insertJwTokenResult = this.jdbcTemplate.update(this.sqls.getSql("login_InsertJwTokenKey"), userId,
+				jwTokenKey);
 		lgr.debug(CC.GETTING_OUT_6 + "insertJwTokenKey");
-		return usertJwTokenResult;
+		return insertJwTokenResult;
 	}
-	
-	public String retrieveJwTokenKey(long tkSeq, long userId){
+
+	public String retrieveJwTokenKey(long tkSeq, long userId) {
 		lgr.debug(CC.GETTING_INTO_6 + "retrieveJwTokenKey");
-		
 		RowMapper<String> rowMapper = new RowMapper<String>() {
 			public String mapRow(ResultSet rs, int rowNum) {
 				try {
@@ -82,8 +72,8 @@ public class UserDaoJdbc implements IUserDao {
 				}
 			}
 		};
-		
-		String jwTokenKey = this.jdbcTemplate.queryForObject(this.sqls.getSql("autologin_retrieveJwTokenKey"), rowMapper, tkSeq, userId);
+		String jwTokenKey = this.jdbcTemplate.queryForObject(this.sqls.getSql("autologin_retrieveJwTokenKey"),
+				rowMapper, tkSeq, userId);
 		lgr.debug(CC.GETTING_OUT_6 + "retrieveJwTokenKey");
 		return jwTokenKey;
 	}

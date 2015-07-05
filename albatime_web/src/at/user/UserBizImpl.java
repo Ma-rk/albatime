@@ -1,13 +1,8 @@
 package at.user;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import at.account.AccountBizImpl;
 import at.com.interfaces.IComDao;
 import at.model.UserEty;
 import at.supp.CC;
@@ -39,17 +34,6 @@ public class UserBizImpl implements IUserBiz {
 	/*
 	 * functional methods
 	 */
-	public void add(UserEty user) {
-
-		this.userDao.add(user);
-	}
-
-	public void upgradeLevelOfEveryUser() {
-		lgr.info("upgradeLevelOfEveryUser()====>");
-
-		lgr.info("upgradeLevelOfEveryUser()<====");
-	}
-
 	public UserEty login(UserEty user) {
 		lgr.debug(CC.GETTING_INTO_4 + "loginImpl");
 
@@ -60,35 +44,22 @@ public class UserBizImpl implements IUserBiz {
 		String jwTokenKey = JwtMgr.generateJwTokenKey();
 
 		String jwToken = JwtMgr.createJsonWebToken(userInfo.getId(), CC.DEFAULT_SESSION_DURATION_DAYS, jwTokenKey);
-
-		int usertJwTokenResult = this.userDao.insertJwTokenKey(userInfo.getId(), jwTokenKey);
-
-		long jwTokenKeySeq = comDao.getLastInsertId();
-
 		userInfo.setCurrentJwToken(jwToken);
-		userInfo.setUserTkSeq(jwTokenKeySeq);
+
+		int insertJwTokenResult = this.userDao.insertJwTokenKey(userInfo.getId(), jwTokenKey);
+		if (insertJwTokenResult == 1) {
+			long jwTokenKeySeq = comDao.getLastInsertId();
+			userInfo.setUserTkSeq(jwTokenKeySeq);
+		}
 		lgr.debug(CC.GETTING_OUT_4 + "loginImpl");
 		return userInfo;
 	}
 
-	public String retrieveJwTokenKey(long tkSeqUsr, long userId){
+	public String retrieveJwTokenKey(long tkSeqUsr, long userId) {
 		return this.userDao.retrieveJwTokenKey(tkSeqUsr, userId);
 	}
+
 	/*
 	 * supporting methods
 	 */
-	private boolean isQualifiedToUpgradeUserLevel(UserEty user) {
-
-		return false;
-	}
-
-	private void sendUpgradeEmail(UserEty user) {
-
-	}
-
-	protected void upgradeLevelOfOneUser(UserEty user) {
-		lgr.info("upgradeLevelOfOneUser(UserEntity)======>");
-
-		lgr.info("upgradeLevelOfOneUser(UserEntity)<======");
-	}
 }

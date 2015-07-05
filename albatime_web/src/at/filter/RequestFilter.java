@@ -32,10 +32,10 @@ public class RequestFilter implements Filter {
 
 	public void setUserDao(IUserDao userDao) {
 		this.userDao = userDao;
-		if(this.userDao != null)
+		if (this.userDao != null)
 			lgr.debug("userDao set!!");
 	}
-	
+
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		request.setCharacterEncoding(DEFAULT_ENCODING);
@@ -71,38 +71,32 @@ public class RequestFilter implements Filter {
 		String jwToken = CookieMgr.getCookie(httpRequest.getCookies(), CC.JWT_TOKEN);
 		if (jwToken == null) {
 			lgr.debug("cookie has no jwToken. redirect to login");
-			HttpServletResponse httpResponse = (HttpServletResponse)response;
-			httpResponse.sendRedirect("html/login.html");
+			((HttpServletResponse) response).sendRedirect("html/login.html");
 			return;
 		}
 
 		// step 2. read cookie
 		String userTokenSeqInCookie = CookieMgr.getCookie(httpRequest.getCookies(), CC.USER_TOKEN_SEQ_IN_COOKIE);
-		if(userTokenSeqInCookie==null ||userTokenSeqInCookie.isEmpty()){
+		if (userTokenSeqInCookie == null || userTokenSeqInCookie.isEmpty()) {
 			lgr.debug("cookie has no token seq. redirect to login");
-			HttpServletResponse httpResponse = (HttpServletResponse)response;
-			httpResponse.sendRedirect("html/login.html");
+			((HttpServletResponse) response).sendRedirect("html/login.html");
 			return;
 		}
-		
+
 		String userIdFromCookie = CookieMgr.getCookie(httpRequest.getCookies(), CC.USER_ID_IN_COOKIE);
-		if(userIdFromCookie==null ||userIdFromCookie.isEmpty()){
+		if (userIdFromCookie == null || userIdFromCookie.isEmpty()) {
 			lgr.debug("cookie has no userId. redirect to login");
-			HttpServletResponse httpResponse = (HttpServletResponse)response;
-			httpResponse.sendRedirect("html/login.html");
+			((HttpServletResponse) response).sendRedirect("html/login.html");
 			return;
 		}
-		
-		
-		
-		
+
 		// step 3. get jwt key
-//		String jwTokenKey = this.userDao.retrieveJwTokenKey(Integer.parseInt(userTokenSeqInCookie), Integer.parseInt(userIdFromCookie));
+		// String jwTokenKey =
+		// this.userDao.retrieveJwTokenKey(Integer.parseInt(userTokenSeqInCookie),
+		// Integer.parseInt(userIdFromCookie));
 		String jwTokenKey = "pvgk3onr6gjls8n8g10hlcb5lk";
 		if (jwTokenKey == null || jwTokenKey.isEmpty()) {
 			lgr.debug("tb_token has no jwTokenKey for the user, cookie key. redirect to login");
-			HttpServletResponse httpResponse = (HttpServletResponse)response;
-			httpResponse.sendRedirect("html/login.html");
 			return;
 		}
 
@@ -110,14 +104,12 @@ public class RequestFilter implements Filter {
 		TokenEty tokenEty = JwtMgr.verifyToken(jwToken, jwTokenKey);
 		if (tokenEty == null) {
 			lgr.debug("the jwToken couldn't be verified. redirect to login");
-			HttpServletResponse httpResponse = (HttpServletResponse)response;
-			httpResponse.sendRedirect("html/login.html");
+			((HttpServletResponse) response).sendRedirect("html/login.html");
 			return;
 		}
 		if (tokenEty.getUserId() == Long.parseLong(userIdFromCookie)) {
 			lgr.debug("the jwToken couldn't be verified. redirect to login");
-			HttpServletResponse httpResponse = (HttpServletResponse)response;
-			httpResponse.sendRedirect("html/login.html");
+			((HttpServletResponse) response).sendRedirect("html/login.html");
 			return;
 		}
 

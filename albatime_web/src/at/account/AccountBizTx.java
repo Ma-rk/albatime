@@ -1,8 +1,5 @@
 package at.account;
 
-import java.util.List;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -11,7 +8,6 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import at.account.interfaces.IAccountBiz;
 import at.model.UserEty;
-import at.user.interfaces.IUserBiz;
 
 public class AccountBizTx implements IAccountBiz {
 	private static final Logger lgr = LoggerFactory.getLogger(AccountBizTx.class);
@@ -35,10 +31,10 @@ public class AccountBizTx implements IAccountBiz {
 	 * functional methods
 	 */
 
-	public int registerUserBiz(UserEty user){
+	public int registerUserBiz(UserEty user) {
 		return this.accountBiz.registerUserBiz(user);
 	}
-	
+
 	public void upgradeLevelOfEveryUser() {
 		lgr.info("upgradeLevelOfEveryUser()==>");
 		TransactionStatus status = this.transactionManager.getTransaction(new DefaultTransactionDefinition());
