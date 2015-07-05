@@ -16,8 +16,8 @@ public class CookieMgr {
 			}
 		}
 
-		if (jwtokenValueFromCookie.isEmpty())
-			jwtokenValueFromCookie = null;
+		if (jwtokenValueFromCookie == null || jwtokenValueFromCookie.isEmpty())
+			return null;
 
 		return jwtokenValueFromCookie;
 	}

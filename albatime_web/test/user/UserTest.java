@@ -33,5 +33,4 @@ public class UserTest {
 	public void loginTest() {
 		lgr.info(userCont.login("email@mail.com", "pwpw").toString());
 	}
-
 }

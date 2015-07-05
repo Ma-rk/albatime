@@ -1,6 +1,6 @@
 package account;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,17 +20,15 @@ import at.model.UserEty;
 public class AccountTest {
 	private static final Logger lgr = LoggerFactory.getLogger(AccountTest.class);
 
-	UserEty user1;
-
 	@Autowired
 	AccountCont accountCont;
 
 	@Before
-	public void setUp() throws Exception {
-		this.user1 = new UserEty("email@mail.com", "pwpw");
-	}
+	public void setUp() throws Exception {}
 
 	@Test
-	public void loginTest() {
+	public void registerUserContTest() {
+		int registerResult = accountCont.registerUserCont("email@mail.com", "pwpw", "NICK", "GEN001", "BIRTH", "TYPE");
+		assertEquals(1, registerResult);
 	}
 }

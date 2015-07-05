@@ -36,7 +36,7 @@ public class UserBizTx implements IUserBiz {
 	public void add(UserEty user) {
 		this.userBiz.add(user);
 	}
-	public List<Map<String, Object>> login(UserEty user) {
+	public UserEty login(UserEty user) {
 		return this.userBiz.login(user);
 	}
 

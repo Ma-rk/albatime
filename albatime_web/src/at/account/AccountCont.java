@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import account.AccountTest;
 import at.account.interfaces.IAccountBiz;
@@ -27,5 +28,25 @@ public class AccountCont {
 		this.accountBiz = accountBiz;
 	}
 
+	@RequestMapping(value = "/registerUser", method = RequestMethod.POST)
+	public @ResponseBody int registerUserCont(@RequestParam("email") String email, @RequestParam("pw") String pw,
+			@RequestParam("nick") String nick, @RequestParam("gender") String gender,
+			@RequestParam("birth") String birth, @RequestParam("type") String type) {
+		lgr.debug(CC.GETTING_INTO_2 + "login");
 
+		lgr.debug("email: " + email);
+		lgr.debug("pw: " + pw);
+		lgr.debug("nick: " + nick);
+		lgr.debug("gender: " + gender);
+		lgr.debug("birth: " + birth);
+		lgr.debug("type: " + type);
+
+		UserEty userEty = new UserEty(email, pw, nick, gender, birth, type);
+		int registerResult = accountBiz.registerUserBiz(userEty);
+
+		lgr.debug("registerResult: " + registerResult);
+		lgr.debug(CC.GETTING_OUT_2 + "login");
+
+		return registerResult;
+	}
 }

@@ -3,16 +3,25 @@ package at.model;
 import org.joda.time.DateTime;
 
 public class TokenEty {
-	private String userId;
+	private long userId = -1l;
+	private long jwTokenKeySeq;
 	private DateTime issued;
 	private DateTime expires;
 
-	public String getUserId() {
+	public long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
+	}
+
+	public long getJwTokenKeySeq() {
+		return jwTokenKeySeq;
+	}
+
+	public void setJwTokenKeySeq(long jwTokenKeySeq) {
+		this.jwTokenKeySeq = jwTokenKeySeq;
 	}
 
 	public DateTime getIssued() {
@@ -32,6 +41,7 @@ public class TokenEty {
 	}
 
 	public String toString() {
-		return "\nTokenInfo [userId=" + userId + ", issued=" + issued + ", expires=" + expires + "]";
+		return "TokenEty [userId=" + userId + ", jwTokenKeySeq=" + jwTokenKeySeq + ", issued=" + issued + ", expires="
+				+ expires + "]";
 	}
 }

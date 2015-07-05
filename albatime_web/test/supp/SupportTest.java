@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import at.account.AccountBizImpl;
+import at.supp.CC;
 import at.supp.JwtMgr;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -29,5 +30,16 @@ public class SupportTest {
 		while (i++ < 10000) {
 			generateJwTokenKeyTest();
 		}
+	}
+
+	@Test
+	public void createJsonWebTokenTest() {
+		long userId = 5l;
+		String jwTokenKey = JwtMgr.generateJwTokenKey();
+		long jwTokenKeySeq = 10l;
+		lgr.info("value of jwTokenKey: [" + jwTokenKey + "]");
+		lgr.info("value of jwToken: ["
+				+ JwtMgr.createJsonWebToken(userId, CC.DEFAULT_SESSION_DURATION_DAYS, jwTokenKey) + "]");
+
 	}
 }

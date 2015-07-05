@@ -35,6 +35,10 @@ public class AccountBizTx implements IAccountBiz {
 	 * functional methods
 	 */
 
+	public int registerUserBiz(UserEty user){
+		return this.accountBiz.registerUserBiz(user);
+	}
+	
 	public void upgradeLevelOfEveryUser() {
 		lgr.info("upgradeLevelOfEveryUser()==>");
 		TransactionStatus status = this.transactionManager.getTransaction(new DefaultTransactionDefinition());

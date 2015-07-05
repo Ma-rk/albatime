@@ -1,6 +1,7 @@
 package at.filter;
 
 import java.io.IOException;
+import java.security.SignatureException;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -11,12 +12,14 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import at.model.TokenEty;
+import at.supp.CC;
 import at.supp.CookieMgr;
 import at.supp.JwtMgr;
 import at.user.UserCont;
@@ -46,11 +49,11 @@ public class RequestFilter implements Filter {
 		lgr.debug("requestedPage: " + requestedPage);
 		lgr.debug("full url: " + httpRequest.getRequestURL().toString());
 
-		if (requestedPage.equals("/register")) {
+		if (requestedPage.equals("/registerUser")) {
 			lgr.debug("registering. not checking http header.");
 			chain.doFilter(request, response);
 			return;
-		} else if (requestedPage.equals("/login")) {
+		} else if (requestedPage.equals("/html/login.html")) {
 			lgr.debug("logging in. not checking http header.");
 			chain.doFilter(request, response);
 			return;
@@ -60,23 +63,34 @@ public class RequestFilter implements Filter {
 		lgr.debug("has jwtoken?");
 
 		// step 1. find jwt
-		String jwtoken = CookieMgr.getCookie(httpRequest.getCookies(), "jwtoken");
-		if (jwtoken == null) {
+		String jwToken = CookieMgr.getCookie(httpRequest.getCookies(), CC.JWT_TOKEN);
+		if (jwToken == null) {
 			// go to login
 		}
 
-		// step 2. read jwt
-		TokenEty tokenEty = JwtMgr.verifyToken(jwtoken);
+		// step 2. read cookie
+		String userIdFromCookie = CookieMgr.getCookie(httpRequest.getCookies(), CC.USER_ID_IN_COOKIE);
+		String userTokenSeqInCookie = CookieMgr.getCookie(httpRequest.getCookies(), CC.USER_TOKEN_SEQ_IN_COOKIE);
+		
+		// step 3. get jwt key
+		String jwTokenKey = "6ku4k4ihka0tps95u7f2rkcr03";
+
+		// step 4. verify token
+		TokenEty tokenEty = JwtMgr.verifyToken(jwToken, jwTokenKey);
 		if (tokenEty == null) {
 			// go to login
+			HttpServletResponse httpResponse = (HttpServletResponse)response;
+			httpResponse.sendRedirect("html/login.html");
+			return;
 		}
-		if (tokenEty.getUserId() == null || tokenEty.getUserId().isEmpty()) {
+		if (tokenEty.getUserId() != -1l) {
 			// go to login
+			HttpServletResponse httpResponse = (HttpServletResponse)response;
+			httpResponse.sendRedirect("html/login.html");
+			return;
 		}
 
-		String jwtoken2 = JwtMgr.createJsonWebToken("aaa", 5l);
-		httpRequest.setAttribute("jwt", jwtoken);
-		chain.doFilter((ServletRequest) httpRequest, response);
+		chain.doFilter(request, response);
 	}
 
 	public void init(FilterConfig filterConfig) throws ServletException {}

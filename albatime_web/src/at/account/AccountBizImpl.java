@@ -32,7 +32,14 @@ public class AccountBizImpl implements IAccountBiz {
 	/*
 	 * functional methods
 	 */
-
+	public int registerUserBiz(UserEty user){
+		lgr.debug(CC.GETTING_INTO_4 + "registerUserBiz");
+		user.setAsNormalStus();
+		int registerUserResult = this.accountDao.registerUserDao(user);
+		lgr.debug(CC.GETTING_OUT_4 + "registerUserBiz");
+		return registerUserResult;
+	}
+	
 	/*
 	 * supporting methods
 	 */

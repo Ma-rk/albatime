@@ -1,5 +1,7 @@
 package at.user;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -11,9 +13,12 @@ import at.supp.CC;
 import at.supp.interfaces.ISqlService;
 import at.user.interfaces.IUserDao;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanInstantiationException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
 public class UserDaoJdbc implements IUserDao {
 	private static final Logger lgr = LoggerFactory.getLogger(UserDaoJdbc.class);
@@ -40,8 +45,27 @@ public class UserDaoJdbc implements IUserDao {
 				"insert into tb_usr(usr_email, usr_pw, usr_nick, usr_birth, usr_stus) values (?,?,?,?,?)",
 				user.getEmail(), user.getPw(), user.getNick(), user.getBirth(), user.getStus());
 	}
-	public List<Map<String, Object>> checkUserExistance(UserEty user) {
-		lgr.debug(CC.GETTING_OUT_6 + "====>login");
-		return this.jdbcTemplate.queryForList(this.sqls.getSql("accountLogin"), user.getEmail(), user.getPw());
+
+	public UserEty getUserInfoByEmailAndPw(String userEmail, String userPw) {
+		lgr.debug(CC.GETTING_INTO_6 + "checkUserExistance");
+
+		RowMapper<UserEty> rowMapper = new RowMapper<UserEty>() {
+			public UserEty mapRow(ResultSet rs, int rowNum) {
+				try {
+					return new UserEty(rs.getLong("usr_id"), rs.getString("usr_email"), rs.getString("usr_pw"),
+							rs.getString("usr_nick"), rs.getString("usr_gender"), rs.getString("usr_birth"),
+							rs.getString("usr_type"), rs.getString("usr_stus"));
+				} catch (SQLException e) {
+					throw new BeanInstantiationException(UserEty.class, e.getMessage(), e);
+				}
+			}
+		};
+		return this.jdbcTemplate.queryForObject(this.sqls.getSql("accountLogin"), rowMapper, userEmail, userPw);
+	}
+
+	public void insertJwTokenKey(Long userId, String jwTokenKey) {
+		lgr.debug(CC.GETTING_INTO_6 + "insertJwTokenKey");
+		this.jdbcTemplate.update(this.sqls.getSql(""), "");
+
 	}
 }

@@ -28,10 +28,18 @@ public class AccountDaoJdbc implements IAccountDao {
 	private ISqlService sqls;
 
 	public void setSqls(ISqlService sqls) {
+		
 		this.sqls = sqls;
 	}
 
 	/*
 	 * functional methods
 	 */
+	public int registerUserDao(UserEty user) {
+		lgr.debug(CC.GETTING_INTO_6 + "registerUserDao");
+		int registerUserResult = this.jdbcTemplate.update(this.sqls.getSql("accountRegisterLogin"), user.getEmail(), user.getPw(), user.getNick(), user.getGender(), user.getBirth(), user.getType(), user.getStus());
+//		int registerUserResult = this.jdbcTemplate.update("insert into tb_usr(usr_email, usr_pw, usr_nick, usr_gender, usr_birth, usr_type, usr_stus) values ('email@mail.com','pwpw','NICK','GEN001','BIRTH','TYPE','URST0001')");
+		lgr.debug(CC.GETTING_OUT_6 + "registerUserDao");
+		return registerUserResult;
+	}
 }

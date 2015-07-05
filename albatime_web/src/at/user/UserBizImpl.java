@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import at.account.AccountBizImpl;
 import at.model.UserEty;
 import at.supp.CC;
+import at.supp.JwtMgr;
 import at.user.interfaces.IUserBiz;
 import at.user.interfaces.IUserDao;
 
@@ -41,20 +42,23 @@ public class UserBizImpl implements IUserBiz {
 
 		lgr.info("upgradeLevelOfEveryUser()<====");
 	}
-	public List<Map<String, Object>> login(UserEty user) {
-		lgr.debug(CC.GETTING_INTO_2 + "login");
-		List<Map<String, Object>> userInfoMap = this.userDao.checkUserExistance(user);
 
-		if (userInfoMap == null)
+	public UserEty login(UserEty user) {
+		lgr.debug(CC.GETTING_INTO_2 + "login");
+		UserEty userInfo = this.userDao.getUserInfoByEmailAndPw(user.getEmail(), user.getPw());
+
+		if (userInfo == null)
 			return null;
 
-		// Map<String, Object> aaa = new HashMap<String, Object>();
-		// aaa.put("", value)
+		String jwTokenKey = JwtMgr.generateJwTokenKey();
+		this.userDao.insertJwTokenKey(userInfo.getId(), jwTokenKey);
+		long jwTokenKeySeq = 0l; // should retrieve from db
 
-		userInfoMap.add(new HashMap<String, Object>());
+		String jwToken = JwtMgr.createJsonWebToken(userInfo.getId(), CC.DEFAULT_SESSION_DURATION_DAYS, "key");
 
+		userInfo.setCurrentJwToken(jwToken);
 		lgr.debug(CC.GETTING_OUT_2 + "login");
-		return userInfoMap;
+		return userInfo;
 	}
 
 	/*

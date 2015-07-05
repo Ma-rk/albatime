@@ -42,15 +42,15 @@ public class UserCont {
 	}
 
 	@RequestMapping(value = "/api-login", method = RequestMethod.POST)
-	public List<Map<String, Object>> login(@RequestParam("email") String email, @RequestParam("pw") String pw) {
+	public UserEty login(@RequestParam("email") String email, @RequestParam("pw") String pw) {
 		lgr.debug(CC.GETTING_INTO_2 + "login");
 		lgr.debug("email: " + email);
 		lgr.debug("pw: " + pw);
 
-		List<Map<String, Object>> map = userBiz.login(new UserEty(email, pw));
+		UserEty user = userBiz.login(new UserEty(email, pw));
 
 		lgr.debug(CC.GETTING_OUT_2 + "login");
-		return map;
+		return user;
 	}
 	@RequestMapping(value = "/view-user", method = RequestMethod.POST)
 	public @ResponseBody String userRegister(
@@ -82,9 +82,8 @@ public class UserCont {
 	@RequestMapping(value = "/ccc", method = RequestMethod.GET)
 	public @ResponseBody String test3(HttpServletResponse response) {
 		System.out.println("/ccc");
-		response.addCookie(new Cookie("COOKIENAME", "The cookie's value"));
-		response.addCookie(new Cookie("jwtoken",
-				"eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJZb3VyQ29tcGFueU9yQXBwTmFtZUhlcmUiLCJhdWQiOiJOb3RSZWFsbHlJbXBvcnRhbnQiLCJpYXQiOjE0MzU4OTkxNDYsImV4cCI6MTQzNjMzMTE0NiwiaW5mbyI6eyJ1c2VySWQiOiJhYWEiLCJ1c2VyQmlydGgiOiJhYWEiLCJ1c2VyR2VuZGVyIjoiYWFhIn19.6icXstD5e1_Q8wA4EnbpfrEvel03Csp4pzHEhahEeSk"));
+		response.addCookie(new Cookie("jwToken",
+				"eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJZb3VyQ29tcGFueU9yQXBwTmFtZUhlcmUiLCJhdWQiOiJOb3RSZWFsbHlJbXBvcnRhbnQiLCJpYXQiOjE0MzYwMTE1MzQsImV4cCI6MTQzNzgyNTkzNCwiaW5mbyI6eyJ1c2VySWQiOjUsImp3VG9rZW5LZXlTZXEiOjEwfX0.ILUl6GzPDxiIZibLpA3Htx9NfGncdWIgWCQx0JEORTk"));
 		return "hello world\n\n";
 	}
 

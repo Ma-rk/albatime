@@ -9,7 +9,7 @@ public interface IUserBiz {
 
 	void add(UserEty user);
 
-	List<Map<String, Object>> login(UserEty user);
+	UserEty login(UserEty user);
 
 	void upgradeLevelOfEveryUser();
 }

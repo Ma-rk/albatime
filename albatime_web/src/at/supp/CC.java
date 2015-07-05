@@ -5,11 +5,23 @@ package at.supp;
  * means "Constant Container"
  */
 public class CC {
-	public static Long MS_FOR_ONE_DAY = 1000L * 60L * 60L * 24L;
-	public static String GETTING_INTO_2 = "==>";
-	public static String GETTING_OUT_2 = "<==";
-	public static String GETTING_INTO_4 = "====>";
-	public static String GETTING_OUT_4 = "<====";
-	public static String GETTING_INTO_6 = "======>";
-	public static String GETTING_OUT_6 = "<======";
+	public static final long MS_FOR_ONE_DAY = 1000L * 60L * 60L * 24L;
+	public static final long DEFAULT_SESSION_DURATION_DAYS = 21L;
+
+	public static final String JWT_TOKEN = "jwToken";
+	public static final String USER_ID_IN_COOKIE = "userIdInCookie";
+	public static final String USER_TOKEN_SEQ_IN_COOKIE = "userTokenSeqInCookie";
+	
+	
+	public static final String GETTING_INTO_2 = "==>";
+	public static final String GETTING_OUT_2 = "<==";
+	public static final String GETTING_INTO_4 = "====>";
+	public static final String GETTING_OUT_4 = "<====";
+	public static final String GETTING_INTO_6 = "======>";
+	public static final String GETTING_OUT_6 = "<======";
+	
+	
+	public static final String ACCOUNT_STUS_NORMAL = "URST0001";
+	public static final String ACCOUNT_STUS_DEACTIVATED = "URST0002";
+	
 }

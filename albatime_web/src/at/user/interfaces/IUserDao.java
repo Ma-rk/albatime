@@ -12,5 +12,7 @@ public interface IUserDao {
 
 	public void add(UserEty user);
 
-	public List<Map<String, Object>> checkUserExistance(UserEty user);
+	public UserEty getUserInfoByEmailAndPw(String userEmail, String userPw);
+	
+	void insertJwTokenKey(Long userId, String jwToken);
 }

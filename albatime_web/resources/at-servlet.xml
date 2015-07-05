@@ -76,6 +76,7 @@
 		<property name="sqlMap">
 			<map>
 				<entry key="accountLogin" value="select usr_id, usr_email, usr_nick, usr_gender, usr_birth, usr_stus from tb_usr where usr_email = ? and usr_pw = ?" />
+				<entry key="accountRegisterLogin" value="insert into tb_usr(usr_email, usr_pw, usr_nick, usr_gender, usr_birth, usr_type, usr_stus) values (?,?,?,?,?,?,?)" />
 			</map>
 		</property>
 	</bean>
