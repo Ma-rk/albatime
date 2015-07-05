@@ -30,6 +30,15 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
+	<bean id="comDao" class="at.com.ComDaoJdbc">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sqls" ref="sqls" />
+	</bean>
+
+	<bean id="requestFilter" class="at.filter.RequestFilter">
+		<property name="userDao" ref="userDao" />
+	</bean>
+
 
 
 
@@ -40,6 +49,7 @@
 
 	<bean id="userBizImpl" class="at.user.UserBizImpl">
 		<property name="userDao" ref="userDao" />
+		<property name="comDao" ref="comDao" />
 	</bean>
 	<bean id="userBiz" class="at.user.UserBizTx">
 		<property name="transactionManager" ref="transactionManager" />
@@ -75,8 +85,11 @@
 	<bean id="sqls" class="at.supp.SqlServiceImpl">
 		<property name="sqlMap">
 			<map>
-				<entry key="accountLogin" value="select usr_id, usr_email, usr_nick, usr_gender, usr_birth, usr_stus from tb_usr where usr_email = ? and usr_pw = ?" />
+				<entry key="accountLogin" value="select usr_id, usr_email, usr_nick, usr_gender, usr_birth, usr_type, usr_stus from tb_usr where usr_email = ? and usr_pw = ?" />
 				<entry key="accountRegisterLogin" value="insert into tb_usr(usr_email, usr_pw, usr_nick, usr_gender, usr_birth, usr_type, usr_stus) values (?,?,?,?,?,?,?)" />
+				<entry key="login_InsertJwTokenKey" value="insert into tb_token (tk_usr_id, tk_key) values (?,?)" />
+				<entry key="autologin_retrieveJwTokenKey" value="select tk_key from tb_token where tk_seq = ? and tk_usr_id = ?" />
+				<entry key="getLastId" value="select last_insert_id()" />
 			</map>
 		</property>
 	</bean>

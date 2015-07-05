@@ -52,9 +52,9 @@ public class UserDaoJdbc implements IUserDao {
 		RowMapper<UserEty> rowMapper = new RowMapper<UserEty>() {
 			public UserEty mapRow(ResultSet rs, int rowNum) {
 				try {
-					return new UserEty(rs.getLong("usr_id"), rs.getString("usr_email"), rs.getString("usr_pw"),
-							rs.getString("usr_nick"), rs.getString("usr_gender"), rs.getString("usr_birth"),
-							rs.getString("usr_type"), rs.getString("usr_stus"));
+					return new UserEty(rs.getLong("usr_id"), rs.getString("usr_email"), rs.getString("usr_nick"),
+							rs.getString("usr_gender"), rs.getString("usr_birth"), rs.getString("usr_type"),
+							rs.getString("usr_stus"));
 				} catch (SQLException e) {
 					throw new BeanInstantiationException(UserEty.class, e.getMessage(), e);
 				}
@@ -63,9 +63,28 @@ public class UserDaoJdbc implements IUserDao {
 		return this.jdbcTemplate.queryForObject(this.sqls.getSql("accountLogin"), rowMapper, userEmail, userPw);
 	}
 
-	public void insertJwTokenKey(Long userId, String jwTokenKey) {
+	public int insertJwTokenKey(Long userId, String jwTokenKey) {
 		lgr.debug(CC.GETTING_INTO_6 + "insertJwTokenKey");
-		this.jdbcTemplate.update(this.sqls.getSql(""), "");
-
+		int usertJwTokenResult = this.jdbcTemplate.update(this.sqls.getSql("login_InsertJwTokenKey"), userId, jwTokenKey);
+		lgr.debug(CC.GETTING_OUT_6 + "insertJwTokenKey");
+		return usertJwTokenResult;
+	}
+	
+	public String retrieveJwTokenKey(long tkSeq, long userId){
+		lgr.debug(CC.GETTING_INTO_6 + "retrieveJwTokenKey");
+		
+		RowMapper<String> rowMapper = new RowMapper<String>() {
+			public String mapRow(ResultSet rs, int rowNum) {
+				try {
+					return rs.getString("tk_key");
+				} catch (SQLException e) {
+					throw new BeanInstantiationException(UserEty.class, e.getMessage(), e);
+				}
+			}
+		};
+		
+		String jwTokenKey = this.jdbcTemplate.queryForObject(this.sqls.getSql("autologin_retrieveJwTokenKey"), rowMapper, tkSeq, userId);
+		lgr.debug(CC.GETTING_OUT_6 + "retrieveJwTokenKey");
+		return jwTokenKey;
 	}
 }

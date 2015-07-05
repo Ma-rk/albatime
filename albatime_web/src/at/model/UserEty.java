@@ -13,6 +13,7 @@ public class UserEty {
 	private String stus;
 	private String signIn;
 	private String currentJwToken;
+	private long userJwTokenKeySeq;
 
 	public UserEty(String email) {
 		this.email = email;
@@ -32,24 +33,9 @@ public class UserEty {
 		this.type = type;;
 	}
 
-	// public UserEty(long id, String email, String pw, String nick, String
-	// gender, String birth, String signIn,
-	// String stus) {
-	// this.id = id;
-	// this.email = email;
-	// this.pw = pw;
-	// this.nick = nick;
-	// this.gender = gender;
-	// this.birth = birth;
-	// this.signIn = signIn;
-	// this.stus = stus;
-	// }
-
-	public UserEty(long id, String email, String pw, String nick, String gender, String birth, String type,
-			String stus) {
+	public UserEty(long id, String email, String nick, String gender, String birth, String type, String stus) {
 		this.id = id;
 		this.email = email;
-		this.pw = pw;
 		this.nick = nick;
 		this.gender = gender;
 		this.birth = birth;
@@ -68,6 +54,14 @@ public class UserEty {
 	/*
 	 * getters and setters
 	 */
+	public long getUserJwTokenKeySeq() {
+		return userJwTokenKeySeq;
+	}
+
+	public void setUserTkSeq(long userJwTokenKeySeq) {
+		this.userJwTokenKeySeq = userJwTokenKeySeq;
+	}
+
 	public String getCurrentJwToken() {
 		return currentJwToken;
 	}
@@ -115,8 +109,7 @@ public class UserEty {
 	@Override
 	public String toString() {
 		return "UserEty [id=" + id + ", email=" + email + ", pw=" + pw + ", nick=" + nick + ", gender=" + gender
-				+ ", birth=" + birth + ", type=" + type + ", stus=" + stus + ", signIn=" + signIn + ", currentJwToken="
-				+ currentJwToken + "]";
+				+ ", birth=" + birth + ", type=" + type + ", stus=" + stus + ", signIn=" + signIn + ", userTkSeq="
+				+ userJwTokenKeySeq + ", currentJwToken=" + currentJwToken + "]";
 	}
-
 }

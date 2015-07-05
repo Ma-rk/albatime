@@ -14,5 +14,7 @@ public interface IUserDao {
 
 	public UserEty getUserInfoByEmailAndPw(String userEmail, String userPw);
 	
-	void insertJwTokenKey(Long userId, String jwToken);
+	int insertJwTokenKey(Long userId, String jwToken);
+
+	String retrieveJwTokenKey(long tkSeqUsr, long userId);
 }

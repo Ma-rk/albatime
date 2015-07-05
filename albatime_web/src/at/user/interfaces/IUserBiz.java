@@ -12,4 +12,6 @@ public interface IUserBiz {
 	UserEty login(UserEty user);
 
 	void upgradeLevelOfEveryUser();
+	
+	String retrieveJwTokenKey(long tkSeqUsr, long userId);
 }

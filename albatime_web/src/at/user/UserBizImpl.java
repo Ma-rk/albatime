@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.account.AccountBizImpl;
+import at.com.interfaces.IComDao;
 import at.model.UserEty;
 import at.supp.CC;
 import at.supp.JwtMgr;
@@ -29,6 +30,12 @@ public class UserBizImpl implements IUserBiz {
 		this.userDao = userDao;
 	}
 
+	private IComDao comDao;
+
+	public void setComDao(IComDao comDao) {
+		this.comDao = comDao;
+	}
+
 	/*
 	 * functional methods
 	 */
@@ -44,23 +51,29 @@ public class UserBizImpl implements IUserBiz {
 	}
 
 	public UserEty login(UserEty user) {
-		lgr.debug(CC.GETTING_INTO_2 + "login");
-		UserEty userInfo = this.userDao.getUserInfoByEmailAndPw(user.getEmail(), user.getPw());
+		lgr.debug(CC.GETTING_INTO_4 + "loginImpl");
 
+		UserEty userInfo = this.userDao.getUserInfoByEmailAndPw(user.getEmail(), user.getPw());
 		if (userInfo == null)
 			return null;
 
 		String jwTokenKey = JwtMgr.generateJwTokenKey();
-		this.userDao.insertJwTokenKey(userInfo.getId(), jwTokenKey);
-		long jwTokenKeySeq = 0l; // should retrieve from db
 
-		String jwToken = JwtMgr.createJsonWebToken(userInfo.getId(), CC.DEFAULT_SESSION_DURATION_DAYS, "key");
+		String jwToken = JwtMgr.createJsonWebToken(userInfo.getId(), CC.DEFAULT_SESSION_DURATION_DAYS, jwTokenKey);
+
+		int usertJwTokenResult = this.userDao.insertJwTokenKey(userInfo.getId(), jwTokenKey);
+
+		long jwTokenKeySeq = comDao.getLastInsertId();
 
 		userInfo.setCurrentJwToken(jwToken);
-		lgr.debug(CC.GETTING_OUT_2 + "login");
+		userInfo.setUserTkSeq(jwTokenKeySeq);
+		lgr.debug(CC.GETTING_OUT_4 + "loginImpl");
 		return userInfo;
 	}
 
+	public String retrieveJwTokenKey(long tkSeqUsr, long userId){
+		return this.userDao.retrieveJwTokenKey(tkSeqUsr, userId);
+	}
 	/*
 	 * supporting methods
 	 */
