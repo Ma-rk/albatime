@@ -1,6 +1,10 @@
 package at.filter;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -27,15 +31,66 @@ public class RequestFilter implements Filter {
 
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 
+		String visitorIp = getVisitorIp(httpRequest);
+		String requestedPage = getRequestedPage(httpRequest);
+		String requestMethod = getReauestMethod(httpRequest);
+		String userAgent = getUserAgent(httpRequest);
+		lgr.debug("full url: " + httpRequest.getRequestURL().toString());
+
+		try {
+			insertVisitorLog(visitorIp, requestedPage, requestMethod, userAgent);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		chain.doFilter(request, response);
+	}
+
+	private String getVisitorIp(HttpServletRequest httpRequest) {
+		String visitorIp = httpRequest.getRemoteAddr();
+		lgr.debug("visitorIp: " + visitorIp);
+		return visitorIp;
+	}
+
+	private String getRequestedPage(HttpServletRequest httpRequest) {
 		String requestedPage = httpRequest.getRequestURL().toString().substring(21,
 				httpRequest.getRequestURL().toString().length());
 		lgr.debug("requestedPage: " + requestedPage);
-		lgr.debug("full url: " + httpRequest.getRequestURL().toString());
-
-		chain.doFilter(request, response);
+		return requestedPage;
+	}
+	
+	private String getReauestMethod(HttpServletRequest httpRequest) {
+		String requestMethod = httpRequest.getMethod();
+		lgr.debug("userAgent: " + requestMethod);
+		return requestMethod;
+	}
+	
+	private String getUserAgent(HttpServletRequest httpRequest) {
+		String userAgent = httpRequest.getHeader("user-agent");
+		lgr.debug("userAgent: " + userAgent);
+		return userAgent;
 	}
 
 	public void init(FilterConfig filterConfig) throws ServletException {}
 
 	public void destroy() {}
+
+	public void insertVisitorLog(String visitorIp, String requestedPage, String requestMethod, String userAgent)
+			throws ClassNotFoundException, SQLException {
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection conn = DriverManager.getConnection("jdbc:mysql://192.168.56.101:3306/at_dev", "mark", "k");
+		PreparedStatement pstmt = conn
+				.prepareStatement("insert into tb_visit_log(vl_ip, vl_req_page, vl_req_method, vl_usr_agent) values (?,?,?,?)");
+
+		pstmt.setString(1, visitorIp);
+		pstmt.setString(2, requestedPage);
+		pstmt.setString(3, requestMethod);
+		pstmt.setString(4, userAgent);
+
+		pstmt.executeUpdate();
+
+		pstmt.close();
+		conn.close();
+	}
+
 }
