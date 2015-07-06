@@ -33,7 +33,7 @@ public class UserTest {
 
 	@Test
 	public void loginTest() {
-		UserEty loginUser = userCont.login(null, "email@mail.com", "pwpw");
+		String loginUser = userCont.login(null, "email@mail.com", "pwpw");
 		lgr.info(loginUser.toString());
 	}
 

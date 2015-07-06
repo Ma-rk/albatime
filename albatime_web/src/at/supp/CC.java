@@ -1,10 +1,14 @@
 package at.supp;
 
+import com.google.gson.Gson;
+
 /**
  * this class contains Constant Data (String, number, etc...) class name "CC"
  * means "Constant Container"
  */
 public class CC {
+	public static final Gson gson = new Gson();
+	
 	public static final long MS_FOR_ONE_DAY = 1000L * 60L * 60L * 24L;
 	public static final long DEFAULT_SESSION_DURATION_DAYS = 21L;
 

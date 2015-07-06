@@ -35,10 +35,6 @@
 		<property name="sqls" ref="sqls" />
 	</bean>
 
-	<bean id="requestFilter" class="at.filter.RequestFilter">
-		<property name="userDao" ref="userDao" />
-	</bean>
-
 
 
 
@@ -92,5 +88,16 @@
 				<entry key="getLastId" value="select last_insert_id()" />
 			</map>
 		</property>
+	</bean>
+
+	<mvc:interceptors>
+		<mvc:interceptor> 
+			<mvc:mapping path="/api/*"/> 
+			<bean class="at.interceptors.ApiInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	<bean id="apiInterceptor" class="at.interceptors.ApiInterceptor">
+		<property name="userDao" ref="userDao" />
 	</bean>
 </beans>
