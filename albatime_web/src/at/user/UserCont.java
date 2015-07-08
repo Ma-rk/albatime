@@ -1,5 +1,8 @@
 package at.user;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
@@ -7,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,11 +54,14 @@ public class UserCont {
 		return CC.gson.toJson(user);
 	}
 
-	@RequestMapping(value = "/api/login2", method = RequestMethod.GET)
-	public @ResponseBody UserEty interceptorTest() {
-		lgr.debug(CC.GETTING_INTO_2 + "interceptorTest");
-		lgr.debug(CC.GETTING_OUT_2 + "interceptorTest");
-		return null;
+	@RequestMapping(value = "/api/token", method = RequestMethod.GET)
+	public @ResponseBody String retrieveToken(@CookieValue("userIdInCookie") long userId) {
+		lgr.debug(CC.GETTING_INTO_2 + "retrieveToken");
+		
+		List<Map<String, Object>>  jwTokenList = userBiz.retrieveJwTokenList(userId);
+		
+		lgr.debug(CC.GETTING_OUT_2 + "retrieveToken");
+		return CC.gson.toJson(jwTokenList);
 	}
 
 	@RequestMapping(value = "/api/login3", method = RequestMethod.GET)

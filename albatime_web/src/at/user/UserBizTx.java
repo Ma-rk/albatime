@@ -1,5 +1,8 @@
 package at.user;
 
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -56,5 +59,9 @@ public class UserBizTx implements IUserBiz {
 
 	public String retrieveJwTokenKey(long tkSeqUsr, long userId) {
 		return this.userBiz.retrieveJwTokenKey(tkSeqUsr, userId);
+	}
+	
+	public List<Map<String, Object>> retrieveJwTokenList(long userId) {
+		return this.userBiz.retrieveJwTokenList(userId);
 	}
 }

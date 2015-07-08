@@ -2,6 +2,8 @@ package at.user;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -14,6 +16,7 @@ import at.user.interfaces.IUserDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanInstantiationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -56,8 +59,8 @@ public class UserDaoJdbc implements IUserDao {
 
 	public int insertJwTokenKey(TokenKeyEty tokenKeyEty) {
 		lgr.debug(CC.GETTING_INTO_6 + "insertJwTokenKey");
-		int insertJwTokenResult = this.jdbcTemplate.update(this.sqls.getSql("login_InsertJwTokenKey"), tokenKeyEty.getUserId(),
-				tokenKeyEty.getKey(), tokenKeyEty.getStus());
+		int insertJwTokenResult = this.jdbcTemplate.update(this.sqls.getSql("login_InsertJwTokenKey"),
+				tokenKeyEty.getUserId(), tokenKeyEty.getKey(), tokenKeyEty.getStus());
 		lgr.debug(CC.GETTING_OUT_6 + "insertJwTokenKey");
 		return insertJwTokenResult;
 	}
@@ -73,9 +76,22 @@ public class UserDaoJdbc implements IUserDao {
 				}
 			}
 		};
-		String jwTokenKey = this.jdbcTemplate.queryForObject(this.sqls.getSql("autologin_retrieveJwTokenKey"),
-				rowMapper, tkSeq, userId);
+		String jwTokenKey;
+		try {
+			jwTokenKey = this.jdbcTemplate.queryForObject(this.sqls.getSql("autologin_retrieveJwTokenKey"), rowMapper,
+					tkSeq, userId);
+		} catch (EmptyResultDataAccessException e) {
+			e.printStackTrace();
+			jwTokenKey = null;
+		}
+		lgr.debug("jwTokenKey: " + jwTokenKey);
 		lgr.debug(CC.GETTING_OUT_6 + "retrieveJwTokenKey");
 		return jwTokenKey;
+	}
+
+	public List<Map<String, Object>> retrieveJwTokenList(long userId) {
+		lgr.debug(CC.GETTING_INTO_6 + "retrieveTokenList");
+		lgr.debug(CC.GETTING_OUT_6 + "retrieveTokenList");
+		return jdbcTemplate.queryForList(this.sqls.getSql("tkRetireveToken"), userId);
 	}
 }
