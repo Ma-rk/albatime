@@ -60,8 +60,12 @@ public class UserBizTx implements IUserBiz {
 	public String retrieveJwTokenKey(long tkSeqUsr, long userId) {
 		return this.userBiz.retrieveJwTokenKey(tkSeqUsr, userId);
 	}
-	
+
 	public List<Map<String, Object>> retrieveJwTokenList(long userId) {
 		return this.userBiz.retrieveJwTokenList(userId);
+	}
+
+	public int expireJwTokens(long userId) {
+		return userBiz.expireJwTokens(userId);
 	}
 }

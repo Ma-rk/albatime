@@ -57,11 +57,22 @@ public class UserCont {
 	@RequestMapping(value = "/api/token", method = RequestMethod.GET)
 	public @ResponseBody String retrieveToken(@CookieValue("userIdInCookie") long userId) {
 		lgr.debug(CC.GETTING_INTO_2 + "retrieveToken");
-		
-		List<Map<String, Object>>  jwTokenList = userBiz.retrieveJwTokenList(userId);
-		
+		lgr.debug("retrieving tokens for user " + userId);
+
+		List<Map<String, Object>> jwTokenList = userBiz.retrieveJwTokenList(userId);
+
 		lgr.debug(CC.GETTING_OUT_2 + "retrieveToken");
 		return CC.gson.toJson(jwTokenList);
+	}
+
+	@RequestMapping(value = "/api/token", method = RequestMethod.DELETE)
+	public @ResponseBody String expireJwTokens(@CookieValue("userIdInCookie") long userId) {
+		lgr.debug(CC.GETTING_INTO_2 + "expireToken");
+
+		int deletedTokens = userBiz.expireJwTokens(userId);
+
+		lgr.debug(CC.GETTING_OUT_2 + "expireToken");
+		return CC.gson.toJson(deletedTokens);
 	}
 
 	@RequestMapping(value = "/api/login3", method = RequestMethod.GET)

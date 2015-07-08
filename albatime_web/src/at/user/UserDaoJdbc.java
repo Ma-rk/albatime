@@ -94,4 +94,10 @@ public class UserDaoJdbc implements IUserDao {
 		lgr.debug(CC.GETTING_OUT_6 + "retrieveTokenList");
 		return jdbcTemplate.queryForList(this.sqls.getSql("tkRetireveToken"), userId);
 	}
+
+	public int expireJwTokens(long userId) {
+		lgr.debug(CC.GETTING_INTO_6 + "deleteJwTokens");
+		lgr.debug(CC.GETTING_OUT_6 + "deleteJwTokens");
+		return jdbcTemplate.update(this.sqls.getSql("tkExpireToken"), userId);
+	}
 }
