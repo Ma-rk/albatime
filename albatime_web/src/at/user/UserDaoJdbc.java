@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import at.model.TokenKeyEty;
 import at.model.UserEty;
 import at.supp.CC;
 import at.supp.interfaces.ISqlService;
@@ -53,10 +54,10 @@ public class UserDaoJdbc implements IUserDao {
 		return this.jdbcTemplate.queryForObject(this.sqls.getSql("accountLogin"), rowMapper, userEmail, userPw);
 	}
 
-	public int insertJwTokenKey(Long userId, String jwTokenKey) {
+	public int insertJwTokenKey(TokenKeyEty tokenKeyEty) {
 		lgr.debug(CC.GETTING_INTO_6 + "insertJwTokenKey");
-		int insertJwTokenResult = this.jdbcTemplate.update(this.sqls.getSql("login_InsertJwTokenKey"), userId,
-				jwTokenKey);
+		int insertJwTokenResult = this.jdbcTemplate.update(this.sqls.getSql("login_InsertJwTokenKey"), tokenKeyEty.getUserId(),
+				tokenKeyEty.getKey(), tokenKeyEty.getStus());
 		lgr.debug(CC.GETTING_OUT_6 + "insertJwTokenKey");
 		return insertJwTokenResult;
 	}

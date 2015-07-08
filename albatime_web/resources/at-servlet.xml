@@ -84,8 +84,8 @@
 			<map>
 				<entry key="accountLogin" value="select usr_id, usr_email, usr_nick, usr_gender, usr_birth, usr_type, usr_stus from tb_usr where usr_email = ? and usr_pw = ?" />
 				<entry key="accountRegisterLogin" value="insert into tb_usr(usr_email, usr_pw, usr_nick, usr_gender, usr_birth, usr_type, usr_stus) values (?,?,?,?,?,?,?)" />
-				<entry key="login_InsertJwTokenKey" value="insert into tb_token (tk_usr_id, tk_key) values (?,?)" />
-				<entry key="autologin_retrieveJwTokenKey" value="select tk_key from tb_token where tk_seq = ? and tk_usr_id = ?" />
+				<entry key="login_InsertJwTokenKey" value="insert into tb_token (tk_usr_id, tk_key, tk_stus) values (?,?,?)" />
+				<entry key="autologin_retrieveJwTokenKey" value="select tk_key from tb_token where tk_seq = ? and tk_usr_id = ? and tk_stus = 'TKST0001')" />
 				<entry key="getLastId" value="select last_insert_id()" />
 			</map>
 		</property>

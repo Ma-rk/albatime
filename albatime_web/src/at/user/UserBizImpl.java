@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.com.interfaces.IComDao;
+import at.model.TokenKeyEty;
 import at.model.UserEty;
 import at.supp.CC;
 import at.supp.JwtMgr;
@@ -46,7 +47,7 @@ public class UserBizImpl implements IUserBiz {
 		String jwToken = JwtMgr.createJsonWebToken(userInfo.getId(), CC.DEFAULT_SESSION_DURATION_DAYS, jwTokenKey);
 		userInfo.setCurrentJwToken(jwToken);
 
-		int insertJwTokenResult = this.userDao.insertJwTokenKey(userInfo.getId(), jwTokenKey);
+		int insertJwTokenResult = this.userDao.insertJwTokenKey(new TokenKeyEty(userInfo.getId(), jwTokenKey));
 		if (insertJwTokenResult == 1) {
 			long jwTokenKeySeq = comDao.getLastInsertId();
 			userInfo.setUserTkSeq(jwTokenKeySeq);

@@ -2,6 +2,7 @@ package at.user.interfaces;
 
 import javax.sql.DataSource;
 
+import at.model.TokenKeyEty;
 import at.model.UserEty;
 
 public interface IUserDao {
@@ -9,7 +10,7 @@ public interface IUserDao {
 
 	public UserEty getUserInfoByEmailAndPw(String userEmail, String userPw);
 	
-	int insertJwTokenKey(Long userId, String jwToken);
+	int insertJwTokenKey(TokenKeyEty tokenKeyEty);
 
 	String retrieveJwTokenKey(long tkSeqUsr, long userId);
 }
