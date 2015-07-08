@@ -24,8 +24,8 @@ public class AccountCont {
 		this.accountBiz = accountBiz;
 	}
 
-	@RequestMapping(value = "/registerUser", method = RequestMethod.POST)
-	public @ResponseBody int registerUserCont(@RequestParam("email") String email, @RequestParam("pw") String pw,
+	@RequestMapping(value = "/api/account", produces = "application/json", method = RequestMethod.POST)
+	public @ResponseBody String registerUserCont(@RequestParam("email") String email, @RequestParam("pw") String pw,
 			@RequestParam("nick") String nick, @RequestParam("gender") String gender,
 			@RequestParam("birth") String birth, @RequestParam("type") String type) {
 		lgr.debug(CC.GETTING_INTO_2 + "login");
@@ -43,6 +43,6 @@ public class AccountCont {
 		lgr.debug("registerResult: " + registerResult);
 		lgr.debug(CC.GETTING_OUT_2 + "login");
 
-		return registerResult;
+		return CC.gson.toJson(Integer.toString(registerResult));
 	}
 }
