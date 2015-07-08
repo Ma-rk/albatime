@@ -18,6 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import at.model.VisitLogEty;
+import at.supp.MTC;
+
 @WebFilter(urlPatterns = "/*")
 public class RequestFilter implements Filter {
 	private static final Logger lgr = LoggerFactory.getLogger(RequestFilter.class);
@@ -37,12 +40,14 @@ public class RequestFilter implements Filter {
 		String userAgent = getUserAgent(httpRequest);
 		lgr.debug("full url: " + httpRequest.getRequestURL().toString());
 
-		try {
-			insertVisitorLog(visitorIp, requestedPage, requestMethod, userAgent);
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		insertVisitorLogMock(new VisitLogEty(visitorIp, requestedPage, requestMethod, userAgent));
+		// try {
+		// insertVisitorLog(new VisitLogEty(visitorIp, requestedPage,
+		// requestMethod, userAgent));
+		// } catch (ClassNotFoundException | SQLException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 		chain.doFilter(request, response);
 	}
 
@@ -58,13 +63,13 @@ public class RequestFilter implements Filter {
 		lgr.debug("requestedPage: " + requestedPage);
 		return requestedPage;
 	}
-	
+
 	private String getReauestMethod(HttpServletRequest httpRequest) {
 		String requestMethod = httpRequest.getMethod();
 		lgr.debug("userAgent: " + requestMethod);
 		return requestMethod;
 	}
-	
+
 	private String getUserAgent(HttpServletRequest httpRequest) {
 		String userAgent = httpRequest.getHeader("user-agent");
 		lgr.debug("userAgent: " + userAgent);
@@ -75,17 +80,21 @@ public class RequestFilter implements Filter {
 
 	public void destroy() {}
 
-	public void insertVisitorLog(String visitorIp, String requestedPage, String requestMethod, String userAgent)
-			throws ClassNotFoundException, SQLException {
+	public void insertVisitorLogMock(VisitLogEty visitLog) {
+		lgr.debug(visitLog.toString());
+		MTC.visitLogMk.add(visitLog);
+	}
+
+	public void insertVisitorLog(VisitLogEty visitLog) throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection conn = DriverManager.getConnection("jdbc:mysql://192.168.56.101:3306/at_dev", "mark", "k");
-		PreparedStatement pstmt = conn
-				.prepareStatement("insert into tb_visit_log(vl_ip, vl_req_page, vl_req_method, vl_usr_agent) values (?,?,?,?)");
+		PreparedStatement pstmt = conn.prepareStatement(
+				"insert into tb_visit_log(vl_ip, vl_req_page, vl_req_method, vl_usr_agent) values (?,?,?,?)");
 
-		pstmt.setString(1, visitorIp);
-		pstmt.setString(2, requestedPage);
-		pstmt.setString(3, requestMethod);
-		pstmt.setString(4, userAgent);
+		pstmt.setString(1, visitLog.getVisitorIp());
+		pstmt.setString(2, visitLog.getRequestedPage());
+		pstmt.setString(3, visitLog.getRequestMethod());
+		pstmt.setString(4, visitLog.getUserAgent());
 
 		pstmt.executeUpdate();
 
