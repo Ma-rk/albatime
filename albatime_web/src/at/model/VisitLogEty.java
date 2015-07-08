@@ -42,6 +42,6 @@ public class VisitLogEty {
 	public String toString() {
 		return "\nVisitLogEty [visitorIp=" + visitorIp + ", requestedPage=" + requestedPage + ", requestMethod="
 				+ requestMethod + ", userAgent=" + userAgent + ", requestedTime="
-				+ requestedTime.toString(DateTimeFormat.forPattern("MMMM, yyyy")) + "]";
+				+ requestedTime.toString(DateTimeFormat.forPattern("yyyy-MM-dd Z kk:mm:ss:SS")) + "]";
 	}
 }
