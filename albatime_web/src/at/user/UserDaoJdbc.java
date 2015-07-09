@@ -67,6 +67,7 @@ public class UserDaoJdbc implements IUserDao {
 
 	public String retrieveJwTokenKey(long tkSeq, long userId) {
 		lgr.debug(CC.GETTING_INTO_6 + "retrieveJwTokenKey");
+		lgr.debug("retireive token key for tkSeq [{}], userId [{}]", tkSeq, userId);
 		RowMapper<String> rowMapper = new RowMapper<String>() {
 			public String mapRow(ResultSet rs, int rowNum) {
 				try {

@@ -22,7 +22,7 @@ public class AccountTest {
 
 	@Test
 	public void registerUserContTest() {
-		int registerResult = accountCont.registerUserCont("email@mail.com", "pwpw", "NICK", "GEN001", "BIRTH", "TYPE");
+		String registerResult = accountCont.registerUserCont("email@mail.com", "pwpw", "NICK", "GEN001", "BIRTH", "TYPE");
 		assertEquals(1, registerResult);
 	}
 }

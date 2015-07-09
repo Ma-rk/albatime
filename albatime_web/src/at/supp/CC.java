@@ -23,6 +23,9 @@ public class CC {
 	public static final String GETTING_INTO_6 = "======>";
 	public static final String GETTING_OUT_6 = "<======";
 
+	public static final String ACTOR_STUS_NORMAL = "ACST0001";
+	public static final String ACTOR_STUS_DELETED = "ACST0002";
+	
 	public static final String ACCOUNT_STUS_NORMAL = "URST0001";
 	public static final String ACCOUNT_STUS_DEACTIVATED = "URST0002";
 

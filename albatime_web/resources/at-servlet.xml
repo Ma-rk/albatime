@@ -7,6 +7,7 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
 	<context:component-scan base-package="at.account" />
+	<context:component-scan base-package="at.actor" />
 	<context:component-scan base-package="at.supp" />
 	<context:component-scan base-package="at.user" />
 
@@ -77,6 +78,29 @@
 		<property name="accountBiz" ref="accountBiz" />
 	</bean>
 
+	<bean id="actorDao" class="at.actor.ActorDaoJdbc">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sqls" ref="sqls" />
+	</bean>
+
+
+
+	<bean id="actorBizImpl" class="at.actor.ActorBizImpl">
+		<property name="actorDao" ref="actorDao" />
+	</bean>
+	<bean id="actorBiz" class="at.actor.ActorBizTx">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="actorBiz" ref="actorBizImpl" />
+	</bean>
+
+	<bean id="actorCont" class="at.actor.ActorCont">
+		<property name="actorBiz" ref="actorBiz" />
+	</bean>
+
+
+
+
+
 	<bean id="jwtMgr" class="at.supp.JwtMgr" />
 
 	<bean id="sqls" class="at.supp.SqlServiceImpl">
@@ -84,9 +108,11 @@
 			<map>
 				<entry key="accountLogin" value="select usr_id, usr_email, usr_nick, usr_gender, usr_birth, usr_type, usr_stus from tb_usr where usr_email = ? and usr_pw = ?" />
 				<entry key="accountRegisterLogin" value="insert into tb_usr(usr_email, usr_pw, usr_nick, usr_gender, usr_birth, usr_type, usr_stus) values (?,?,?,?,?,?,?)" />
+				<entry key="actorCreateActor" value="insert into tb_actor (ac_usr, ac_name, ac_phone1, ac_phone2, ac_addr1_1, ac_addr1_2, ac_addr1_3, ac_stus) values (?,?,?,?,?,?,?,?)" />
 				<entry key="login_InsertJwTokenKey" value="insert into tb_token (tk_usr_id, tk_key, tk_stus) values (?,?,?)" />
 				<entry key="autologin_retrieveJwTokenKey" value="select tk_key from tb_token where tk_seq = ? and tk_usr_id = ? and tk_stus = 'TKST0001'" />
 				<entry key="tkRetireveToken" value="select tk_device_type, tk_created from tb_token where tk_usr_id = ?" />
+				<entry key="tkExpireToken" value="update tb_token set tk_stus = 'TKST0002' where tk_usr_id = ?" />
 				<entry key="getLastId" value="select last_insert_id()" />
 			</map>
 		</property>
