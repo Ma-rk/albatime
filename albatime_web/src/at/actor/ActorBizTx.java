@@ -1,16 +1,13 @@
 package at.actor;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.List;
+
 import org.springframework.transaction.PlatformTransactionManager;
 
 import at.actor.interfaces.IActorBiz;
 import at.model.ActorEty;
-import at.user.interfaces.IUserBiz;
 
 public class ActorBizTx implements IActorBiz {
-	private static final Logger lgr = LoggerFactory.getLogger(ActorBizTx.class);
-
 	/*
 	 * DI codes
 	 */
@@ -29,8 +26,12 @@ public class ActorBizTx implements IActorBiz {
 	/*
 	 * functional methods
 	 */
-	
+
 	public int insertActor(ActorEty actor) {
 		return actorBiz.insertActor(actor);
+	}
+
+	public List<ActorEty> retireveActorList(long userId) {
+		return actorBiz.retireveActorList(userId);
 	}
 }

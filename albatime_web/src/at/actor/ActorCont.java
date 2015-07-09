@@ -1,5 +1,8 @@
 package at.actor;
 
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +49,16 @@ public class ActorCont {
 
 		lgr.debug(CC.GETTING_OUT_2 + "createActor");
 		return CC.gson.toJson(inserActorResult);
+	}
+	
+	@RequestMapping(value = "/api/actor", produces = "application/json", method = RequestMethod.GET)
+	public @ResponseBody String retrieveActorList(@CookieValue("userIdInCookie") long userId) {
+		lgr.debug(CC.GETTING_INTO_2 + "createActor");
+		lgr.debug("actorUserId: " + userId);
+		
+		List<ActorEty> actorList = actorBiz.retireveActorList(userId);
+		
+		lgr.debug(CC.GETTING_OUT_2 + "createActor");
+		return CC.gson.toJson(actorList);
 	}
 }

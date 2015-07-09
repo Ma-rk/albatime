@@ -43,6 +43,10 @@ public class ActorBizImpl implements IActorBiz {
 		return actorDao.insertActor(actor);
 	}
 
+	public List<ActorEty> retireveActorList(long userId) {
+		return actorDao.retireveActorList(userId);
+	}
+
 	/*
 	 * supporting methods
 	 */

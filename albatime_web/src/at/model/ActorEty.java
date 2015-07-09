@@ -1,7 +1,5 @@
 package at.model;
 
-import org.joda.time.DateTime;
-
 import at.supp.CC;
 
 public class ActorEty {
@@ -15,8 +13,8 @@ public class ActorEty {
 	private String addr2;
 	private String addr3;
 	private String stus;
-	private DateTime created;
-	private DateTime edited;
+	private String created;
+	private String edited;
 
 	public ActorEty(long userId, String type, String name, String phone1, String phone2, String addr1, String addr2,
 			String addr3) {
@@ -31,7 +29,7 @@ public class ActorEty {
 	}
 
 	public ActorEty(long seq, long userId, String type, String name, String phone1, String phone2, String addr1,
-			String addr2, String addr3, String stus, DateTime created, DateTime edited) {
+			String addr2, String addr3, String stus, String created, String edited) {
 		this.seq = seq;
 		this.userId = userId;
 		this.type = type;
@@ -94,11 +92,11 @@ public class ActorEty {
 		return stus;
 	}
 
-	public DateTime getCreated() {
+	public String getCreated() {
 		return created;
 	}
 
-	public DateTime getEdited() {
+	public String getEdited() {
 		return edited;
 	}
 
