@@ -28,6 +28,9 @@ public class CC {
 	
 	public static final String ACCOUNT_STUS_NORMAL = "URST0001";
 	public static final String ACCOUNT_STUS_DEACTIVATED = "URST0002";
+	
+	public static final String ACCOUNT_TYPE_ALBA = "URSTP001";
+	public static final String ACCOUNT_TYPE_OWNER = "URTP0002";
 
 	public static final String TOKEN_STUS_NORMAL = "TKST0001";
 	public static final String TOKEN_STUS_EXPIRED = "TKST0002";
