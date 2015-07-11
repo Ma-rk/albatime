@@ -23,15 +23,15 @@ public class CC {
 	public static final String GETTING_INTO_6 = "======>";
 	public static final String GETTING_OUT_6 = "<======";
 
-	public static final String ACTOR_STUS_NORMAL = "ACST0001";
-	public static final String ACTOR_STUS_DELETED = "ACST0002";
+	public static final String ACTOR_STUS_NORMAL = "ACT_STA_01";
+	public static final String ACTOR_STUS_DELETED = "ACT_STA_02";
 	
-	public static final String ACCOUNT_STUS_NORMAL = "URST0001";
-	public static final String ACCOUNT_STUS_DEACTIVATED = "URST0002";
+	public static final String ACCOUNT_STUS_NORMAL = "USR_STA_01";
+	public static final String ACCOUNT_STUS_DEACTIVATED = "USR_STA_02";
 	
-	public static final String ACCOUNT_TYPE_ALBA = "URSTP001";
-	public static final String ACCOUNT_TYPE_OWNER = "URTP0002";
+	public static final String ACCOUNT_TYPE_ALBA = "USR_TYP_01";
+	public static final String ACCOUNT_TYPE_OWNER = "USR_TYP_02";
 
-	public static final String TOKEN_STUS_NORMAL = "TKST0001";
-	public static final String TOKEN_STUS_EXPIRED = "TKST0002";
+	public static final String TOKEN_STUS_NORMAL = "TKN_STA_01";
+	public static final String TOKEN_STUS_EXPIRED = "TKN_STA_02";
 }
