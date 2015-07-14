@@ -136,8 +136,8 @@
 		<finalName>${project.artifactId}-${project.version}</finalName>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
-		<outputDirectory>webapp/WEB-INF/classes</outputDirectory>
-		<testOutputDirectory>target/test-classes</testOutputDirectory>
+		<outputDirectory>/webapp/WEB-INF/classes</outputDirectory>
+		<testOutputDirectory>/target/test-classes</testOutputDirectory>
 
 		<resources>
 			<resource>
@@ -154,6 +154,14 @@
 					<source>1.8</source>
 					<target>1.8</target>
 					<encoding>utf-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<webXml>webapp\WEB-INF\web.xml</webXml>
+					<warSourceDirectory>webapp</warSourceDirectory>
 				</configuration>
 			</plugin>
 		</plugins>
