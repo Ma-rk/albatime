@@ -35,13 +35,13 @@ public class ApiInterceptor implements HandlerInterceptor {
 
 		String requestedPage = request.getRequestURL().toString().substring(21,
 				request.getRequestURL().toString().length());
-		if (requestedPage.equals("/registerUser")) {
+		if (requestedPage.equals("/api/account") && request.getMethod().equals("POST")) {
 			lgr.debug("registering. not checking http header.");
 			return true;
-		} else if (requestedPage.equals("/html/login.html")) {
+		} else if (requestedPage.equals("/html/login.html") && request.getMethod().equals("GET")) {
 			lgr.debug("login form requested. not checking http header.");
 			return true;
-		} else if (requestedPage.equals("/api/login")) {
+		} else if (requestedPage.equals("/api/login") && request.getMethod().equals("POST")) {
 			lgr.debug("logging in. not checking http header.");
 			return true;
 		}
