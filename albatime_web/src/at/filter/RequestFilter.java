@@ -58,8 +58,7 @@ public class RequestFilter implements Filter {
 	}
 
 	private String getRequestedPage(HttpServletRequest httpRequest) {
-		String requestedPage = httpRequest.getRequestURL().toString().substring(21,
-				httpRequest.getRequestURL().toString().length());
+		String requestedPage = httpRequest.getRequestURI().toString();
 		lgr.debug("requestedPage: " + requestedPage);
 		return requestedPage;
 	}

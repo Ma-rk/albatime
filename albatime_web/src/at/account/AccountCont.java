@@ -24,7 +24,7 @@ public class AccountCont {
 		this.accountBiz = accountBiz;
 	}
 
-	@RequestMapping(value = "/api/account", produces = "application/json", method = RequestMethod.POST)
+	@RequestMapping(value = CC.API_ACCOUNT, produces = "application/json", method = RequestMethod.POST)
 	public @ResponseBody String registerUserCont(@RequestParam("email") String email, @RequestParam("pw") String pw,
 			@RequestParam("nick") String nick, @RequestParam("gender") String gender,
 			@RequestParam("birth") String birth, @RequestParam("type") String type) {
