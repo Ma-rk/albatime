@@ -40,8 +40,8 @@ public class UserDaoJdbc implements IUserDao {
 	/*
 	 * functional methods
 	 */
-	public UserEty getUserInfoByEmailAndPw(String userEmail, String userPw) {
-		lgr.debug(CC.GETTING_INTO_6 + "checkUserExistance");
+	public UserEty getUserInfoByEmailAndPw(UserEty user) {
+		lgr.debug(CC.GETTING_INTO_6 + "getUserInfoByEmailAndPw");
 		RowMapper<UserEty> rowMapper = new RowMapper<UserEty>() {
 			public UserEty mapRow(ResultSet rs, int rowNum) {
 				try {
@@ -53,8 +53,16 @@ public class UserDaoJdbc implements IUserDao {
 				}
 			}
 		};
-		lgr.debug(CC.GETTING_OUT_6 + "checkUserExistance");
-		return this.jdbcTemplate.queryForObject(this.sqls.getSql("accountLogin"), rowMapper, userEmail, userPw);
+		UserEty useResult = null;
+		try {
+			useResult = this.jdbcTemplate.queryForObject(this.sqls.getSql("accountLogin"), rowMapper, user.getEmail(),
+					user.getPw());
+		} catch (EmptyResultDataAccessException e) {
+			e.printStackTrace();
+		}
+		lgr.debug("user: " + user);
+		lgr.debug(CC.GETTING_OUT_6 + "getUserInfoByEmailAndPw");
+		return useResult;
 	}
 
 	public int insertJwTokenKey(TokenKeyEty tokenKeyEty) {

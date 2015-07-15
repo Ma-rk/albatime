@@ -17,9 +17,6 @@ import at.user.interfaces.IUserDao;
 public class UserBizImpl implements IUserBiz {
 	private static final Logger lgr = LoggerFactory.getLogger(UserBizImpl.class);
 
-	public static final int MIN_LOGCOUT_FOR_SILVER = 50;
-	public static final int MIN_RECCOMMEND_FOR_GOLD = 30;
-
 	/*
 	 * DI codes
 	 */
@@ -41,7 +38,7 @@ public class UserBizImpl implements IUserBiz {
 	public UserEty login(UserEty user) {
 		lgr.debug(CC.GETTING_INTO_4 + "loginImpl");
 
-		UserEty userInfo = this.userDao.getUserInfoByEmailAndPw(user.getEmail(), user.getPw());
+		UserEty userInfo = this.userDao.getUserInfoByEmailAndPw(user);
 		if (userInfo == null)
 			return null;
 

@@ -39,19 +39,22 @@ public class UserCont {
 		lgr.debug("email: " + email);
 		lgr.debug("pw: " + pw);
 
+		String resultString = "0";
 		UserEty user = userBiz.login(new UserEty(email, pw));
 
-		Cookie[] cookies = { new Cookie(CC.JWT_TOKEN, user.getCurrentJwToken()),
-				new Cookie(CC.USER_ID_IN_COOKIE, String.valueOf(user.getId())),
-				new Cookie(CC.USER_TOKEN_SEQ_IN_COOKIE, String.valueOf(user.getUserJwTokenKeySeq())) };
+		if (user != null) {
+			Cookie[] cookies = { new Cookie(CC.JWT_TOKEN, user.getCurrentJwToken()),
+					new Cookie(CC.USER_ID_IN_COOKIE, String.valueOf(user.getId())),
+					new Cookie(CC.USER_TOKEN_SEQ_IN_COOKIE, String.valueOf(user.getUserJwTokenKeySeq())) };
 
-		for (Cookie cookie : cookies) {
-			cookie.setPath("/");
-			response.addCookie(cookie);
+			for (Cookie cookie : cookies) {
+				cookie.setPath("/");
+				response.addCookie(cookie);
+			}
+			resultString = CC.gson.toJson(user);
 		}
-
 		lgr.debug(CC.GETTING_OUT_2 + "login");
-		return CC.gson.toJson(user);
+		return resultString;
 	}
 
 	@RequestMapping(value = "/api/token", method = RequestMethod.GET)

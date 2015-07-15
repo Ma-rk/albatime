@@ -11,7 +11,7 @@ import at.model.UserEty;
 public interface IUserDao {
 	void setDataSource(DataSource dataSource);
 
-	public UserEty getUserInfoByEmailAndPw(String userEmail, String userPw);
+	public UserEty getUserInfoByEmailAndPw(UserEty user);
 
 	int insertJwTokenKey(TokenKeyEty tokenKeyEty);
 
