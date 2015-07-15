@@ -10,4 +10,6 @@ public interface IActorBiz {
 
 	List<ActorEty> retireveActorListBiz(long userId);
 
+	int updateActorBiz(ActorEty actor);
+
 }

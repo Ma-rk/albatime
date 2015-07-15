@@ -49,6 +49,14 @@ public class ActorBizImpl implements IActorBiz {
 		return actorDao.retireveActorList(userId);
 	}
 
+	@Override
+	public int updateActorBiz(ActorEty actor) {
+		lgr.debug(CC.GETTING_INTO_4 + "updateActorBiz");
+		int updateActorResult = actorDao.updateActorBiz(actor);
+		lgr.debug(CC.GETTING_OUT_4 + "updateActorBiz");
+		return updateActorResult;
+	}
+
 	/*
 	 * supporting methods
 	 */

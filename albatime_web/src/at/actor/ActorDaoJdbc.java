@@ -3,7 +3,6 @@ package at.actor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -12,7 +11,6 @@ import at.model.ActorEty;
 import at.supp.CC;
 import at.supp.interfaces.ISqlService;
 
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanInstantiationException;
@@ -71,5 +69,17 @@ public class ActorDaoJdbc implements IActorDao {
 		};
 		lgr.debug(CC.GETTING_OUT_6 + "retireveActorList");
 		return this.jdbcTemplate.query(this.sqls.getSql("actorRetrieveActors"), rowMapper, userId);
+	}
+
+	public int updateActorBiz(ActorEty actor) {
+		lgr.debug(CC.GETTING_INTO_6 + "updateActorBiz");
+		int insertActorResult = this.jdbcTemplate.update(this.sqls.getSql("actorUpdateActor"), actor.getName(),
+				actor.getMemo(), actor.getPeriodFrom(), actor.getPeriodTo(), actor.getWorkTimeUnit(),
+				actor.getAlarmBefore(), actor.getUnpaidbreakFlag(), actor.getTaxRate(), actor.getBasicWage(),
+				actor.getBgColor(), actor.getPhone1(), actor.getPhone2(), actor.getAddr1(), actor.getAddr2(),
+				actor.getAddr3(), actor.getStus(), actor.getUserId());
+		lgr.debug("updateActorBiz result: [{}]", insertActorResult);
+		lgr.debug(CC.GETTING_OUT_6 + "updateActorBiz");
+		return insertActorResult;
 	}
 }

@@ -1,7 +1,6 @@
 package at.actor;
 
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,8 +56,8 @@ public class ActorCont {
 		lgr.debug("actorAddr2: " + addr2);
 		lgr.debug("actorAddr3: " + addr3);
 
-		ActorEty actor = new ActorEty(userId, name, memo, periodFrom, periodTo, worktimeUnit, alarmBefore, unpaidbreakFlag,
-				taxRate, basicWage, bgColor, phone1, phone2, addr1, addr2, addr3);
+		ActorEty actor = new ActorEty(userId, name, memo, periodFrom, periodTo, worktimeUnit, alarmBefore,
+				unpaidbreakFlag, taxRate, basicWage, bgColor, phone1, phone2, addr1, addr2, addr3);
 
 		int inserActorResult = actorBiz.insertActorBiz(actor);
 
@@ -75,5 +74,44 @@ public class ActorCont {
 
 		lgr.debug(CC.GETTING_OUT_2 + "retrieveActorListCont");
 		return CC.gson.toJson(actorList);
+	}
+
+	@RequestMapping(value = "/api/actor", produces = "application/json", method = RequestMethod.PUT)
+	public @ResponseBody String updateActorCont(@RequestParam("actorSeq") long actorSeq,
+			@RequestParam("actorName") String name, @RequestParam("actorMemo") String memo,
+			@RequestParam("actorPeriodFrom") String periodFrom, @RequestParam("actorPeriodTo") String periodTo,
+			@RequestParam("actorWorktimeUnit") int worktimeUnit, @RequestParam("actorAlarmBefore") int alarmBefore,
+			@RequestParam("actorUnpaidbreakFlag") String unpaidbreakFlag, @RequestParam("actorTaxRate") float taxRate,
+			@RequestParam("actorBasicWage") float basicWage, @RequestParam("actorBgColor") String bgColor,
+			@RequestParam("actorPhone1") String phone1, @RequestParam("actorPhone2") String phone2,
+			@RequestParam("actorAddr1") String addr1, @RequestParam("actorAddr2") String addr2,
+			@RequestParam("actorAddr3") String addr3) {
+
+		lgr.debug(CC.GETTING_INTO_2 + "updateActorCont");
+
+		lgr.debug("actorSeq: " + actorSeq);
+		lgr.debug("actorName: " + name);
+		lgr.debug("actorMemo: " + memo);
+		lgr.debug("actorPeriodFrom: " + periodFrom);
+		lgr.debug("actorPeriodTo: " + periodTo);
+		lgr.debug("actorWorktimeUnit: " + worktimeUnit);
+		lgr.debug("actorAlarmBefore: " + alarmBefore);
+		lgr.debug("actorUnpaidbreakFlag: " + unpaidbreakFlag);
+		lgr.debug("actorTaxRate: " + taxRate);
+		lgr.debug("actorBasicWage: " + basicWage);
+		lgr.debug("actorBgColor: " + bgColor);
+		lgr.debug("actorPhone1: " + phone1);
+		lgr.debug("actorPhone2: " + phone2);
+		lgr.debug("actorAddr1: " + addr1);
+		lgr.debug("actorAddr2: " + addr2);
+		lgr.debug("actorAddr3: " + addr3);
+
+		ActorEty actor = new ActorEty(actorSeq, name, memo, periodFrom, periodTo, worktimeUnit, alarmBefore,
+				unpaidbreakFlag, taxRate, basicWage, bgColor, phone1, phone2, addr1, addr2, addr3);
+
+		int updateActorResult = actorBiz.updateActorBiz(actor);
+
+		lgr.debug(CC.GETTING_OUT_2 + "updateActorCont");
+		return CC.gson.toJson(updateActorResult);
 	}
 }

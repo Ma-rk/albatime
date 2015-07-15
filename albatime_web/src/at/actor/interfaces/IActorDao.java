@@ -1,7 +1,6 @@
 package at.actor.interfaces;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -13,5 +12,7 @@ public interface IActorDao {
 	int insertActor(ActorEty actor);
 
 	List<ActorEty> retireveActorList(long userId);
+
+	int updateActorBiz(ActorEty actor);
 
 }
