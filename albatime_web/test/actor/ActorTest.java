@@ -23,8 +23,8 @@ public class ActorTest {
 
 	@Test
 	public void createActorTest() {
-		String inserActorResult = actorCont.createActor(1l, null, "ACTOR", "02-000-1111", "010-9999-2222", "경기 성남", "분당 삼평", "넥스트");
-		lgr.debug(inserActorResult);
+//		String inserActorResult = actorCont.createActor(1l, null, "ACTOR", "02-000-1111", "010-9999-2222", "경기 성남", "분당 삼평", "넥스트");
+//		lgr.debug(inserActorResult);
 	}
 	
 	@Test
