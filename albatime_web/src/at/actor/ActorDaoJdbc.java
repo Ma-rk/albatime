@@ -56,7 +56,7 @@ public class ActorDaoJdbc implements IActorDao {
 		RowMapper<ActorEty> rowMapper = new RowMapper<ActorEty>() {
 			public ActorEty mapRow(ResultSet rs, int rowNum) {
 				try {
-					return new ActorEty(rs.getLong("ac_seq"), rs.getLong("ac_usr"), rs.getString("ac_name"),
+					return new ActorEty(rs.getLong("ac_seq"), rs.getLong("ac_usr_id"), rs.getString("ac_name"),
 							rs.getString("ac_memo"), rs.getString("ac_period_from"), rs.getString("ac_period_to"),
 							rs.getInt("ac_worktime_unit"), rs.getInt("ac_alarm_before"),
 							rs.getString("ac_unpaidbreak_flag"), rs.getFloat("ac_tax_rate"),

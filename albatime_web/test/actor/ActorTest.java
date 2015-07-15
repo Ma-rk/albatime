@@ -1,7 +1,5 @@
 package actor;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -10,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import at.account.AccountCont;
 import at.actor.ActorCont;
 
 
@@ -29,7 +26,7 @@ public class ActorTest {
 	
 	@Test
 	public void retrieveActorsTest() {
-		String retrieveActors = actorCont.retrieveActorList(1l);
+		String retrieveActors = actorCont.retrieveActorListCont(1l);
 		lgr.debug(retrieveActors);
 	}
 

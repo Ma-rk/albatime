@@ -38,12 +38,14 @@ public class ActorBizImpl implements IActorBiz {
 	 * functional methods
 	 */
 
-	public int insertActor(ActorEty actor) {
+	public int insertActorBiz(ActorEty actor) {
+		lgr.debug(CC.GETTING_INTO_4 + "insertActorBiz");
 		actor.setStusAsNormal();
+		lgr.debug(CC.GETTING_OUT_4 + "insertActorBiz");
 		return actorDao.insertActor(actor);
 	}
 
-	public List<ActorEty> retireveActorList(long userId) {
+	public List<ActorEty> retireveActorListBiz(long userId) {
 		return actorDao.retireveActorList(userId);
 	}
 

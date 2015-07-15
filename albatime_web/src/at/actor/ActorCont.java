@@ -60,20 +60,20 @@ public class ActorCont {
 		ActorEty actor = new ActorEty(userId, name, memo, periodFrom, periodTo, worktimeUnit, alarmBefore, unpaidbreakFlag,
 				taxRate, basicWage, bgColor, phone1, phone2, addr1, addr2, addr3);
 
-		int inserActorResult = actorBiz.insertActor(actor);
+		int inserActorResult = actorBiz.insertActorBiz(actor);
 
 		lgr.debug(CC.GETTING_OUT_2 + "createActor");
 		return CC.gson.toJson(inserActorResult);
 	}
 
 	@RequestMapping(value = "/api/actor", produces = "application/json", method = RequestMethod.GET)
-	public @ResponseBody String retrieveActorList(@CookieValue("userIdInCookie") long userId) {
-		lgr.debug(CC.GETTING_INTO_2 + "createActor");
+	public @ResponseBody String retrieveActorListCont(@CookieValue("userIdInCookie") long userId) {
+		lgr.debug(CC.GETTING_INTO_2 + "retrieveActorListCont");
 		lgr.debug("actorUserId: " + userId);
 
-		List<ActorEty> actorList = actorBiz.retireveActorList(userId);
+		List<ActorEty> actorList = actorBiz.retireveActorListBiz(userId);
 
-		lgr.debug(CC.GETTING_OUT_2 + "createActor");
+		lgr.debug(CC.GETTING_OUT_2 + "retrieveActorListCont");
 		return CC.gson.toJson(actorList);
 	}
 }

@@ -27,11 +27,11 @@ public class ActorBizTx implements IActorBiz {
 	 * functional methods
 	 */
 
-	public int insertActor(ActorEty actor) {
-		return actorBiz.insertActor(actor);
+	public int insertActorBiz(ActorEty actor) {
+		return actorBiz.insertActorBiz(actor);
 	}
 
-	public List<ActorEty> retireveActorList(long userId) {
-		return actorBiz.retireveActorList(userId);
+	public List<ActorEty> retireveActorListBiz(long userId) {
+		return actorBiz.retireveActorListBiz(userId);
 	}
 }

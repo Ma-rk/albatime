@@ -6,8 +6,8 @@ import at.model.ActorEty;
 
 public interface IActorBiz {
 
-	int insertActor(ActorEty actor);
+	int insertActorBiz(ActorEty actor);
 
-	List<ActorEty> retireveActorList(long userId);
+	List<ActorEty> retireveActorListBiz(long userId);
 
 }
