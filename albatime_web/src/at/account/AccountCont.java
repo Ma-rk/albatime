@@ -28,7 +28,7 @@ public class AccountCont {
 	public @ResponseBody String registerUserCont(@RequestParam("email") String email, @RequestParam("pw") String pw,
 			@RequestParam("nick") String nick, @RequestParam("gender") String gender,
 			@RequestParam("birth") String birth, @RequestParam("type") String type) {
-		lgr.debug(CC.GETTING_INTO_2 + "login");
+		lgr.debug(CC.GETTING_INTO_2 + "registerUserCont");
 
 		lgr.debug("email: " + email);
 		lgr.debug("pw: " + pw);
@@ -41,7 +41,7 @@ public class AccountCont {
 		int registerResult = accountBiz.registerUserBiz(userEty);
 
 		lgr.debug("registerResult: " + registerResult);
-		lgr.debug(CC.GETTING_OUT_2 + "login");
+		lgr.debug(CC.GETTING_OUT_2 + "registerUserCont");
 
 		return CC.gson.toJson(Integer.toString(registerResult));
 	}
