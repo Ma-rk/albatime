@@ -45,4 +45,18 @@ public class AccountCont {
 
 		return CC.gson.toJson(Integer.toString(registerResult));
 	}
+
+	@RequestMapping(value = CC.API_ACCOUNT, produces = "application/json", method = RequestMethod.GET)
+	public @ResponseBody String checkEmailExistanceCont(@RequestParam("email") String email) {
+		lgr.debug(CC.GETTING_INTO_2 + "checkEmailExistanceCont");
+
+		lgr.debug("email: " + email);
+
+		int emailCount = accountBiz.getEmailCountBiz(email);
+
+		lgr.debug("emailCount: " + emailCount);
+		lgr.debug(CC.GETTING_OUT_2 + "checkEmailExistanceCont");
+
+		return CC.gson.toJson(Integer.toString(emailCount));
+	}
 }

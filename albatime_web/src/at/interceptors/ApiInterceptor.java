@@ -36,6 +36,9 @@ public class ApiInterceptor implements HandlerInterceptor {
 		if (request.getRequestURI().toString().equals(CC.API_ACCOUNT) && request.getMethod().equals("POST")) {
 			lgr.debug("registering. not checking http header.");
 			return true;
+		} else if (request.getRequestURI().equals(CC.API_ACCOUNT) && request.getMethod().equals("GET")) {
+			lgr.debug("request for checking email existance. not checking http header.");
+			return true;
 		} else if (request.getRequestURI().equals(CC.PAGE_LOGIN) && request.getMethod().equals("GET")) {
 			lgr.debug("login form requested. not checking http header.");
 			return true;
@@ -48,7 +51,7 @@ public class ApiInterceptor implements HandlerInterceptor {
 		String jwToken = CookieMgr.getCookie(request.getCookies(), CC.JWT_TOKEN);
 		if (jwToken == null) {
 			lgr.debug("cookie has no jwToken. redirect to login.html");
-			response.sendRedirect("/html/login.html");
+			response.sendRedirect(CC.PAGE_LOGIN);
 			return false;
 		}
 
@@ -56,14 +59,14 @@ public class ApiInterceptor implements HandlerInterceptor {
 		String userTokenSeqInCookie = CookieMgr.getCookie(request.getCookies(), CC.USER_TOKEN_SEQ_IN_COOKIE);
 		if (userTokenSeqInCookie == null || userTokenSeqInCookie.isEmpty()) {
 			lgr.debug("cookie has no token seq. redirect to login.html");
-			response.sendRedirect("/html/login.html");
+			response.sendRedirect(CC.PAGE_LOGIN);
 			return false;
 		}
 
 		String userIdFromCookie = CookieMgr.getCookie(request.getCookies(), CC.USER_ID_IN_COOKIE);
 		if (userIdFromCookie == null || userIdFromCookie.isEmpty()) {
 			lgr.debug("cookie has no userId. redirect to login.html");
-			response.sendRedirect("/html/login.html");
+			response.sendRedirect(CC.PAGE_LOGIN);
 			return false;
 		}
 
@@ -73,7 +76,7 @@ public class ApiInterceptor implements HandlerInterceptor {
 
 		if (jwTokenKey == null || jwTokenKey.isEmpty()) {
 			lgr.debug("tb_token has no jwTokenKey for the user, cookie key. redirect to login.html");
-			response.sendRedirect("/html/login.html");
+			response.sendRedirect(CC.PAGE_LOGIN);
 			return false;
 		}
 
@@ -81,7 +84,7 @@ public class ApiInterceptor implements HandlerInterceptor {
 		TokenEty tokenEty = JwtMgr.verifyToken(jwToken, jwTokenKey);
 		if (tokenEty == null) {
 			lgr.debug("the jwToken couldn't be verified. redirect to login.html");
-			response.sendRedirect("/html/login.html");
+			response.sendRedirect(CC.PAGE_LOGIN);
 			return false;
 		}
 
@@ -89,7 +92,7 @@ public class ApiInterceptor implements HandlerInterceptor {
 
 		if (!userIdFromTk.equals(Long.parseLong(userIdFromCookie))) {
 			lgr.debug("the jwToken has wrong user info. redirect to login.html");
-			response.sendRedirect("/html/login.html");
+			response.sendRedirect(CC.PAGE_LOGIN);
 			return false;
 		}
 

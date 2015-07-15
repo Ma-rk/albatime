@@ -31,6 +31,13 @@ public class AccountBizImpl implements IAccountBiz {
 		return registerUserResult;
 	}
 
+	public int getEmailCountBiz(String email) {
+		lgr.debug(CC.GETTING_INTO_4 + "checkEmailExistanceBiz");
+		int emailCount = this.accountDao.getEmailCountDao(email);
+		lgr.debug(CC.GETTING_OUT_4 + "checkEmailExistanceBiz");
+		return emailCount;
+	}
+
 	/*
 	 * supporting methods
 	 */

@@ -8,4 +8,6 @@ public interface IAccountDao {
 	void setDataSource(DataSource dataSource);
 
 	int registerUserDao(UserEty user);
+
+	int getEmailCountDao(String email);
 }
