@@ -23,15 +23,19 @@ public class CC {
 	public static final String GETTING_INTO_6 = "======>";
 	public static final String GETTING_OUT_6 = "<======";
 
-	public static final String ACTOR_STUS_NORMAL = "ACT_STA_01";
-	public static final String ACTOR_STUS_DELETED = "ACT_STA_02";
+	public static final String ACTOR_STUS_NORMAL = "ACT_STU_01";
+	public static final String ACTOR_STUS_DELETED = "ACT_STU_02";
 	
-	public static final String ACCOUNT_STUS_NORMAL = "USR_STA_01";
-	public static final String ACCOUNT_STUS_DEACTIVATED = "USR_STA_02";
+	public static final String ACCOUNT_STUS_NORMAL = "ACC_STU_01";
+	public static final String ACCOUNT_STUS_DEACTIVATED = "ACC_STU_02";
 	
-	public static final String ACCOUNT_TYPE_ALBA = "USR_TYP_01";
-	public static final String ACCOUNT_TYPE_OWNER = "USR_TYP_02";
+	public static final String USER_TYPE_ALBA = "USR_TYP_01";
+	public static final String USER_TYPE_OWNER = "USR_TYP_02";
 
-	public static final String TOKEN_STUS_NORMAL = "TKN_STA_01";
-	public static final String TOKEN_STUS_EXPIRED = "TKN_STA_02";
+	public static final String USER_SEX_MAIL = "USR_SEX_01";
+	public static final String USER_SEX_FEMAIL = "USR_SEX_02";
+	public static final String USER_SEX_ETC = "USR_SEX_03";
+
+	public static final String TOKEN_STUS_NORMAL = "TKN_STU_01";
+	public static final String TOKEN_STUS_EXPIRED = "TKN_STU_02";
 }
