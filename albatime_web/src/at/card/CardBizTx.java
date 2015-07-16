@@ -1,5 +1,9 @@
 package at.card;
 
+import java.util.List;
+
+import javax.smartcardio.Card;
+
 import org.springframework.transaction.PlatformTransactionManager;
 
 import at.card.interfaces.ICardBiz;
@@ -26,6 +30,10 @@ public class CardBizTx implements ICardBiz {
 	 */
 	public int createCardBiz(CardEty card) {
 		return cardBiz.createCardBiz(card);
+	}
+
+	public List<CardEty> retireveCardListBiz(CardEty card) {
+		return cardBiz.retireveCardListBiz(card);
 	}
 
 }

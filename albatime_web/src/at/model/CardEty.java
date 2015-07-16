@@ -14,6 +14,22 @@ public class CardEty {
 	private String created;
 	private String edited;
 
+	public CardEty() {}
+
+	public CardEty(long seq, long actorSeq, String name, String memo, String timeFrom, String timeTo,
+			int unpaidbreakMin, String stus, String created, String edited) {
+		this.seq = seq;
+		this.actorSeq = actorSeq;
+		this.name = name;
+		this.memo = memo;
+		this.timeFrom = timeFrom;
+		this.timeTo = timeTo;
+		this.unpaidbreakMin = unpaidbreakMin;
+		this.stus = stus;
+		this.created = created;
+		this.edited = edited;
+	}
+
 	public void setAsNormalStus() {
 		this.stus = CC.CARD_STUS_NORMAL;
 	}

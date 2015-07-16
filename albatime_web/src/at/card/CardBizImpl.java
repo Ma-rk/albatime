@@ -1,5 +1,7 @@
 package at.card;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,5 +30,12 @@ public class CardBizImpl implements ICardBiz {
 		int insertCardResult = cardDao.insertCardBiz(card);
 		lgr.debug(CC.GETTING_OUT_4 + "createCardBiz");
 		return insertCardResult;
+	}
+
+	public List<CardEty> retireveCardListBiz(CardEty card) {
+		lgr.debug(CC.GETTING_INTO_4 + "retireveCardListBiz");
+		List<CardEty> cardList = cardDao.retrieveCardListDao(card);
+		lgr.debug(CC.GETTING_OUT_4 + "retireveCardListBiz");
+		return cardList;
 	}
 }

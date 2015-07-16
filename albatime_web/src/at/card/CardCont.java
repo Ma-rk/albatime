@@ -1,9 +1,10 @@
 package at.card;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,7 +29,7 @@ public class CardCont {
 	 * functional methods
 	 */
 	@RequestMapping(value = CC.API_CARD, produces = "application/json", method = RequestMethod.POST)
-	public @ResponseBody String createCardCont(@CookieValue("userIdInCookie") long userId, CardEty card) {
+	public @ResponseBody String createCardCont(CardEty card) {
 		lgr.debug(CC.GETTING_INTO_2 + "createCardCont");
 		lgr.debug(card.toString());
 
@@ -36,5 +37,16 @@ public class CardCont {
 
 		lgr.debug(CC.GETTING_OUT_2 + "createCardCont");
 		return CC.gson.toJson(inserActorResult);
+	}
+
+	@RequestMapping(value = CC.API_CARD, produces = "application/json", method = RequestMethod.GET)
+	public @ResponseBody String retrieveCardListCont(CardEty card) {
+		lgr.debug(CC.GETTING_INTO_2 + "retrieveCardListCont");
+		lgr.debug(card.toString());
+
+		List<CardEty> cardList = cardBiz.retireveCardListBiz(card);
+
+		lgr.debug(CC.GETTING_OUT_2 + "retrieveCardListCont");
+		return CC.gson.toJson(cardList);
 	}
 }
