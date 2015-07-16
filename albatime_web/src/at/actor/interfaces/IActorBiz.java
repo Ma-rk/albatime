@@ -12,5 +12,5 @@ public interface IActorBiz {
 
 	int updateActorBiz(ActorEty actor);
 
-	int deleteActorBiz(long actorSeq, long userId);
+	int deleteActorBiz(ActorEty actor);
 }

@@ -76,15 +76,15 @@ public class ActorDaoJdbc implements IActorDao {
 				actor.getMemo(), actor.getPeriodFrom(), actor.getPeriodTo(), actor.getWorkTimeUnit(),
 				actor.getAlarmBefore(), actor.getUnpaidbreakFlag(), actor.getTaxRate(), actor.getBasicWage(),
 				actor.getBgColor(), actor.getPhone1(), actor.getPhone2(), actor.getAddr1(), actor.getAddr2(),
-				actor.getAddr3(), actor.getStus(), actor.getUserId());
+				actor.getAddr3(), actor.getSeq(), actor.getUserId());
 		lgr.debug("updateActorBiz result: [{}]", updateActorResult);
 		lgr.debug(CC.GETTING_OUT_6 + "updateActorDao");
 		return updateActorResult;
 	}
 
-	public int deleteActorDao(long actorSeq, long userId) {
+	public int deleteActorDao(ActorEty actor) {
 		lgr.debug(CC.GETTING_INTO_6 + "deleteActorDao");
-		int deleteActorResult = this.jdbcTemplate.update(this.sqls.getSql("actorDeleteActor"), CC.ACTOR_STUS_DELETED, actorSeq, userId);
+		int deleteActorResult = this.jdbcTemplate.update(this.sqls.getSql("actorDeleteActor"), CC.ACTOR_STUS_DELETED, actor.getSeq(), actor.getUserId());
 		lgr.debug("deleteActorDao result: [{}]", deleteActorResult);
 		lgr.debug(CC.GETTING_OUT_6 + "deleteActorDao");
 		return deleteActorResult;

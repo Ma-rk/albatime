@@ -39,7 +39,7 @@ public class ActorBizTx implements IActorBiz {
 		return actorBiz.updateActorBiz(actor);
 	}
 
-	public int deleteActorBiz(long actorSeq, long userId) {
-		return actorBiz.deleteActorBiz(actorSeq, userId);
+	public int deleteActorBiz(ActorEty actor) {
+		return actorBiz.deleteActorBiz(actor);
 	}
 }

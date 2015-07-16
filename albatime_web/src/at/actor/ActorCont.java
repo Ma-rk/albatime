@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import at.actor.interfaces.IActorBiz;
@@ -27,37 +27,10 @@ public class ActorCont {
 	}
 
 	@RequestMapping(value = "/api/actor", produces = "application/json", method = RequestMethod.POST)
-	public @ResponseBody String createActorCont(@CookieValue("userIdInCookie") long userId,
-			@RequestParam("actorName") String name, @RequestParam("actorMemo") String memo,
-			@RequestParam("actorPeriodFrom") String periodFrom, @RequestParam("actorPeriodTo") String periodTo,
-			@RequestParam("actorWorktimeUnit") int worktimeUnit, @RequestParam("actorAlarmBefore") int alarmBefore,
-			@RequestParam("actorUnpaidbreakFlag") String unpaidbreakFlag, @RequestParam("actorTaxRate") float taxRate,
-			@RequestParam("actorBasicWage") float basicWage, @RequestParam("actorBgColor") String bgColor,
-			@RequestParam("actorPhone1") String phone1, @RequestParam("actorPhone2") String phone2,
-			@RequestParam("actorAddr1") String addr1, @RequestParam("actorAddr2") String addr2,
-			@RequestParam("actorAddr3") String addr3) {
-
+	public @ResponseBody String createActorCont(@CookieValue("userIdInCookie") long userId, ActorEty actor) {
 		lgr.debug(CC.GETTING_INTO_2 + "createActor");
-
-		lgr.debug("actorUserId: " + userId);
-		lgr.debug("actorName: " + name);
-		lgr.debug("actorMemo: " + memo);
-		lgr.debug("actorPeriodFrom: " + periodFrom);
-		lgr.debug("actorPeriodTo: " + periodTo);
-		lgr.debug("actorWorktimeUnit: " + worktimeUnit);
-		lgr.debug("actorAlarmBefore: " + alarmBefore);
-		lgr.debug("actorUnpaidbreakFlag: " + unpaidbreakFlag);
-		lgr.debug("actorTaxRate: " + taxRate);
-		lgr.debug("actorBasicWage: " + basicWage);
-		lgr.debug("actorBgColor: " + bgColor);
-		lgr.debug("actorPhone1: " + phone1);
-		lgr.debug("actorPhone2: " + phone2);
-		lgr.debug("actorAddr1: " + addr1);
-		lgr.debug("actorAddr2: " + addr2);
-		lgr.debug("actorAddr3: " + addr3);
-
-		ActorEty actor = new ActorEty(userId, name, memo, periodFrom, periodTo, worktimeUnit, alarmBefore,
-				unpaidbreakFlag, taxRate, basicWage, bgColor, phone1, phone2, addr1, addr2, addr3);
+		actor.setUserId(userId);
+		lgr.debug(actor.toString());
 
 		int inserActorResult = actorBiz.insertActorBiz(actor);
 
@@ -68,7 +41,7 @@ public class ActorCont {
 	@RequestMapping(value = "/api/actor", produces = "application/json", method = RequestMethod.GET)
 	public @ResponseBody String retrieveActorListCont(@CookieValue("userIdInCookie") long userId) {
 		lgr.debug(CC.GETTING_INTO_2 + "retrieveActorListCont");
-		lgr.debug("actorUserId: " + userId);
+		lgr.debug("retrieving actors of user [{}]", userId);
 
 		List<ActorEty> actorList = actorBiz.retireveActorListBiz(userId);
 
@@ -77,37 +50,10 @@ public class ActorCont {
 	}
 
 	@RequestMapping(value = "/api/actor", produces = "application/json", method = RequestMethod.PUT)
-	public @ResponseBody String updateActorCont(@RequestParam("actorSeq") long actorSeq,
-			@RequestParam("actorName") String name, @RequestParam("actorMemo") String memo,
-			@RequestParam("actorPeriodFrom") String periodFrom, @RequestParam("actorPeriodTo") String periodTo,
-			@RequestParam("actorWorktimeUnit") int worktimeUnit, @RequestParam("actorAlarmBefore") int alarmBefore,
-			@RequestParam("actorUnpaidbreakFlag") String unpaidbreakFlag, @RequestParam("actorTaxRate") float taxRate,
-			@RequestParam("actorBasicWage") float basicWage, @RequestParam("actorBgColor") String bgColor,
-			@RequestParam("actorPhone1") String phone1, @RequestParam("actorPhone2") String phone2,
-			@RequestParam("actorAddr1") String addr1, @RequestParam("actorAddr2") String addr2,
-			@RequestParam("actorAddr3") String addr3) {
-
+	public @ResponseBody String updateActorCont(@CookieValue("userIdInCookie") long userId, ActorEty actor) {
 		lgr.debug(CC.GETTING_INTO_2 + "updateActorCont");
-
-		lgr.debug("actorSeq: " + actorSeq);
-		lgr.debug("actorName: " + name);
-		lgr.debug("actorMemo: " + memo);
-		lgr.debug("actorPeriodFrom: " + periodFrom);
-		lgr.debug("actorPeriodTo: " + periodTo);
-		lgr.debug("actorWorktimeUnit: " + worktimeUnit);
-		lgr.debug("actorAlarmBefore: " + alarmBefore);
-		lgr.debug("actorUnpaidbreakFlag: " + unpaidbreakFlag);
-		lgr.debug("actorTaxRate: " + taxRate);
-		lgr.debug("actorBasicWage: " + basicWage);
-		lgr.debug("actorBgColor: " + bgColor);
-		lgr.debug("actorPhone1: " + phone1);
-		lgr.debug("actorPhone2: " + phone2);
-		lgr.debug("actorAddr1: " + addr1);
-		lgr.debug("actorAddr2: " + addr2);
-		lgr.debug("actorAddr3: " + addr3);
-
-		ActorEty actor = new ActorEty(actorSeq, name, memo, periodFrom, periodTo, worktimeUnit, alarmBefore,
-				unpaidbreakFlag, taxRate, basicWage, bgColor, phone1, phone2, addr1, addr2, addr3);
+		actor.setUserId(userId);
+		lgr.debug(actor.toString());
 
 		int updateActorResult = actorBiz.updateActorBiz(actor);
 
@@ -116,12 +62,12 @@ public class ActorCont {
 	}
 
 	@RequestMapping(value = "/api/actor", produces = "application/json", method = RequestMethod.DELETE)
-	public @ResponseBody String deleteActorCont(@RequestParam("actorSeq") long actorSeq,
-			@CookieValue("userIdInCookie") long userId) {
+	public @ResponseBody String deleteActorCont(ActorEty actor, @CookieValue("userIdInCookie") long userId) {
 		lgr.debug(CC.GETTING_INTO_2 + "deleteActorCont");
-		lgr.debug("deleting actor... Seq [{}]", actorSeq);
+		actor.setUserId(userId);
+		lgr.debug("deleting actor... Seq [{}] of user [{}]", actor.getSeq(), actor.getUserId());
 
-		int updateActorResult = actorBiz.deleteActorBiz(actorSeq, userId);
+		int updateActorResult = actorBiz.deleteActorBiz(actor);
 
 		lgr.debug(CC.GETTING_OUT_2 + "deleteActorCont");
 		return CC.gson.toJson(updateActorResult);

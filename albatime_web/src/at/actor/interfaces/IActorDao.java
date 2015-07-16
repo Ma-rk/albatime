@@ -15,5 +15,5 @@ public interface IActorDao {
 
 	int updateActorDao(ActorEty actor);
 
-	int deleteActorDao(long actorSeq, long userId);
+	int deleteActorDao(ActorEty actor);
 }
