@@ -60,6 +60,9 @@ public class ActorEty {
 		this.stus = CC.ACTOR_STUS_DELETED;
 	}
 
+	/*
+	 * getters and setters
+	 */
 	public long getSeq() {
 		return seq;
 	}
