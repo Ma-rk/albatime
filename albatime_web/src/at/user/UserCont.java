@@ -33,7 +33,7 @@ public class UserCont {
 	}
 
 	@RequestMapping(value = "/api/login", produces = "application/json", method = RequestMethod.POST)
-	public @ResponseBody String login(HttpServletResponse response, @RequestParam("email") String email,
+	public @ResponseBody String login(HttpServletResponse response, String email,
 			@RequestParam("pw") String pw) {
 		lgr.debug(CC.GETTING_INTO_2 + "login");
 		lgr.debug("email: " + email);
