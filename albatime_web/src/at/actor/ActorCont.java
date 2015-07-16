@@ -114,4 +114,16 @@ public class ActorCont {
 		lgr.debug(CC.GETTING_OUT_2 + "updateActorCont");
 		return CC.gson.toJson(updateActorResult);
 	}
+
+	@RequestMapping(value = "/api/actor", produces = "application/json", method = RequestMethod.DELETE)
+	public @ResponseBody String deleteActorCont(@RequestParam("actorSeq") long actorSeq,
+			@CookieValue("userIdInCookie") long userId) {
+		lgr.debug(CC.GETTING_INTO_2 + "deleteActorCont");
+		lgr.debug("deleting actor... Seq [{}]", actorSeq);
+
+		int updateActorResult = actorBiz.deleteActorBiz(actorSeq, userId);
+
+		lgr.debug(CC.GETTING_OUT_2 + "deleteActorCont");
+		return CC.gson.toJson(updateActorResult);
+	}
 }

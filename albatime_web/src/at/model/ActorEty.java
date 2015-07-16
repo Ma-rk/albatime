@@ -47,7 +47,8 @@ public class ActorEty {
 
 	public ActorEty(long seq, long userId, String name, String memo, String periodFrom, String periodTo,
 			int workTimeUnit, int alarmBefore, String unpaidbreakFlag, float taxRate, float basicWage, String bgColor,
-			String phone1, String phone2, String addr1, String addr2, String addr3, String stus, String created, String edited) {
+			String phone1, String phone2, String addr1, String addr2, String addr3, String stus, String created,
+			String edited) {
 		this.seq = seq;
 		this.userId = userId;
 		this.name = name;
@@ -70,11 +71,11 @@ public class ActorEty {
 		this.edited = edited;
 	}
 
-	public void setStusAsNormal() {
+	public void setAsNormalStus() {
 		this.stus = CC.ACTOR_STUS_NORMAL;
 	}
 
-	public void setStusAsDeleted() {
+	public void setAsDeactivatedStus() {
 		this.stus = CC.ACTOR_STUS_DELETED;
 	}
 

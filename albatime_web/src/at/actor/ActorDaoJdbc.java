@@ -48,9 +48,8 @@ public class ActorDaoJdbc implements IActorDao {
 		return insertActorResult;
 	}
 
-	@Override
-	public List<ActorEty> retireveActorList(long userId) {
-		lgr.debug(CC.GETTING_INTO_6 + "retireveActorList");
+	public List<ActorEty> retireveActorListDao(long userId) {
+		lgr.debug(CC.GETTING_INTO_6 + "retireveActorListDao");
 		RowMapper<ActorEty> rowMapper = new RowMapper<ActorEty>() {
 			public ActorEty mapRow(ResultSet rs, int rowNum) {
 				try {
@@ -67,19 +66,27 @@ public class ActorDaoJdbc implements IActorDao {
 				}
 			}
 		};
-		lgr.debug(CC.GETTING_OUT_6 + "retireveActorList");
+		lgr.debug(CC.GETTING_OUT_6 + "retireveActorListDao");
 		return this.jdbcTemplate.query(this.sqls.getSql("actorRetrieveActors"), rowMapper, userId);
 	}
 
-	public int updateActorBiz(ActorEty actor) {
-		lgr.debug(CC.GETTING_INTO_6 + "updateActorBiz");
-		int insertActorResult = this.jdbcTemplate.update(this.sqls.getSql("actorUpdateActor"), actor.getName(),
+	public int updateActorDao(ActorEty actor) {
+		lgr.debug(CC.GETTING_INTO_6 + "updateActorDao");
+		int updateActorResult = this.jdbcTemplate.update(this.sqls.getSql("actorUpdateActor"), actor.getName(),
 				actor.getMemo(), actor.getPeriodFrom(), actor.getPeriodTo(), actor.getWorkTimeUnit(),
 				actor.getAlarmBefore(), actor.getUnpaidbreakFlag(), actor.getTaxRate(), actor.getBasicWage(),
 				actor.getBgColor(), actor.getPhone1(), actor.getPhone2(), actor.getAddr1(), actor.getAddr2(),
 				actor.getAddr3(), actor.getStus(), actor.getUserId());
-		lgr.debug("updateActorBiz result: [{}]", insertActorResult);
-		lgr.debug(CC.GETTING_OUT_6 + "updateActorBiz");
-		return insertActorResult;
+		lgr.debug("updateActorBiz result: [{}]", updateActorResult);
+		lgr.debug(CC.GETTING_OUT_6 + "updateActorDao");
+		return updateActorResult;
+	}
+
+	public int deleteActorDao(long actorSeq, long userId) {
+		lgr.debug(CC.GETTING_INTO_6 + "deleteActorDao");
+		int deleteActorResult = this.jdbcTemplate.update(this.sqls.getSql("actorDeleteActor"), CC.ACTOR_STUS_DELETED, actorSeq, userId);
+		lgr.debug("deleteActorDao result: [{}]", deleteActorResult);
+		lgr.debug(CC.GETTING_OUT_6 + "deleteActorDao");
+		return deleteActorResult;
 	}
 }

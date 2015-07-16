@@ -40,21 +40,28 @@ public class ActorBizImpl implements IActorBiz {
 
 	public int insertActorBiz(ActorEty actor) {
 		lgr.debug(CC.GETTING_INTO_4 + "insertActorBiz");
-		actor.setStusAsNormal();
+		actor.setAsNormalStus();
 		lgr.debug(CC.GETTING_OUT_4 + "insertActorBiz");
 		return actorDao.insertActor(actor);
 	}
 
 	public List<ActorEty> retireveActorListBiz(long userId) {
-		return actorDao.retireveActorList(userId);
+		return actorDao.retireveActorListDao(userId);
 	}
 
-	@Override
 	public int updateActorBiz(ActorEty actor) {
 		lgr.debug(CC.GETTING_INTO_4 + "updateActorBiz");
-		int updateActorResult = actorDao.updateActorBiz(actor);
+		int updateActorResult = actorDao.updateActorDao(actor);
 		lgr.debug(CC.GETTING_OUT_4 + "updateActorBiz");
 		return updateActorResult;
+	}
+
+	public int deleteActorBiz(long actorSeq, long userId) {
+		lgr.debug(CC.GETTING_INTO_4 + "deleteActorBiz");
+		lgr.debug("deleting User [{}]'s Actor [{}]", userId, actorSeq);
+		int deleteActorResult = actorDao.deleteActorDao(actorSeq, userId);
+		lgr.debug(CC.GETTING_OUT_4 + "deleteActorBiz");
+		return deleteActorResult;
 	}
 
 	/*

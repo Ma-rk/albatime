@@ -35,8 +35,11 @@ public class ActorBizTx implements IActorBiz {
 		return actorBiz.retireveActorListBiz(userId);
 	}
 
-	@Override
 	public int updateActorBiz(ActorEty actor) {
 		return actorBiz.updateActorBiz(actor);
+	}
+
+	public int deleteActorBiz(long actorSeq, long userId) {
+		return actorBiz.deleteActorBiz(actorSeq, userId);
 	}
 }
