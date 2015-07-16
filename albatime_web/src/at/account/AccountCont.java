@@ -25,38 +25,26 @@ public class AccountCont {
 	}
 
 	@RequestMapping(value = CC.API_ACCOUNT, produces = "application/json", method = RequestMethod.POST)
-	public @ResponseBody String registerUserCont(@RequestParam("email") String email, @RequestParam("pw") String pw,
-			@RequestParam("nick") String nick, @RequestParam("gender") String gender,
-			@RequestParam("birth") String birth, @RequestParam("type") String type) {
+	public @ResponseBody String registerUserCont(UserEty userEty) {
 		lgr.debug(CC.GETTING_INTO_2 + "registerUserCont");
+		lgr.debug(userEty.toString());
 
-		lgr.debug("email: " + email);
-		lgr.debug("pw: " + pw);
-		lgr.debug("nick: " + nick);
-		lgr.debug("gender: " + gender);
-		lgr.debug("birth: " + birth);
-		lgr.debug("type: " + type);
-
-		UserEty userEty = new UserEty(email, pw, nick, gender, birth, type);
 		int registerResult = accountBiz.registerUserBiz(userEty);
 
 		lgr.debug("registerResult: " + registerResult);
 		lgr.debug(CC.GETTING_OUT_2 + "registerUserCont");
-
 		return CC.gson.toJson(Integer.toString(registerResult));
 	}
 
 	@RequestMapping(value = CC.API_ACCOUNT, produces = "application/json", method = RequestMethod.GET)
 	public @ResponseBody String checkEmailExistanceCont(@RequestParam("email") String email) {
 		lgr.debug(CC.GETTING_INTO_2 + "checkEmailExistanceCont");
-
 		lgr.debug("email: " + email);
 
 		int emailCount = accountBiz.getEmailCountBiz(email);
 
 		lgr.debug("emailCount: " + emailCount);
 		lgr.debug(CC.GETTING_OUT_2 + "checkEmailExistanceCont");
-
 		return CC.gson.toJson(Integer.toString(emailCount));
 	}
 }

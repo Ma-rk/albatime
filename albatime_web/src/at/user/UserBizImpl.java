@@ -50,7 +50,7 @@ public class UserBizImpl implements IUserBiz {
 		int insertJwTokenResult = this.userDao.insertJwTokenKey(new TokenKeyEty(userInfo.getId(), jwTokenKey));
 		if (insertJwTokenResult == 1) {
 			long jwTokenKeySeq = comDao.getLastInsertId();
-			userInfo.setUserTkSeq(jwTokenKeySeq);
+			userInfo.setUserJwTokenKeySeq(jwTokenKeySeq);
 		}
 		lgr.debug(CC.GETTING_OUT_4 + "loginImpl");
 		return userInfo;

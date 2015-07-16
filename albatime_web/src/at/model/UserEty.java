@@ -15,22 +15,11 @@ public class UserEty {
 	private String currentJwToken;
 	private long userJwTokenKeySeq;
 
-	public UserEty(String email) {
-		this.email = email;
-	}
+	public UserEty() {}
 
 	public UserEty(String email, String pw) {
 		this.email = email;
 		this.pw = pw;
-	}
-
-	public UserEty(String email, String pw, String nick, String gender, String birth, String type) {
-		this.email = email;
-		this.pw = pw;
-		this.nick = nick;
-		this.gender = gender;
-		this.birth = birth;
-		this.type = type;;
 	}
 
 	public UserEty(long id, String email, String nick, String gender, String birth, String type, String stus) {
@@ -54,12 +43,76 @@ public class UserEty {
 	/*
 	 * getters and setters
 	 */
-	public long getUserJwTokenKeySeq() {
-		return userJwTokenKeySeq;
+	public long getId() {
+		return id;
 	}
 
-	public void setUserTkSeq(long userJwTokenKeySeq) {
-		this.userJwTokenKeySeq = userJwTokenKeySeq;
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPw() {
+		return pw;
+	}
+
+	public void setPw(String pw) {
+		this.pw = pw;
+	}
+
+	public String getNick() {
+		return nick;
+	}
+
+	public void setNick(String nick) {
+		this.nick = nick;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getBirth() {
+		return birth;
+	}
+
+	public void setBirth(String birth) {
+		this.birth = birth;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getStus() {
+		return stus;
+	}
+
+	public void setStus(String stus) {
+		this.stus = stus;
+	}
+
+	public String getSignIn() {
+		return signIn;
+	}
+
+	public void setSignIn(String signIn) {
+		this.signIn = signIn;
 	}
 
 	public String getCurrentJwToken() {
@@ -70,43 +123,14 @@ public class UserEty {
 		this.currentJwToken = currentJwToken;
 	}
 
-	public long getId() {
-		return id;
+	public long getUserJwTokenKeySeq() {
+		return userJwTokenKeySeq;
 	}
 
-	public String getEmail() {
-		return email;
+	public void setUserJwTokenKeySeq(long userJwTokenKeySeq) {
+		this.userJwTokenKeySeq = userJwTokenKeySeq;
 	}
 
-	public String getPw() {
-		return pw;
-	}
-
-	public String getNick() {
-		return nick;
-	}
-
-	public String getGender() {
-		return gender;
-	}
-
-	public String getBirth() {
-		return birth;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public String getStus() {
-		return stus;
-	}
-
-	public String getSignIn() {
-		return signIn;
-	}
-
-	@Override
 	public String toString() {
 		return "UserEty [id=" + id + ", email=" + email + ", pw=" + pw + ", nick=" + nick + ", gender=" + gender
 				+ ", birth=" + birth + ", type=" + type + ", stus=" + stus + ", signIn=" + signIn + ", userTkSeq="
