@@ -38,4 +38,12 @@ public class CardBizImpl implements ICardBiz {
 		lgr.debug(CC.GETTING_OUT_4 + "retireveCardListBiz");
 		return cardList;
 	}
+
+	public int updateCardBiz(CardEty card) {
+		lgr.debug(CC.GETTING_INTO_4 + "retireveCardListBiz");
+		card.setAsEditedStus();
+		int updateCardResult = cardDao.updateCardDao(card);
+		lgr.debug(CC.GETTING_OUT_4 + "retireveCardListBiz");
+		return updateCardResult;
+	}
 }

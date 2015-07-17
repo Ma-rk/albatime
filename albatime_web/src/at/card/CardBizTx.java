@@ -36,4 +36,7 @@ public class CardBizTx implements ICardBiz {
 		return cardBiz.retireveCardListBiz(card);
 	}
 
+	public int updateCardBiz(CardEty card) {
+		return cardBiz.updateCardBiz(card);
+	}
 }

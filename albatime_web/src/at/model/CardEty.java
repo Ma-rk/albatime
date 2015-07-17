@@ -34,6 +34,10 @@ public class CardEty {
 		this.stus = CC.CARD_STUS_NORMAL;
 	}
 
+	public void setAsEditedStus() {
+		this.stus = CC.CARD_STUS_EDITED;
+	}
+
 	public void setAsDeletedStus() {
 		this.stus = CC.CARD_STUS_DELETED;
 	}

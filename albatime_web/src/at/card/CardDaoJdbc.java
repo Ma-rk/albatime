@@ -63,4 +63,14 @@ public class CardDaoJdbc implements ICardDao {
 		lgr.debug(CC.GETTING_OUT_6 + "retrieveCardListDao");
 		return this.jdbcTemplate.query(this.sqls.getSql("cardRetrieveCards"), rowMapper, card.getActorSeq());
 	}
+
+	public int updateCardDao(CardEty card) {
+		lgr.debug(CC.GETTING_INTO_6 + "updateCardDao");
+		lgr.debug("updating card for actor [{}], card seq [{}]", card.getActorSeq(), card.getSeq());
+		int updateCardResult = this.jdbcTemplate.update(this.sqls.getSql("cardUpdateCards"), card.getName(),
+				card.getMemo(), card.getTimeFrom(), card.getTimeTo(), card.getUnpaidbreakMin(), card.getStus(),
+				card.getSeq(), card.getActorSeq());
+		lgr.debug(CC.GETTING_OUT_6 + "updateCardDao");
+		return updateCardResult;
+	}
 }

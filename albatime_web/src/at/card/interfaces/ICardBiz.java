@@ -8,4 +8,6 @@ public interface ICardBiz {
 	int createCardBiz(CardEty card);
 
 	List<CardEty> retireveCardListBiz(CardEty card);
+
+	int updateCardBiz(CardEty card);
 }

@@ -49,4 +49,15 @@ public class CardCont {
 		lgr.debug(CC.GETTING_OUT_2 + "retrieveCardListCont");
 		return CC.gson.toJson(cardList);
 	}
+
+	@RequestMapping(value = CC.API_CARD, produces = "application/json", method = RequestMethod.PUT)
+	public @ResponseBody String updateCardCont(CardEty card) {
+		lgr.debug(CC.GETTING_INTO_2 + "updateCardCont");
+		lgr.debug(card.toString());
+		
+		int updateCardResult = cardBiz.updateCardBiz(card);
+		
+		lgr.debug(CC.GETTING_OUT_2 + "updateCardCont");
+		return CC.gson.toJson(updateCardResult);
+	}
 }

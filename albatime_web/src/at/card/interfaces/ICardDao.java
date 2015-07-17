@@ -8,4 +8,6 @@ public interface ICardDao {
 	int insertCardBiz(CardEty card);
 
 	List<CardEty> retrieveCardListDao(CardEty card);
+
+	int updateCardDao(CardEty card);
 }
