@@ -67,7 +67,8 @@ public class ActorDaoJdbc implements IActorDao {
 			}
 		};
 		lgr.debug(CC.GETTING_OUT_6 + "retireveActorListDao");
-		return this.jdbcTemplate.query(this.sqls.getSql("actorRetrieveActors"), rowMapper, actor.getUserId(), actor.getStus());
+		return this.jdbcTemplate.query(this.sqls.getSql("actorRetrieveActors"), rowMapper, actor.getUserId(),
+				actor.getStus());
 	}
 
 	public int updateActorDao(ActorEty actor) {
@@ -84,7 +85,8 @@ public class ActorDaoJdbc implements IActorDao {
 
 	public int deleteActorDao(ActorEty actor) {
 		lgr.debug(CC.GETTING_INTO_6 + "deleteActorDao");
-		int deleteActorResult = this.jdbcTemplate.update(this.sqls.getSql("actorDeleteActor"), CC.ACTOR_STUS_DELETED,
+		lgr.debug("deleting User [{}]'s Actor [{}]", actor.getUserId(), actor.getSeq());
+		int deleteActorResult = this.jdbcTemplate.update(this.sqls.getSql("actorDeleteActor"), actor.getStus(),
 				actor.getSeq(), actor.getUserId());
 		lgr.debug("deleteActorDao result: [{}]", deleteActorResult);
 		lgr.debug(CC.GETTING_OUT_6 + "deleteActorDao");

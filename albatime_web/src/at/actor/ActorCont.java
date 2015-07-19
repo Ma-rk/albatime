@@ -66,7 +66,6 @@ public class ActorCont {
 	public @ResponseBody String deleteActorCont(ActorEty actor, @CookieValue("userIdInCookie") long userId) {
 		lgr.debug(CC.GETTING_INTO_2 + "deleteActorCont");
 		actor.setUserId(userId);
-		lgr.debug("deleting actor... Seq [{}] of user [{}]", actor.getSeq(), actor.getUserId());
 
 		int updateActorResult = actorBiz.deleteActorBiz(actor);
 

@@ -96,7 +96,7 @@ public class ApiInterceptor implements HandlerInterceptor {
 			return false;
 		}
 
-		lgr.debug(CC.GETTING_OUT_2 + "preHandle");
+		lgr.debug(CC.GETTING_OUT_2 + "preHandle\n");
 		return true;
 	}
 

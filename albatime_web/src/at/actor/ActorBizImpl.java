@@ -57,7 +57,7 @@ public class ActorBizImpl implements IActorBiz {
 
 	public int deleteActorBiz(ActorEty actor) {
 		lgr.debug(CC.GETTING_INTO_4 + "deleteActorBiz");
-		lgr.debug("deleting User [{}]'s Actor [{}]", actor.getUserId(), actor.getSeq());
+		actor.setAsDeactivatedStus();
 		int deleteActorResult = actorDao.deleteActorDao(actor);
 		lgr.debug(CC.GETTING_OUT_4 + "deleteActorBiz");
 		return deleteActorResult;
