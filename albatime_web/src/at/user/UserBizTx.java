@@ -9,6 +9,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import at.model.TokenKeyEty;
 import at.model.UserEty;
 import at.supp.CC;
 import at.user.interfaces.IUserBiz;
@@ -57,8 +58,8 @@ public class UserBizTx implements IUserBiz {
 		return loginUser;
 	}
 
-	public String retrieveJwTokenKey(long tkSeqUsr, long userId) {
-		return this.userBiz.retrieveJwTokenKey(tkSeqUsr, userId);
+	public String retrieveJwTokenKey(TokenKeyEty tokenKeyEty) {
+		return this.userBiz.retrieveJwTokenKey(tokenKeyEty);
 	}
 
 	public List<Map<String, Object>> retrieveJwTokenList(long userId) {

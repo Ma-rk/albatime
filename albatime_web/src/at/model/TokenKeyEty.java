@@ -19,6 +19,11 @@ public class TokenKeyEty {
 		setStusAsNormal();
 	}
 
+	public TokenKeyEty(long userId, long tokenSeq) {
+		this.seqUser = userId;
+		this.seq = tokenSeq;
+	}
+
 	public void setStusAsNormal() {
 		this.stus = CC.TOKEN_STUS_NORMAL;
 	}

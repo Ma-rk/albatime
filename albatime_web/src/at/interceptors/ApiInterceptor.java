@@ -10,21 +10,20 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import at.model.TokenEty;
+import at.model.TokenKeyEty;
 import at.supp.CC;
 import at.supp.CookieMgr;
 import at.supp.JwtMgr;
-import at.user.interfaces.IUserDao;
+import at.user.interfaces.IUserBiz;
 
 public class ApiInterceptor implements HandlerInterceptor {
 	private static final Logger lgr = LoggerFactory.getLogger(ApiInterceptor.class);
 
 	@Autowired
-	private IUserDao userDao;
+	private IUserBiz userBiz;
 
-	public void setUserDao(IUserDao userDao) {
-		this.userDao = userDao;
-		if (this.userDao != null)
-			lgr.debug("userDao set!!");
+	public void setUserBiz(IUserBiz userBiz) {
+		this.userBiz = userBiz;
 	}
 
 	@Override
@@ -71,8 +70,10 @@ public class ApiInterceptor implements HandlerInterceptor {
 		}
 
 		// step 3. get jwt key
-		String jwTokenKey = this.userDao.retrieveJwTokenKey(Integer.parseInt(userTokenSeqInCookie),
-				Integer.parseInt(userIdFromCookie));
+		TokenKeyEty tokenKeyEty = new TokenKeyEty(Long.parseLong(userIdFromCookie),
+				Long.parseLong(userTokenSeqInCookie));
+		tokenKeyEty.setStusAsNormal();
+		String jwTokenKey = this.userBiz.retrieveJwTokenKey(tokenKeyEty);
 
 		if (jwTokenKey == null || jwTokenKey.isEmpty()) {
 			lgr.debug("tb_token has no jwTokenKey for the user, cookie key. redirect to login.html");

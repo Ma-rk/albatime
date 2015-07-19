@@ -56,8 +56,8 @@ public class UserBizImpl implements IUserBiz {
 		return userInfo;
 	}
 
-	public String retrieveJwTokenKey(long tkSeqUsr, long userId) {
-		return this.userDao.retrieveJwTokenKey(tkSeqUsr, userId);
+	public String retrieveJwTokenKey(TokenKeyEty tokenKeyEty) {
+		return this.userDao.retrieveJwTokenKey(tokenKeyEty);
 	}
 
 	public List<Map<String, Object>> retrieveJwTokenList(long userId) {

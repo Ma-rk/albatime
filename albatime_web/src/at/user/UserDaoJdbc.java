@@ -73,9 +73,9 @@ public class UserDaoJdbc implements IUserDao {
 		return insertJwTokenResult;
 	}
 
-	public String retrieveJwTokenKey(long tkSeq, long userId) {
+	public String retrieveJwTokenKey(TokenKeyEty tokenKeyEty) {
 		lgr.debug(CC.GETTING_INTO_6 + "retrieveJwTokenKey");
-		lgr.debug("retireive token key for tkSeq [{}], userId [{}]", tkSeq, userId);
+		lgr.debug("retireive token key for tkSeq [{}], userId [{}]", tokenKeyEty.getSeq(), tokenKeyEty.getSeqUser());
 		RowMapper<String> rowMapper = new RowMapper<String>() {
 			public String mapRow(ResultSet rs, int rowNum) {
 				try {
@@ -88,7 +88,7 @@ public class UserDaoJdbc implements IUserDao {
 		String jwTokenKey;
 		try {
 			jwTokenKey = this.jdbcTemplate.queryForObject(this.sqls.getSql("autologin_retrieveJwTokenKey"), rowMapper,
-					tkSeq, userId);
+					tokenKeyEty.getSeq(), tokenKeyEty.getSeqUser(), CC.TOKEN_STUS_NORMAL);
 		} catch (EmptyResultDataAccessException e) {
 			e.printStackTrace();
 			jwTokenKey = null;

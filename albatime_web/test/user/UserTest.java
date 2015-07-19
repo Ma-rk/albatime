@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import at.model.TokenKeyEty;
 import at.model.UserEty;
+import at.supp.CC;
+import at.user.UserBizImpl;
 import at.user.UserCont;
 import at.user.UserDaoJdbc;
 
@@ -22,6 +25,9 @@ public class UserTest {
 
 	@Autowired
 	private UserCont userCont;
+
+	@Autowired
+	private UserBizImpl userBiz;
 
 	@Autowired
 	private UserDaoJdbc userDao;
@@ -39,7 +45,9 @@ public class UserTest {
 
 	@Test
 	public void retrieveJwTokenKeyTest() {
-		String key = userDao.retrieveJwTokenKey(1l, 1l);
+		TokenKeyEty tokenKeyEty = new TokenKeyEty(1l, 1l);
+		tokenKeyEty.setStusAsNormal();
+		String key = userDao.retrieveJwTokenKey(tokenKeyEty);
 		lgr.info(key);
 	}
 }

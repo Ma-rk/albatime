@@ -15,7 +15,7 @@ public interface IUserDao {
 
 	int insertJwTokenKey(TokenKeyEty tokenKeyEty);
 
-	String retrieveJwTokenKey(long tkSeqUsr, long userId);
+	String retrieveJwTokenKey(TokenKeyEty tokenKeyEty);
 
 	List<Map<String, Object>> retrieveJwTokenList(long userId);
 
