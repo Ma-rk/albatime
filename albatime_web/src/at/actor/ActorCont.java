@@ -41,8 +41,10 @@ public class ActorCont {
 	public @ResponseBody String retrieveActorListCont(@CookieValue("userIdInCookie") long userId) {
 		lgr.debug(CC.GETTING_INTO_2 + "retrieveActorListCont");
 		lgr.debug("retrieving actors of user [{}]", userId);
+		ActorEty actor = new ActorEty();
+		actor.setUserId(userId);
 
-		List<ActorEty> actorList = actorBiz.retireveActorListBiz(userId);
+		List<ActorEty> actorList = actorBiz.retireveActorListBiz(actor);
 
 		lgr.debug(CC.GETTING_OUT_2 + "retrieveActorListCont");
 		return CC.gson.toJson(actorList);

@@ -48,7 +48,7 @@ public class ActorDaoJdbc implements IActorDao {
 		return insertActorResult;
 	}
 
-	public List<ActorEty> retireveActorListDao(long userId) {
+	public List<ActorEty> retireveActorListDao(ActorEty actor) {
 		lgr.debug(CC.GETTING_INTO_6 + "retireveActorListDao");
 		RowMapper<ActorEty> rowMapper = new RowMapper<ActorEty>() {
 			public ActorEty mapRow(ResultSet rs, int rowNum) {
@@ -67,7 +67,7 @@ public class ActorDaoJdbc implements IActorDao {
 			}
 		};
 		lgr.debug(CC.GETTING_OUT_6 + "retireveActorListDao");
-		return this.jdbcTemplate.query(this.sqls.getSql("actorRetrieveActors"), rowMapper, userId);
+		return this.jdbcTemplate.query(this.sqls.getSql("actorRetrieveActors"), rowMapper, actor.getUserId(), actor.getStus());
 	}
 
 	public int updateActorDao(ActorEty actor) {

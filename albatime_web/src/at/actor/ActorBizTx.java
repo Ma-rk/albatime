@@ -31,8 +31,8 @@ public class ActorBizTx implements IActorBiz {
 		return actorBiz.insertActorBiz(actor);
 	}
 
-	public List<ActorEty> retireveActorListBiz(long userId) {
-		return actorBiz.retireveActorListBiz(userId);
+	public List<ActorEty> retireveActorListBiz(ActorEty actor) {
+		return actorBiz.retireveActorListBiz(actor);
 	}
 
 	public int updateActorBiz(ActorEty actor) {

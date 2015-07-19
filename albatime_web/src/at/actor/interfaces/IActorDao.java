@@ -11,7 +11,7 @@ public interface IActorDao {
 
 	int insertActor(ActorEty actor);
 
-	List<ActorEty> retireveActorListDao(long userId);
+	List<ActorEty> retireveActorListDao(ActorEty actor);
 
 	int updateActorDao(ActorEty actor);
 

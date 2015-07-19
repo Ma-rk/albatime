@@ -8,7 +8,7 @@ public interface IActorBiz {
 
 	int insertActorBiz(ActorEty actor);
 
-	List<ActorEty> retireveActorListBiz(long userId);
+	List<ActorEty> retireveActorListBiz(ActorEty actor);
 
 	int updateActorBiz(ActorEty actor);
 
