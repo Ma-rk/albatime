@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import at.model.TokenEty;
 import at.model.TokenKeyEty;
 import at.model.UserEty;
 
@@ -17,7 +18,7 @@ public interface IUserDao {
 
 	String retrieveJwTokenKey(TokenKeyEty tokenKeyEty);
 
-	List<Map<String, Object>> retrieveJwTokenList(long userId);
+	List<Map<String, Object>> retrieveJwTokenList(TokenEty tokenEty);
 
 	int expireJwTokens(long userId);
 }

@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.com.interfaces.IComDao;
+import at.model.TokenEty;
 import at.model.TokenKeyEty;
 import at.model.UserEty;
 import at.supp.CC;
@@ -60,8 +61,9 @@ public class UserBizImpl implements IUserBiz {
 		return this.userDao.retrieveJwTokenKey(tokenKeyEty);
 	}
 
-	public List<Map<String, Object>> retrieveJwTokenList(long userId) {
-		return this.userDao.retrieveJwTokenList(userId);
+	public List<Map<String, Object>> retrieveJwTokenList(TokenEty tokenEty) {
+		tokenEty.setAsNormalStus();
+		return this.userDao.retrieveJwTokenList(tokenEty);
 	}
 
 	public int expireJwTokens(long userId) {

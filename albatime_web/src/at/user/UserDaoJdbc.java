@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import at.model.TokenEty;
 import at.model.TokenKeyEty;
 import at.model.UserEty;
 import at.supp.CC;
@@ -98,10 +99,10 @@ public class UserDaoJdbc implements IUserDao {
 		return jwTokenKey;
 	}
 
-	public List<Map<String, Object>> retrieveJwTokenList(long userId) {
+	public List<Map<String, Object>> retrieveJwTokenList(TokenEty tokenEty) {
 		lgr.debug(CC.GETTING_INTO_6 + "retrieveTokenList");
 		lgr.debug(CC.GETTING_OUT_6 + "retrieveTokenList");
-		return jdbcTemplate.queryForList(this.sqls.getSql("tkRetireveToken"), userId);
+		return jdbcTemplate.queryForList(this.sqls.getSql("tkRetireveToken"), tokenEty.getUserId(), tokenEty.getStus());
 	}
 
 	public int expireJwTokens(long userId) {

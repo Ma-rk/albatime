@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import at.model.TokenEty;
 import at.model.UserEty;
 import at.supp.CC;
 import at.user.interfaces.IUserBiz;
@@ -33,8 +34,7 @@ public class UserCont {
 	}
 
 	@RequestMapping(value = "/api/login", produces = "application/json", method = RequestMethod.POST)
-	public @ResponseBody String login(HttpServletResponse response, String email,
-			@RequestParam("pw") String pw) {
+	public @ResponseBody String login(HttpServletResponse response, String email, @RequestParam("pw") String pw) {
 		lgr.debug(CC.GETTING_INTO_2 + "login");
 		lgr.debug("email: " + email);
 		lgr.debug("pw: " + pw);
@@ -61,8 +61,9 @@ public class UserCont {
 	public @ResponseBody String retrieveToken(@CookieValue("userIdInCookie") long userId) {
 		lgr.debug(CC.GETTING_INTO_2 + "retrieveToken");
 		lgr.debug("retrieving tokens for user " + userId);
+		TokenEty tokenEty = new TokenEty(userId);
 
-		List<Map<String, Object>> jwTokenList = userBiz.retrieveJwTokenList(userId);
+		List<Map<String, Object>> jwTokenList = userBiz.retrieveJwTokenList(tokenEty);
 
 		lgr.debug(CC.GETTING_OUT_2 + "retrieveToken");
 		return CC.gson.toJson(jwTokenList);
