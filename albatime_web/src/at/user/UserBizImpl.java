@@ -66,8 +66,9 @@ public class UserBizImpl implements IUserBiz {
 		return this.userDao.retrieveJwTokenList(tokenEty);
 	}
 
-	public int expireJwTokens(long userId) {
-		return userDao.expireJwTokens(userId);
+	public int expireJwTokens(TokenEty tokenEty) {
+		tokenEty.setAsExpiredStus();
+		return userDao.expireJwTokens(tokenEty);
 	}
 
 	/*

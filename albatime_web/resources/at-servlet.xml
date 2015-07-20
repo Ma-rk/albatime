@@ -143,7 +143,7 @@
 				<entry key="login_InsertJwTokenKey" value="insert into tb_token (tk_usr_id, tk_key, tk_stus) values (?,?,?)" />
 				<entry key="autologin_retrieveJwTokenKey" value="select tk_key from tb_token where tk_seq = ? and tk_usr_id = ? and tk_stus=?" />
 				<entry key="tkRetireveToken" value="select tk_device_type, tk_created from tb_token where tk_usr_id = ? and tk_stus=?" />
-				<entry key="tkExpireToken" value="update tb_token set tk_stus = 'TKN_STU_02' where tk_usr_id = ?" />
+				<entry key="tkExpireToken" value="update tb_token set tk_stus=? where tk_usr_id=? and tk_seq!=? and tk_stus!=?" />
 				<entry key="getLastId" value="select last_insert_id()" />
 			</map>
 		</property>

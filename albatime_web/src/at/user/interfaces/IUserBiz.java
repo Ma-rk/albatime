@@ -14,5 +14,5 @@ public interface IUserBiz {
 
 	List<Map<String, Object>> retrieveJwTokenList(TokenEty tokenEty);
 
-	int expireJwTokens(long userId);
+	int expireJwTokens(TokenEty tokenEty);
 }

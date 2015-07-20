@@ -67,7 +67,7 @@ public class UserBizTx implements IUserBiz {
 		return this.userBiz.retrieveJwTokenList(tokenEty);
 	}
 
-	public int expireJwTokens(long userId) {
-		return userBiz.expireJwTokens(userId);
+	public int expireJwTokens(TokenEty tokenEty) {
+		return userBiz.expireJwTokens(tokenEty);
 	}
 }

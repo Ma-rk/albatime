@@ -70,13 +70,16 @@ public class UserCont {
 	}
 
 	@RequestMapping(value = "/api/token", method = RequestMethod.DELETE)
-	public @ResponseBody String expireJwTokens(@CookieValue("userIdInCookie") long userId) {
+	public @ResponseBody String expireJwTokens(@CookieValue("userIdInCookie") long userId,
+			@CookieValue("userTokenSeqInCookie") long jwTokenSeq) {
 		lgr.debug(CC.GETTING_INTO_2 + "expireToken");
+		lgr.debug("expiring tokens for user " + userId);
+		TokenEty tokenEty = new TokenEty(userId, jwTokenSeq);
 
-		int deletedTokens = userBiz.expireJwTokens(userId);
+		int expiredTokens = userBiz.expireJwTokens(tokenEty);
 
 		lgr.debug(CC.GETTING_OUT_2 + "expireToken");
-		return CC.gson.toJson(deletedTokens);
+		return CC.gson.toJson(expiredTokens);
 	}
 
 	@RequestMapping(value = "/api/login3", method = RequestMethod.GET)

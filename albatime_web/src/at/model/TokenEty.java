@@ -17,6 +17,11 @@ public class TokenEty {
 		this.userId = userId;
 	}
 
+	public TokenEty(long userId, long jwTokenKeySeq) {
+		this.userId = userId;
+		this.jwTokenKeySeq = jwTokenKeySeq;
+	}
+
 	public void setAsNormalStus() {
 		this.stus = CC.TOKEN_STUS_NORMAL;
 	}
