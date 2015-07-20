@@ -2,10 +2,6 @@ package at.card;
 
 import java.util.List;
 
-import javax.smartcardio.Card;
-
-import org.springframework.transaction.PlatformTransactionManager;
-
 import at.card.interfaces.ICardBiz;
 import at.model.CardEty;
 
@@ -17,12 +13,6 @@ public class CardBizTx implements ICardBiz {
 
 	public void setCardBiz(ICardBiz cardBiz) {
 		this.cardBiz = cardBiz;
-	}
-
-	private PlatformTransactionManager transactionManager;
-
-	public void setTransactionManager(PlatformTransactionManager transactionMansger) {
-		this.transactionManager = transactionMansger;
 	}
 
 	/*

@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 
 import at.actor.interfaces.IActorBiz;
 import at.actor.interfaces.IActorDao;
-import at.com.interfaces.IComDao;
 import at.model.ActorEty;
 import at.supp.CC;
 
@@ -21,12 +20,6 @@ public class ActorBizImpl implements IActorBiz {
 
 	public void setActorDao(IActorDao actorDao) {
 		this.actorDao = actorDao;
-	}
-
-	private IComDao comDao;
-
-	public void setComDao(IComDao comDao) {
-		this.comDao = comDao;
 	}
 
 	/*

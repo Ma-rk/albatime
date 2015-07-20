@@ -89,7 +89,7 @@
 	</bean>
 	
 	<bean id="actorBiz" class="at.actor.ActorBizTx">
-		<property name="transactionManager" ref="transactionManager" />
+		<!-- <property name="transactionManager" ref="transactionManager" /> -->
 		<property name="actorBiz" ref="actorBizImpl" />
 	</bean>
 
@@ -113,7 +113,7 @@
 	</bean>
 	
 	<bean id="cardBiz" class="at.card.CardBizTx">
-		<property name="transactionManager" ref="transactionManager" />
+		<!-- <property name="transactionManager" ref="transactionManager" /> -->
 		<property name="cardBiz" ref="cardBizImpl" />
 	</bean>
 
