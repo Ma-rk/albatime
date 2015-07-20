@@ -30,10 +30,9 @@ public class ComDaoJdbc implements IComDao {
 	/*
 	 * functional methods
 	 */
-	@SuppressWarnings("deprecation")
 	public long getLastInsertId() {
 		lgr.debug(CC.GETTING_INTO_6 + "getLastInsertId");
-		long lastInsertId = this.jdbcTemplate.queryForLong(this.sqls.getSql("getLastId"));
+		long lastInsertId = this.jdbcTemplate.queryForObject(this.sqls.getSql("getLastId"), Long.class);
 		lgr.debug(CC.GETTING_OUT_6 + "getLastInsertId");
 		return lastInsertId;
 	}

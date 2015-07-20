@@ -42,7 +42,8 @@ public class AccountDaoJdbc implements IAccountDao {
 
 	public int getEmailCountDao(String email) {
 		lgr.debug(CC.GETTING_INTO_6 + "getEmailCountDao");
-		int emailCount = this.jdbcTemplate.queryForInt(this.sqls.getSql("accountEmailCount"), email);
+		int emailCount = this.jdbcTemplate.queryForObject(this.sqls.getSql("accountEmailCount"), new Object[] { email },
+				Integer.class);
 		lgr.debug(CC.GETTING_OUT_6 + "getEmailCountDao");
 		return emailCount;
 	}
