@@ -54,13 +54,13 @@ public class ActorDaoJdbc implements IActorDao {
 			public ActorEty mapRow(ResultSet rs, int rowNum) {
 				try {
 					return new ActorEty(rs.getLong("ac_seq"), rs.getLong("ac_usr_id"), rs.getString("ac_name"),
-							rs.getString("ac_memo"), rs.getString("ac_period_from"), rs.getString("ac_period_to"),
+							rs.getString("ac_memo"), rs.getDate("ac_period_from"), rs.getDate("ac_period_to"),
 							rs.getInt("ac_worktime_unit"), rs.getInt("ac_alarm_before"),
 							rs.getString("ac_unpaidbreak_flag"), rs.getFloat("ac_tax_rate"),
 							rs.getFloat("ac_basic_wage"), rs.getString("ac_color_bg"), rs.getString("ac_phone1"),
 							rs.getString("ac_phone2"), rs.getString("ac_addr1_1"), rs.getString("ac_addr1_2"),
-							rs.getString("ac_addr1_3"), rs.getString("ac_stus"), rs.getString("ac_created"),
-							rs.getString("ac_edited"));
+							rs.getString("ac_addr1_3"), rs.getString("ac_stus"), rs.getDate("ac_created"),
+							rs.getDate("ac_edited"));
 				} catch (SQLException e) {
 					throw new BeanInstantiationException(ActorEty.class, e.getMessage(), e);
 				}

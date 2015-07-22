@@ -1,19 +1,55 @@
 package at.model;
 
+import java.util.Date;
+
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 import at.supp.CC;
 
 public class ActorEty {
+
 	private long seq;
 	private long userId;
+
+	@NotNull
+	@Size(min = 1, max = 32)
 	private String name;
+
+	@Size(min = 1, max = 256)
 	private String memo;
-	private String periodFrom;
-	private String periodTo;
+
+	private Date periodFrom;
+	private Date periodTo;
+
+	@DecimalMin(value = "1")
+	@DecimalMax(value = "60")
 	private int workTimeUnit;
+
+	@Min(0)
+	@Max(120)
 	private int alarmBefore;
+
+	@NotNull
+	@Size(min = 1, max = 1)
+	@Pattern(regexp = "y|n")
 	private String unpaidbreakFlag;
+
+	@Min(0)
+	@Max(100)
+	@Digits(integer = 3, fraction = 3)
 	private float taxRate;
+
+	@Min(0)
+	@Digits(integer = 7, fraction = 2)
 	private float basicWage;
+
 	private String bgColor;
 	private String phone1;
 	private String phone2;
@@ -21,15 +57,14 @@ public class ActorEty {
 	private String addr2;
 	private String addr3;
 	private String stus;
-	private String created;
-	private String edited;
+	private Date created;
+	private Date edited;
 
 	public ActorEty() {}
 
-	public ActorEty(long seq, long userId, String name, String memo, String periodFrom, String periodTo,
-			int workTimeUnit, int alarmBefore, String unpaidbreakFlag, float taxRate, float basicWage, String bgColor,
-			String phone1, String phone2, String addr1, String addr2, String addr3, String stus, String created,
-			String edited) {
+	public ActorEty(long seq, long userId, String name, String memo, Date periodFrom, Date periodTo, int workTimeUnit,
+			int alarmBefore, String unpaidbreakFlag, float taxRate, float basicWage, String bgColor, String phone1,
+			String phone2, String addr1, String addr2, String addr3, String stus, Date created, Date edited) {
 		this.seq = seq;
 		this.userId = userId;
 		this.name = name;
@@ -95,19 +130,19 @@ public class ActorEty {
 		this.memo = memo;
 	}
 
-	public String getPeriodFrom() {
+	public Date getPeriodFrom() {
 		return periodFrom;
 	}
 
-	public void setPeriodFrom(String periodFrom) {
+	public void setPeriodFrom(Date periodFrom) {
 		this.periodFrom = periodFrom;
 	}
 
-	public String getPeriodTo() {
+	public Date getPeriodTo() {
 		return periodTo;
 	}
 
-	public void setPeriodTo(String periodTo) {
+	public void setPeriodTo(Date periodTo) {
 		this.periodTo = periodTo;
 	}
 
@@ -207,19 +242,19 @@ public class ActorEty {
 		this.stus = stus;
 	}
 
-	public String getCreated() {
+	public Date getCreated() {
 		return created;
 	}
 
-	public void setCreated(String created) {
+	public void setCreated(Date created) {
 		this.created = created;
 	}
 
-	public String getEdited() {
+	public Date getEdited() {
 		return edited;
 	}
 
-	public void setEdited(String edited) {
+	public void setEdited(Date edited) {
 		this.edited = edited;
 	}
 
