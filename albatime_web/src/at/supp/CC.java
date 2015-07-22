@@ -46,5 +46,6 @@ public class CC {
 	public static final String API_ACCOUNT = "/api/account";
 	public static final String API_CARD = "/api/card";
 	public static final String API_LOGIN = "/api/login";
+	public static final String API_TOKEN = "/api/token";
 	public static final String PAGE_LOGIN = "/html/login.html";
 }

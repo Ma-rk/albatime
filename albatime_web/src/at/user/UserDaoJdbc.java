@@ -47,7 +47,7 @@ public class UserDaoJdbc implements IUserDao {
 			public UserEty mapRow(ResultSet rs, int rowNum) {
 				try {
 					return new UserEty(rs.getLong("usr_id"), rs.getString("usr_email"), rs.getString("usr_nick"),
-							rs.getString("usr_gender"), rs.getString("usr_birth"), rs.getString("usr_type"),
+							rs.getString("usr_gender"), rs.getDate("usr_birth"), rs.getString("usr_type"),
 							rs.getString("usr_stus"));
 				} catch (SQLException e) {
 					throw new BeanInstantiationException(UserEty.class, e.getMessage(), e);

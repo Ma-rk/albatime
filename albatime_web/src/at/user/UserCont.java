@@ -5,16 +5,19 @@ import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import at.com.CommUtil;
 import at.model.TokenEty;
 import at.model.UserEty;
 import at.supp.CC;
@@ -30,9 +33,12 @@ public class UserCont {
 		this.userBiz = userBiz;
 	}
 
-	@RequestMapping(value = "/api/login", produces = "application/json", method = RequestMethod.POST)
-	public @ResponseBody String login(HttpServletResponse response, UserEty user) {
+	@RequestMapping(value = CC.API_LOGIN, produces = "application/json", method = RequestMethod.POST)
+	public @ResponseBody String login(HttpServletResponse response, @Valid UserEty user, BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
+		if (CommUtil.checkGotWrongParams(result)) {
+			return "0";
+		}
 		lgr.debug(user.toString());
 
 		String resultString = "0";
@@ -53,9 +59,12 @@ public class UserCont {
 		return resultString;
 	}
 
-	@RequestMapping(value = "/api/token", method = RequestMethod.GET)
-	public @ResponseBody String retrieveToken(@CookieValue("userIdInCookie") long userId) {
+	@RequestMapping(value = CC.API_TOKEN, method = RequestMethod.GET)
+	public @ResponseBody String retrieveToken(@CookieValue("userIdInCookie") long userId, BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
+		if (CommUtil.checkGotWrongParams(result)) {
+			return "0";
+		}
 		lgr.debug("retrieving tokens for user " + userId);
 		TokenEty tokenEty = new TokenEty(userId);
 
@@ -65,16 +74,19 @@ public class UserCont {
 		return CC.gson.toJson(jwTokenList);
 	}
 
-	@RequestMapping(value = "/api/token", method = RequestMethod.DELETE)
+	@RequestMapping(value = CC.API_TOKEN, method = RequestMethod.DELETE)
 	public @ResponseBody String expireJwTokens(@CookieValue("userIdInCookie") long userId,
-			@CookieValue("userTokenSeqInCookie") long jwTokenSeq) {
+			@CookieValue("userTokenSeqInCookie") long jwTokenSeq, BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
+		if (CommUtil.checkGotWrongParams(result)) {
+			return "0";
+		}
 		lgr.debug("expiring tokens for user " + userId);
 		TokenEty tokenEty = new TokenEty(userId, jwTokenSeq);
 
-		int expiredTokens = userBiz.expireJwTokens(tokenEty);
+		int expireTokenResult = userBiz.expireJwTokens(tokenEty);
 
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return CC.gson.toJson(expiredTokens);
+		return CC.gson.toJson(expireTokenResult);
 	}
 }
