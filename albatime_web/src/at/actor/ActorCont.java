@@ -9,13 +9,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import at.actor.interfaces.IActorBiz;
+import at.com.CommUtil;
 import at.model.ActorEty;
 import at.supp.CC;
 
@@ -34,10 +34,8 @@ public class ActorCont {
 			BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (result.hasErrors()) {
-			for (ObjectError error : result.getAllErrors()) {
-				lgr.error(error.toString());
-			}
-			lgr.error(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName() + " error occured");
+			CommUtil.displayBindingResultErrors(result);
+			lgr.error(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName() + " with error(s)");
 			return "0";
 		}
 		actor.setUserId(userId);
