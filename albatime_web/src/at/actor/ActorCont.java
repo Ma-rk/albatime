@@ -33,9 +33,7 @@ public class ActorCont {
 	public @ResponseBody String createActorCont(@CookieValue("userIdInCookie") long userId, @Valid ActorEty actor,
 			BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		if (result.hasErrors()) {
-			CommUtil.displayBindingResultErrors(result);
-			lgr.error(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName() + " with error(s)");
+		if (CommUtil.checkGotWrongParams(result)) {
 			return "0";
 		}
 		actor.setUserId(userId);
@@ -48,8 +46,12 @@ public class ActorCont {
 	}
 
 	@RequestMapping(value = "/api/actor", produces = "application/json", method = RequestMethod.GET)
-	public @ResponseBody String retrieveActorListCont(@CookieValue("userIdInCookie") long userId) {
+	public @ResponseBody String retrieveActorListCont(@CookieValue("userIdInCookie") long userId,
+			BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
+		if (CommUtil.checkGotWrongParams(result)) {
+			return "0";
+		}
 		lgr.debug("retrieving actors of user [{}]", userId);
 		ActorEty actor = new ActorEty();
 		actor.setUserId(userId);
@@ -61,8 +63,12 @@ public class ActorCont {
 	}
 
 	@RequestMapping(value = "/api/actor", produces = "application/json", method = RequestMethod.PUT)
-	public @ResponseBody String updateActorCont(@CookieValue("userIdInCookie") long userId, ActorEty actor) {
+	public @ResponseBody String updateActorCont(@CookieValue("userIdInCookie") long userId, @Valid ActorEty actor,
+			BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
+		if (CommUtil.checkGotWrongParams(result)) {
+			return "0";
+		}
 		actor.setUserId(userId);
 		lgr.debug(actor.toString());
 
@@ -73,8 +79,12 @@ public class ActorCont {
 	}
 
 	@RequestMapping(value = "/api/actor", produces = "application/json", method = RequestMethod.DELETE)
-	public @ResponseBody String deleteActorCont(ActorEty actor, @CookieValue("userIdInCookie") long userId) {
+	public @ResponseBody String deleteActorCont(ActorEty actor, @CookieValue("userIdInCookie") long userId,
+			BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
+		if (CommUtil.checkGotWrongParams(result)) {
+			return "0";
+		}
 		actor.setUserId(userId);
 
 		int updateActorResult = actorBiz.deleteActorBiz(actor);

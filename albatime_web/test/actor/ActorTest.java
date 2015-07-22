@@ -26,8 +26,8 @@ public class ActorTest {
 	
 	@Test
 	public void retrieveActorsTest() {
-		String retrieveActors = actorCont.retrieveActorListCont(1l);
-		lgr.debug(retrieveActors);
+//		String retrieveActors = actorCont.retrieveActorListCont(1l);
+//		lgr.debug(retrieveActors);
 	}
 
 }
