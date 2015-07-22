@@ -13,15 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import at.model.TokenEty;
 import at.model.UserEty;
 import at.supp.CC;
 import at.user.interfaces.IUserBiz;
-
-//import at.supp.RsaJwkSupplier;
 
 @Controller
 public class UserCont {
@@ -34,26 +31,25 @@ public class UserCont {
 	}
 
 	@RequestMapping(value = "/api/login", produces = "application/json", method = RequestMethod.POST)
-	public @ResponseBody String login(HttpServletResponse response, String email, @RequestParam("pw") String pw) {
-		lgr.debug(CC.GETTING_INTO_2 + "login");
-		lgr.debug("email: " + email);
-		lgr.debug("pw: " + pw);
+	public @ResponseBody String login(HttpServletResponse response, UserEty user) {
+		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
+		lgr.debug(user.toString());
 
 		String resultString = "0";
-		UserEty user = userBiz.login(new UserEty(email, pw));
+		UserEty userInfo = userBiz.login(user);
 
-		if (user != null) {
-			Cookie[] cookies = { new Cookie(CC.JWT_TOKEN, user.getCurrentJwToken()),
-					new Cookie(CC.USER_ID_IN_COOKIE, String.valueOf(user.getId())),
-					new Cookie(CC.USER_TOKEN_SEQ_IN_COOKIE, String.valueOf(user.getUserJwTokenKeySeq())) };
+		if (userInfo != null) {
+			Cookie[] cookies = { new Cookie(CC.JWT_TOKEN, userInfo.getCurrentJwToken()),
+					new Cookie(CC.USER_ID_IN_COOKIE, String.valueOf(userInfo.getId())),
+					new Cookie(CC.USER_TOKEN_SEQ_IN_COOKIE, String.valueOf(userInfo.getUserJwTokenKeySeq())) };
 
 			for (Cookie cookie : cookies) {
 				cookie.setPath("/");
 				response.addCookie(cookie);
 			}
-			resultString = CC.gson.toJson(user);
+			resultString = CC.gson.toJson(userInfo);
 		}
-		lgr.debug(CC.GETTING_OUT_2 + "login");
+		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return resultString;
 	}
 

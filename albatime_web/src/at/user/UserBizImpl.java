@@ -37,8 +37,9 @@ public class UserBizImpl implements IUserBiz {
 	 * functional methods
 	 */
 	public UserEty login(UserEty user) {
-		lgr.debug(CC.GETTING_INTO_4 + "loginImpl");
+		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 
+		user.setAsNormalStus();
 		UserEty userInfo = this.userDao.getUserInfoByEmailAndPw(user);
 		if (userInfo == null)
 			return null;
@@ -50,10 +51,9 @@ public class UserBizImpl implements IUserBiz {
 
 		int insertJwTokenResult = this.userDao.insertJwTokenKey(new TokenKeyEty(userInfo.getId(), jwTokenKey));
 		if (insertJwTokenResult == 1) {
-			long jwTokenKeySeq = comDao.getLastInsertId();
-			userInfo.setUserJwTokenKeySeq(jwTokenKeySeq);
+			userInfo.setUserJwTokenKeySeq(comDao.getLastInsertId());
 		}
-		lgr.debug(CC.GETTING_OUT_4 + "loginImpl");
+		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return userInfo;
 	}
 

@@ -130,7 +130,7 @@
 	<bean id="sqls" class="at.supp.SqlServiceImpl">
 		<property name="sqlMap">
 			<map>
-				<entry key="accountLogin" value="select usr_id, usr_email, usr_nick, usr_gender, usr_birth, usr_type, usr_stus from tb_usr where usr_email = ? and usr_pw = ?" />
+				<entry key="accountLogin" value="select usr_id, usr_email, usr_nick, usr_gender, usr_birth, usr_type, usr_stus from tb_usr where usr_email = ? and usr_pw = ? and usr_stus = ?" />
 				<entry key="accountEmailCount" value="select count(usr_email) from tb_usr where usr_email = ?" />
 				<entry key="accountRegisterLogin" value="insert into tb_usr(usr_email, usr_pw, usr_nick, usr_gender, usr_birth, usr_type, usr_stus) values (?,?,?,?,?,?,?)" />
 				<entry key="actorCreateActor" value="insert into tb_actor (ac_usr_id, ac_name, ac_memo, ac_period_from, ac_period_to, ac_worktime_unit, ac_alarm_before, ac_unpaidbreak_flag, ac_tax_rate, ac_basic_wage, ac_color_bg, ac_phone1, ac_phone2, ac_addr1_1, ac_addr1_2, ac_addr1_3, ac_stus) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)" />

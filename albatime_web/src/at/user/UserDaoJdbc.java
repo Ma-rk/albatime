@@ -42,7 +42,7 @@ public class UserDaoJdbc implements IUserDao {
 	 * functional methods
 	 */
 	public UserEty getUserInfoByEmailAndPw(UserEty user) {
-		lgr.debug(CC.GETTING_INTO_6 + "getUserInfoByEmailAndPw");
+		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		RowMapper<UserEty> rowMapper = new RowMapper<UserEty>() {
 			public UserEty mapRow(ResultSet rs, int rowNum) {
 				try {
@@ -57,12 +57,12 @@ public class UserDaoJdbc implements IUserDao {
 		UserEty useResult = null;
 		try {
 			useResult = this.jdbcTemplate.queryForObject(this.sqls.getSql("accountLogin"), rowMapper, user.getEmail(),
-					user.getPw());
+					user.getPw(), user.getStus());
 		} catch (EmptyResultDataAccessException e) {
 			e.printStackTrace();
 		}
 		lgr.debug("user: " + user);
-		lgr.debug(CC.GETTING_OUT_6 + "getUserInfoByEmailAndPw");
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return useResult;
 	}
 

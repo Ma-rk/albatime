@@ -34,8 +34,8 @@ public class UserTest {
 
 	@Test
 	public void loginTest() {
-		String loginUser = userCont.login(null, "email@mail.com", "pwpw");
-		lgr.info(loginUser.toString());
+//		String loginUser = userCont.login(null, "email@mail.com", "pwpw");
+//		lgr.info(loginUser.toString());
 	}
 
 	@Test
