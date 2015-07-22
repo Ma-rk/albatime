@@ -49,37 +49,37 @@ public class ActorCont {
 
 	@RequestMapping(value = "/api/actor", produces = "application/json", method = RequestMethod.GET)
 	public @ResponseBody String retrieveActorListCont(@CookieValue("userIdInCookie") long userId) {
-		lgr.debug(CC.GETTING_INTO_2 + "retrieveActorListCont");
+		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		lgr.debug("retrieving actors of user [{}]", userId);
 		ActorEty actor = new ActorEty();
 		actor.setUserId(userId);
 
 		List<ActorEty> actorList = actorBiz.retireveActorListBiz(actor);
 
-		lgr.debug(CC.GETTING_OUT_2 + "retrieveActorListCont");
+		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return CC.gson.toJson(actorList);
 	}
 
 	@RequestMapping(value = "/api/actor", produces = "application/json", method = RequestMethod.PUT)
 	public @ResponseBody String updateActorCont(@CookieValue("userIdInCookie") long userId, ActorEty actor) {
-		lgr.debug(CC.GETTING_INTO_2 + "updateActorCont");
+		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		actor.setUserId(userId);
 		lgr.debug(actor.toString());
 
 		int updateActorResult = actorBiz.updateActorBiz(actor);
 
-		lgr.debug(CC.GETTING_OUT_2 + "updateActorCont");
+		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return CC.gson.toJson(updateActorResult);
 	}
 
 	@RequestMapping(value = "/api/actor", produces = "application/json", method = RequestMethod.DELETE)
 	public @ResponseBody String deleteActorCont(ActorEty actor, @CookieValue("userIdInCookie") long userId) {
-		lgr.debug(CC.GETTING_INTO_2 + "deleteActorCont");
+		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		actor.setUserId(userId);
 
 		int updateActorResult = actorBiz.deleteActorBiz(actor);
 
-		lgr.debug(CC.GETTING_OUT_2 + "deleteActorCont");
+		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return CC.gson.toJson(updateActorResult);
 	}
 }

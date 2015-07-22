@@ -25,25 +25,25 @@ public class CardBizImpl implements ICardBiz {
 	 * functional methods
 	 */
 	public int createCardBiz(CardEty card) {
-		lgr.debug(CC.GETTING_INTO_4 + "createCardBiz");
+		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		card.setAsNormalStus();
 		int insertCardResult = cardDao.insertCardBiz(card);
-		lgr.debug(CC.GETTING_OUT_4 + "createCardBiz");
+		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return insertCardResult;
 	}
 
 	public List<CardEty> retireveCardListBiz(CardEty card) {
-		lgr.debug(CC.GETTING_INTO_4 + "retireveCardListBiz");
+		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		List<CardEty> cardList = cardDao.retrieveCardListDao(card);
-		lgr.debug(CC.GETTING_OUT_4 + "retireveCardListBiz");
+		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return cardList;
 	}
 
 	public int updateCardBiz(CardEty card) {
-		lgr.debug(CC.GETTING_INTO_4 + "retireveCardListBiz");
+		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		card.setAsEditedStus();
 		int updateCardResult = cardDao.updateCardDao(card);
-		lgr.debug(CC.GETTING_OUT_4 + "retireveCardListBiz");
+		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return updateCardResult;
 	}
 }

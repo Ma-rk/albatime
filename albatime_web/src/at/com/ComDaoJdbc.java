@@ -31,9 +31,9 @@ public class ComDaoJdbc implements IComDao {
 	 * functional methods
 	 */
 	public long getLastInsertId() {
-		lgr.debug(CC.GETTING_INTO_6 + "getLastInsertId");
+		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		long lastInsertId = this.jdbcTemplate.queryForObject(this.sqls.getSql("getLastId"), Long.class);
-		lgr.debug(CC.GETTING_OUT_6 + "getLastInsertId");
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return lastInsertId;
 	}
 }

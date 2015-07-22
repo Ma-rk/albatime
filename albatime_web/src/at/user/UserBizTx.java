@@ -16,7 +16,7 @@ import at.supp.CC;
 import at.user.interfaces.IUserBiz;
 
 public class UserBizTx implements IUserBiz {
-	private static final Logger logger = LoggerFactory.getLogger(UserBizTx.class);
+	private static final Logger lgr = LoggerFactory.getLogger(UserBizTx.class);
 
 	/*
 	 * DI codes
@@ -37,24 +37,24 @@ public class UserBizTx implements IUserBiz {
 	 * functional methods
 	 */
 	public UserEty login(UserEty user) {
-		logger.info(CC.GETTING_INTO_4 + "loginTx");
+		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		UserEty loginUser;
 
 		TransactionStatus status = this.transactionManager.getTransaction(new DefaultTransactionDefinition());
-		logger.info("transaction info: begin on [{}]", this.toString());
+		lgr.info("transaction info: begin on [{}]", this.toString());
 		try {
 			/////////////////////////////////////
 			loginUser = this.userBiz.login(user);
 			/////////////////////////////////////
 			this.transactionManager.commit(status);
-			logger.info("transaction info: commit done.");
+			lgr.info("transaction info: commit done.");
 		} catch (RuntimeException e) {
 			this.transactionManager.rollback(status);
-			logger.info("transaction info: rollback done.");
+			lgr.info("transaction info: rollback done.");
 			throw e;
 		} finally {
-			logger.info(CC.GETTING_OUT_4 + "loginTX");
+			lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName() + "tx");
 		}
 		return loginUser;
 	}

@@ -30,34 +30,34 @@ public class CardCont {
 	 */
 	@RequestMapping(value = CC.API_CARD, produces = "application/json", method = RequestMethod.POST)
 	public @ResponseBody String createCardCont(CardEty card) {
-		lgr.debug(CC.GETTING_INTO_2 + "createCardCont");
+		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		lgr.debug(card.toString());
 
 		int inserActorResult = cardBiz.createCardBiz(card);
 
-		lgr.debug(CC.GETTING_OUT_2 + "createCardCont");
+		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return CC.gson.toJson(inserActorResult);
 	}
 
 	@RequestMapping(value = CC.API_CARD, produces = "application/json", method = RequestMethod.GET)
 	public @ResponseBody String retrieveCardListCont(CardEty card) {
-		lgr.debug(CC.GETTING_INTO_2 + "retrieveCardListCont");
+		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		lgr.debug(card.toString());
 
 		List<CardEty> cardList = cardBiz.retireveCardListBiz(card);
 
-		lgr.debug(CC.GETTING_OUT_2 + "retrieveCardListCont");
+		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return CC.gson.toJson(cardList);
 	}
 
 	@RequestMapping(value = CC.API_CARD, produces = "application/json", method = RequestMethod.PUT)
 	public @ResponseBody String updateCardCont(CardEty card) {
-		lgr.debug(CC.GETTING_INTO_2 + "updateCardCont");
+		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		lgr.debug(card.toString());
 		
 		int updateCardResult = cardBiz.updateCardBiz(card);
 		
-		lgr.debug(CC.GETTING_OUT_2 + "updateCardCont");
+		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return CC.gson.toJson(updateCardResult);
 	}
 }

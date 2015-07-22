@@ -58,20 +58,25 @@ public class UserBizImpl implements IUserBiz {
 	}
 
 	public String retrieveJwTokenKey(TokenKeyEty tokenKeyEty) {
-		return this.userDao.retrieveJwTokenKey(tokenKeyEty);
+		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
+		String jwTokenKey = this.userDao.retrieveJwTokenKey(tokenKeyEty);
+		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return jwTokenKey;
 	}
 
 	public List<Map<String, Object>> retrieveJwTokenList(TokenEty tokenEty) {
+		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		tokenEty.setAsNormalStus();
-		return this.userDao.retrieveJwTokenList(tokenEty);
+		List<Map<String, Object>> jwTokenList = this.userDao.retrieveJwTokenList(tokenEty);
+		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return jwTokenList;
 	}
 
 	public int expireJwTokens(TokenEty tokenEty) {
+		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		tokenEty.setAsExpiredStus();
-		return userDao.expireJwTokens(tokenEty);
+		int expireJwTokenResult = userDao.expireJwTokens(tokenEty);
+		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return expireJwTokenResult;
 	}
-
-	/*
-	 * supporting methods
-	 */
 }

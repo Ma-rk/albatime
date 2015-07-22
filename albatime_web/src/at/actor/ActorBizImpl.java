@@ -25,38 +25,33 @@ public class ActorBizImpl implements IActorBiz {
 	/*
 	 * functional methods
 	 */
-
 	public int insertActorBiz(ActorEty actor) {
-		lgr.debug(CC.GETTING_INTO_4 + "insertActorBiz");
+		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		actor.setAsNormalStus();
-		lgr.debug(CC.GETTING_OUT_4 + "insertActorBiz");
+		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return actorDao.insertActor(actor);
 	}
 
 	public List<ActorEty> retireveActorListBiz(ActorEty actor) {
-		lgr.debug(CC.GETTING_INTO_4 + "retireveActorListBiz");
+		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		actor.setAsNormalStus();
 		List<ActorEty> actorList = actorDao.retireveActorListDao(actor);
-		lgr.debug(CC.GETTING_OUT_4 + "retireveActorListBiz");
+		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return actorList;
 	}
 
 	public int updateActorBiz(ActorEty actor) {
-		lgr.debug(CC.GETTING_INTO_4 + "updateActorBiz");
+		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		int updateActorResult = actorDao.updateActorDao(actor);
-		lgr.debug(CC.GETTING_OUT_4 + "updateActorBiz");
+		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return updateActorResult;
 	}
 
 	public int deleteActorBiz(ActorEty actor) {
-		lgr.debug(CC.GETTING_INTO_4 + "deleteActorBiz");
+		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		actor.setAsDeactivatedStus();
 		int deleteActorResult = actorDao.deleteActorDao(actor);
-		lgr.debug(CC.GETTING_OUT_4 + "deleteActorBiz");
+		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return deleteActorResult;
 	}
-
-	/*
-	 * supporting methods
-	 */
 }

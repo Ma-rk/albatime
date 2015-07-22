@@ -55,33 +55,26 @@ public class UserCont {
 
 	@RequestMapping(value = "/api/token", method = RequestMethod.GET)
 	public @ResponseBody String retrieveToken(@CookieValue("userIdInCookie") long userId) {
-		lgr.debug(CC.GETTING_INTO_2 + "retrieveToken");
+		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		lgr.debug("retrieving tokens for user " + userId);
 		TokenEty tokenEty = new TokenEty(userId);
 
 		List<Map<String, Object>> jwTokenList = userBiz.retrieveJwTokenList(tokenEty);
 
-		lgr.debug(CC.GETTING_OUT_2 + "retrieveToken");
+		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return CC.gson.toJson(jwTokenList);
 	}
 
 	@RequestMapping(value = "/api/token", method = RequestMethod.DELETE)
 	public @ResponseBody String expireJwTokens(@CookieValue("userIdInCookie") long userId,
 			@CookieValue("userTokenSeqInCookie") long jwTokenSeq) {
-		lgr.debug(CC.GETTING_INTO_2 + "expireToken");
+		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		lgr.debug("expiring tokens for user " + userId);
 		TokenEty tokenEty = new TokenEty(userId, jwTokenSeq);
 
 		int expiredTokens = userBiz.expireJwTokens(tokenEty);
 
-		lgr.debug(CC.GETTING_OUT_2 + "expireToken");
+		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return CC.gson.toJson(expiredTokens);
-	}
-
-	@RequestMapping(value = "/api/login3", method = RequestMethod.GET)
-	public @ResponseBody UserEty interceptorTest2() {
-		lgr.debug(CC.GETTING_INTO_2 + "interceptorTest");
-		lgr.debug(CC.GETTING_OUT_2 + "interceptorTest");
-		return null;
 	}
 }

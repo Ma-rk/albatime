@@ -67,15 +67,15 @@ public class UserDaoJdbc implements IUserDao {
 	}
 
 	public int insertJwTokenKey(TokenKeyEty tokenKeyEty) {
-		lgr.debug(CC.GETTING_INTO_6 + "insertJwTokenKey");
+		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		int insertJwTokenResult = this.jdbcTemplate.update(this.sqls.getSql("login_InsertJwTokenKey"),
 				tokenKeyEty.getUserId(), tokenKeyEty.getKey(), tokenKeyEty.getStus());
-		lgr.debug(CC.GETTING_OUT_6 + "insertJwTokenKey");
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return insertJwTokenResult;
 	}
 
 	public String retrieveJwTokenKey(TokenKeyEty tokenKeyEty) {
-		lgr.debug(CC.GETTING_INTO_6 + "retrieveJwTokenKey");
+		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		lgr.debug("retireive token key for tkSeq [{}], userId [{}]", tokenKeyEty.getSeq(), tokenKeyEty.getSeqUser());
 		RowMapper<String> rowMapper = new RowMapper<String>() {
 			public String mapRow(ResultSet rs, int rowNum) {
@@ -95,20 +95,23 @@ public class UserDaoJdbc implements IUserDao {
 			jwTokenKey = null;
 		}
 		lgr.debug("jwTokenKey: " + jwTokenKey);
-		lgr.debug(CC.GETTING_OUT_6 + "retrieveJwTokenKey");
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return jwTokenKey;
 	}
 
 	public List<Map<String, Object>> retrieveJwTokenList(TokenEty tokenEty) {
-		lgr.debug(CC.GETTING_INTO_6 + "retrieveTokenList");
-		lgr.debug(CC.GETTING_OUT_6 + "retrieveTokenList");
-		return jdbcTemplate.queryForList(this.sqls.getSql("tkRetireveToken"), tokenEty.getUserId(), tokenEty.getStus());
+		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		List<Map<String, Object>> jwTokenList = jdbcTemplate.queryForList(this.sqls.getSql("tkRetireveToken"),
+				tokenEty.getUserId(), tokenEty.getStus());
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return jwTokenList;
 	}
 
 	public int expireJwTokens(TokenEty tokenEty) {
-		lgr.debug(CC.GETTING_INTO_6 + "deleteJwTokens");
-		lgr.debug(CC.GETTING_OUT_6 + "deleteJwTokens");
-		return jdbcTemplate.update(this.sqls.getSql("tkExpireToken"), tokenEty.getStus(), tokenEty.getUserId(),
-				tokenEty.getJwTokenKeySeq(), tokenEty.getStus());
+		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		int expireJwTokenResult = jdbcTemplate.update(this.sqls.getSql("tkExpireToken"), tokenEty.getStus(),
+				tokenEty.getUserId(), tokenEty.getJwTokenKeySeq(), tokenEty.getStus());
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return expireJwTokenResult;
 	}
 }

@@ -38,18 +38,18 @@ public class ActorDaoJdbc implements IActorDao {
 	 * functional methods
 	 */
 	public int insertActor(ActorEty actor) {
-		lgr.debug(CC.GETTING_INTO_6 + "createActor");
+		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		int insertActorResult = this.jdbcTemplate.update(this.sqls.getSql("actorCreateActor"), actor.getUserId(),
 				actor.getName(), actor.getMemo(), actor.getPeriodFrom(), actor.getPeriodTo(), actor.getWorkTimeUnit(),
 				actor.getAlarmBefore(), actor.getUnpaidbreakFlag(), actor.getTaxRate(), actor.getBasicWage(),
 				actor.getBgColor(), actor.getPhone1(), actor.getPhone2(), actor.getAddr1(), actor.getAddr2(),
 				actor.getAddr3(), actor.getStus());
-		lgr.debug(CC.GETTING_OUT_6 + "createActor");
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return insertActorResult;
 	}
 
 	public List<ActorEty> retireveActorListDao(ActorEty actor) {
-		lgr.debug(CC.GETTING_INTO_6 + "retireveActorListDao");
+		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		RowMapper<ActorEty> rowMapper = new RowMapper<ActorEty>() {
 			public ActorEty mapRow(ResultSet rs, int rowNum) {
 				try {
@@ -66,7 +66,7 @@ public class ActorDaoJdbc implements IActorDao {
 				}
 			}
 		};
-		lgr.debug(CC.GETTING_OUT_6 + "retireveActorListDao");
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return this.jdbcTemplate.query(this.sqls.getSql("actorRetrieveActors"), rowMapper, actor.getUserId(),
 				actor.getStus());
 	}
