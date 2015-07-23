@@ -7,19 +7,18 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import at.actor.interfaces.IActorBiz;
 import at.com.CommUtil;
 import at.model.ActorEty;
 import at.supp.CC;
 
-@Controller
+@RestController
 public class ActorCont {
 	private static final Logger lgr = LoggerFactory.getLogger(ActorCont.class);
 	@Autowired
@@ -30,7 +29,7 @@ public class ActorCont {
 	}
 
 	@RequestMapping(value = "/api/actor", produces = "application/json", method = RequestMethod.POST)
-	public @ResponseBody String createActorCont(@CookieValue("userIdInCookie") long userId, @Valid ActorEty actor,
+	public String createActorCont(@CookieValue("userIdInCookie") long userId, @Valid ActorEty actor,
 			BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {
@@ -46,8 +45,7 @@ public class ActorCont {
 	}
 
 	@RequestMapping(value = "/api/actor", produces = "application/json", method = RequestMethod.GET)
-	public @ResponseBody String retrieveActorListCont(@CookieValue("userIdInCookie") long userId,
-			BindingResult result) {
+	public String retrieveActorListCont(@CookieValue("userIdInCookie") long userId, BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {
 			return "0";
@@ -63,7 +61,7 @@ public class ActorCont {
 	}
 
 	@RequestMapping(value = "/api/actor", produces = "application/json", method = RequestMethod.PUT)
-	public @ResponseBody String updateActorCont(@CookieValue("userIdInCookie") long userId, @Valid ActorEty actor,
+	public String updateActorCont(@CookieValue("userIdInCookie") long userId, @Valid ActorEty actor,
 			BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {
@@ -79,8 +77,7 @@ public class ActorCont {
 	}
 
 	@RequestMapping(value = "/api/actor", produces = "application/json", method = RequestMethod.DELETE)
-	public @ResponseBody String deleteActorCont(ActorEty actor, @CookieValue("userIdInCookie") long userId,
-			BindingResult result) {
+	public String deleteActorCont(ActorEty actor, @CookieValue("userIdInCookie") long userId, BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {
 			return "0";

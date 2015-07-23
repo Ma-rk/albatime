@@ -4,16 +4,15 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import at.card.interfaces.ICardBiz;
 import at.model.CardEty;
 import at.supp.CC;
 
-@Controller
+@RestController
 public class CardCont {
 	private static final Logger lgr = LoggerFactory.getLogger(CardCont.class);
 	/*
@@ -29,7 +28,7 @@ public class CardCont {
 	 * functional methods
 	 */
 	@RequestMapping(value = CC.API_CARD, produces = "application/json", method = RequestMethod.POST)
-	public @ResponseBody String createCardCont(CardEty card) {
+	public String createCardCont(CardEty card) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		lgr.debug(card.toString());
 
@@ -40,7 +39,7 @@ public class CardCont {
 	}
 
 	@RequestMapping(value = CC.API_CARD, produces = "application/json", method = RequestMethod.GET)
-	public @ResponseBody String retrieveCardListCont(CardEty card) {
+	public String retrieveCardListCont(CardEty card) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		lgr.debug(card.toString());
 
@@ -51,12 +50,12 @@ public class CardCont {
 	}
 
 	@RequestMapping(value = CC.API_CARD, produces = "application/json", method = RequestMethod.PUT)
-	public @ResponseBody String updateCardCont(CardEty card) {
+	public String updateCardCont(CardEty card) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		lgr.debug(card.toString());
-		
+
 		int updateCardResult = cardBiz.updateCardBiz(card);
-		
+
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return CC.gson.toJson(updateCardResult);
 	}

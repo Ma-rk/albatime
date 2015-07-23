@@ -10,12 +10,11 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import at.com.CommUtil;
 import at.model.TokenEty;
@@ -23,7 +22,7 @@ import at.model.UserEty;
 import at.supp.CC;
 import at.user.interfaces.IUserBiz;
 
-@Controller
+@RestController
 public class UserCont {
 	private static final Logger lgr = LoggerFactory.getLogger(UserCont.class);
 	@Autowired
@@ -34,7 +33,7 @@ public class UserCont {
 	}
 
 	@RequestMapping(value = CC.API_LOGIN, produces = "application/json", method = RequestMethod.POST)
-	public @ResponseBody String login(HttpServletResponse response, @Valid UserEty user, BindingResult result) {
+	public String login(HttpServletResponse response, @Valid UserEty user, BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {
 			return "0";
@@ -60,7 +59,7 @@ public class UserCont {
 	}
 
 	@RequestMapping(value = CC.API_TOKEN, method = RequestMethod.GET)
-	public @ResponseBody String retrieveToken(@CookieValue("userIdInCookie") long userId, BindingResult result) {
+	public String retrieveToken(@CookieValue("userIdInCookie") long userId, BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {
 			return "0";
@@ -75,7 +74,7 @@ public class UserCont {
 	}
 
 	@RequestMapping(value = CC.API_TOKEN, method = RequestMethod.DELETE)
-	public @ResponseBody String expireJwTokens(@CookieValue("userIdInCookie") long userId,
+	public String expireJwTokens(@CookieValue("userIdInCookie") long userId,
 			@CookieValue("userTokenSeqInCookie") long jwTokenSeq, BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {
