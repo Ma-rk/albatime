@@ -66,6 +66,20 @@
 			<version>1.1.2</version>
 		</dependency>
 
+		<!-- hibernate -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>5.2.0.CR1</version>
+		</dependency>
+
+		<!-- lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.4</version>
+			<scope>provided</scope>
+		</dependency>
 
 		<!-- junit -->
 		<dependency>
@@ -136,8 +150,8 @@
 		<finalName>${project.artifactId}-${project.version}</finalName>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
-		<outputDirectory>webapp/WEB-INF/classes</outputDirectory>
-		<testOutputDirectory>target/test-classes</testOutputDirectory>
+		<outputDirectory>/webapp/WEB-INF/classes</outputDirectory>
+		<testOutputDirectory>/target/test-classes</testOutputDirectory>
 
 		<resources>
 			<resource>
@@ -154,6 +168,14 @@
 					<source>1.8</source>
 					<target>1.8</target>
 					<encoding>utf-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<webXml>webapp\WEB-INF\web.xml</webXml>
+					<warSourceDirectory>webapp</warSourceDirectory>
 				</configuration>
 			</plugin>
 		</plugins>

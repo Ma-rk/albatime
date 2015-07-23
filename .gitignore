@@ -8,4 +8,5 @@ albatime_web/tomcat.8080/
 albatime_web/build/
 albatime_web/webapp/WEB-INF/classes/
 albatime_web/resources/local_properties
+albatime_web/resources/lombok.jar
 albatime_web/bin

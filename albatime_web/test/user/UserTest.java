@@ -1,7 +1,5 @@
 package user;
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import at.model.TokenKeyEty;
 import at.model.UserEty;
 import at.user.UserCont;
+import at.user.UserDaoJdbc;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/at-servlet.xml")
@@ -20,9 +20,12 @@ public class UserTest {
 	private static final Logger lgr = LoggerFactory.getLogger(UserTest.class);
 
 	UserEty user1;
-	
+
 	@Autowired
 	private UserCont userCont;
+
+	@Autowired
+	private UserDaoJdbc userDao;
 
 	@Before
 	public void setUp() throws Exception {
@@ -31,6 +34,15 @@ public class UserTest {
 
 	@Test
 	public void loginTest() {
-		lgr.info(userCont.login("email@mail.com", "pwpw").toString());
+//		String loginUser = userCont.login(null, "email@mail.com", "pwpw");
+//		lgr.info(loginUser.toString());
+	}
+
+	@Test
+	public void retrieveJwTokenKeyTest() {
+		TokenKeyEty tokenKeyEty = new TokenKeyEty(1l, 1l);
+		tokenKeyEty.setStusAsNormal();
+		String key = userDao.retrieveJwTokenKey(tokenKeyEty);
+		lgr.info(key);
 	}
 }

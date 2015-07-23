@@ -7,16 +7,17 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import at.account.AccountDaoJdbc;
+import at.model.TokenEty;
+import at.model.TokenKeyEty;
 import at.model.UserEty;
 import at.supp.CC;
 import at.supp.interfaces.ISqlService;
 import at.user.interfaces.IUserDao;
 
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanInstantiationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -40,32 +41,77 @@ public class UserDaoJdbc implements IUserDao {
 	/*
 	 * functional methods
 	 */
-	public void add(UserEty user) {
-		this.jdbcTemplate.update(
-				"insert into tb_usr(usr_email, usr_pw, usr_nick, usr_birth, usr_stus) values (?,?,?,?,?)",
-				user.getEmail(), user.getPw(), user.getNick(), user.getBirth(), user.getStus());
-	}
-
-	public UserEty getUserInfoByEmailAndPw(String userEmail, String userPw) {
-		lgr.debug(CC.GETTING_INTO_6 + "checkUserExistance");
-
+	public UserEty getUserInfoByEmailAndPw(UserEty user) {
+		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		RowMapper<UserEty> rowMapper = new RowMapper<UserEty>() {
 			public UserEty mapRow(ResultSet rs, int rowNum) {
 				try {
-					return new UserEty(rs.getLong("usr_id"), rs.getString("usr_email"), rs.getString("usr_pw"),
-							rs.getString("usr_nick"), rs.getString("usr_gender"), rs.getString("usr_birth"),
-							rs.getString("usr_type"), rs.getString("usr_stus"));
+					return new UserEty(rs.getLong("usr_id"), rs.getString("usr_email"), rs.getString("usr_nick"),
+							rs.getString("usr_gender"), rs.getDate("usr_birth"), rs.getString("usr_type"),
+							rs.getString("usr_stus"));
 				} catch (SQLException e) {
 					throw new BeanInstantiationException(UserEty.class, e.getMessage(), e);
 				}
 			}
 		};
-		return this.jdbcTemplate.queryForObject(this.sqls.getSql("accountLogin"), rowMapper, userEmail, userPw);
+		UserEty useResult = null;
+		try {
+			useResult = this.jdbcTemplate.queryForObject(this.sqls.getSql("accountLogin"), rowMapper, user.getEmail(),
+					user.getPw(), user.getStus());
+		} catch (EmptyResultDataAccessException e) {
+			e.printStackTrace();
+		}
+		lgr.debug("user: " + user);
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return useResult;
 	}
 
-	public void insertJwTokenKey(Long userId, String jwTokenKey) {
-		lgr.debug(CC.GETTING_INTO_6 + "insertJwTokenKey");
-		this.jdbcTemplate.update(this.sqls.getSql(""), "");
+	public int insertJwTokenKey(TokenKeyEty tokenKeyEty) {
+		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		int insertJwTokenResult = this.jdbcTemplate.update(this.sqls.getSql("login_InsertJwTokenKey"),
+				tokenKeyEty.getUserId(), tokenKeyEty.getKey(), tokenKeyEty.getStus());
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return insertJwTokenResult;
+	}
 
+	public String retrieveJwTokenKey(TokenKeyEty tokenKeyEty) {
+		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		lgr.debug("retireive token key for tkSeq [{}], userId [{}]", tokenKeyEty.getSeq(), tokenKeyEty.getSeqUser());
+		RowMapper<String> rowMapper = new RowMapper<String>() {
+			public String mapRow(ResultSet rs, int rowNum) {
+				try {
+					return rs.getString("tk_key");
+				} catch (SQLException e) {
+					throw new BeanInstantiationException(UserEty.class, e.getMessage(), e);
+				}
+			}
+		};
+		String jwTokenKey;
+		try {
+			jwTokenKey = this.jdbcTemplate.queryForObject(this.sqls.getSql("autologin_retrieveJwTokenKey"), rowMapper,
+					tokenKeyEty.getSeq(), tokenKeyEty.getSeqUser(), CC.TOKEN_STUS_NORMAL);
+		} catch (EmptyResultDataAccessException e) {
+			e.printStackTrace();
+			jwTokenKey = null;
+		}
+		lgr.debug("jwTokenKey: " + jwTokenKey);
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return jwTokenKey;
+	}
+
+	public List<Map<String, Object>> retrieveJwTokenList(TokenEty tokenEty) {
+		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		List<Map<String, Object>> jwTokenList = jdbcTemplate.queryForList(this.sqls.getSql("tkRetireveToken"),
+				tokenEty.getUserId(), tokenEty.getStus());
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return jwTokenList;
+	}
+
+	public int expireJwTokens(TokenEty tokenEty) {
+		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		int expireJwTokenResult = jdbcTemplate.update(this.sqls.getSql("tkExpireToken"), tokenEty.getStus(),
+				tokenEty.getUserId(), tokenEty.getJwTokenKeySeq(), tokenEty.getStus());
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return expireJwTokenResult;
 	}
 }

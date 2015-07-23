@@ -28,9 +28,9 @@ import net.oauth.jsontoken.discovery.VerifierProvider;
 import net.oauth.jsontoken.discovery.VerifierProviders;
 
 public class JwtMgr {
-	private static final String AUDIENCE = "NotReallyImportant";
+	private static final String AUDIENCE = "BundangCitizen";
 
-	private static final String ISSUER = "YourCompanyOrAppNameHere";
+	private static final String ISSUER = "BundangWindRunners";
 
 	public static String createJsonWebToken(long userId, long durationDays, String jwTokenKey) {
 		// Current time and signing algorithm
@@ -46,8 +46,7 @@ public class JwtMgr {
 		JsonToken token = new net.oauth.jsontoken.JsonToken(signer);
 		token.setAudience(AUDIENCE);
 		token.setIssuedAt(new org.joda.time.Instant(calender.getTimeInMillis()));
-		token.setExpiration(
-				new org.joda.time.Instant(calender.getTimeInMillis() + CC.MS_FOR_ONE_DAY * durationDays));
+		token.setExpiration(new org.joda.time.Instant(calender.getTimeInMillis() + CC.MS_FOR_ONE_DAY * durationDays));
 
 		// Configure request object, which provides information of the item
 		JsonObject request = new JsonObject();
@@ -108,15 +107,18 @@ public class JwtMgr {
 
 	public static String readToken(String jwToken) throws SignatureException {
 		String[] pieces = jwToken.split(Pattern.quote(JsonTokenUtil2.DELIMITER));
-		if (pieces.length != 3) { throw new IllegalArgumentException("Expected JWT to have 3 segments separated by '" + JsonTokenUtil2.DELIMITER + "', but it has "
-				+ pieces.length + " segments"); }
+		if (pieces.length != 3) {
+			throw new IllegalArgumentException("Expected JWT to have 3 segments separated by '"
+					+ JsonTokenUtil2.DELIMITER + "', but it has " + pieces.length + " segments");
+		}
 		String jwtPayloadSegment = pieces[1];
-		JsonObject payload = new JsonParser().parse(JsonTokenUtil2.fromBase64ToJsonString(jwtPayloadSegment)).getAsJsonObject();
+		JsonObject payload = new JsonParser().parse(JsonTokenUtil2.fromBase64ToJsonString(jwtPayloadSegment))
+				.getAsJsonObject();
 		System.out.println(payload.getAsJsonObject("info").getAsJsonPrimitive("userId").getAsString());
 		System.out.println(payload);
 		return payload.toString();
 	}
-	
+
 	public static String generateJwTokenKey() {
 		return new BigInteger(130, new SecureRandom()).toString(32);
 	}

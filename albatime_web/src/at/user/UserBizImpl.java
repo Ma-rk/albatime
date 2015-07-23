@@ -1,13 +1,14 @@
 package at.user;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import at.account.AccountBizImpl;
+import at.com.interfaces.IComDao;
+import at.model.TokenEty;
+import at.model.TokenKeyEty;
 import at.model.UserEty;
 import at.supp.CC;
 import at.supp.JwtMgr;
@@ -16,9 +17,6 @@ import at.user.interfaces.IUserDao;
 
 public class UserBizImpl implements IUserBiz {
 	private static final Logger lgr = LoggerFactory.getLogger(UserBizImpl.class);
-
-	public static final int MIN_LOGCOUT_FOR_SILVER = 50;
-	public static final int MIN_RECCOMMEND_FOR_GOLD = 30;
 
 	/*
 	 * DI codes
@@ -29,53 +27,56 @@ public class UserBizImpl implements IUserBiz {
 		this.userDao = userDao;
 	}
 
+	private IComDao comDao;
+
+	public void setComDao(IComDao comDao) {
+		this.comDao = comDao;
+	}
+
 	/*
 	 * functional methods
 	 */
-	public void add(UserEty user) {
-
-		this.userDao.add(user);
-	}
-
-	public void upgradeLevelOfEveryUser() {
-		lgr.info("upgradeLevelOfEveryUser()====>");
-
-		lgr.info("upgradeLevelOfEveryUser()<====");
-	}
-
 	public UserEty login(UserEty user) {
-		lgr.debug(CC.GETTING_INTO_2 + "login");
-		UserEty userInfo = this.userDao.getUserInfoByEmailAndPw(user.getEmail(), user.getPw());
+		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 
+		user.setAsNormalStus();
+		UserEty userInfo = this.userDao.getUserInfoByEmailAndPw(user);
 		if (userInfo == null)
 			return null;
 
 		String jwTokenKey = JwtMgr.generateJwTokenKey();
-		this.userDao.insertJwTokenKey(userInfo.getId(), jwTokenKey);
-		long jwTokenKeySeq = 0l; // should retrieve from db
 
-		String jwToken = JwtMgr.createJsonWebToken(userInfo.getId(), CC.DEFAULT_SESSION_DURATION_DAYS, "key");
-
+		String jwToken = JwtMgr.createJsonWebToken(userInfo.getId(), CC.DEFAULT_SESSION_DURATION_DAYS, jwTokenKey);
 		userInfo.setCurrentJwToken(jwToken);
-		lgr.debug(CC.GETTING_OUT_2 + "login");
+
+		int insertJwTokenResult = this.userDao.insertJwTokenKey(new TokenKeyEty(userInfo.getId(), jwTokenKey));
+		if (insertJwTokenResult == 1) {
+			userInfo.setUserJwTokenKeySeq(comDao.getLastInsertId());
+		}
+		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return userInfo;
 	}
 
-	/*
-	 * supporting methods
-	 */
-	private boolean isQualifiedToUpgradeUserLevel(UserEty user) {
-
-		return false;
+	public String retrieveJwTokenKey(TokenKeyEty tokenKeyEty) {
+		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
+		String jwTokenKey = this.userDao.retrieveJwTokenKey(tokenKeyEty);
+		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return jwTokenKey;
 	}
 
-	private void sendUpgradeEmail(UserEty user) {
-
+	public List<Map<String, Object>> retrieveJwTokenList(TokenEty tokenEty) {
+		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
+		tokenEty.setAsNormalStus();
+		List<Map<String, Object>> jwTokenList = this.userDao.retrieveJwTokenList(tokenEty);
+		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return jwTokenList;
 	}
 
-	protected void upgradeLevelOfOneUser(UserEty user) {
-		lgr.info("upgradeLevelOfOneUser(UserEntity)======>");
-
-		lgr.info("upgradeLevelOfOneUser(UserEntity)<======");
+	public int expireJwTokens(TokenEty tokenEty) {
+		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
+		tokenEty.setAsExpiredStus();
+		int expireJwTokenResult = userDao.expireJwTokens(tokenEty);
+		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return expireJwTokenResult;
 	}
 }

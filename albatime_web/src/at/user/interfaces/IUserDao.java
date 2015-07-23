@@ -5,14 +5,20 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import at.model.TokenEty;
+import at.model.TokenKeyEty;
 import at.model.UserEty;
 
 public interface IUserDao {
 	void setDataSource(DataSource dataSource);
 
-	public void add(UserEty user);
+	public UserEty getUserInfoByEmailAndPw(UserEty user);
 
-	public UserEty getUserInfoByEmailAndPw(String userEmail, String userPw);
-	
-	void insertJwTokenKey(Long userId, String jwToken);
+	int insertJwTokenKey(TokenKeyEty tokenKeyEty);
+
+	String retrieveJwTokenKey(TokenKeyEty tokenKeyEty);
+
+	List<Map<String, Object>> retrieveJwTokenList(TokenEty tokenEty);
+
+	int expireJwTokens(TokenEty tokenEty);
 }
