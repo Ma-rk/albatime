@@ -70,8 +70,17 @@ public class ApiInterceptor implements HandlerInterceptor {
 		}
 
 		// step 3. get jwt key
-		TokenKeyEty tokenKeyEty = new TokenKeyEty(Long.parseLong(userIdFromCookie),
-				Long.parseLong(userTokenSeqInCookie));
+		TokenKeyEty tokenKeyEty;
+		try {
+			tokenKeyEty = new TokenKeyEty(Long.parseLong(userIdFromCookie), Long.parseLong(userTokenSeqInCookie));
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			lgr.debug(
+					"NumberFormatException occured. cookie has wrong value: user id [{}], token seq [{}]. redirecting to login.html",
+					userIdFromCookie, userTokenSeqInCookie);
+			response.sendRedirect(CC.PAGE_LOGIN);
+			return false;
+		}
 		tokenKeyEty.setStusAsNormal();
 		String jwTokenKey = this.userBiz.retrieveJwTokenKey(tokenKeyEty);
 
