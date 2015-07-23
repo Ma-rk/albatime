@@ -13,10 +13,10 @@
 
 - (void)loginSucceed;
 - (void)loginSucceedWithEmail:(NSString *)email andPassword:(NSString *)password;
-- (void)loginFailed;
+- (void)loginFailedWithError:(NSString *)error;
 - (void)signUpSucceed;
 - (void)signUpSucceedWithUserCredential:(NSMutableDictionary *)userCredential;
-- (void)signUpFailed;
+- (void)signUpFailedWithError:(NSString *)error;
 - (void)resetEmailSent;
 - (void)resetEmailNotSent;
 
