@@ -38,6 +38,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.networkHandler = [(AppDelegate *)[[UIApplication sharedApplication] delegate] networkHandler];
     self.loginModel = [(AppDelegate *)[[UIApplication sharedApplication] delegate] loginModel];
     self.loginModel.delegate = self;
     self.networkHandler.delegate = self;
@@ -50,7 +51,6 @@
     // auto login process
     if (self.loginModel.email) {
         self.emailTextField.text = self.loginModel.email;
-        
         if (self.loginModel.autoLogin) {
             [self.loginModel tryAutoLogin];
         }
@@ -66,22 +66,24 @@
     [self.pswdTextField setReturnKeyType:UIReturnKeyDone];
     
     // 나중에 지역 언어로 변경
-    self.placeHolderTextForEmail = @"E-main address";
+    self.placeHolderTextForEmail = @"E-mail address";
     self.placeHolderTextForPswd = @"Password";
     
     self.emailTextField.placeholder = self.placeHolderTextForEmail;
     self.pswdTextField.placeholder = self.placeHolderTextForPswd;
     
-    self.activityIndicator.hidden = YES;
+    [self hideIndicator];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBar.hidden = YES;
 }
 
 - (IBAction)loginButtonTapped:(id)sender {
     if ([self validateUserInput]) {
-        [self.loginModel userAuthenticationWithEmail:self.emailTextField.text
-                                         andPassword:self.pswdTextField.text];
-        self.activityIndicator.hidden = NO;
-        [self.view setUserInteractionEnabled:NO];
-        [self.activityIndicator startAnimating];
+        [self.networkHandler userAuthenticationWithEmail:self.emailTextField.text
+                                             andPassword:self.pswdTextField.text];
+        [self showIndicator];
     }
 }
 
@@ -114,21 +116,17 @@
 
 - (IBAction)autoLoginChanged:(id)sender {
     if ([self.autoLoginSwitch isOn])
-        self.loginModel.autoLogin = YES;
+        [self.loginModel turnOnAutoLogin];
     else
-        self.loginModel.autoLogin = NO;
+        [self.loginModel turnOffAutoLogin];
 }
 
 - (IBAction)signUpButtonTapped:(id)sender {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    SignUpViewController *suvc = [storyboard instantiateViewControllerWithIdentifier:@"SignUpViewController"];
-    [self presentViewController:suvc animated:YES completion:nil];
+    [self performSegueWithIdentifier:@"SignUpSegue" sender:sender];
 }
 
 - (IBAction)pswdFindButtonTapped:(id)sender {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    PswdFindViewController *pfvc = [storyboard instantiateViewControllerWithIdentifier:@"PswdFindViewController"];
-    [self presentViewController:pfvc animated:YES completion:nil];
+    [self performSegueWithIdentifier:@"FindPswdSegue" sender:sender];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -139,6 +137,18 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)showIndicator {
+    [self.view setUserInteractionEnabled:NO];
+    self.activityIndicator.hidden = NO;
+    [self.activityIndicator startAnimating];
+}
+
+- (void)hideIndicator {
+    [self.view setUserInteractionEnabled:YES];
+    [self.activityIndicator stopAnimating];
+    self.activityIndicator.hidden = YES;
 }
 
 #pragma mark - Set internet disconnection notification
@@ -174,8 +184,7 @@
 
 #pragma mark - UITextField Delegate Methods
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     return YES;
 }
@@ -192,35 +201,18 @@
     [self showAlertViewTitle:title withMessage:message];
 }
 
-- (void)findPswdSucceed {
-    // found password so process auto login
-    self.activityIndicator.hidden = NO;
-    [self.view setUserInteractionEnabled:NO];
-    [self.activityIndicator startAnimating];
-    
-    // set dummy text in password texfield for security reason
-    self.pswdTextField.text = @"Ub!$o5%p";
-}
-
-- (void)findPswdFailed {
-    NSLog(@"Find password from keychain failed");
-}
-
 #pragma mark - NetworkHandler Delegate Methods
 
 - (void)loginSucceed {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    WageViewController *wvc = [storyboard instantiateViewControllerWithIdentifier:@"WageViewController"];
-    [self.activityIndicator stopAnimating];
-    [self presentViewController:wvc animated:YES completion:nil];
+    [self hideIndicator];
+    [self performSegueWithIdentifier:@"ToWageViewSegue" sender:self];
 }
 
 - (void)loginFailed {
+    [self hideIndicator];
     NSString *title = @"Login failed";
     NSString *message = @"E-mail or password is NOT valid, please check again";
     [self showAlertViewTitle:title withMessage:message];
-    [self.view setUserInteractionEnabled:YES];
-    [self.activityIndicator stopAnimating];
 }
 
 /*

@@ -15,7 +15,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *invalidEmailWarning;
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UIButton *sendButton;
-@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UILabel *resetRequestResult;
 
@@ -30,6 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.networkHandler = [(AppDelegate *)[[UIApplication sharedApplication] delegate] networkHandler];
     self.loginModel = [(AppDelegate *)[[UIApplication sharedApplication] delegate] loginModel];
     [self observeDisconnectedNotification];
     
@@ -37,14 +37,19 @@
 }
 
 - (void)setViewElements {
-    self.activityIndicator.hidden = YES;
+    self.title = @"Find Password";
+    
+    [self hideIndicator];
     self.invalidEmailWarning.hidden = YES;
     self.resetRequestResult.hidden = YES;
-    
     self.placeHolderTextForEmail = @"E-main address";
     self.emailTextField.placeholder = self.placeHolderTextForEmail;
     self.emailTextField.delegate = self;
     [self.emailTextField setReturnKeyType:UIReturnKeyDone];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBar.hidden = NO;
 }
 
 - (IBAction)sendButtonTapped:(id)sender {
@@ -59,13 +64,13 @@
         [self.activityIndicator startAnimating];
         [self.view setUserInteractionEnabled:NO];
         
-        [self.loginModel sendResetRequest:email];
+        [self.networkHandler sendResetRequest:email];
     }
 }
 
 - (BOOL)validateEmail:(NSString *)candidate {
     if ([self.loginModel validateEmail:candidate]) {
-        if ([self.loginModel checkEmailAvailability:candidate]) {
+        if ([self.networkHandler checkEmailAvailability:candidate]) {
             NSString *title = @"E-mail NOT found";
             NSString *message = @"Your e-mail is NOT found on our server";
             [self showAlertViewTitle:title withMessage:message];
@@ -83,10 +88,6 @@
     return NO;
 }
 
-- (IBAction)cancelButtonTapped:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [self.emailTextField endEditing:YES];
 }
@@ -94,6 +95,18 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)showIndicator {
+    [self.view setUserInteractionEnabled:NO];
+    self.activityIndicator.hidden = NO;
+    [self.activityIndicator startAnimating];
+}
+
+- (void)hideIndicator {
+    [self.view setUserInteractionEnabled:YES];
+    [self.activityIndicator stopAnimating];
+    self.activityIndicator.hidden = YES;
 }
 
 #pragma mark - UITextField Delegate Methods
@@ -154,18 +167,13 @@
 #pragma mark - NetworkHandler Delegate Methods
 
 - (void)resetEmailSent {
+    [self hideIndicator];
     self.resetRequestResult.text = @"E-mail has been sent successfully";
     self.resetRequestResult.hidden = NO;
-    
-    self.activityIndicator.hidesWhenStopped = YES;
-    [self.activityIndicator stopAnimating];
-    [self.view setUserInteractionEnabled:YES];
 }
 
 - (void)resetEmailNotSent {
-    self.activityIndicator.hidesWhenStopped = YES;
-    [self.activityIndicator stopAnimating];
-    [self.view setUserInteractionEnabled:YES];
+    [self hideIndicator];
     
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:@"E-mail NOT sent"
@@ -177,7 +185,7 @@
                                   handler:^(UIAlertAction *action)
                                   {
                                       NSString *email = self.emailTextField.text;
-                                      [self.loginModel sendResetRequest:email];
+                                      [self.networkHandler sendResetRequest:email];
                                   }];
     
     UIAlertAction *okAction = [UIAlertAction

@@ -15,6 +15,7 @@
 @interface LoginModel () <NetworkHandlerDelegate>
 
 @property (strong, nonatomic) NetworkHandler *networkHandler;
+@property (strong, nonatomic) NSUserDefaults *defaults;
 
 @end
 
@@ -25,21 +26,14 @@
     self = [super init];
     if (self) {
         self.networkHandler = [(AppDelegate *)[[UIApplication sharedApplication] delegate] networkHandler];
+        self.defaults = [NSUserDefaults standardUserDefaults];
     }
     return self;
 }
 
 - (void)loadUserDefaults {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    self.autoLogin = [defaults objectForKey:@"autoLogin"];
-    self.email = [defaults objectForKey:@"email"];
-}
-
-- (void)saveUserDefaultsWithEmail:(NSString *)email {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:self.autoLogin forKey:@"autoLogin"];
-    [defaults setObject:self.email forKey:@"email"];
-    [defaults synchronize];
+    self.autoLogin = [self.defaults objectForKey:@"autoLogin"];
+    self.email = [self.defaults objectForKey:@"email"];
 }
 
 - (BOOL)validateEmail: (NSString *)candidate {
@@ -57,53 +51,28 @@
 }
 
 - (void)tryAutoLogin {
+    
+    // 로그아웃 또는 비번 변경하면 키체인에서 비번 지운다
     NSString *password = [SSKeychain passwordForService:SERVICE_TITLE
                                                 account:self.email];
     if (password) {
-        if ([self.delegate respondsToSelector:@selector(findPswdSucceed)]) {
-            [self.delegate findPswdSucceed];
-            [self userAuthenticationWithEmail:self.email andPassword:password];
-        }
+        // Don't authenticate when auto-login
+        //[self userAuthenticationWithEmail:self.email andPassword:password];
+        [self.networkHandler.delegate loginSucceed];
     }
     else {
-        if ([self.delegate respondsToSelector:@selector(findPswdFailed)]) {
-            [self.delegate findPswdFailed];
-        }
+        NSLog(@"Find password from keychain failed");
     }
 }
 
-- (void)userAuthenticationWithEmail:(NSString *)email andPassword:(NSString *)password {
-    [self.networkHandler userAuthenticationWithEmail:self.email andPassword:password];
+- (void)turnOnAutoLogin {
+    [self.defaults setBool:YES forKey:@"autoLogin"];
+    [self.defaults synchronize];
 }
 
-- (void)savePassword:(NSString *)password forService:(NSString *)serviceName withAccount:(NSString *)account {
-    if ([SSKeychain setPassword:password
-                     forService:serviceName
-                        account:account]) {
-        if ([self.delegate respondsToSelector:@selector(savePswdSucceed)]) {
-            [self.delegate savePswdSucceed];
-        }
-    }
-    else {
-        if ([self.delegate respondsToSelector:@selector(savePswdFailed)]) {
-            [self.delegate savePswdFailed];
-        }
-    }
-}
-
-- (BOOL)checkEmailAvailability:(NSString *)candidate {
-    if ([self.networkHandler checkEmailAvailability:candidate])
-        return YES;
-    else
-        return NO;
-}
-
-- (void)signUpWithUserCredential:(NSMutableDictionary *)userCredential {
-    [self.networkHandler signUpWithUserCredential:userCredential];
-}
-
-- (void)sendResetRequest:(NSString *)email {
-    [self.networkHandler sendResetRequest:email];
+- (void)turnOffAutoLogin {
+    [self.defaults setBool:NO forKey:@"autoLogin"];
+    [self.defaults synchronize];
 }
 
 #pragma mark - NetworkHandler Delegate Methods
@@ -113,8 +82,32 @@
     [self savePassword:password forService:SERVICE_TITLE withAccount:email];
 }
 
-- (void)signUpSucceedWithEmail:(NSString *)email {
-    [self saveUserDefaultsWithEmail:email];
+- (void)signUpSucceedWithUserCredential:(NSMutableDictionary *)userCredential {
+    [self saveUserDefaultsWithEmail:userCredential[@"email"]];
+    [self savePassword:userCredential[@"password"] forService:SERVICE_TITLE withAccount:userCredential[@"email"]];
+    [self.defaults setObject:userCredential[@"username"] forKey:@"name"];
+    [self.defaults setObject:userCredential[@"identity"] forKey:@"identity"];
+    [self.defaults synchronize];
+}
+
+- (void)saveUserDefaultsWithEmail:(NSString *)email {
+    [self.defaults setObject:email forKey:@"email"];
+    [self.defaults synchronize];
+}
+
+- (void)savePassword:(NSString *)password forService:(NSString *)serviceName withAccount:(NSString *)email {
+    if ([SSKeychain setPassword:password
+                     forService:serviceName
+                        account:email]) {
+        if ([self.delegate respondsToSelector:@selector(savePswdSucceed)]) {
+            [self.delegate savePswdSucceed];
+        }
+    }
+    else {
+        if ([self.delegate respondsToSelector:@selector(savePswdFailed)]) {
+            [self.delegate savePswdFailed];
+        }
+    }
 }
 
 @end
