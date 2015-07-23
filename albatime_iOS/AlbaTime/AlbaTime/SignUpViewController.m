@@ -83,7 +83,7 @@
 
 - (IBAction)submitButtonTapped:(id)sender {
     if ([self validateUserInput]) {
-        [self showIndicator];
+        //[self showIndicator];
         
         NSMutableDictionary *userCredential = [NSMutableDictionary new];
         [userCredential setObject:self.emailTextField.text forKey:@"email"];
@@ -268,16 +268,20 @@
 
 #pragma mark - NetworkHandler Delegate Methods
 
+// should explicitly delcare to do this method on main thread since this is a view related job but coming from background thread(Networking)
 - (void)signUpSucceed {
     [self hideIndicator];
+    [self performSelectorOnMainThread:@selector(gotoNextView) withObject:nil waitUntilDone:NO];
+}
+
+- (void)gotoNextView {
     [self performSegueWithIdentifier:@"JobSettingSegue" sender:self];
 }
 
-- (void)signUpFailed {
+- (void)signUpFailedWithError:(NSString *)error {
     [self hideIndicator];
     NSString *title = @"SignUp failed";
-    NSString *message = @"SignUp failed with unknown reason";
-    [self showAlertViewTitle:title withMessage:message];
+    [self showAlertViewTitle:title withMessage:error];
 }
 
 - (void)showAlertViewTitle:(NSString *)title withMessage:(NSString *)message {

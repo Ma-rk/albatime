@@ -205,14 +205,17 @@
 
 - (void)loginSucceed {
     [self hideIndicator];
+    [self performSelectorOnMainThread:@selector(gotoNextView) withObject:nil waitUntilDone:NO];
+}
+
+- (void)gotoNextView {
     [self performSegueWithIdentifier:@"ToWageViewSegue" sender:self];
 }
 
-- (void)loginFailed {
+- (void)loginFailedWithError:(NSString *)error {
     [self hideIndicator];
     NSString *title = @"Login failed";
-    NSString *message = @"E-mail or password is NOT valid, please check again";
-    [self showAlertViewTitle:title withMessage:message];
+    [self showAlertViewTitle:title withMessage:error];
 }
 
 /*
