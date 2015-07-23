@@ -13,8 +13,6 @@
 
 - (void)savePswdSucceed;
 - (void)savePswdFailed;
-- (void)findPswdSucceed;
-- (void)findPswdFailed;
 
 @end
 
@@ -22,15 +20,12 @@
 
 @property (weak, nonatomic) id<LoginModelDelegate> delegate;
 @property (strong, nonatomic) NSString *email;
-
 @property BOOL autoLogin;
 
 - (void)loadUserDefaults;
 - (BOOL)validateEmail:(NSString *)candidate;
-- (void)userAuthenticationWithEmail:(NSString *)email andPassword:(NSString *)password;
 - (void)tryAutoLogin;
-- (BOOL)checkEmailAvailability:(NSString *)candidate;
-- (void)signUpWithUserCredential:(NSMutableDictionary *)userCredential;
-- (void)sendResetRequest:(NSString *)email;
+- (void)turnOnAutoLogin;
+- (void)turnOffAutoLogin;
 
 @end

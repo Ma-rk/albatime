@@ -12,8 +12,6 @@
 #import "LoginModel.h"
 #import "NetworkHandler.h"
 
-// 각각의 값 입력시 오류나면 해당 항목 텍스트필드에 붉은색 라운드처리
-
 @interface SignUpViewController () <UITextFieldDelegate, LoginModelDelegate, NetworkHandlerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
@@ -22,7 +20,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 @property (weak, nonatomic) IBOutlet UIButton *identityButton;
 @property (weak, nonatomic) IBOutlet UILabel *invalidEmailWarning;
 
@@ -42,16 +39,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.networkHandler = [(AppDelegate *)[[UIApplication sharedApplication] delegate] networkHandler];
     self.loginModel = [(AppDelegate *)[[UIApplication sharedApplication] delegate] loginModel];
     self.loginModel.delegate = self;
     self.networkHandler.delegate = self;
     
     [self setViewElements];
-    
     [self observeDisconnectedNotification];
 }
 
 - (void)setViewElements {
+    self.title = @"Sign Up";
+    
     self.emailTextField.delegate = self;
     self.emailTextField.tag = FIELD_ONE_TAG;
     self.pswdTextField.delegate = self;
@@ -64,7 +63,7 @@
     [self.usernameTextField setReturnKeyType:UIReturnKeyDone];
     
     // 나중에 지역 언어로 변경
-    self.placeHolderTextForEmail = @"E-main address";
+    self.placeHolderTextForEmail = @"E-mail address";
     self.placeHolderTextForPswd = @"Password";
     self.placeHolderTextForIdentity = @"Who are you?";
     self.placeHolderTextForUsername = @"Username";
@@ -73,27 +72,30 @@
     self.pswdTextField.placeholder = self.placeHolderTextForPswd;
     self.identityTextField.placeholder = self.placeHolderTextForIdentity;
     self.usernameTextField.placeholder = self.placeHolderTextForUsername;
-    
-    self.activityIndicator.hidden = YES;
     self.invalidEmailWarning.hidden = YES;
+    
+    [self hideIndicator];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBar.hidden = NO;
 }
 
 - (IBAction)submitButtonTapped:(id)sender {
     if ([self validateUserInput]) {
+        [self showIndicator];
+        
         NSMutableDictionary *userCredential = [NSMutableDictionary new];
         [userCredential setObject:self.emailTextField.text forKey:@"email"];
         [userCredential setObject:self.pswdTextField.text forKey:@"password"];
         [userCredential setObject:self.identityTextField.text forKey:@"identity"];
         [userCredential setObject:self.usernameTextField.text forKey:@"username"];
         
-        self.activityIndicator.hidden = NO;
-        [self.activityIndicator startAnimating];
-        [self.view setUserInteractionEnabled:NO];
-
-        [self.loginModel signUpWithUserCredential:userCredential];
+        [self.networkHandler signUpWithUserCredential:userCredential];
     }
 }
 
+// 각각의 값 입력시 오류나면 해당 항목 텍스트필드에 붉은색 라운드처리
 - (BOOL)validateUserInput {
     if (self.emailTextField.text.length == 0) {
         NSString *title = @"Incomplete form";
@@ -123,7 +125,7 @@
 
 - (BOOL)validateEmail:(NSString *)candidate {
     if ([self.loginModel validateEmail:candidate]) {
-        if ([self.loginModel checkEmailAvailability:candidate]) {
+        if ([self.networkHandler checkEmailAvailability:candidate]) {
             return YES;
         }
         else {
@@ -140,10 +142,6 @@
         return NO;
     }
     return NO;
-}
-
-- (IBAction)cancelButtonTapped:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)identityButtonTapped:(id)sender {
@@ -203,6 +201,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)showIndicator {
+    [self.view setUserInteractionEnabled:NO];
+    self.activityIndicator.hidden = NO;
+    [self.activityIndicator startAnimating];
+}
+
+- (void)hideIndicator {
+    [self.view setUserInteractionEnabled:YES];
+    [self.activityIndicator stopAnimating];
+    self.activityIndicator.hidden = YES;
+}
+
 #pragma mark - UITextField Delegate Methods
 
 - (void)textFieldDidBeginEditing:(nonnull UITextField *)textField {
@@ -219,7 +229,7 @@
 
 - (void)instantValidateEmail:(NSString *)candidate {
     if ([self.loginModel validateEmail:candidate]) {
-        if ([self.loginModel checkEmailAvailability:candidate]) {
+        if ([self.networkHandler checkEmailAvailability:candidate]) {
             self.invalidEmailWarning.text = @"This e-mail is good to go!";
             self.invalidEmailWarning.textColor = [UIColor blueColor];
             self.invalidEmailWarning.hidden = NO;
@@ -259,17 +269,15 @@
 #pragma mark - NetworkHandler Delegate Methods
 
 - (void)signUpSucceed {
-    [self.activityIndicator stopAnimating];
-    [self dismissViewControllerAnimated:YES completion:nil];
-    // SignUp 화면을 내려서 로그인 화면에 이메일 자동으로 삽입되어 있는지 확인 / 아님 바로 Wage View 보여주던가
+    [self hideIndicator];
+    [self performSegueWithIdentifier:@"JobSettingSegue" sender:self];
 }
 
 - (void)signUpFailed {
+    [self hideIndicator];
     NSString *title = @"SignUp failed";
     NSString *message = @"SignUp failed with unknown reason";
     [self showAlertViewTitle:title withMessage:message];
-    [self.activityIndicator stopAnimating];
-    [self.view setUserInteractionEnabled:YES];
 }
 
 - (void)showAlertViewTitle:(NSString *)title withMessage:(NSString *)message {

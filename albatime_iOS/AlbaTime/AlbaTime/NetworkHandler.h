@@ -15,7 +15,7 @@
 - (void)loginSucceedWithEmail:(NSString *)email andPassword:(NSString *)password;
 - (void)loginFailed;
 - (void)signUpSucceed;
-- (void)signUpSucceedWithEmail:(NSString *)email;
+- (void)signUpSucceedWithUserCredential:(NSMutableDictionary *)userCredential;
 - (void)signUpFailed;
 - (void)resetEmailSent;
 - (void)resetEmailNotSent;
