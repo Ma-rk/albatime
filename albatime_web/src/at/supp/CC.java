@@ -23,6 +23,9 @@ public class CC {
 	public static final String GETTING_INTO_6 = "======>";
 	public static final String GETTING_OUT_6 = "<======";
 
+	/*
+	 * classification codes
+	 */
 	public static final String ACTOR_STUS_NORMAL = "ACT_STU_01";
 	public static final String ACTOR_STUS_DELETED = "ACT_STU_02";
 
@@ -43,7 +46,28 @@ public class CC {
 	public static final String TOKEN_STUS_NORMAL = "TKN_STU_01";
 	public static final String TOKEN_STUS_EXPIRED = "TKN_STU_02";
 
+	/*
+	 * error codes
+	 */
+	public static final String ERROR_ACCOUNT_REGISTER_FAIL = "ERR_ACC_01";
+
+	public static final String ERROR_ACTOR_CREATE_FAIL = "ERR_ACT_01";
+	public static final String ERROR_ACTOR_RETRIEVE_FAIL = "ERR_ACT_02";
+	public static final String ERROR_ACTOR_UPDATE_FAIL = "ERR_ACT_03";
+	public static final String ERROR_ACTOR_DELETE_FAIL = "ERR_ACT_04";
+
+	public static final String ERROR_CARD_CREATE_FAIL = "ERR_CRD_01";
+	public static final String ERROR_CARD_RETRIEVE_FAIL = "ERR_CRD_02";
+	public static final String ERROR_CARD_UPDATE_FAIL = "ERR_CRD_03";
+	public static final String ERROR_CARD_DELETE_FAIL = "ERR_CRD_04";
+
+	public static final String ERROR_USER_LOGIN_FAIL = "ERR_USR_01";
+
+	/*
+	 * api uri
+	 */
 	public static final String API_ACCOUNT = "/api/account";
+	public static final String API_ACTOR = "/api/actor";
 	public static final String API_CARD = "/api/card";
 	public static final String API_LOGIN = "/api/login";
 	public static final String API_TOKEN = "/api/token";

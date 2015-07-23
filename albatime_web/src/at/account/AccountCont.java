@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import at.account.interfaces.IAccountBiz;
 import at.com.CommUtil;
+import at.model.ResultEty;
 import at.model.UserEty;
 import at.supp.CC;
 
@@ -31,7 +32,7 @@ public class AccountCont {
 	public String registerUserCont(@Valid UserEty userEty, BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {
-			return "0";
+			return CC.gson.toJson(new ResultEty(false, CC.ERROR_ACCOUNT_REGISTER_FAIL));
 		}
 		lgr.debug(userEty.toString());
 
@@ -39,7 +40,7 @@ public class AccountCont {
 
 		lgr.debug("registerResult: " + registerResult);
 		lgr.debug(CC.GETTING_OUT_2 + "registerUserCont");
-		return CC.gson.toJson(Integer.toString(registerResult));
+		return CC.gson.toJson(new ResultEty(registerResult));
 	}
 
 	@RequestMapping(value = CC.API_ACCOUNT, produces = "application/json", method = RequestMethod.GET)
@@ -51,6 +52,6 @@ public class AccountCont {
 
 		lgr.debug("emailCount: " + emailCount);
 		lgr.debug(CC.GETTING_OUT_2 + "checkEmailExistanceCont");
-		return CC.gson.toJson(Integer.toString(emailCount));
+		return CC.gson.toJson(new ResultEty(emailCount));
 	}
 }

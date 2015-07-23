@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import at.com.CommUtil;
+import at.model.ResultEty;
 import at.model.TokenEty;
 import at.model.UserEty;
 import at.supp.CC;
@@ -36,56 +37,51 @@ public class UserCont {
 	public String login(HttpServletResponse response, @Valid UserEty user, BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {
-			return "0";
+			return CC.gson.toJson(new ResultEty(false, CC.ERROR_USER_LOGIN_FAIL));
 		}
 		lgr.debug(user.toString());
 
-		String resultString = "0";
+		ResultEty resultEty;
 		UserEty userInfo = userBiz.login(user);
 
 		if (userInfo != null) {
 			Cookie[] cookies = { new Cookie(CC.JWT_TOKEN, userInfo.getCurrentJwToken()),
 					new Cookie(CC.USER_ID_IN_COOKIE, String.valueOf(userInfo.getId())),
 					new Cookie(CC.USER_TOKEN_SEQ_IN_COOKIE, String.valueOf(userInfo.getUserJwTokenKeySeq())) };
-
 			for (Cookie cookie : cookies) {
 				cookie.setPath("/");
 				response.addCookie(cookie);
 			}
-			resultString = CC.gson.toJson(userInfo);
+			resultEty = new ResultEty(userInfo);
+		} else {
+			resultEty = new ResultEty(false, CC.ERROR_USER_LOGIN_FAIL);
 		}
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return resultString;
+		return CC.gson.toJson(resultEty);
 	}
 
 	@RequestMapping(value = CC.API_TOKEN, method = RequestMethod.GET)
-	public String retrieveToken(@CookieValue("userIdInCookie") long userId, BindingResult result) {
+	public String retrieveToken(@CookieValue("USER_ID_IN_COOKIE") long userId) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		if (CommUtil.checkGotWrongParams(result)) {
-			return "0";
-		}
 		lgr.debug("retrieving tokens for user " + userId);
 		TokenEty tokenEty = new TokenEty(userId);
 
 		List<Map<String, Object>> jwTokenList = userBiz.retrieveJwTokenList(tokenEty);
 
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return CC.gson.toJson(jwTokenList);
+		return CC.gson.toJson(new ResultEty(jwTokenList));
 	}
 
 	@RequestMapping(value = CC.API_TOKEN, method = RequestMethod.DELETE)
-	public String expireJwTokens(@CookieValue("userIdInCookie") long userId,
-			@CookieValue("userTokenSeqInCookie") long jwTokenSeq, BindingResult result) {
+	public String expireJwTokens(@CookieValue("USER_ID_IN_COOKIE") long userId,
+			@CookieValue("USER_TOKEN_SEQ_IN_COOKIE") long jwTokenSeq) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		if (CommUtil.checkGotWrongParams(result)) {
-			return "0";
-		}
 		lgr.debug("expiring tokens for user " + userId);
 		TokenEty tokenEty = new TokenEty(userId, jwTokenSeq);
 
 		int expireTokenResult = userBiz.expireJwTokens(tokenEty);
 
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return CC.gson.toJson(expireTokenResult);
+		return CC.gson.toJson(new ResultEty(expireTokenResult));
 	}
 }
