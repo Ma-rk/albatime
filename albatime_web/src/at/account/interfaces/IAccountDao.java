@@ -9,5 +9,5 @@ public interface IAccountDao {
 
 	int registerUserDao(UserEty user);
 
-	int getEmailCountDao(String email);
+	int getEmailCountDao(UserEty user);
 }

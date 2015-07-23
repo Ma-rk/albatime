@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import at.account.interfaces.IAccountBiz;
@@ -22,7 +21,7 @@ public class AccountCont {
 	private static final Logger lgr = LoggerFactory.getLogger(AccountCont.class);
 
 	@Autowired
-	IAccountBiz accountBiz;
+	private IAccountBiz accountBiz;
 
 	public void setAccountBiz(IAccountBiz accountBiz) {
 		this.accountBiz = accountBiz;
@@ -39,19 +38,22 @@ public class AccountCont {
 		int registerResult = accountBiz.registerUserBiz(userEty);
 
 		lgr.debug("registerResult: " + registerResult);
-		lgr.debug(CC.GETTING_OUT_2 + "registerUserCont");
+		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return CC.gson.toJson(new ResultEty(registerResult));
 	}
 
 	@RequestMapping(value = CC.API_ACCOUNT, produces = "application/json", method = RequestMethod.GET)
-	public String checkEmailExistanceCont(@RequestParam("email") String email) {
-		lgr.debug(CC.GETTING_INTO_2 + "checkEmailExistanceCont");
-		lgr.debug("email: " + email);
+	public String checkEmailExistanceCont(@Valid UserEty user, BindingResult result) {
+		if (CommUtil.checkGotWrongParams(result)) {
+			return CC.gson.toJson(new ResultEty(false, CC.ERROR_ACCOUNT_EMAILCHECK_FAIL));
+		}
+		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
+		lgr.debug("email: " + user.getEmail());
 
-		int emailCount = accountBiz.getEmailCountBiz(email);
+		int emailCount = accountBiz.getEmailCountBiz(user);
 
 		lgr.debug("emailCount: " + emailCount);
-		lgr.debug(CC.GETTING_OUT_2 + "checkEmailExistanceCont");
+		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return CC.gson.toJson(new ResultEty(emailCount));
 	}
 }

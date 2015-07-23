@@ -14,7 +14,8 @@ import lombok.NoArgsConstructor;
 public class UserEty {
 	private long id;
 
-	@Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$")
+	@Size(min = 6, max = 64)
+	@Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,6})$")
 	private String email;
 
 	private String pw;

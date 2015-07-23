@@ -50,6 +50,7 @@ public class CC {
 	 * error codes
 	 */
 	public static final String ERROR_ACCOUNT_REGISTER_FAIL = "ERR_ACC_01";
+	public static final String ERROR_ACCOUNT_EMAILCHECK_FAIL = "ERR_ACC_02";
 
 	public static final String ERROR_ACTOR_CREATE_FAIL = "ERR_ACT_01";
 	public static final String ERROR_ACTOR_RETRIEVE_FAIL = "ERR_ACT_02";

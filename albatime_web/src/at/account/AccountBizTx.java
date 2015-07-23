@@ -9,7 +9,7 @@ public class AccountBizTx implements IAccountBiz {
 	/*
 	 * DI codes
 	 */
-	IAccountBiz accountBiz;
+	private IAccountBiz accountBiz;
 
 	public void setAccountBiz(IAccountBiz accountBiz) {
 		this.accountBiz = accountBiz;
@@ -28,7 +28,7 @@ public class AccountBizTx implements IAccountBiz {
 		return this.accountBiz.registerUserBiz(user);
 	}
 
-	public int getEmailCountBiz(String email) {
-		return this.accountBiz.getEmailCountBiz(email);
+	public int getEmailCountBiz(UserEty user) {
+		return this.accountBiz.getEmailCountBiz(user);
 	}
 }

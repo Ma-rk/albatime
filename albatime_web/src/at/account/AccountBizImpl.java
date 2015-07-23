@@ -31,15 +31,10 @@ public class AccountBizImpl implements IAccountBiz {
 		return registerUserResult;
 	}
 
-	public int getEmailCountBiz(String email) {
+	public int getEmailCountBiz(UserEty user) {
 		lgr.debug(CC.GETTING_INTO_4 + "checkEmailExistanceBiz");
-		int emailCount = this.accountDao.getEmailCountDao(email);
+		int emailCount = this.accountDao.getEmailCountDao(user);
 		lgr.debug(CC.GETTING_OUT_4 + "checkEmailExistanceBiz");
 		return emailCount;
 	}
-
-	/*
-	 * supporting methods
-	 */
-
 }

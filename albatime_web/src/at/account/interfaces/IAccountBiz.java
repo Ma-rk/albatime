@@ -5,5 +5,5 @@ import at.model.UserEty;
 public interface IAccountBiz {
 	int registerUserBiz(UserEty user);
 
-	int getEmailCountBiz(String email);
+	int getEmailCountBiz(UserEty user);
 }
