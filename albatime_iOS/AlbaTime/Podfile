@@ -4,6 +4,7 @@
 target 'AlbaTime' do
 
 pod 'SSKeychain'
+pod 'AFNetworking', '~> 2.0'
 
 end
 

@@ -19,6 +19,7 @@
 - (void)signUpFailedWithError:(NSString *)error;
 - (void)resetEmailSent;
 - (void)resetEmailNotSent;
+- (void)emailCheckResult:(NSInteger)result;
 
 @end
 
@@ -27,7 +28,7 @@
 @property (weak, nonatomic) id<NetworkHandlerDelegate> delegate;
 
 - (void)userAuthenticationWithEmail:(NSString *)email andPassword:(NSString *)password;
-- (BOOL)checkEmailAvailability:(NSString *)email;
+- (void)checkEmailAvailability:(NSString *)email;
 - (void)sendResetRequest:(NSString *)email;
 - (void)signUpWithUserCredential:(NSMutableDictionary *)userCredential;
 

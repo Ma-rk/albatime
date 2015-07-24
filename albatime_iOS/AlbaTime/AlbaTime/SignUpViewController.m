@@ -31,6 +31,7 @@
 @property (strong, nonatomic) NetworkHandler *networkHandler;
 
 @property BOOL userGranted;
+@property BOOL isEmailAvailable;
 
 @end
 
@@ -52,7 +53,7 @@
     self.title = @"Sign Up";
     
     self.emailTextField.delegate = self;
-    self.emailTextField.tag = FIELD_ONE_TAG;
+    self.emailTextField.tag = EMAIL_TEXTFIELD;
     self.pswdTextField.delegate = self;
     self.usernameTextField.delegate = self;
     self.pswdTextField.secureTextEntry = YES;
@@ -83,8 +84,7 @@
 
 - (IBAction)submitButtonTapped:(id)sender {
     if ([self validateUserInput]) {
-        //[self showIndicator];
-        
+        [self showIndicator];
         NSMutableDictionary *userCredential = [NSMutableDictionary new];
         [userCredential setObject:self.emailTextField.text forKey:@"email"];
         [userCredential setObject:self.pswdTextField.text forKey:@"password"];
@@ -117,31 +117,18 @@
         NSString *message = @"Please enter your username";
         [self showAlertViewTitle:title withMessage:message];
         return NO;
-    } else if ([self validateEmail:self.emailTextField.text]){
-        return YES;
-    }
-    return NO;
-}
-
-- (BOOL)validateEmail:(NSString *)candidate {
-    if ([self.loginModel validateEmail:candidate]) {
-        if ([self.networkHandler checkEmailAvailability:candidate]) {
-            return YES;
-        }
-        else {
-            NSString *title = @"E-mail in use";
-            NSString *message = @"Your e-mail is already in use, please try different e-mail";
-            [self showAlertViewTitle:title withMessage:message];
-            return NO;
-        }
-    }
-    else {
+    } else if (![self.loginModel validateEmail:self.emailTextField.text]){
         NSString *title = @"Invalid e-mail";
         NSString *message = @"Your e-mail is NOT valid, please check again";
         [self showAlertViewTitle:title withMessage:message];
         return NO;
+    } else if (!self.isEmailAvailable) {
+        NSString *title = @"E-mail in use";
+        NSString *message = @"Your e-mail is already in use, please try different e-mail";
+        [self showAlertViewTitle:title withMessage:message];
+        return NO;
     }
-    return NO;
+    return YES;
 }
 
 - (IBAction)identityButtonTapped:(id)sender {
@@ -216,32 +203,14 @@
 #pragma mark - UITextField Delegate Methods
 
 - (void)textFieldDidBeginEditing:(nonnull UITextField *)textField {
-    if (textField.tag == FIELD_ONE_TAG) {
+    if (textField.tag == EMAIL_TEXTFIELD) {
         self.invalidEmailWarning.hidden = YES;
     }
 }
 
 - (void)textFieldDidEndEditing:(nonnull UITextField *)textField {
-    if (textField.text.length > 0 && textField.tag == FIELD_ONE_TAG) {
-        [self instantValidateEmail:textField.text];
-    }
-}
-
-- (void)instantValidateEmail:(NSString *)candidate {
-    if ([self.loginModel validateEmail:candidate]) {
-        if ([self.networkHandler checkEmailAvailability:candidate]) {
-            self.invalidEmailWarning.text = @"This e-mail is good to go!";
-            self.invalidEmailWarning.textColor = [UIColor blueColor];
-            self.invalidEmailWarning.hidden = NO;
-        }
-        else {
-            self.invalidEmailWarning.text = @"This e-mail is already in use";
-            self.invalidEmailWarning.hidden = NO;
-        }
-    }
-    else {
-        self.invalidEmailWarning.text = @"Invalid e-mail, please check again";
-        self.invalidEmailWarning.hidden = NO;
+    if (textField.text.length > 0 && textField.tag == EMAIL_TEXTFIELD) {
+        [self.networkHandler checkEmailAvailability:textField.text];
     }
 }
 
@@ -270,18 +239,40 @@
 
 // should explicitly delcare to do this method on main thread since this is a view related job but coming from background thread(Networking)
 - (void)signUpSucceed {
-    [self hideIndicator];
-    [self performSelectorOnMainThread:@selector(gotoNextView) withObject:nil waitUntilDone:NO];
-}
-
-- (void)gotoNextView {
-    [self performSegueWithIdentifier:@"JobSettingSegue" sender:self];
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [self hideIndicator];
+        [self performSegueWithIdentifier:@"JobSettingSegue" sender:self];
+    });
 }
 
 - (void)signUpFailedWithError:(NSString *)error {
-    [self hideIndicator];
-    NSString *title = @"SignUp failed";
-    [self showAlertViewTitle:title withMessage:error];
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [self hideIndicator];
+        NSString *title = @"SignUp failed";
+        [self showAlertViewTitle:title withMessage:error];
+    });
+}
+
+- (void)emailCheckResult:(NSInteger)result {
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        if (result == 0) {
+            self.invalidEmailWarning.text = @"This e-mail is good to go!";
+            self.invalidEmailWarning.textColor = [UIColor blueColor];
+            self.invalidEmailWarning.hidden = NO;
+            self.isEmailAvailable = YES;
+        }
+        else if (result == 1) {
+            self.invalidEmailWarning.text = @"This e-mail is already in use";
+            self.invalidEmailWarning.hidden = NO;
+            self.isEmailAvailable = NO;
+        }
+        else {
+            self.invalidEmailWarning.text = @"Checking email availability error";
+            self.invalidEmailWarning.hidden = NO;
+            // set this bool YES to give server chance to check this later
+            self.isEmailAvailable = YES;
+        }
+    });
 }
 
 - (void)showAlertViewTitle:(NSString *)title withMessage:(NSString *)message {

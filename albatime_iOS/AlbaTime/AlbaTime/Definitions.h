@@ -10,8 +10,11 @@
 #define Definitions_h
 
 #define SERVICE_TITLE @"AlbaTime"
-#define FIELD_ONE_TAG 1
+#define EMAIL_TEXTFIELD 1
 #define FIELD_TWO_TAG 2
+
+#define TIME_UNIT_PICKERVIEW_TAG 100
+#define ALARM_PICKERVIEW_TAG 200
 
 // Networking
 #define BASE_URL @"http://125.209.193.185:80/api"

@@ -51,7 +51,7 @@
               }
           }
           else {
-              NSLog(@"SignUp success Response : %@", response);
+              NSLog(@"Login success Response : %@", response);
               NSDictionary *JSON = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:data
                                                                                                             options:NSJSONReadingAllowFragments
                                                                                                               error:nil]];
@@ -127,29 +127,12 @@
 }
 
 - (void)sendResetRequest:(NSString *)email {
-    [self performSelector:@selector(resetEmailSent) withObject:nil afterDelay:2.0f];
-    
-    if (YES) {
-        if ([self.delegate respondsToSelector:@selector(resetEmailSent)]) {
-            [self.delegate resetEmailSent];
-        }
-    }
-    else {
-        if ([self.delegate respondsToSelector:@selector(resetEmailNotSent)]) {
-            [self.delegate resetEmailNotSent];
-        }
-    }
-}
 
-
-    // return YES if given email is available, NO if not
-- (BOOL)checkEmailAvailability:(NSString *)email {
+    [self checkEmailAvailability:email];
     
-    __block BOOL isEmailAvailable;
-    
-    NSString *urlString = [NSString stringWithFormat:@"%@/account", BASE_URL];
+    NSString *urlString = [NSString stringWithFormat:@"%@/reset", BASE_URL];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
-    [request setHTTPMethod:@"GET"];
+    [request setHTTPMethod:@"POST"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
     NSString *postString = [NSString stringWithFormat:@"email=%@", email];
     NSData *data = [postString dataUsingEncoding:NSUTF8StringEncoding];
@@ -160,9 +143,44 @@
                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
       {
           if (error) {
+              NSLog(@"Password reset request failed with Error : %@", error);
+              if ([self.delegate respondsToSelector:@selector(resetEmailNotSent)]) {
+                  [self.delegate resetEmailNotSent];
+              }
+          }
+          else {
+              NSLog(@"Password reset request success response : %@", response);
+              NSDictionary *JSON = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:data
+                                                                                                            options:NSJSONReadingAllowFragments
+                                                                                                              error:nil]];
+              NSLog(@"Data : %@", JSON);
+              BOOL successIndicator = [JSON objectForKey:@"result"];
+              if (successIndicator) {
+                  if ([self.delegate respondsToSelector:@selector(resetEmailSent)]) {
+                      [self.delegate resetEmailSent];
+                  }
+              }
+              else {
+                  if ([self.delegate respondsToSelector:@selector(resetEmailNotSent)]) {
+                      [self.delegate resetEmailNotSent];
+                  }
+              }
+          }
+      }] resume];
+}
+
+- (void)checkEmailAvailability:(NSString *)email {
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@/account", BASE_URL];
+    urlString = [urlString stringByAppendingString:[NSString stringWithFormat:@"?email=%@", email]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+    
+    [[self.session dataTaskWithRequest:request
+                     completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+      {
+          if (error) {
               // return YES in case error so that server can have chance to determine its availability
               NSLog(@"Checking email availability failed with Error : %@", error);
-              isEmailAvailable = YES;
           }
           else {
               NSLog(@"SignUp success Response : %@", response);
@@ -170,21 +188,12 @@
                                                                                                             options:NSJSONReadingAllowFragments
                                                                                                               error:nil]];
               NSLog(@"Data : %@", JSON);
-              NSInteger foundEmailNum = [[JSON objectForKey:@"result"] integerValue];
-              if (foundEmailNum == 0) {
-                  isEmailAvailable = YES;
-              }
-              else if (foundEmailNum == 1) {
-                  isEmailAvailable = NO;
-              }
-              else {
-                  NSLog(@"Checking email availability succeed with unknown error : %@", [JSON objectForKey:@"errorCode"]);
-                  isEmailAvailable = YES;
+              NSInteger foundEmailNum = [[JSON objectForKey:@"data"] integerValue];
+              if ([self.delegate respondsToSelector:@selector(emailCheckResult:)]) {
+                  [self.delegate emailCheckResult:foundEmailNum];
               }
           }
       }] resume];
-    
-    return isEmailAvailable;
 }
 
 @end
