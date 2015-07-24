@@ -37,13 +37,13 @@ public class ActorDaoJdbc implements IActorDao {
 	/*
 	 * functional methods
 	 */
-	public int insertActor(ActorEty actor) {
+	public int insertActorDao(ActorEty actor) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		int insertActorResult = this.jdbcTemplate.update(this.sqls.getSql("actorCreateActor"), actor.getUserId(),
 				actor.getName(), actor.getMemo(), actor.getPeriodFrom(), actor.getPeriodTo(), actor.getWorkTimeUnit(),
 				actor.getAlarmBefore(), actor.getUnpaidbreakFlag(), actor.getTaxRate(), actor.getBasicWage(),
-				actor.getBgColor(), actor.getPhone1(), actor.getPhone2(), actor.getAddr1(), actor.getAddr2(),
-				actor.getAddr3(), actor.getStus());
+				actor.getBgColor(), actor.getPhone1(), actor.getAddr1(), actor.getStus());
+		lgr.debug("created [{}] actor(s).", String.valueOf(insertActorResult));
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return insertActorResult;
 	}
@@ -58,8 +58,7 @@ public class ActorDaoJdbc implements IActorDao {
 							rs.getInt("ac_worktime_unit"), rs.getInt("ac_alarm_before"),
 							rs.getString("ac_unpaidbreak_flag"), rs.getFloat("ac_tax_rate"),
 							rs.getFloat("ac_basic_wage"), rs.getString("ac_color_bg"), rs.getString("ac_phone1"),
-							rs.getString("ac_phone2"), rs.getString("ac_addr1_1"), rs.getString("ac_addr1_2"),
-							rs.getString("ac_addr1_3"), rs.getString("ac_stus"), rs.getDate("ac_created"),
+							rs.getString("ac_addr1_1"), rs.getString("ac_stus"), rs.getDate("ac_created"),
 							rs.getDate("ac_edited"));
 				} catch (SQLException e) {
 					throw new BeanInstantiationException(ActorEty.class, e.getMessage(), e);
@@ -76,8 +75,7 @@ public class ActorDaoJdbc implements IActorDao {
 		int updateActorResult = this.jdbcTemplate.update(this.sqls.getSql("actorUpdateActor"), actor.getName(),
 				actor.getMemo(), actor.getPeriodFrom(), actor.getPeriodTo(), actor.getWorkTimeUnit(),
 				actor.getAlarmBefore(), actor.getUnpaidbreakFlag(), actor.getTaxRate(), actor.getBasicWage(),
-				actor.getBgColor(), actor.getPhone1(), actor.getPhone2(), actor.getAddr1(), actor.getAddr2(),
-				actor.getAddr3(), actor.getSeq(), actor.getUserId());
+				actor.getBgColor(), actor.getPhone1(), actor.getAddr1(), actor.getSeq(), actor.getUserId());
 		lgr.debug("updateActorDao result: [{}]", updateActorResult);
 		lgr.debug(CC.GETTING_OUT_6 + "updateActorDao");
 		return updateActorResult;
@@ -91,5 +89,13 @@ public class ActorDaoJdbc implements IActorDao {
 		lgr.debug("deleteActorDao result: [{}]", deleteActorResult);
 		lgr.debug(CC.GETTING_OUT_6 + "deleteActorDao");
 		return deleteActorResult;
+	}
+
+	public int deleteAllActorsDao() {
+		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		int truncateActorResult = this.jdbcTemplate.update(this.sqls.getSql("actorDeleteAllActors"));
+		lgr.debug("{} result: [{}]", new Object() {}.getClass().getEnclosingMethod().getName(), truncateActorResult);
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return truncateActorResult;
 	}
 }

@@ -28,8 +28,9 @@ public class ActorBizImpl implements IActorBiz {
 	public int insertActorBiz(ActorEty actor) {
 		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		actor.setAsNormalStus();
+		int insertActorResul = actorDao.insertActorDao(actor);
 		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return actorDao.insertActor(actor);
+		return insertActorResul;
 	}
 
 	public List<ActorEty> retireveActorListBiz(ActorEty actor) {

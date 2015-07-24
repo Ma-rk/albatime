@@ -9,11 +9,13 @@ import at.model.ActorEty;
 public interface IActorDao {
 	void setDataSource(DataSource dataSource);
 
-	int insertActor(ActorEty actor);
+	int insertActorDao(ActorEty actor);
 
 	List<ActorEty> retireveActorListDao(ActorEty actor);
 
 	int updateActorDao(ActorEty actor);
 
 	int deleteActorDao(ActorEty actor);
+
+	int deleteAllActorsDao();
 }
