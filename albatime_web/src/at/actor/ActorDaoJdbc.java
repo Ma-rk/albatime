@@ -95,7 +95,7 @@ public class ActorDaoJdbc implements IActorDao {
 
 	public int cleanTbActorDao() {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		int truncateActorResult = this.jdbcTemplate.update(this.sqls.getSql("actorDeleteAllActors"));
+		int truncateActorResult = this.jdbcTemplate.update(this.sqls.getSql("actorCleanTbActor"));
 		lgr.debug("{} result: [{}]", new Object() {}.getClass().getEnclosingMethod().getName(), truncateActorResult);
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return truncateActorResult;

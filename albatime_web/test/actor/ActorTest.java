@@ -36,6 +36,8 @@ public class ActorTest {
 	@SuppressWarnings("deprecation")
 	@Before
 	public void setUp() {
+		lgr.debug("deleted lows: [{}]", actorDao.cleanTbActorDao());
+
 		actorListFixture.add(new ActorEty());
 		actorListFixture.get(0).setUserId(1l);
 		actorListFixture.get(0).setName("ac 01");
@@ -64,7 +66,6 @@ public class ActorTest {
 		actorListFixture.get(1).setBgColor("FFFFFF");
 		actorListFixture.get(1).setPhone1("010-0101-0101");
 		actorListFixture.get(1).setAddr1("경기도 성남시");
-		lgr.debug("deleted lows: [{}]", actorDao.cleanTbActorDao());
 
 		for (ActorEty actor : actorListFixture) {
 			assertEquals(1, actorBiz.insertActorBiz(actor));

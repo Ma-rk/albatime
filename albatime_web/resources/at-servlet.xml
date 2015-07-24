@@ -45,7 +45,6 @@
 
 	<bean id="userBizImpl" class="at.user.UserBizImpl">
 		<property name="userDao" ref="userDao" />
-		<property name="comDao" ref="comDao" />
 	</bean>
 	<bean id="userBiz" class="at.user.UserBizTx">
 		<property name="transactionManager" ref="transactionManager" />
@@ -66,6 +65,8 @@
 
 	<bean id="accountBizImpl" class="at.account.AccountBizImpl">
 		<property name="accountDao" ref="accountDao" />
+		<property name="comDao" ref="comDao" />
+		<property name="userDao" ref="userDao" />
 	</bean>
 	<bean id="accountBiz" class="at.account.AccountBizTx">
 		<property name="transactionManager" ref="transactionManager" />
@@ -130,18 +131,19 @@
 	<bean id="sqls" class="at.supp.SqlServiceImpl">
 		<property name="sqlMap">
 			<map>
-				<entry key="accountLogin" value="select usr_id, usr_email, usr_nick, usr_gender, usr_birth, usr_type, usr_stus from tb_usr where usr_email = ? and usr_pw = ? and usr_stus = ?" />
+				<entry key="accountCleanTbUser" value="delete from tb_usr" />
+				<entry key="accountLogin" value="select usr_id, usr_email, usr_nick, usr_gender, usr_birth, usr_type, usr_stus, usr_signup_date from tb_usr where usr_email = ? and usr_pw = ? and usr_stus = ?" />
 				<entry key="accountEmailCount" value="select count(usr_email) from tb_usr where usr_email = ?" />
-				<entry key="accountRegisterLogin" value="insert into tb_usr(usr_email, usr_pw, usr_nick, usr_gender, usr_birth, usr_type, usr_stus) values (?,?,?,?,?,?,?)" />
+				<entry key="accountRegisterAccount" value="insert into tb_usr(usr_email, usr_pw, usr_nick, usr_gender, usr_birth, usr_type, usr_stus) values (?,?,?,?,?,?,?)" />
+				<entry key="actorCleanTbActor" value="delete from tb_actor" />
 				<entry key="actorCreateActor" value="insert into tb_actor (ac_usr_id, ac_name, ac_memo, ac_period_from, ac_period_to, ac_worktime_unit, ac_alarm_before, ac_unpaidbreak_flag, ac_tax_rate, ac_basic_wage, ac_color_bg, ac_phone1, ac_addr1_1, ac_stus) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)" />
 				<entry key="actorDeleteActor" value="update tb_actor set ac_stus=? where ac_seq=? and ac_usr_id=?" />
 				<entry key="actorRetrieveActors" value="select ac_seq, ac_usr_id, ac_name, ac_memo, DATE_FORMAT(ac_period_from, '%Y-%m-%d %T') as ac_period_from, ac_period_to, ac_worktime_unit, ac_alarm_before, ac_unpaidbreak_flag, ac_tax_rate, ac_basic_wage, ac_color_bg, ac_phone1, ac_addr1_1, ac_stus, DATE_FORMAT(ac_created, '%Y-%m-%d %T') as ac_created, DATE_FORMAT(ac_edited, '%Y-%m-%d %T') as ac_edited from tb_actor where ac_usr_id = ? and ac_stus=?" />
-				<entry key="actorDeleteAllActors" value="delete from tb_actor" />
 				<entry key="actorUpdateActor" value="update tb_actor set ac_name=?, ac_memo=?, ac_period_from=?, ac_period_to=?, ac_worktime_unit=?, ac_alarm_before=?, ac_unpaidbreak_flag=?, ac_tax_rate=?, ac_basic_wage=?, ac_color_bg=?, ac_phone1=?, ac_addr1_1=? where ac_seq=? and ac_usr_id=?" />
 				<entry key="cardInsertCard" value="insert tb_card (crd_actor_seq, crd_name, crd_memo, crd_time_from, crd_time_to, crd_unpaid_break_min, crd_stus) values (?,?,?,?,?,?,?)" />
 				<entry key="cardRetrieveCards" value="select crd_seq, crd_actor_seq, crd_name, crd_memo, crd_time_from, crd_time_to, crd_unpaid_break_min, crd_type, crd_stus, crd_created, crd_edited from tb_card where crd_actor_seq=?" />
 				<entry key="cardUpdateCards" value="update tb_card set crd_name=?, crd_memo=?, crd_time_from=?, crd_time_to=?, crd_unpaid_break_min=?, crd_stus=? where crd_seq=? and crd_actor_seq=? " />
-				<entry key="login_InsertJwTokenKey" value="insert into tb_token (tk_usr_id, tk_key, tk_stus) values (?,?,?)" />
+				<entry key="login_InsertJwTokenKey" value="insert into tb_tk_key (tk_usr_id, tk_key, tk_stus) values (?,?,?)" />
 				<entry key="autologin_retrieveJwTokenKey" value="select tk_key from tb_token where tk_seq = ? and tk_usr_id = ? and tk_stus=?" />
 				<entry key="tkRetireveToken" value="select tk_device_type, tk_created from tb_token where tk_usr_id = ? and tk_stus=?" />
 				<entry key="tkExpireToken" value="update tb_token set tk_stus=? where tk_usr_id=? and tk_seq!=? and tk_stus!=?" />

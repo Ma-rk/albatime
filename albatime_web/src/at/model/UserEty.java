@@ -35,7 +35,7 @@ public class UserEty {
 	@Pattern(regexp = "[A-Z]{3}[_][A-Z]{3}[_][0-9]{2}")
 	private String stus;
 
-	private String signIn;
+	private String signUp;
 	private String currentJwToken;
 	private long userJwTokenKeySeq;
 
@@ -44,7 +44,7 @@ public class UserEty {
 		this.pw = pw;
 	}
 
-	public UserEty(long id, String email, String nick, String gender, Date birth, String type, String stus) {
+	public UserEty(long id, String email, String nick, String gender, Date birth, String type, String stus, String signUp) {
 		this.id = id;
 		this.email = email;
 		this.nick = nick;
@@ -52,6 +52,7 @@ public class UserEty {
 		this.birth = birth;
 		this.type = type;
 		this.stus = stus;
+		this.signUp = signUp;
 	}
 
 	public void setAsNormalStus() {
