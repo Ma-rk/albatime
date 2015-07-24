@@ -45,7 +45,6 @@ public class AccountTest {
 		userListFixture.get(1).setPw("pwpwpwpw");
 		userListFixture.get(1).setNick("myNick2");
 		userListFixture.get(1).setType(CC.USER_TYPE_OWNER);
-
 	}
 
 	@Test

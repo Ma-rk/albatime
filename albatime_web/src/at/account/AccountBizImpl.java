@@ -40,19 +40,19 @@ public class AccountBizImpl implements IAccountBiz {
 	/*
 	 * functional methods
 	 */
+	public int getEmailCountBiz(UserEty user) {
+		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
+		int emailCount = this.accountDao.getEmailCountDao(user);
+		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return emailCount;
+	}
+
 	public int registerUserBiz(UserEty user) throws DuplicateKeyException {
 		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		user.setAsNormalStus();
 		int registerUserResult = this.accountDao.registerUserDao(user);
 		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return registerUserResult;
-	}
-
-	public int getEmailCountBiz(UserEty user) {
-		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
-		int emailCount = this.accountDao.getEmailCountDao(user);
-		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return emailCount;
 	}
 
 	public UserEty login(UserEty user) {

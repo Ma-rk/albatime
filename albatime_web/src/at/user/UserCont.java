@@ -27,7 +27,7 @@ public class UserCont {
 	}
 
 	@RequestMapping(value = CC.API_TOKEN, method = RequestMethod.GET)
-	public String retrieveToken(@CookieValue("USER_ID_IN_COOKIE") long userId) {
+	public String retrieveToken(@CookieValue(CC.USER_ID_IN_COOKIE) long userId) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		lgr.debug("retrieving tokens for user " + userId);
 		TokenEty tokenEty = new TokenEty(userId);
@@ -39,7 +39,7 @@ public class UserCont {
 	}
 
 	@RequestMapping(value = CC.API_TOKEN, method = RequestMethod.DELETE)
-	public String expireJwTokens(@CookieValue("USER_ID_IN_COOKIE") long userId,
+	public String expireJwTokens(@CookieValue(CC.USER_ID_IN_COOKIE) long userId,
 			@CookieValue("USER_TOKEN_SEQ_IN_COOKIE") long jwTokenSeq) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		lgr.debug("expiring tokens for user " + userId);

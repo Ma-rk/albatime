@@ -30,7 +30,7 @@ public class ApiInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 
-		lgr.debug(CC.GETTING_INTO_2 + "preHandle");
+		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		if (request.getRequestURI().toString().equals(CC.API_ACCOUNT) && request.getMethod().equals("POST")) {
 			lgr.debug("registering. not checking http header.");
@@ -84,7 +84,7 @@ public class ApiInterceptor implements HandlerInterceptor {
 		String jwTokenKey = this.userBiz.retrieveJwTokenKey(tokenKeyEty);
 
 		if (jwTokenKey == null || jwTokenKey.isEmpty()) {
-			lgr.debug("tb_token has no jwTokenKey for the user, cookie key. redirect to login.html");
+			lgr.debug("tb_tk_key has no jwTokenKey for the user, cookie key. redirect to login.html");
 			response.sendRedirect(CC.PAGE_LOGIN);
 			return false;
 		}
@@ -105,21 +105,17 @@ public class ApiInterceptor implements HandlerInterceptor {
 			return false;
 		}
 
-		lgr.debug(CC.GETTING_OUT_2 + "preHandle\n");
+		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName() + "\n");
 		return true;
 	}
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		// lgr.debug(CC.GETTING_INTO_2 + "postHandle");
-		// lgr.debug(CC.GETTING_OUT_2 + "postHandle");
 	}
 
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
-		// lgr.debug(CC.GETTING_INTO_2 + "afterCompletion");
-		// lgr.debug(CC.GETTING_OUT_2 + "afterCompletion");
 	}
 }

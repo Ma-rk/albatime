@@ -73,23 +73,23 @@ public class ActorDaoJdbc implements IActorDao {
 	}
 
 	public int updateActorDao(ActorEty actor) {
-		lgr.debug(CC.GETTING_INTO_6 + "updateActorDao");
+		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		int updateActorResult = this.jdbcTemplate.update(this.sqls.getSql("actorUpdateActor"), actor.getName(),
 				actor.getMemo(), actor.getPeriodFrom(), actor.getPeriodTo(), actor.getWorkTimeUnit(),
 				actor.getAlarmBefore(), actor.getUnpaidbreakFlag(), actor.getTaxRate(), actor.getBasicWage(),
 				actor.getBgColor(), actor.getPhone1(), actor.getAddr1(), actor.getSeq(), actor.getUserId());
 		lgr.debug("updateActorDao result: [{}]", updateActorResult);
-		lgr.debug(CC.GETTING_OUT_6 + "updateActorDao");
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return updateActorResult;
 	}
 
 	public int deleteActorDao(ActorEty actor) {
-		lgr.debug(CC.GETTING_INTO_6 + "deleteActorDao");
+		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		lgr.debug("deleting User [{}]'s Actor [{}]", actor.getUserId(), actor.getSeq());
 		int deleteActorResult = this.jdbcTemplate.update(this.sqls.getSql("actorDeleteActor"), actor.getStus(),
 				actor.getSeq(), actor.getUserId());
 		lgr.debug("deleteActorDao result: [{}]", deleteActorResult);
-		lgr.debug(CC.GETTING_OUT_6 + "deleteActorDao");
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return deleteActorResult;
 	}
 

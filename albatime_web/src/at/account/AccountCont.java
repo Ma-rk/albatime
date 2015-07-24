@@ -31,6 +31,21 @@ public class AccountCont {
 		this.accountBiz = accountBiz;
 	}
 
+	@RequestMapping(method = RequestMethod.GET)
+	public String checkEmailExistanceCont(@Valid UserEty user, BindingResult result) {
+		if (CommUtil.checkGotWrongParams(result)) {
+			return CC.gson.toJson(new ResultEty(false, CC.ERROR_ACCOUNT_EMAILCHECK_FAIL));
+		}
+		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
+		lgr.debug("email: " + user.getEmail());
+
+		int emailCount = accountBiz.getEmailCountBiz(user);
+
+		lgr.debug("emailCount: " + emailCount);
+		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return CC.gson.toJson(new ResultEty(emailCount));
+	}
+
 	@RequestMapping(method = RequestMethod.POST)
 	public String registerUserCont(@Valid UserEty userEty, BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
@@ -51,22 +66,7 @@ public class AccountCont {
 		return CC.gson.toJson(new ResultEty(registerResult));
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
-	public String checkEmailExistanceCont(@Valid UserEty user, BindingResult result) {
-		if (CommUtil.checkGotWrongParams(result)) {
-			return CC.gson.toJson(new ResultEty(false, CC.ERROR_ACCOUNT_EMAILCHECK_FAIL));
-		}
-		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		lgr.debug("email: " + user.getEmail());
-
-		int emailCount = accountBiz.getEmailCountBiz(user);
-
-		lgr.debug("emailCount: " + emailCount);
-		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return CC.gson.toJson(new ResultEty(emailCount));
-	}
-	
-	@RequestMapping(value = CC.API_USER, produces = "application/json", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.PUT)
 	public String login(HttpServletResponse response, @Valid UserEty user, BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {

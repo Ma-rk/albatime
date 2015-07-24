@@ -34,11 +34,14 @@ public class RequestFilter implements Filter {
 
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-		String visitorIp = getVisitorIp(httpRequest);
-		String requestedPage = getRequestedPage(httpRequest);
-		String requestMethod = getReauestMethod(httpRequest);
-		String userAgent = getUserAgent(httpRequest);
-		lgr.debug("full url: " + httpRequest.getRequestURL().toString());
+		String visitorIp = httpRequest.getRemoteAddr();
+		String requestedPage = httpRequest.getRequestURI().toString();
+		String requestMethod = httpRequest.getMethod();
+		String userAgent = httpRequest.getHeader("user-agent");
+		lgr.debug("visitorIp: " + visitorIp);
+		lgr.debug("requestedPage: " + requestedPage);
+		lgr.debug("userAgent: " + requestMethod);
+		lgr.debug("userAgent: " + userAgent);
 
 		insertVisitorLogMock(new VisitLogEty(visitorIp, requestedPage, requestMethod, userAgent));
 		// try {
@@ -49,30 +52,6 @@ public class RequestFilter implements Filter {
 		// e.printStackTrace();
 		// }
 		chain.doFilter(request, response);
-	}
-
-	private String getVisitorIp(HttpServletRequest httpRequest) {
-		String visitorIp = httpRequest.getRemoteAddr();
-		lgr.debug("visitorIp: " + visitorIp);
-		return visitorIp;
-	}
-
-	private String getRequestedPage(HttpServletRequest httpRequest) {
-		String requestedPage = httpRequest.getRequestURI().toString();
-		lgr.debug("requestedPage: " + requestedPage);
-		return requestedPage;
-	}
-
-	private String getReauestMethod(HttpServletRequest httpRequest) {
-		String requestMethod = httpRequest.getMethod();
-		lgr.debug("userAgent: " + requestMethod);
-		return requestMethod;
-	}
-
-	private String getUserAgent(HttpServletRequest httpRequest) {
-		String userAgent = httpRequest.getHeader("user-agent");
-		lgr.debug("userAgent: " + userAgent);
-		return userAgent;
 	}
 
 	public void init(FilterConfig filterConfig) throws ServletException {}
@@ -100,5 +79,4 @@ public class RequestFilter implements Filter {
 		pstmt.close();
 		conn.close();
 	}
-
 }
