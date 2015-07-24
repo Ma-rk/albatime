@@ -33,7 +33,7 @@ public class UserCont {
 		this.userBiz = userBiz;
 	}
 
-	@RequestMapping(value = CC.API_LOGIN, produces = "application/json", method = RequestMethod.POST)
+	@RequestMapping(value = CC.API_USER, produces = "application/json", method = RequestMethod.POST)
 	public String login(HttpServletResponse response, @Valid UserEty user, BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {
