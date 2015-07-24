@@ -2,6 +2,7 @@ package at.model;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -20,7 +21,8 @@ public class UserEty {
 
 	private String pw;
 
-	@Size(min = 3, max = 32)
+	@NotNull
+	@Size(min = 2, max = 32)
 	@Pattern(regexp = "([a-zA-Z0-9].*)")
 	private String nick;
 
