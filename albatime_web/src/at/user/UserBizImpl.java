@@ -6,12 +6,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import at.com.interfaces.IComDao;
 import at.model.TokenEty;
 import at.model.TokenKeyEty;
-import at.model.UserEty;
 import at.supp.CC;
-import at.supp.JwtMgr;
 import at.user.interfaces.IUserBiz;
 import at.user.interfaces.IUserDao;
 
@@ -27,36 +24,9 @@ public class UserBizImpl implements IUserBiz {
 		this.userDao = userDao;
 	}
 
-	private IComDao comDao;
-
-	public void setComDao(IComDao comDao) {
-		this.comDao = comDao;
-	}
-
 	/*
 	 * functional methods
 	 */
-	public UserEty login(UserEty user) {
-		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
-
-		user.setAsNormalStus();
-		UserEty userInfo = this.userDao.getUserInfoByEmailAndPw(user);
-		if (userInfo == null)
-			return null;
-
-		String jwTokenKey = JwtMgr.generateJwTokenKey();
-
-		String jwToken = JwtMgr.createJsonWebToken(userInfo.getId(), CC.DEFAULT_SESSION_DURATION_DAYS, jwTokenKey);
-		userInfo.setCurrentJwToken(jwToken);
-
-		int insertJwTokenResult = this.userDao.insertJwTokenKey(new TokenKeyEty(userInfo.getId(), jwTokenKey));
-		if (insertJwTokenResult == 1) {
-			userInfo.setUserJwTokenKeySeq(comDao.getLastInsertId());
-		}
-		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return userInfo;
-	}
-
 	public String retrieveJwTokenKey(TokenKeyEty tokenKeyEty) {
 		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		String jwTokenKey = this.userDao.retrieveJwTokenKey(tokenKeyEty);

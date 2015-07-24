@@ -7,12 +7,9 @@ import javax.sql.DataSource;
 
 import at.model.TokenEty;
 import at.model.TokenKeyEty;
-import at.model.UserEty;
 
 public interface IUserDao {
 	void setDataSource(DataSource dataSource);
-
-	public UserEty getUserInfoByEmailAndPw(UserEty user);
 
 	int insertJwTokenKey(TokenKeyEty tokenKeyEty);
 

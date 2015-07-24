@@ -8,4 +8,6 @@ public interface IAccountBiz {
 	int registerUserBiz(UserEty user) throws DuplicateKeyException;
 
 	int getEmailCountBiz(UserEty user);
+
+	UserEty login(UserEty user);
 }

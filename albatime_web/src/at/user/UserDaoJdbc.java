@@ -41,31 +41,6 @@ public class UserDaoJdbc implements IUserDao {
 	/*
 	 * functional methods
 	 */
-	public UserEty getUserInfoByEmailAndPw(UserEty user) {
-		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		RowMapper<UserEty> rowMapper = new RowMapper<UserEty>() {
-			public UserEty mapRow(ResultSet rs, int rowNum) {
-				try {
-					return new UserEty(rs.getLong("usr_id"), rs.getString("usr_email"), rs.getString("usr_nick"),
-							rs.getString("usr_gender"), rs.getDate("usr_birth"), rs.getString("usr_type"),
-							rs.getString("usr_stus"));
-				} catch (SQLException e) {
-					throw new BeanInstantiationException(UserEty.class, e.getMessage(), e);
-				}
-			}
-		};
-		UserEty useResult = null;
-		try {
-			useResult = this.jdbcTemplate.queryForObject(this.sqls.getSql("accountLogin"), rowMapper, user.getEmail(),
-					user.getPw(), user.getStus());
-		} catch (EmptyResultDataAccessException e) {
-			e.printStackTrace();
-		}
-		lgr.debug("user: " + user);
-		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return useResult;
-	}
-
 	public int insertJwTokenKey(TokenKeyEty tokenKeyEty) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		int insertJwTokenResult = this.jdbcTemplate.update(this.sqls.getSql("login_InsertJwTokenKey"),

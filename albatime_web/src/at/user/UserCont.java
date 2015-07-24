@@ -3,23 +3,16 @@ package at.user;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import at.com.CommUtil;
 import at.model.ResultEty;
 import at.model.TokenEty;
-import at.model.UserEty;
 import at.supp.CC;
 import at.user.interfaces.IUserBiz;
 
@@ -31,33 +24,6 @@ public class UserCont {
 
 	public void setUserBiz(IUserBiz userBiz) {
 		this.userBiz = userBiz;
-	}
-
-	@RequestMapping(value = CC.API_USER, produces = "application/json", method = RequestMethod.POST)
-	public String login(HttpServletResponse response, @Valid UserEty user, BindingResult result) {
-		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		if (CommUtil.checkGotWrongParams(result)) {
-			return CC.gson.toJson(new ResultEty(false, CC.ERROR_USER_LOGIN_FAIL));
-		}
-		lgr.debug(user.toString());
-
-		ResultEty resultEty;
-		UserEty userInfo = userBiz.login(user);
-
-		if (userInfo != null) {
-			Cookie[] cookies = { new Cookie(CC.JWT_TOKEN, userInfo.getCurrentJwToken()),
-					new Cookie(CC.USER_ID_IN_COOKIE, String.valueOf(userInfo.getId())),
-					new Cookie(CC.USER_TOKEN_SEQ_IN_COOKIE, String.valueOf(userInfo.getUserJwTokenKeySeq())) };
-			for (Cookie cookie : cookies) {
-				cookie.setPath("/");
-				response.addCookie(cookie);
-			}
-			resultEty = new ResultEty(userInfo);
-		} else {
-			resultEty = new ResultEty(false, CC.ERROR_USER_LOGIN_FAIL);
-		}
-		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return CC.gson.toJson(resultEty);
 	}
 
 	@RequestMapping(value = CC.API_TOKEN, method = RequestMethod.GET)

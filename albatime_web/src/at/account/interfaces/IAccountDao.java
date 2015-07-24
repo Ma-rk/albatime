@@ -9,7 +9,11 @@ import at.model.UserEty;
 public interface IAccountDao {
 	void setDataSource(DataSource dataSource);
 
+	int getEmailCountDao(UserEty user);
+
 	int registerUserDao(UserEty user) throws DuplicateKeyException;
 
-	int getEmailCountDao(UserEty user);
+	UserEty getUserInfoByEmailAndPw(UserEty user);
+
+	int cleanTbAccountDao();
 }
