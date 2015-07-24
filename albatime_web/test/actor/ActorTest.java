@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -63,7 +64,7 @@ public class ActorTest {
 		actorListFixture.get(1).setBgColor("FFFFFF");
 		actorListFixture.get(1).setPhone1("010-0101-0101");
 		actorListFixture.get(1).setAddr1("경기도 성남시");
-		lgr.debug("deleted lows: [{}]", actorDao.deleteAllActorsDao());
+		lgr.debug("deleted lows: [{}]", actorDao.cleanTbActorDao());
 
 		for (ActorEty actor : actorListFixture) {
 			assertEquals(1, actorBiz.insertActorBiz(actor));
@@ -71,7 +72,7 @@ public class ActorTest {
 	}
 
 	@Test
-	public void createAndRetrieveActorTest() {
+	public void retrieveActorTest() {
 		List<ActorEty> retrievedActorList = actorBiz.retireveActorListBiz(actorListFixture.get(0));
 
 		for (int i = 0; i < retrievedActorList.size(); i++) {
@@ -94,7 +95,7 @@ public class ActorTest {
 
 	@SuppressWarnings("deprecation")
 	@Test
-	public void createAndUpdateActorTest() {
+	public void updateActorTest() {
 		List<ActorEty> retrievedActorList = actorBiz.retireveActorListBiz(actorListFixture.get(0));
 
 		retrievedActorList.get(0).setName("updated name 0");
@@ -145,12 +146,17 @@ public class ActorTest {
 	}
 
 	@Test
-	public void createAnDeleteeActorTest() {
+	public void deleteActorTest() {
 		List<ActorEty> retrievedActorList = actorBiz.retireveActorListBiz(actorListFixture.get(0));
 
 		for (int i = 0; i < retrievedActorList.size(); i++) {
 			assertEquals(1, actorBiz.deleteActorBiz(retrievedActorList.get(i)));
 		}
 		assertEquals(new ArrayList<ActorEty>(), actorBiz.retireveActorListBiz(actorListFixture.get(0)));
+	}
+
+	@After
+	public void tearDown() {
+		lgr.debug("deleted lows: [{}]", actorDao.cleanTbActorDao());
 	}
 }
