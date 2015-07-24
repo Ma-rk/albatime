@@ -7,8 +7,11 @@
 //
 
 #import "JobSettingViewController.h"
+#import "NetworkHandler.h"
+#import "AppDelegate.h"
+#import "Definitions.h"
 
-@interface JobSettingViewController ()
+@interface JobSettingViewController () <UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *jobTitleTextField;
 @property (weak, nonatomic) IBOutlet UITextField *timeUnitTextField;
@@ -16,7 +19,11 @@
 @property (weak, nonatomic) IBOutlet UIButton *jobColorButton;
 @property (weak, nonatomic) IBOutlet UITextField *alarmMinsTextField;
 @property (weak, nonatomic) IBOutlet UITextField *DefaultWageTextField;
-
+@property (strong, nonatomic) NetworkHandler *networkHandler;
+@property (weak, nonatomic) IBOutlet UIPickerView *timeUnitPickerView;
+@property (weak, nonatomic) IBOutlet UIPickerView *alarmPickerView;
+@property (strong, nonatomic) NSArray *timeUnits;
+@property NSInteger startNum;
 
 @end
 
@@ -24,7 +31,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.networkHandler = [(AppDelegate *)[[UIApplication sharedApplication] delegate] networkHandler];
+    
+    
+    self.timeUnits = @[@1, @5, @10, @15, @20, @30, @60];
+    
+    self.startNum = 1;
+    
+}
+
+- (void)setViewElements {
+    
+    self.timeUnitTextField.inputView = self.timeUnitPickerView;
+    self.alarmMinsTextField.inputView = self.alarmPickerView;
+    
+    // set delegates
+    self.alarmPickerView.delegate = self;
+    self.alarmPickerView.dataSource = self;
+    self.timeUnitPickerView.delegate = self;
+    self.timeUnitPickerView.dataSource = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -36,6 +61,53 @@
 - (IBAction)breakTimeValueChanged:(id)sender {
 }
 - (IBAction)wageSystemChanged:(id)sender {
+}
+- (IBAction)doneButtonTapped:(id)sender {
+}
+
+#pragma mark - UITextField Delegate methods
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    return YES;
+}
+
+
+#pragma mark - UIPickerView delegate methods
+
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
+    return 1;
+}
+
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+    if (pickerView.tag == TIME_UNIT_PICKERVIEW_TAG) {
+        return self.timeUnits.count;
+    }
+    else if (pickerView.tag == ALARM_PICKERVIEW_TAG) {
+        return 120;
+    }
+    return 0;
+}
+
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
+    if (pickerView.tag == TIME_UNIT_PICKERVIEW_TAG) {
+        return [[self.timeUnits objectAtIndex:row] stringValue];
+    }
+    else if (pickerView.tag == ALARM_PICKERVIEW_TAG) {
+        NSInteger mins = self.startNum + row - 1;
+        return [NSString stringWithFormat:@"%ld", mins];
+    }
+    return @"UIPickerViewError";
+}
+
+-(void)pickerView:(nonnull UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    if (pickerView.tag == TIME_UNIT_PICKERVIEW_TAG) {
+        self.timeUnitTextField.text = [self.timeUnits[row] stringValue];
+    }
+    else if (pickerView.tag == ALARM_PICKERVIEW_TAG) {
+        NSInteger mins = self.startNum + row - 1;
+        self.alarmMinsTextField.text = [NSString stringWithFormat:@"%ld", mins];
+    }
 }
 
 /*

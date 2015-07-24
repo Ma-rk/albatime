@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Pods-AlbaTime-AFNetworking.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-AlbaTime-SSKeychain.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -17,12 +22,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>5BCDE480161C31AAD78045B3</key>
+		<key>30006263692935088A734355</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9AE8A9B1CBAF2B4BBEC470D1</key>
+		<key>6777E48B024F23A18FE4B476</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>AD4F6FD6AF49E9684EF82B32</key>
 		<dict>
 			<key>primary</key>
 			<true/>

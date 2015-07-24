@@ -53,39 +53,22 @@
 }
 
 - (IBAction)sendButtonTapped:(id)sender {
+    
     NSString *email = self.emailTextField.text;
     if (email.length == 0) {
         NSString *title = @"E-mail is empty!";
         NSString *message = @"Please enter your e-mail";
         [self showAlertViewTitle:title withMessage:message];
     }
-    else if (email.length > 0 && [self validateEmail:email]){
-        self.activityIndicator.hidden = NO;
-        [self.activityIndicator startAnimating];
-        [self.view setUserInteractionEnabled:NO];
-        
-        [self.networkHandler sendResetRequest:email];
-    }
-}
-
-- (BOOL)validateEmail:(NSString *)candidate {
-    if ([self.loginModel validateEmail:candidate]) {
-        if ([self.networkHandler checkEmailAvailability:candidate]) {
-            NSString *title = @"E-mail NOT found";
-            NSString *message = @"Your e-mail is NOT found on our server";
-            [self showAlertViewTitle:title withMessage:message];
-            return NO;
-        }
-        else
-            return YES;
+    else if (![self.loginModel validateEmail:email]){
+        NSString *title = @"Invalid email!";
+        NSString *message = @"Invalid email, please check again";
+        [self showAlertViewTitle:title withMessage:message];
     }
     else {
-        NSString *title = @"Invalid e-mail";
-        NSString *message = @"Your e-mail is NOT valid, please check again";
-        [self showAlertViewTitle:title withMessage:message];
-        return NO;
+        [self showIndicator];
+        [self.networkHandler sendResetRequest:email];
     }
-    return NO;
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -113,6 +96,7 @@
 
 - (void)textFieldDidBeginEditing:(nonnull UITextField *)textField {
         self.invalidEmailWarning.hidden = YES;
+        self.resetRequestResult.hidden = NO;
 }
 
 - (void)textFieldDidEndEditing:(nonnull UITextField *)textField {
@@ -166,38 +150,35 @@
 
 #pragma mark - NetworkHandler Delegate Methods
 
+- (void)emailCheckResult:(NSInteger)result {
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        if (result == 0) {
+            NSString *title = @"Email Not Found!";
+            NSString *message = @"Your email has not found in our server";
+            [self showAlertViewTitle:title withMessage:message];
+        }
+        else if (result >= 2){
+            NSString *title = @"Find Email Error";
+            NSString *message = @"Error occurred when finding your email";
+            [self showAlertViewTitle:title withMessage:message];
+        }
+    });
+}
+
 - (void)resetEmailSent {
-    [self hideIndicator];
-    self.resetRequestResult.text = @"E-mail has been sent successfully";
-    self.resetRequestResult.hidden = NO;
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [self hideIndicator];
+        self.resetRequestResult.text = @"E-mail has been sent successfully";
+        self.resetRequestResult.hidden = NO;
+    });
 }
 
 - (void)resetEmailNotSent {
-    [self hideIndicator];
-    
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:@"E-mail NOT sent"
-                                          message:@"Failed to send reset request e-mail"
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *retryAction = [UIAlertAction
-                                  actionWithTitle:NSLocalizedString(@"Retry", @"Retry action")
-                                  style:UIAlertActionStyleCancel
-                                  handler:^(UIAlertAction *action)
-                                  {
-                                      NSString *email = self.emailTextField.text;
-                                      [self.networkHandler sendResetRequest:email];
-                                  }];
-    
-    UIAlertAction *okAction = [UIAlertAction
-                               actionWithTitle:NSLocalizedString(@"OK", @"OK action")
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction *action)
-                               {
-                                   NSLog(@"OK tapped");
-                               }];
-    [alertController addAction:retryAction];
-    [alertController addAction:okAction];
-    [self presentViewController:alertController animated:YES completion:nil];
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [self hideIndicator];
+        self.resetRequestResult.text = @"E-mail NOT sent";
+        self.resetRequestResult.hidden = NO;
+    });
 }
 
 

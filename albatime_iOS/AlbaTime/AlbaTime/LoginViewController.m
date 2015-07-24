@@ -83,7 +83,7 @@
     if ([self validateUserInput]) {
         [self.networkHandler userAuthenticationWithEmail:self.emailTextField.text
                                              andPassword:self.pswdTextField.text];
-        [self showIndicator];
+        //[self showIndicator];
     }
 }
 
@@ -204,18 +204,18 @@
 #pragma mark - NetworkHandler Delegate Methods
 
 - (void)loginSucceed {
-    [self hideIndicator];
-    [self performSelectorOnMainThread:@selector(gotoNextView) withObject:nil waitUntilDone:NO];
-}
-
-- (void)gotoNextView {
-    [self performSegueWithIdentifier:@"ToWageViewSegue" sender:self];
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [self hideIndicator];
+        [self performSegueWithIdentifier:@"ToWageViewSegue" sender:self];
+    });
 }
 
 - (void)loginFailedWithError:(NSString *)error {
-    [self hideIndicator];
-    NSString *title = @"Login failed";
-    [self showAlertViewTitle:title withMessage:error];
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [self hideIndicator];
+        NSString *title = @"Login failed";
+        [self showAlertViewTitle:title withMessage:error];
+    });
 }
 
 /*
