@@ -41,7 +41,7 @@ public class ApiInterceptor implements HandlerInterceptor {
 		} else if (request.getRequestURI().equals(CC.PAGE_LOGIN) && request.getMethod().equals("GET")) {
 			lgr.debug("login form requested. not checking http header.");
 			return true;
-		} else if (request.getRequestURI().equals(CC.API_LOGIN) && request.getMethod().equals("POST")) {
+		} else if (request.getRequestURI().equals(CC.API_USER) && request.getMethod().equals("POST")) {
 			lgr.debug("logging in. not checking http header.");
 			return true;
 		}
