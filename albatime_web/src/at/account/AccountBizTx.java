@@ -1,5 +1,6 @@
 package at.account;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import at.account.interfaces.IAccountBiz;
@@ -24,7 +25,7 @@ public class AccountBizTx implements IAccountBiz {
 	/*
 	 * functional methods
 	 */
-	public int registerUserBiz(UserEty user) {
+	public int registerUserBiz(UserEty user) throws DuplicateKeyException {
 		return this.accountBiz.registerUserBiz(user);
 	}
 

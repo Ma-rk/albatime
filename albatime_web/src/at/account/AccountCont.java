@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,8 +36,13 @@ public class AccountCont {
 		}
 		lgr.debug(userEty.toString());
 
-		int registerResult = accountBiz.registerUserBiz(userEty);
-
+		int registerResult;
+		try {
+			registerResult = accountBiz.registerUserBiz(userEty);
+		} catch (DuplicateKeyException e) {
+			lgr.debug("IntegrityConstraintViolationException: " + e.getMessage());
+			return CC.gson.toJson(new ResultEty(false, CC.ERROR_ACCOUNT_REGISTER_FAIL));
+		}
 		lgr.debug("registerResult: " + registerResult);
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return CC.gson.toJson(new ResultEty(registerResult));

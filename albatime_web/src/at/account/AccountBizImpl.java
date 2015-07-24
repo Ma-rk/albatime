@@ -2,6 +2,7 @@ package at.account;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DuplicateKeyException;
 
 import at.account.interfaces.IAccountBiz;
 import at.account.interfaces.IAccountDao;
@@ -23,7 +24,7 @@ public class AccountBizImpl implements IAccountBiz {
 	/*
 	 * functional methods
 	 */
-	public int registerUserBiz(UserEty user) {
+	public int registerUserBiz(UserEty user) throws DuplicateKeyException {
 		lgr.debug(CC.GETTING_INTO_4 + "registerUserBiz");
 		user.setAsNormalStus();
 		int registerUserResult = this.accountDao.registerUserDao(user);

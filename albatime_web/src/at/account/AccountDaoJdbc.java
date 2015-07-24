@@ -9,6 +9,7 @@ import at.supp.interfaces.ISqlService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class AccountDaoJdbc implements IAccountDao {
@@ -25,16 +26,16 @@ public class AccountDaoJdbc implements IAccountDao {
 	private ISqlService sqls;
 
 	public void setSqls(ISqlService sqls) {
-
 		this.sqls = sqls;
 	}
 
 	/*
 	 * functional methods
 	 */
-	public int registerUserDao(UserEty user) {
+	public int registerUserDao(UserEty user) throws DuplicateKeyException {
 		lgr.debug(CC.GETTING_INTO_6 + "registerUserDao");
-		int registerUserResult = this.jdbcTemplate.update(this.sqls.getSql("accountRegisterLogin"), user.getEmail(),
+		int registerUserResult;
+		registerUserResult = this.jdbcTemplate.update(this.sqls.getSql("accountRegisterLogin"), user.getEmail(),
 				user.getPw(), user.getNick(), user.getGender(), user.getBirth(), user.getType(), user.getStus());
 		lgr.debug(CC.GETTING_OUT_6 + "registerUserDao");
 		return registerUserResult;
