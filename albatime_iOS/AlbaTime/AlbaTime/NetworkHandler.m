@@ -57,6 +57,7 @@
                   NSMutableDictionary *userCredential = [NSMutableDictionary new];
                   [userCredential setObject:email forKey:@"email"];
                   [userCredential setObject:password forKey:@"password"];
+                  // add token info which are aquired from data
                   [userCredential setObject:[[JSON objectForKey:@"data"] objectForKey:@"currentJwToken"] forKey:@"token"];
                   [userCredential setObject:[[JSON objectForKey:@"data"] objectForKey:@"id"] forKey:@"id"];
                   [userCredential setObject:[[JSON objectForKey:@"data"] objectForKey:@"userJwTokenKeySeq"] forKey:@"tokenSeq"];
@@ -119,7 +120,7 @@
                     [self.delegate signUpSucceed];
                 }
                 if ([self.delegate respondsToSelector:@selector(signUpSucceedWithUserCredential:)]) {
-                    // add addtional data which are aquired from data
+                    // add token info which are aquired from data
                     [userCredential setObject:[[JSON objectForKey:@"data"] objectForKey:@"currentJwToken"] forKey:@"token"];
                     [userCredential setObject:[[JSON objectForKey:@"data"] objectForKey:@"id"] forKey:@"id"];
                     [userCredential setObject:[[JSON objectForKey:@"data"] objectForKey:@"userJwTokenKeySeq"] forKey:@"tokenSeq"];
@@ -207,11 +208,11 @@
 }
 
 - (void)uplaodNewJobInfo:(NSMutableDictionary *)jobInfo {
-    // get token from userDefaults / SHOULD SAVE THIS IN KEYCHAIN LATER!!
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *token = [defaults objectForKey:@"token"];
-    NSInteger idInt = [[defaults objectForKey:@"id"] integerValue];
-    NSInteger tokenSeq = [[defaults objectForKey:@"tokenSeq"] integerValue];
+
+    // 헤더에 아래 정보 세팅
+    NSString *token = jobInfo[@"token"];
+    NSInteger idInt = [jobInfo[@"id"] integerValue];
+    NSInteger tokenSeq = [jobInfo[@"tokenSeq"] integerValue];
     
     NSString *name = jobInfo[@"name"];
     NSInteger workTimeUnit = [jobInfo[@"workTimeUnit"] integerValue];
@@ -226,8 +227,6 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
-    
-    // 헤더 스트링 양식 확인해서 헤더에 삽입 필요
     [request setValue:@"Header String" forHTTPHeaderField:@"Set-Cookie"];
 
     NSString *postString = [NSString stringWithFormat:@"name=%@&workTimeUnit=%ld&alarmBefore=%ld&bgColor=%@&unpaidBreakFlag=%c&basicWage=%f&taxRate=%f",

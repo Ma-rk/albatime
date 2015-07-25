@@ -37,7 +37,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     self.networkHandler = [(AppDelegate *)[[UIApplication sharedApplication] delegate] networkHandler];
     self.loginModel = [(AppDelegate *)[[UIApplication sharedApplication] delegate] loginModel];
@@ -164,17 +163,17 @@
 
 #pragma mark - LoginModel Delegate Methods
 
-- (void)savePswdSucceed {
-    NSLog(@"Save password to keyCahin succeed");
+- (void)saveTokenSucceed {
+    NSLog(@"Save access token to keyCahin succeed");
 }
 
-- (void)savePswdFailed {
+- (void)saveTokenFailed {
     NSString *title = @"Warning";
-    NSString *message = @"Failed to save password in keychain";
+    NSString *message = @"Failed to save access token in keychain";
     [self showAlertViewTitle:title withMessage:message];
 }
 
-// set view elements right after user defaults were loaded
+// set view elements right after user defaults are loaded
 - (void)setViewElementsAfterUserDefaultsLoaded {
     self.emailTextField.delegate = self;
     self.pswdTextField.delegate = self;

@@ -11,8 +11,8 @@
 @protocol LoginModelDelegate <NSObject>
 @optional
 
-- (void)savePswdSucceed;
-- (void)savePswdFailed;
+- (void)saveTokenSucceed;
+- (void)saveTokenFailedWithError:(NSString *)error;
 - (void)setViewElementsAfterUserDefaultsLoaded;
 
 @end

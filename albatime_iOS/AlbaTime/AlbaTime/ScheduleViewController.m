@@ -7,12 +7,13 @@
 //
 
 #import "ScheduleViewController.h"
+#import "CalcModel.h"
 
-@interface ScheduleViewController ()
+@interface ScheduleViewController () <CalcModelDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *arrowImageView;
 @property (weak, nonatomic) IBOutlet UITableView *timeCardTableView;
-
+@property (strong, nonatomic) CalcModel *calcModel;
 
 @end
 
@@ -20,6 +21,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.calcModel = [CalcModel new];
+    self.calcModel.delegate = self;
     
     [self setViewElements];
 }
@@ -53,6 +57,7 @@
                                style:UIAlertActionStyleDefault
                                handler:^(UIAlertAction *action)
                                {
+                                   [self.calcModel.defaults setBool:NO forKey:@"autoLogin"];
                                    [self.navigationController popToRootViewControllerAnimated:YES];
                                }];
     UIAlertAction *cancelAction = [UIAlertAction
@@ -80,6 +85,10 @@
                                style:UIAlertActionStyleDefault
                                handler:^(UIAlertAction *action)
                                {
+                                   // DB정보 비우기
+                                   // remove all userInfo
+                                   [self.calcModel removeAccessToken];
+                                   [self.calcModel removeUserDefaults];
                                    [self.navigationController popToRootViewControllerAnimated:YES];
                                }];
     UIAlertAction *cancelAction = [UIAlertAction
@@ -102,6 +111,16 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - CalcModel delegate methods
+- (void)removeTokenSucceed {
+    NSLog(@"Removing token success");
+}
+
+- (void)removeTokenFailedWithError:(NSString *)error {
+    NSString *title = @"Removing token failed";
+    [self showAlertViewTitle:title withMessage:error];
 }
 
 #pragma mark - Set internet disconnection notification

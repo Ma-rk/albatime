@@ -296,6 +296,17 @@
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
+#pragma mark - LoginModel Delegate Methods
+
+- (void)saveTokenSucceed {
+    NSLog(@"Save access token to keyCahin succeed");
+}
+
+- (void)saveTokenFailedWithError:(NSString *)error {
+    NSString *title = @"Saving token failed";
+    [self showAlertViewTitle:title withMessage:error];
+}
+
 /*
 #pragma mark - Navigation
 

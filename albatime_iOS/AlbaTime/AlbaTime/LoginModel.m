@@ -37,21 +37,12 @@
     
     // proceed autoLogin if possible
     if (self.autoLogin && self.email) {
-        // 로그아웃 또는 비번 변경하면 키체인에서 비번 지운다
-        NSString *password = [SSKeychain passwordForService:SERVICE_TITLE
-                                                    account:self.email];
-        if (password) {
-            // 자동로그인시 서버통신해서 인증 받을거면 1번, 그냥 로그인하려면 2번으로 진행
-            [self.networkHandler userAuthenticationWithEmail:self.email andPassword:password]; //1
-            //[self.networkHandler.delegate loginSucceed]; //2
-        }
-        else {
-            NSLog(@"Find password from keychain failed");
-        }
+        [self.networkHandler.delegate loginSucceed];
     }
-    
-    if ([self.delegate respondsToSelector:@selector(setViewElementsAfterUserDefaultsLoaded)])
-        [self.delegate setViewElementsAfterUserDefaultsLoaded];
+    else {
+        if ([self.delegate respondsToSelector:@selector(setViewElementsAfterUserDefaultsLoaded)])
+            [self.delegate setViewElementsAfterUserDefaultsLoaded];
+    }
 }
 
 - (BOOL)validateEmail: (NSString *)candidate {
@@ -72,11 +63,10 @@
 
 - (void)loginSucceedWithUserCredential:(NSMutableDictionary *)userCredential {
     NSString *email = userCredential[@"email"];
-    [self savePassword:userCredential[@"password"]
-            forService:SERVICE_TITLE
-           withAccount:email];
+    [self saveAccessToken:userCredential[@"token"]
+               forService:SERVICE_TITLE
+              withAccount:email];
     [self.defaults setObject:email forKey:@"email"];
-    [self.defaults setObject:userCredential[@"token"] forKey:@"token"];
     [self.defaults setObject:userCredential[@"id"] forKey:@"id"];
     [self.defaults setObject:userCredential[@"tokenSeq"] forKey:@"tokenSeq"];
 
@@ -91,11 +81,10 @@
 
 - (void)signUpSucceedWithUserCredential:(NSMutableDictionary *)userCredential {
     NSString *email = userCredential[@"email"];
-    [self savePassword:userCredential[@"password"]
-            forService:SERVICE_TITLE
-           withAccount:email];
+    [self saveAccessToken:userCredential[@"token"]
+               forService:SERVICE_TITLE
+              withAccount:email];
     [self.defaults setObject:email forKey:@"email"];
-    [self.defaults setObject:userCredential[@"token"] forKey:@"token"];
     [self.defaults setObject:userCredential[@"id"] forKey:@"id"];
     [self.defaults setObject:userCredential[@"tokenSeq"] forKey:@"tokenSeq"];
     [self.defaults setObject:userCredential[@"username"] forKey:@"name"];
@@ -103,17 +92,19 @@
     [self.defaults synchronize];
 }
 
-- (void)savePassword:(NSString *)password forService:(NSString *)serviceName withAccount:(NSString *)email {
-    if ([SSKeychain setPassword:password
-                     forService:serviceName
-                        account:email]) {
-        if ([self.delegate respondsToSelector:@selector(savePswdSucceed)]) {
-            [self.delegate savePswdSucceed];
+- (void)saveAccessToken:(NSString *)token forService:(NSString *)serviceName withAccount:(NSString *)email {
+    NSError *error;
+    if ([SSKeychain setPassword:token
+                     forService:SERVICE_TITLE
+                        account:email
+                          error:&error]) {
+        if ([self.delegate respondsToSelector:@selector(saveTokenSucceed)]) {
+            [self.delegate saveTokenSucceed];
         }
     }
     else {
-        if ([self.delegate respondsToSelector:@selector(savePswdFailed)]) {
-            [self.delegate savePswdFailed];
+        if ([self.delegate respondsToSelector:@selector(saveTokenFailedWithError:)]) {
+            [self.delegate saveTokenFailedWithError:[NSString stringWithFormat:@"%@", error]];
         }
     }
 }

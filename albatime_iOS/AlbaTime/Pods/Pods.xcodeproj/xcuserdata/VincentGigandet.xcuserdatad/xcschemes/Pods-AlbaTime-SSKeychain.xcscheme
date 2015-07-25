@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AD4F6FD6AF49E9684EF82B32"
+               BlueprintIdentifier = "EE2AABB228003C6070BC3C7A"
                BuildableName = "libPods-AlbaTime-SSKeychain.a"
                BlueprintName = "Pods-AlbaTime-SSKeychain"
                ReferencedContainer = "container:Pods.xcodeproj">

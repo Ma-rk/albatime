@@ -10,6 +10,7 @@
 #import "NetworkHandler.h"
 #import "AppDelegate.h"
 #import "Definitions.h"
+#import "CalcModel.h"
 
 @interface JobSettingViewController () <UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, NetworkHandlerDelegate>
 
@@ -32,6 +33,7 @@
 @property (strong, nonatomic) NSString *RGBColor;
 @property (strong, nonatomic) NSArray *timeUnits;
 @property (strong, nonatomic) NSArray *alarmMins;
+@property (strong, nonatomic) CalcModel *calcModel;
 
 @property BOOL isAlarmOn;
 
@@ -43,6 +45,7 @@
     [super viewDidLoad];
     self.networkHandler = [(AppDelegate *)[[UIApplication sharedApplication] delegate] networkHandler];
     self.networkHandler.delegate = self;
+    self.calcModel = [CalcModel new];
     
     // default time unit data source
     self.timeUnits = @[@1, @5, @10, @15, @20, @30, @60];
@@ -116,7 +119,7 @@
         else if (self.hasUnpaidBTSwitch.selectedSegmentIndex == UNPIAD_BREAK_TIME_FALSE)
             [jobInfo setObject:@"n" forKey:@"unpaidBreakFlag"];
         
-        [self.networkHandler uplaodNewJobInfo:jobInfo];
+        [self.calcModel creatNewJobWithJobInfo:jobInfo];
     }
 }
 
@@ -224,7 +227,7 @@
 #pragma mark - NetworkHandler Delegate Methods
 
 - (void)newJobCreatedWithJobInfo:(NSDictionary *)jobInfo {
-    
+    // 뷰 띄워서 잡 이름하고 정보 띄움
 }
 
 - (void)createJobFailedWithError:(NSString *)error {
