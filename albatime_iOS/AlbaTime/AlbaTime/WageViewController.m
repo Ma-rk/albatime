@@ -10,6 +10,7 @@
 
 @interface WageViewController ()
 
+@property (weak, nonatomic) IBOutlet UIImageView *arrowImageView;
 
 
 @end
@@ -19,6 +20,34 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setViewElements];
+
+}
+
+- (void)setViewElements {
+    [self.arrowImageView setUserInteractionEnabled:YES];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                          action:@selector(gotoNextView)];
+    [tap setNumberOfTapsRequired:1];
+    [self.arrowImageView addGestureRecognizer:tap];
+}
+
+- (void)gotoNextView {
+    [self performSegueWithIdentifier:@"ScheduleViewSegue" sender:self];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBar.hidden = YES;
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Set internet disconnection notification
+
+- (void)observeDisconnectedNotification {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(disconnectionAlert:)
                                                  name:@"networkDisconnected"
@@ -45,11 +74,6 @@
                                }];
     [alertController addAction:okAction];
     [self presentViewController:alertController animated:YES completion:nil];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 /*

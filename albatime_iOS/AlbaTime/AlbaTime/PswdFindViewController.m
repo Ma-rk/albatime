@@ -151,7 +151,7 @@
 #pragma mark - NetworkHandler Delegate Methods
 
 - (void)emailCheckResult:(NSInteger)result {
-    dispatch_sync(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         if (result == 0) {
             NSString *title = @"Email Not Found!";
             NSString *message = @"Your email has not found in our server";
@@ -166,7 +166,7 @@
 }
 
 - (void)resetEmailSent {
-    dispatch_sync(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         [self hideIndicator];
         self.resetRequestResult.text = @"E-mail has been sent successfully";
         self.resetRequestResult.hidden = NO;
@@ -174,7 +174,7 @@
 }
 
 - (void)resetEmailNotSent {
-    dispatch_sync(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         [self hideIndicator];
         self.resetRequestResult.text = @"E-mail NOT sent";
         self.resetRequestResult.hidden = NO;

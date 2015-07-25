@@ -18,6 +18,7 @@
 @interface LoginViewController () <UITextFieldDelegate, LoginModelDelegate, NetworkHandlerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
+// This textField disabled long-press action by setting subclass ActionDisabledUITextField in IB
 @property (weak, nonatomic) IBOutlet UITextField *pswdTextField;
 @property (weak, nonatomic) IBOutlet UISwitch *autoLoginSwitch;
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
@@ -45,34 +46,6 @@
 
     [self.loginModel loadUserDefaults];
     [self observeDisconnectedNotification];
-    
-    [self setViewElements];
-    
-    // auto login process
-    if (self.loginModel.email) {
-        self.emailTextField.text = self.loginModel.email;
-        if (self.loginModel.autoLogin) {
-            [self.loginModel tryAutoLogin];
-        }
-    }
-}
-
-- (void)setViewElements {
-    self.emailTextField.delegate = self;
-    self.pswdTextField.delegate = self;
-    self.pswdTextField.secureTextEntry = YES;
-    
-    [self.emailTextField setReturnKeyType:UIReturnKeyDone];
-    [self.pswdTextField setReturnKeyType:UIReturnKeyDone];
-    
-    // 나중에 지역 언어로 변경
-    self.placeHolderTextForEmail = @"E-mail address";
-    self.placeHolderTextForPswd = @"Password";
-    
-    self.emailTextField.placeholder = self.placeHolderTextForEmail;
-    self.pswdTextField.placeholder = self.placeHolderTextForPswd;
-    
-    [self hideIndicator];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -83,7 +56,7 @@
     if ([self validateUserInput]) {
         [self.networkHandler userAuthenticationWithEmail:self.emailTextField.text
                                              andPassword:self.pswdTextField.text];
-        //[self showIndicator];
+        [self showIndicator];
     }
 }
 
@@ -116,9 +89,9 @@
 
 - (IBAction)autoLoginChanged:(id)sender {
     if ([self.autoLoginSwitch isOn])
-        [self.loginModel turnOnAutoLogin];
+        self.loginModel.autoLogin = YES;
     else
-        [self.loginModel turnOffAutoLogin];
+        self.loginModel.autoLogin = NO;
 }
 
 - (IBAction)signUpButtonTapped:(id)sender {
@@ -201,17 +174,47 @@
     [self showAlertViewTitle:title withMessage:message];
 }
 
+// set view elements right after user defaults were loaded
+- (void)setViewElementsAfterUserDefaultsLoaded {
+    self.emailTextField.delegate = self;
+    self.pswdTextField.delegate = self;
+    self.pswdTextField.secureTextEntry = YES;
+    
+    [self.emailTextField setReturnKeyType:UIReturnKeyDone];
+    [self.pswdTextField setReturnKeyType:UIReturnKeyDone];
+    
+    // 나중에 지역 언어로 변경
+    self.placeHolderTextForEmail = @"E-mail address";
+    self.placeHolderTextForPswd = @"Password";
+    
+    self.emailTextField.placeholder = self.placeHolderTextForEmail;
+    self.pswdTextField.placeholder = self.placeHolderTextForPswd;
+    
+    // set default autoLogin state NO
+    if (self.loginModel.autoLogin)
+        [self.autoLoginSwitch setOn:YES];
+    else
+        [self.autoLoginSwitch setOn:NO];
+    
+    // auto fill out email textfield if exists
+    if (self.loginModel.email) {
+        self.emailTextField.text = self.loginModel.email;
+    }
+    
+    [self hideIndicator];
+}
+
 #pragma mark - NetworkHandler Delegate Methods
 
 - (void)loginSucceed {
-    dispatch_sync(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         [self hideIndicator];
         [self performSegueWithIdentifier:@"ToWageViewSegue" sender:self];
     });
 }
 
 - (void)loginFailedWithError:(NSString *)error {
-    dispatch_sync(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         [self hideIndicator];
         NSString *title = @"Login failed";
         [self showAlertViewTitle:title withMessage:error];

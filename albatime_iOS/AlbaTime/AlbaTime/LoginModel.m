@@ -34,6 +34,24 @@
 - (void)loadUserDefaults {
     self.autoLogin = [self.defaults objectForKey:@"autoLogin"];
     self.email = [self.defaults objectForKey:@"email"];
+    
+    // proceed autoLogin if possible
+    if (self.autoLogin && self.email) {
+        // 로그아웃 또는 비번 변경하면 키체인에서 비번 지운다
+        NSString *password = [SSKeychain passwordForService:SERVICE_TITLE
+                                                    account:self.email];
+        if (password) {
+            // 자동로그인시 서버통신해서 인증 받을거면 1번, 그냥 로그인하려면 2번으로 진행
+            [self.networkHandler userAuthenticationWithEmail:self.email andPassword:password]; //1
+            //[self.networkHandler.delegate loginSucceed]; //2
+        }
+        else {
+            NSLog(@"Find password from keychain failed");
+        }
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(setViewElementsAfterUserDefaultsLoaded)])
+        [self.delegate setViewElementsAfterUserDefaultsLoaded];
 }
 
 - (BOOL)validateEmail: (NSString *)candidate {
@@ -50,48 +68,38 @@
     return [emailTest evaluateWithObject:candidate];
 }
 
-- (void)tryAutoLogin {
-    
-    // 로그아웃 또는 비번 변경하면 키체인에서 비번 지운다
-    NSString *password = [SSKeychain passwordForService:SERVICE_TITLE
-                                                account:self.email];
-    if (password) {
-        // Don't authenticate when auto-login
-        //[self userAuthenticationWithEmail:self.email andPassword:password];
-        [self.networkHandler.delegate loginSucceed];
-    }
-    else {
-        NSLog(@"Find password from keychain failed");
-    }
-}
-
-- (void)turnOnAutoLogin {
-    [self.defaults setBool:YES forKey:@"autoLogin"];
-    [self.defaults synchronize];
-}
-
-- (void)turnOffAutoLogin {
-    [self.defaults setBool:NO forKey:@"autoLogin"];
-    [self.defaults synchronize];
-}
-
 #pragma mark - NetworkHandler Delegate Methods
 
-- (void)loginSucceedWithEmail:(NSString *)email andPassword:(NSString *)password {
-    [self saveUserDefaultsWithEmail:email];
-    [self savePassword:password forService:SERVICE_TITLE withAccount:email];
+- (void)loginSucceedWithUserCredential:(NSMutableDictionary *)userCredential {
+    NSString *email = userCredential[@"email"];
+    [self savePassword:userCredential[@"password"]
+            forService:SERVICE_TITLE
+           withAccount:email];
+    [self.defaults setObject:email forKey:@"email"];
+    [self.defaults setObject:userCredential[@"token"] forKey:@"token"];
+    [self.defaults setObject:userCredential[@"id"] forKey:@"id"];
+    [self.defaults setObject:userCredential[@"tokenSeq"] forKey:@"tokenSeq"];
+
+    // save autoLogin state
+    if (self.autoLogin)
+        [self.defaults setBool:YES forKey:@"autoLogin"];
+    else
+        [self.defaults setBool:NO forKey:@"autoLogin"];
+    
+    [self.defaults synchronize];
 }
 
 - (void)signUpSucceedWithUserCredential:(NSMutableDictionary *)userCredential {
-    [self saveUserDefaultsWithEmail:userCredential[@"email"]];
-    [self savePassword:userCredential[@"password"] forService:SERVICE_TITLE withAccount:userCredential[@"email"]];
+    NSString *email = userCredential[@"email"];
+    [self savePassword:userCredential[@"password"]
+            forService:SERVICE_TITLE
+           withAccount:email];
+    [self.defaults setObject:email forKey:@"email"];
+    [self.defaults setObject:userCredential[@"token"] forKey:@"token"];
+    [self.defaults setObject:userCredential[@"id"] forKey:@"id"];
+    [self.defaults setObject:userCredential[@"tokenSeq"] forKey:@"tokenSeq"];
     [self.defaults setObject:userCredential[@"username"] forKey:@"name"];
     [self.defaults setObject:userCredential[@"identity"] forKey:@"identity"];
-    [self.defaults synchronize];
-}
-
-- (void)saveUserDefaultsWithEmail:(NSString *)email {
-    [self.defaults setObject:email forKey:@"email"];
     [self.defaults synchronize];
 }
 

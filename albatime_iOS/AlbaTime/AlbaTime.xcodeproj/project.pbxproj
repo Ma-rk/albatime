@@ -13,6 +13,8 @@
 		3D0A55BD1B44413E00FCAE2D /* NetworkHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0A55BC1B44413E00FCAE2D /* NetworkHandler.m */; };
 		3D0A55C01B445DFA00FCAE2D /* WageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0A55BF1B445DFA00FCAE2D /* WageViewController.m */; };
 		3D0A55C31B445E9100FCAE2D /* PswdFindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0A55C21B445E9100FCAE2D /* PswdFindViewController.m */; };
+		3D229F1D1B6357F400D9EBD4 /* ScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D229F1C1B6357F400D9EBD4 /* ScheduleViewController.m */; };
+		3D229F201B63B4E300D9EBD4 /* ActionDisabledUITextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D229F1F1B63B4E300D9EBD4 /* ActionDisabledUITextField.m */; };
 		3D4B18801B42D9E000F7D615 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4B187F1B42D9E000F7D615 /* main.m */; };
 		3D4B18831B42D9E000F7D615 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4B18821B42D9E000F7D615 /* AppDelegate.m */; };
 		3D4B18891B42D9E000F7D615 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D4B18871B42D9E000F7D615 /* Main.storyboard */; };
@@ -34,6 +36,10 @@
 		3D0A55BF1B445DFA00FCAE2D /* WageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WageViewController.m; sourceTree = "<group>"; };
 		3D0A55C11B445E9100FCAE2D /* PswdFindViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PswdFindViewController.h; sourceTree = "<group>"; };
 		3D0A55C21B445E9100FCAE2D /* PswdFindViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PswdFindViewController.m; sourceTree = "<group>"; };
+		3D229F1B1B6357F400D9EBD4 /* ScheduleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScheduleViewController.h; sourceTree = "<group>"; };
+		3D229F1C1B6357F400D9EBD4 /* ScheduleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScheduleViewController.m; sourceTree = "<group>"; };
+		3D229F1E1B63B4E300D9EBD4 /* ActionDisabledUITextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionDisabledUITextField.h; sourceTree = "<group>"; };
+		3D229F1F1B63B4E300D9EBD4 /* ActionDisabledUITextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionDisabledUITextField.m; sourceTree = "<group>"; };
 		3D4B187B1B42D9E000F7D615 /* AlbaTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AlbaTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D4B187F1B42D9E000F7D615 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3D4B18811B42D9E000F7D615 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -95,8 +101,12 @@
 				3DED0C391B60237E0035244A /* JobSettingViewController.m */,
 				3D0A55BE1B445DFA00FCAE2D /* WageViewController.h */,
 				3D0A55BF1B445DFA00FCAE2D /* WageViewController.m */,
+				3D229F1B1B6357F400D9EBD4 /* ScheduleViewController.h */,
+				3D229F1C1B6357F400D9EBD4 /* ScheduleViewController.m */,
 				3D0A55BB1B44413E00FCAE2D /* NetworkHandler.h */,
 				3D0A55BC1B44413E00FCAE2D /* NetworkHandler.m */,
+				3D229F1E1B63B4E300D9EBD4 /* ActionDisabledUITextField.h */,
+				3D229F1F1B63B4E300D9EBD4 /* ActionDisabledUITextField.m */,
 				3D4B18871B42D9E000F7D615 /* Main.storyboard */,
 				3DD459361B57CF3A000EB9CC /* LaunchScreen.storyboard */,
 				3D4B188A1B42D9E000F7D615 /* Assets.xcassets */,
@@ -265,7 +275,9 @@
 				3D0A55C31B445E9100FCAE2D /* PswdFindViewController.m in Sources */,
 				3D4B18831B42D9E000F7D615 /* AppDelegate.m in Sources */,
 				3D0A55BA1B443A0B00FCAE2D /* SignUpViewController.m in Sources */,
+				3D229F1D1B6357F400D9EBD4 /* ScheduleViewController.m in Sources */,
 				3D4B18801B42D9E000F7D615 /* main.m in Sources */,
+				3D229F201B63B4E300D9EBD4 /* ActionDisabledUITextField.m in Sources */,
 				3D0A55BD1B44413E00FCAE2D /* NetworkHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

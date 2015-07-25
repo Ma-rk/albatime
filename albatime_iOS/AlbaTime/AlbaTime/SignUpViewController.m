@@ -42,8 +42,8 @@
     
     self.networkHandler = [(AppDelegate *)[[UIApplication sharedApplication] delegate] networkHandler];
     self.loginModel = [(AppDelegate *)[[UIApplication sharedApplication] delegate] loginModel];
-    self.loginModel.delegate = self;
     self.networkHandler.delegate = self;
+    self.loginModel.delegate = self;
     
     [self setViewElements];
     [self observeDisconnectedNotification];
@@ -200,6 +200,11 @@
     self.activityIndicator.hidden = YES;
 }
 
+// 나중에 지워라
+- (IBAction)tempButton:(id)sender {
+    [self performSegueWithIdentifier:@"JobSettingSegue" sender:self];
+}
+
 #pragma mark - UITextField Delegate Methods
 
 - (void)textFieldDidBeginEditing:(nonnull UITextField *)textField {
@@ -239,14 +244,14 @@
 
 // should explicitly delcare to do this method on main thread since this is a view related job but coming from background thread(Networking)
 - (void)signUpSucceed {
-    dispatch_sync(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         [self hideIndicator];
         [self performSegueWithIdentifier:@"JobSettingSegue" sender:self];
     });
 }
 
 - (void)signUpFailedWithError:(NSString *)error {
-    dispatch_sync(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         [self hideIndicator];
         NSString *title = @"SignUp failed";
         [self showAlertViewTitle:title withMessage:error];
@@ -254,7 +259,7 @@
 }
 
 - (void)emailCheckResult:(NSInteger)result {
-    dispatch_sync(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         if (result == 0) {
             self.invalidEmailWarning.text = @"This e-mail is good to go!";
             self.invalidEmailWarning.textColor = [UIColor blueColor];

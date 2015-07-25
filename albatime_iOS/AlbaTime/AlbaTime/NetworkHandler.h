@@ -12,7 +12,7 @@
 @optional
 
 - (void)loginSucceed;
-- (void)loginSucceedWithEmail:(NSString *)email andPassword:(NSString *)password;
+- (void)loginSucceedWithUserCredential:(NSMutableDictionary *)userCredential;
 - (void)loginFailedWithError:(NSString *)error;
 - (void)signUpSucceed;
 - (void)signUpSucceedWithUserCredential:(NSMutableDictionary *)userCredential;
@@ -20,6 +20,8 @@
 - (void)resetEmailSent;
 - (void)resetEmailNotSent;
 - (void)emailCheckResult:(NSInteger)result;
+- (void)newJobCreatedWithJobInfo:(NSDictionary *)jobInfo;
+- (void)createJobFailedWithError:(NSString *)error;
 
 @end
 
@@ -31,5 +33,6 @@
 - (void)checkEmailAvailability:(NSString *)email;
 - (void)sendResetRequest:(NSString *)email;
 - (void)signUpWithUserCredential:(NSMutableDictionary *)userCredential;
+- (void)uplaodNewJobInfo:(NSMutableDictionary *)jobInfo;
 
 @end

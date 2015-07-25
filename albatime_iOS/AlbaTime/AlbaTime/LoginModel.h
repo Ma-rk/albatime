@@ -13,6 +13,7 @@
 
 - (void)savePswdSucceed;
 - (void)savePswdFailed;
+- (void)setViewElementsAfterUserDefaultsLoaded;
 
 @end
 
@@ -24,8 +25,5 @@
 
 - (void)loadUserDefaults;
 - (BOOL)validateEmail:(NSString *)candidate;
-- (void)tryAutoLogin;
-- (void)turnOnAutoLogin;
-- (void)turnOffAutoLogin;
 
 @end

@@ -32,14 +32,10 @@
     // login request
 - (void)userAuthenticationWithEmail:(NSString *)email andPassword:(NSString *)password {
     
-    NSString *urlString = [NSString stringWithFormat:@"%@/user", BASE_URL];
+    NSString *urlString = [NSString stringWithFormat:@"%@/account", BASE_URL];
+    urlString = [urlString stringByAppendingString:[NSString stringWithFormat:@"?email=%@&pw=%@", email, password]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
-    NSString *postString = [NSString stringWithFormat:@"email=%@&pw=%@", email, password];
-    NSData *data = [postString dataUsingEncoding:NSUTF8StringEncoding];
-    [request setHTTPBody:data];
-    [request setValue:[NSString stringWithFormat:@"%lu", [data length]] forHTTPHeaderField:@"Content-Length"];
+    [request setHTTPMethod:@"PUT"];
     
     [[self.session dataTaskWithRequest:request
                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
@@ -56,16 +52,26 @@
                                                                                                             options:NSJSONReadingAllowFragments
                                                                                                               error:nil]];
               NSLog(@"Data : %@", JSON);
-              BOOL successIndicator = [JSON objectForKey:@"result"];
-              if (successIndicator) {
+              NSInteger successIndicator = [[JSON objectForKey:@"result"] integerValue];
+              if (successIndicator == 1) {
+                  NSMutableDictionary *userCredential = [NSMutableDictionary new];
+                  [userCredential setObject:email forKey:@"email"];
+                  [userCredential setObject:password forKey:@"password"];
+                  [userCredential setObject:[[JSON objectForKey:@"data"] objectForKey:@"currentJwToken"] forKey:@"token"];
+                  [userCredential setObject:[[JSON objectForKey:@"data"] objectForKey:@"id"] forKey:@"id"];
+                  [userCredential setObject:[[JSON objectForKey:@"data"] objectForKey:@"userJwTokenKeySeq"] forKey:@"tokenSeq"];
+
+                  // in LoginViewController.m
                   if ([self.delegate respondsToSelector:@selector(loginSucceed)]) {
                       [self.delegate loginSucceed];
                   }
-                  if ([self.delegate respondsToSelector:@selector(loginSucceedWithEmail:andPassword:)]) {
-                      [self.delegate loginSucceedWithEmail:email andPassword:password];
+                  // in LoginModel.m
+                  if ([self.delegate respondsToSelector:@selector(loginSucceedWithUserCredential:)]) {
+                      [self.delegate loginSucceedWithUserCredential:userCredential];
                   }
               }
-              else {
+              else if (successIndicator == 0){
+                  // in LoginViewController.m
                   if ([self.delegate respondsToSelector:@selector(loginFailedWithError:)]) {
                       [self.delegate loginFailedWithError:[JSON objectForKey:@"errorCode"]];
                   }
@@ -76,7 +82,7 @@
 
 - (void)signUpWithUserCredential:(NSMutableDictionary *)userCredential {
     
-    // set user type info
+    // set user type
     NSString *type;
     if ([userCredential[@"identity"] isEqualToString:@"I'm an employee"])
         type = USR_TYP_01;
@@ -107,16 +113,20 @@
                                                                                                           options:NSJSONReadingAllowFragments
                                                                                                             error:nil]];
             NSLog(@"Data : %@", JSON);
-            BOOL successIndicator = [JSON objectForKey:@"result"];
-            if (successIndicator) {
+            NSInteger successIndicator = [[JSON objectForKey:@"result"] integerValue];
+            if (successIndicator == 1) {
                 if ([self.delegate respondsToSelector:@selector(signUpSucceed)]) {
                     [self.delegate signUpSucceed];
                 }
                 if ([self.delegate respondsToSelector:@selector(signUpSucceedWithUserCredential:)]) {
+                    // add addtional data which are aquired from data
+                    [userCredential setObject:[[JSON objectForKey:@"data"] objectForKey:@"currentJwToken"] forKey:@"token"];
+                    [userCredential setObject:[[JSON objectForKey:@"data"] objectForKey:@"id"] forKey:@"id"];
+                    [userCredential setObject:[[JSON objectForKey:@"data"] objectForKey:@"userJwTokenKeySeq"] forKey:@"tokenSeq"];
                     [self.delegate signUpSucceedWithUserCredential:userCredential];
                 }
             }
-            else {
+            else if (successIndicator == 0) {
                 if ([self.delegate respondsToSelector:@selector(signUpFailedWithError:)]) {
                     [self.delegate signUpFailedWithError:[JSON objectForKey:@"errorCode"]];
                 }
@@ -130,7 +140,7 @@
 
     [self checkEmailAvailability:email];
     
-    NSString *urlString = [NSString stringWithFormat:@"%@/reset", BASE_URL];
+    NSString *urlString = [NSString stringWithFormat:@"%@/account", BASE_URL];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
@@ -154,13 +164,13 @@
                                                                                                             options:NSJSONReadingAllowFragments
                                                                                                               error:nil]];
               NSLog(@"Data : %@", JSON);
-              BOOL successIndicator = [JSON objectForKey:@"result"];
-              if (successIndicator) {
+              NSInteger successIndicator = [[JSON objectForKey:@"result"] integerValue];
+              if (successIndicator == 1) {
                   if ([self.delegate respondsToSelector:@selector(resetEmailSent)]) {
                       [self.delegate resetEmailSent];
                   }
               }
-              else {
+              else if (successIndicator == 0) {
                   if ([self.delegate respondsToSelector:@selector(resetEmailNotSent)]) {
                       [self.delegate resetEmailNotSent];
                   }
@@ -191,6 +201,66 @@
               NSInteger foundEmailNum = [[JSON objectForKey:@"data"] integerValue];
               if ([self.delegate respondsToSelector:@selector(emailCheckResult:)]) {
                   [self.delegate emailCheckResult:foundEmailNum];
+              }
+          }
+      }] resume];
+}
+
+- (void)uplaodNewJobInfo:(NSMutableDictionary *)jobInfo {
+    // get token from userDefaults / SHOULD SAVE THIS IN KEYCHAIN LATER!!
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [defaults objectForKey:@"token"];
+    NSInteger idInt = [[defaults objectForKey:@"id"] integerValue];
+    NSInteger tokenSeq = [[defaults objectForKey:@"tokenSeq"] integerValue];
+    
+    NSString *name = jobInfo[@"name"];
+    NSInteger workTimeUnit = [jobInfo[@"workTimeUnit"] integerValue];
+    NSInteger alarmBefore = [jobInfo[@"alarmBefore"] integerValue];
+    NSString *RGBColor = jobInfo[@"RGBColor"];
+    char unpaidBreakFlag = [jobInfo[@"unpaidBreakFlag"] characterAtIndex:0];
+    double defaultWage = [jobInfo[@"defaultWage"] doubleValue];
+    // optional
+    float taxRate = [jobInfo[@"taxRate"] floatValue];
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@/actor", BASE_URL];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+    
+    // 헤더 스트링 양식 확인해서 헤더에 삽입 필요
+    [request setValue:@"Header String" forHTTPHeaderField:@"Set-Cookie"];
+
+    NSString *postString = [NSString stringWithFormat:@"name=%@&workTimeUnit=%ld&alarmBefore=%ld&bgColor=%@&unpaidBreakFlag=%c&basicWage=%f&taxRate=%f",
+                            name, (long)workTimeUnit, (long)alarmBefore, RGBColor, unpaidBreakFlag, defaultWage, taxRate];
+    NSData *data = [postString dataUsingEncoding:NSUTF8StringEncoding];
+    [request setHTTPBody:data];
+    [request setValue:[NSString stringWithFormat:@"%lu", [data length]] forHTTPHeaderField:@"Content-Length"];
+    
+    [[self.session dataTaskWithRequest:request
+                     completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+      {
+          if (error) {
+              NSLog(@"Uplaod new job info failed with Error : %@", error);
+              if ([self.delegate respondsToSelector:@selector(createJobFailedWithError:)]) {
+                  [self.delegate createJobFailedWithError:[NSString stringWithFormat:@"%@", error]];
+              }
+          }
+          else {
+              NSLog(@"Uplaod new job success response : %@", response);
+              NSDictionary *JSON = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:data
+                                                                                                            options:NSJSONReadingAllowFragments
+                                                                                                              error:nil]];
+              NSLog(@"Data : %@", JSON);
+              NSInteger successIndicator = [[JSON objectForKey:@"result"] integerValue];
+              if (successIndicator == 1) {
+                  if ([self.delegate respondsToSelector:@selector(newJobCreatedWithJobInfo:)]) {
+                      [self.delegate newJobCreatedWithJobInfo:[NSDictionary dictionaryWithDictionary:JSON]];
+                  }
+              }
+              else if (successIndicator == 0) {
+                  if ([self.delegate respondsToSelector:@selector(createJobFailedWithError:)]) {
+                      [self.delegate createJobFailedWithError:[JSON objectForKey:@"errorCode"]];
+                  }
               }
           }
       }] resume];
