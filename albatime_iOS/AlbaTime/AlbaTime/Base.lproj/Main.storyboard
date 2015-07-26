@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8152.3" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="4Gi-5G-CcU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8164.2" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="4Gi-5G-CcU">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8124.4"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8135.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -419,7 +419,7 @@
                                     <action selector="jobColorButtonTapped:" destination="mH6-kh-Een" eventType="touchUpInside" id="k5n-tS-4vf"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Have unpaid breaktime?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xbq-rg-en6">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Have unpaid breaktime?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xbq-rg-en6">
                                 <rect key="frame" x="123" y="240" width="137" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -566,7 +566,7 @@
                         <outlet property="timeUnitPickerView" destination="7zL-gn-gAk" id="n9h-bp-2HM"/>
                         <outlet property="timeUnitTextField" destination="Bth-W4-QVd" id="hvI-pE-x0n"/>
                         <outlet property="timeUnitToolBar" destination="JpS-J9-r0P" id="8ye-qj-Yqe"/>
-                        <segue destination="fVh-Ow-c6y" kind="show" id="2i1-4y-vny"/>
+                        <segue destination="fVh-Ow-c6y" kind="show" identifier="FromJobSettingToWageViewSegue" id="2i1-4y-vny"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WM9-Am-8PC" userLabel="First Responder" sceneMemberID="firstResponder"/>

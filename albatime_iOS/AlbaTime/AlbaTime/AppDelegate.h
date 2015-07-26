@@ -10,6 +10,7 @@
 
 @class LoginModel;
 @class NetworkHandler;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

@@ -28,7 +28,6 @@
 @property (weak, nonatomic) NSString *placeHolderTextForIdentity;
 @property (weak, nonatomic) NSString *placeHolderTextForUsername;
 @property (strong, nonatomic) LoginModel *loginModel;
-@property (strong, nonatomic) NetworkHandler *networkHandler;
 
 @property BOOL userGranted;
 @property BOOL isEmailAvailable;
@@ -40,9 +39,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.networkHandler = [(AppDelegate *)[[UIApplication sharedApplication] delegate] networkHandler];
     self.loginModel = [(AppDelegate *)[[UIApplication sharedApplication] delegate] loginModel];
-    self.networkHandler.delegate = self;
+    self.loginModel.networkHandler.delegate = self;
     self.loginModel.delegate = self;
     
     [self setViewElements];
@@ -59,6 +57,7 @@
     self.pswdTextField.secureTextEntry = YES;
     self.identityTextField.userInteractionEnabled = NO;
     
+    self.emailTextField.keyboardType = UIKeyboardTypeEmailAddress;
     [self.emailTextField setReturnKeyType:UIReturnKeyDone];
     [self.pswdTextField setReturnKeyType:UIReturnKeyDone];
     [self.usernameTextField setReturnKeyType:UIReturnKeyDone];
@@ -91,7 +90,7 @@
         [userCredential setObject:self.identityTextField.text forKey:@"identity"];
         [userCredential setObject:self.usernameTextField.text forKey:@"username"];
         
-        [self.networkHandler signUpWithUserCredential:userCredential];
+        [self.loginModel.networkHandler signUpWithUserCredential:userCredential];
     }
 }
 
@@ -100,32 +99,38 @@
     if (self.emailTextField.text.length == 0) {
         NSString *title = @"Incomplete form";
         NSString *message = @"Please enter your e-mail";
-        [self showAlertViewTitle:title withMessage:message];
+        [self showAlertViewTitle:title
+                     withMessage:message];
         return NO;
     } else if (self.pswdTextField.text.length == 0) {
         NSString *title = @"Incomplete form";
         NSString *message = @"Please enter your password";
-        [self showAlertViewTitle:title withMessage:message];
+        [self showAlertViewTitle:title
+                     withMessage:message];
         return NO;
     } else if (self.identityTextField.text.length == 0) {
         NSString *title = @"Incomplete form";
         NSString *message = @"Please tell us who you are";
-        [self showAlertViewTitle:title withMessage:message];
+        [self showAlertViewTitle:title
+                     withMessage:message];
         return NO;
     } else if (self.usernameTextField.text.length == 0) {
         NSString *title = @"Incomplete form";
         NSString *message = @"Please enter your username";
-        [self showAlertViewTitle:title withMessage:message];
+        [self showAlertViewTitle:title
+                     withMessage:message];
         return NO;
     } else if (![self.loginModel validateEmail:self.emailTextField.text]){
         NSString *title = @"Invalid e-mail";
         NSString *message = @"Your e-mail is NOT valid, please check again";
-        [self showAlertViewTitle:title withMessage:message];
+        [self showAlertViewTitle:title
+                     withMessage:message];
         return NO;
     } else if (!self.isEmailAvailable) {
         NSString *title = @"E-mail in use";
         NSString *message = @"Your e-mail is already in use, please try different e-mail";
-        [self showAlertViewTitle:title withMessage:message];
+        [self showAlertViewTitle:title
+                     withMessage:message];
         return NO;
     }
     return YES;
@@ -215,7 +220,7 @@
 
 - (void)textFieldDidEndEditing:(nonnull UITextField *)textField {
     if (textField.text.length > 0 && textField.tag == EMAIL_TEXTFIELD) {
-        [self.networkHandler checkEmailAvailability:textField.text];
+        [self.loginModel.networkHandler checkEmailAvailability:textField.text];
     }
 }
 
@@ -243,7 +248,12 @@
 #pragma mark - NetworkHandler Delegate Methods
 
 // should explicitly delcare to do this method on main thread since this is a view related job but coming from background thread(Networking)
-- (void)signUpSucceed {
+- (void)signUpSucceedWithUserCredential:(NSMutableDictionary *)userCredential {
+    // save userCredential in LoginModel
+    if (userCredential) {
+        [self.loginModel signUpSucceedWithUserCredential:userCredential];
+    }
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         [self hideIndicator];
         [self performSegueWithIdentifier:@"JobSettingSegue" sender:self];
@@ -304,7 +314,8 @@
 
 - (void)saveTokenFailedWithError:(NSString *)error {
     NSString *title = @"Saving token failed";
-    [self showAlertViewTitle:title withMessage:error];
+    [self showAlertViewTitle:title
+                 withMessage:error];
 }
 
 /*

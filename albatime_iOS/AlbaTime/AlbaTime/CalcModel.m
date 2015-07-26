@@ -14,8 +14,6 @@
 
 @interface CalcModel () <NetworkHandlerDelegate>
 
-@property (strong, nonatomic) NetworkHandler *networkHandler;
-
 @end
 
 @implementation CalcModel

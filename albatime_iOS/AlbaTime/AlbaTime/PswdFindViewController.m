@@ -20,7 +20,6 @@
 
 @property (weak, nonatomic) NSString *placeHolderTextForEmail;
 @property (strong, nonatomic) LoginModel *loginModel;
-@property (strong, nonatomic) NetworkHandler *networkHandler;
 
 @end
 
@@ -29,8 +28,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.networkHandler = [(AppDelegate *)[[UIApplication sharedApplication] delegate] networkHandler];
     self.loginModel = [(AppDelegate *)[[UIApplication sharedApplication] delegate] loginModel];
+    self.loginModel.networkHandler.delegate = self;
     [self observeDisconnectedNotification];
     
     [self setViewElements];
@@ -44,6 +43,7 @@
     self.resetRequestResult.hidden = YES;
     self.placeHolderTextForEmail = @"E-main address";
     self.emailTextField.placeholder = self.placeHolderTextForEmail;
+    self.emailTextField.keyboardType = UIKeyboardTypeEmailAddress;
     self.emailTextField.delegate = self;
     [self.emailTextField setReturnKeyType:UIReturnKeyDone];
 }
@@ -58,16 +58,18 @@
     if (email.length == 0) {
         NSString *title = @"E-mail is empty!";
         NSString *message = @"Please enter your e-mail";
-        [self showAlertViewTitle:title withMessage:message];
+        [self showAlertViewTitle:title
+                     withMessage:message];
     }
     else if (![self.loginModel validateEmail:email]){
         NSString *title = @"Invalid email!";
         NSString *message = @"Invalid email, please check again";
-        [self showAlertViewTitle:title withMessage:message];
+        [self showAlertViewTitle:title
+                     withMessage:message];
     }
     else {
         [self showIndicator];
-        [self.networkHandler sendResetRequest:email];
+        [self.loginModel.networkHandler sendResetRequest:email];
     }
 }
 
@@ -101,14 +103,10 @@
 
 - (void)textFieldDidEndEditing:(nonnull UITextField *)textField {
     if (textField.text.length > 0) {
-        [self instantValidateEmail:textField.text];
-    }
-}
-
-- (void)instantValidateEmail:(NSString *)candidate {
-    if (![self.loginModel validateEmail:candidate]) {
-        self.invalidEmailWarning.text = @"Invalid e-mail, please check again";
-        self.invalidEmailWarning.hidden = NO;
+        if (![self.loginModel validateEmail:textField.text]) {
+            self.invalidEmailWarning.text = @"Invalid e-mail, please check again";
+            self.invalidEmailWarning.hidden = NO;
+        }
     }
 }
 

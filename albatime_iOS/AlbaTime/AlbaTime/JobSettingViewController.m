@@ -227,7 +227,12 @@
 #pragma mark - NetworkHandler Delegate Methods
 
 - (void)newJobCreatedWithJobInfo:(NSDictionary *)jobInfo {
-    // 뷰 띄워서 잡 이름하고 정보 띄움
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *title = @"Job Created!";
+        NSString *message = jobInfo.description;
+        [self showAlertViewTitle:title withMessage:message];
+        [self performSegueWithIdentifier:@"FromJobSettingToWageViewSegue" sender:self];
+    });
 }
 
 - (void)createJobFailedWithError:(NSString *)error {

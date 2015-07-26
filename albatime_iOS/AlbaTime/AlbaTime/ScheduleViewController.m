@@ -41,7 +41,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    self.navigationController.navigationBar.hidden = YES;
+    self.navigationController.navigationBar.hidden = NO;
 }
 
 
@@ -85,7 +85,7 @@
                                style:UIAlertActionStyleDefault
                                handler:^(UIAlertAction *action)
                                {
-                                   // DB정보 비우기
+                                   // 여기서 DB 데이터 지우자
                                    // remove all userInfo
                                    [self.calcModel removeAccessToken];
                                    [self.calcModel removeUserDefaults];

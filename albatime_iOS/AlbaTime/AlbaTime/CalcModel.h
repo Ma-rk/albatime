@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class NetworkHandler;
+
 @protocol CalcModelDelegate <NSObject>
 @optional
 
@@ -19,6 +21,7 @@
 @interface CalcModel : NSObject
 
 @property (weak, nonatomic) id<CalcModelDelegate> delegate;
+@property (strong, nonatomic) NetworkHandler *networkHandler;
 @property (strong, nonatomic) NSUserDefaults *defaults;
 
 - (NSMutableDictionary *)getToken;

@@ -56,26 +56,19 @@
               if (successIndicator == 1) {
                   NSMutableDictionary *userCredential = [NSMutableDictionary new];
                   [userCredential setObject:email forKey:@"email"];
-                  [userCredential setObject:password forKey:@"password"];
                   // add token info which are aquired from data
                   [userCredential setObject:[[JSON objectForKey:@"data"] objectForKey:@"currentJwToken"] forKey:@"token"];
                   [userCredential setObject:[[JSON objectForKey:@"data"] objectForKey:@"id"] forKey:@"id"];
                   [userCredential setObject:[[JSON objectForKey:@"data"] objectForKey:@"userJwTokenKeySeq"] forKey:@"tokenSeq"];
 
-                  // in LoginViewController.m
-                  if ([self.delegate respondsToSelector:@selector(loginSucceed)]) {
-                      [self.delegate loginSucceed];
-                  }
-                  // in LoginModel.m
-                  if ([self.delegate respondsToSelector:@selector(loginSucceedWithUserCredential:)]) {
+                  // at LoginViewController.m
+                  if ([self.delegate respondsToSelector:@selector(loginSucceedWithUserCredential:)])
                       [self.delegate loginSucceedWithUserCredential:userCredential];
-                  }
               }
               else if (successIndicator == 0){
-                  // in LoginViewController.m
-                  if ([self.delegate respondsToSelector:@selector(loginFailedWithError:)]) {
+                  // at LoginViewController.m
+                  if ([self.delegate respondsToSelector:@selector(loginFailedWithError:)])
                       [self.delegate loginFailedWithError:[JSON objectForKey:@"errorCode"]];
-                  }
               }
           }
       }] resume];
@@ -116,9 +109,7 @@
             NSLog(@"Data : %@", JSON);
             NSInteger successIndicator = [[JSON objectForKey:@"result"] integerValue];
             if (successIndicator == 1) {
-                if ([self.delegate respondsToSelector:@selector(signUpSucceed)]) {
-                    [self.delegate signUpSucceed];
-                }
+                // at SignUpVC
                 if ([self.delegate respondsToSelector:@selector(signUpSucceedWithUserCredential:)]) {
                     // add token info which are aquired from data
                     [userCredential setObject:[[JSON objectForKey:@"data"] objectForKey:@"currentJwToken"] forKey:@"token"];
@@ -128,6 +119,7 @@
                 }
             }
             else if (successIndicator == 0) {
+                // at SignUpVC
                 if ([self.delegate respondsToSelector:@selector(signUpFailedWithError:)]) {
                     [self.delegate signUpFailedWithError:[JSON objectForKey:@"errorCode"]];
                 }
@@ -224,10 +216,11 @@
     float taxRate = [jobInfo[@"taxRate"] floatValue];
     
     NSString *urlString = [NSString stringWithFormat:@"%@/actor", BASE_URL];
+    NSString *tokenString = [NSString stringWithFormat:@"jwToken=%@, userIdInCookie=%ld, userTokenSeqInCookie=%ld", token, idInt, tokenSeq];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
-    [request setValue:@"Header String" forHTTPHeaderField:@"Set-Cookie"];
+    [request setValue:tokenString forHTTPHeaderField:@"Set-Cookie"];
 
     NSString *postString = [NSString stringWithFormat:@"name=%@&workTimeUnit=%ld&alarmBefore=%ld&bgColor=%@&unpaidBreakFlag=%c&basicWage=%f&taxRate=%f",
                             name, (long)workTimeUnit, (long)alarmBefore, RGBColor, unpaidBreakFlag, defaultWage, taxRate];

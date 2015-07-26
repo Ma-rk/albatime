@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class NetworkHandler;
+
 @protocol LoginModelDelegate <NSObject>
 @optional
 
@@ -21,8 +23,11 @@
 
 @property (weak, nonatomic) id<LoginModelDelegate> delegate;
 @property (strong, nonatomic) NSString *email;
+@property (strong, nonatomic) NetworkHandler *networkHandler;
 @property BOOL autoLogin;
 
+- (void)loginSucceedWithUserCredential:(NSMutableDictionary *)userCredential;
+- (void)signUpSucceedWithUserCredential:(NSMutableDictionary *)userCredential;
 - (void)loadUserDefaults;
 - (BOOL)validateEmail:(NSString *)candidate;
 

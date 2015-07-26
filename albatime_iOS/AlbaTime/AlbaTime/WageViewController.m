@@ -21,7 +21,6 @@
     [super viewDidLoad];
     
     [self setViewElements];
-
 }
 
 - (void)setViewElements {
@@ -37,7 +36,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    self.navigationController.navigationBar.hidden = YES;
+    self.navigationController.navigationBar.hidden = NO;
 }
 
 - (void)didReceiveMemoryWarning {

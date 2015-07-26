@@ -14,7 +14,6 @@
 
 @interface LoginModel () <NetworkHandlerDelegate>
 
-@property (strong, nonatomic) NetworkHandler *networkHandler;
 @property (strong, nonatomic) NSUserDefaults *defaults;
 
 @end
@@ -26,18 +25,19 @@
     self = [super init];
     if (self) {
         self.networkHandler = [(AppDelegate *)[[UIApplication sharedApplication] delegate] networkHandler];
+        self.networkHandler.delegate = self;
         self.defaults = [NSUserDefaults standardUserDefaults];
     }
     return self;
 }
 
 - (void)loadUserDefaults {
-    self.autoLogin = [self.defaults objectForKey:@"autoLogin"];
+    self.autoLogin = [self.defaults boolForKey:@"autoLogin"];
     self.email = [self.defaults objectForKey:@"email"];
     
     // proceed autoLogin if possible
     if (self.autoLogin && self.email) {
-        [self.networkHandler.delegate loginSucceed];
+        [self.networkHandler.delegate loginSucceedWithUserCredential:nil];
     }
     else {
         if ([self.delegate respondsToSelector:@selector(setViewElementsAfterUserDefaultsLoaded)])
@@ -58,8 +58,6 @@
     
     return [emailTest evaluateWithObject:candidate];
 }
-
-#pragma mark - NetworkHandler Delegate Methods
 
 - (void)loginSucceedWithUserCredential:(NSMutableDictionary *)userCredential {
     NSString *email = userCredential[@"email"];
