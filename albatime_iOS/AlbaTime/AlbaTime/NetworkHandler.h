@@ -12,7 +12,7 @@
 @optional
 
 - (void)loginSucceed;
-- (void)loginSucceedWithUserCredential:(NSMutableDictionary *)userCredential;
+- (void)loginSucceedWithEmail:(NSString *)email andPswd:(NSString *)password;
 - (void)loginFailedWithError:(NSString *)error;
 - (void)signUpSucceed;
 - (void)signUpSucceedWithUserCredential:(NSMutableDictionary *)userCredential;

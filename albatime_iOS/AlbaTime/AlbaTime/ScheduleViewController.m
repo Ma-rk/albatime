@@ -41,7 +41,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    self.navigationController.navigationBar.hidden = NO;
+    self.navigationController.navigationBar.hidden = YES;
 }
 
 
@@ -86,8 +86,9 @@
                                handler:^(UIAlertAction *action)
                                {
                                    // 여기서 DB 데이터 지우자
+                                   // 계정을 지웠는데 루트뷰에서 이메일이 자동으로 채워져 있는 문제 해결
                                    // remove all userInfo
-                                   [self.calcModel removeAccessToken];
+                                   [self.calcModel removePassword];
                                    [self.calcModel removeUserDefaults];
                                    [self.navigationController popToRootViewControllerAnimated:YES];
                                }];
@@ -114,12 +115,12 @@
 }
 
 #pragma mark - CalcModel delegate methods
-- (void)removeTokenSucceed {
-    NSLog(@"Removing token success");
+- (void)removePswdSucceed {
+    NSLog(@"Removing password success");
 }
 
-- (void)removeTokenFailedWithError:(NSString *)error {
-    NSString *title = @"Removing token failed";
+- (void)removePswdFailedWithError:(NSString *)error {
+    NSString *title = @"Removing password failed";
     [self showAlertViewTitle:title withMessage:error];
 }
 

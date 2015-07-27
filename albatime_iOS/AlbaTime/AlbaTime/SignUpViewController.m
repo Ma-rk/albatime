@@ -250,9 +250,7 @@
 // should explicitly delcare to do this method on main thread since this is a view related job but coming from background thread(Networking)
 - (void)signUpSucceedWithUserCredential:(NSMutableDictionary *)userCredential {
     // save userCredential in LoginModel
-    if (userCredential) {
-        [self.loginModel signUpSucceedWithUserCredential:userCredential];
-    }
+    [self.loginModel saveSignUpInfoWithUserCredential:userCredential];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self hideIndicator];

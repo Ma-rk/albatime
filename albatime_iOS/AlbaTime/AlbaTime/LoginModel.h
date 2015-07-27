@@ -13,8 +13,8 @@
 @protocol LoginModelDelegate <NSObject>
 @optional
 
-- (void)saveTokenSucceed;
-- (void)saveTokenFailedWithError:(NSString *)error;
+- (void)savePswdSucceed;
+- (void)savePswdFailedWithError:(NSString *)error;
 - (void)setViewElementsAfterUserDefaultsLoaded;
 
 @end
@@ -26,8 +26,8 @@
 @property (strong, nonatomic) NetworkHandler *networkHandler;
 @property BOOL autoLogin;
 
-- (void)loginSucceedWithUserCredential:(NSMutableDictionary *)userCredential;
-- (void)signUpSucceedWithUserCredential:(NSMutableDictionary *)userCredential;
+- (void)saveLoginInfoWithEmail:(NSString *)email andPswd:(NSString *)password;
+- (void)saveSignUpInfoWithUserCredential:(NSMutableDictionary *)userCredential;
 - (void)loadUserDefaults;
 - (BOOL)validateEmail:(NSString *)candidate;
 

@@ -12,7 +12,7 @@
 #import "NetworkHandler.h"
 #import "AppDelegate.h"
 
-@interface LoginModel () <NetworkHandlerDelegate>
+@interface LoginModel ()
 
 @property (strong, nonatomic) NSUserDefaults *defaults;
 
@@ -25,7 +25,6 @@
     self = [super init];
     if (self) {
         self.networkHandler = [(AppDelegate *)[[UIApplication sharedApplication] delegate] networkHandler];
-        self.networkHandler.delegate = self;
         self.defaults = [NSUserDefaults standardUserDefaults];
     }
     return self;
@@ -37,7 +36,11 @@
     
     // proceed autoLogin if possible
     if (self.autoLogin && self.email) {
-        [self.networkHandler.delegate loginSucceedWithUserCredential:nil];
+        NSString *password = [self retrievePasswordForEmail:self.email];
+        if (password) {
+            [self.networkHandler userAuthenticationWithEmail:self.email
+                                                 andPassword:password];
+        }
     }
     else {
         if ([self.delegate respondsToSelector:@selector(setViewElementsAfterUserDefaultsLoaded)])
@@ -45,7 +48,7 @@
     }
 }
 
-- (BOOL)validateEmail: (NSString *)candidate {
+- (BOOL)validateEmail:(NSString *)candidate {
     NSString *emailRegex =
     @"(?:[a-z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-z0-9!#$%\\&'*+/=?\\^_`{|}"
     @"~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\"
@@ -59,15 +62,12 @@
     return [emailTest evaluateWithObject:candidate];
 }
 
-- (void)loginSucceedWithUserCredential:(NSMutableDictionary *)userCredential {
-    NSString *email = userCredential[@"email"];
-    [self saveAccessToken:userCredential[@"token"]
-               forService:SERVICE_TITLE
-              withAccount:email];
+- (void)saveLoginInfoWithEmail:(NSString *)email andPswd:(NSString *)password {
     [self.defaults setObject:email forKey:@"email"];
-    [self.defaults setObject:userCredential[@"id"] forKey:@"id"];
-    [self.defaults setObject:userCredential[@"tokenSeq"] forKey:@"tokenSeq"];
-
+    [self savePassword:password
+            forService:SERVICE_TITLE
+           withAccount:email];
+    
     // save autoLogin state
     if (self.autoLogin)
         [self.defaults setBool:YES forKey:@"autoLogin"];
@@ -77,34 +77,37 @@
     [self.defaults synchronize];
 }
 
-- (void)signUpSucceedWithUserCredential:(NSMutableDictionary *)userCredential {
+- (void)saveSignUpInfoWithUserCredential:(NSMutableDictionary *)userCredential {
     NSString *email = userCredential[@"email"];
-    [self saveAccessToken:userCredential[@"token"]
-               forService:SERVICE_TITLE
-              withAccount:email];
+    [self savePassword:userCredential[@"password"]
+            forService:SERVICE_TITLE
+           withAccount:email];
     [self.defaults setObject:email forKey:@"email"];
-    [self.defaults setObject:userCredential[@"id"] forKey:@"id"];
-    [self.defaults setObject:userCredential[@"tokenSeq"] forKey:@"tokenSeq"];
-    [self.defaults setObject:userCredential[@"username"] forKey:@"name"];
     [self.defaults setObject:userCredential[@"identity"] forKey:@"identity"];
+    [self.defaults setObject:userCredential[@"username"] forKey:@"username"];
     [self.defaults synchronize];
 }
 
-- (void)saveAccessToken:(NSString *)token forService:(NSString *)serviceName withAccount:(NSString *)email {
+- (void)savePassword:(NSString *)password forService:(NSString *)serviceName withAccount:(NSString *)email {
     NSError *error;
-    if ([SSKeychain setPassword:token
+    if ([SSKeychain setPassword:password
                      forService:SERVICE_TITLE
                         account:email
                           error:&error]) {
-        if ([self.delegate respondsToSelector:@selector(saveTokenSucceed)]) {
-            [self.delegate saveTokenSucceed];
+        if ([self.delegate respondsToSelector:@selector(savePswdSucceed)]) {
+            [self.delegate savePswdSucceed];
         }
     }
     else {
-        if ([self.delegate respondsToSelector:@selector(saveTokenFailedWithError:)]) {
-            [self.delegate saveTokenFailedWithError:[NSString stringWithFormat:@"%@", error]];
+        if ([self.delegate respondsToSelector:@selector(savePswdFailedWithError:)]) {
+            [self.delegate savePswdFailedWithError:[NSString stringWithFormat:@"%@", error]];
         }
     }
+}
+
+- (NSString *)retrievePasswordForEmail:(NSString *)email {
+    return [SSKeychain passwordForService:SERVICE_TITLE
+                                  account:email];
 }
 
 @end

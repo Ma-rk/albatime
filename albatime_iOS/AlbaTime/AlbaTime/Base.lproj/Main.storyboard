@@ -197,8 +197,8 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5OA-kC-ViJ">
-                                <rect key="frame" x="285" y="526" width="30" height="30"/>
-                                <state key="normal" title="Go"/>
+                                <rect key="frame" x="269" y="526" width="62" height="30"/>
+                                <state key="normal" title="ShortCut"/>
                                 <connections>
                                     <action selector="tempButton:" destination="ib6-r7-c0d" eventType="touchUpInside" id="Uf2-1k-7E1"/>
                                 </connections>

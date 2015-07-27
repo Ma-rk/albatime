@@ -8,9 +8,9 @@
 
 #import "JobSettingViewController.h"
 #import "NetworkHandler.h"
-#import "AppDelegate.h"
 #import "Definitions.h"
 #import "CalcModel.h"
+
 
 @interface JobSettingViewController () <UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, NetworkHandlerDelegate>
 
@@ -29,7 +29,6 @@
 @property (weak, nonatomic) IBOutlet UISwitch *alarmSwitch;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *hasUnpaidBTSwitch;
 
-@property (strong, nonatomic) NetworkHandler *networkHandler;
 @property (strong, nonatomic) NSString *RGBColor;
 @property (strong, nonatomic) NSArray *timeUnits;
 @property (strong, nonatomic) NSArray *alarmMins;
@@ -43,9 +42,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.networkHandler = [(AppDelegate *)[[UIApplication sharedApplication] delegate] networkHandler];
-    self.networkHandler.delegate = self;
     self.calcModel = [CalcModel new];
+    self.calcModel.networkHandler.delegate = self;
     
     // default time unit data source
     self.timeUnits = @[@1, @5, @10, @15, @20, @30, @60];
@@ -119,7 +117,7 @@
         else if (self.hasUnpaidBTSwitch.selectedSegmentIndex == UNPIAD_BREAK_TIME_FALSE)
             [jobInfo setObject:@"n" forKey:@"unpaidBreakFlag"];
         
-        [self.calcModel creatNewJobWithJobInfo:jobInfo];
+        [self.calcModel.networkHandler uplaodNewJobInfo:jobInfo];
     }
 }
 
@@ -225,6 +223,8 @@
 }
 
 #pragma mark - NetworkHandler Delegate Methods
+
+
 
 - (void)newJobCreatedWithJobInfo:(NSDictionary *)jobInfo {
     dispatch_async(dispatch_get_main_queue(), ^{

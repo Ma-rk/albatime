@@ -13,8 +13,8 @@
 @protocol CalcModelDelegate <NSObject>
 @optional
 
-- (void)removeTokenSucceed;
-- (void)removeTokenFailedWithError:(NSString *)error;
+- (void)removePswdSucceed;
+- (void)removePswdFailedWithError:(NSString *)error;
 
 @end
 
@@ -24,9 +24,7 @@
 @property (strong, nonatomic) NetworkHandler *networkHandler;
 @property (strong, nonatomic) NSUserDefaults *defaults;
 
-- (NSMutableDictionary *)getToken;
-- (void)creatNewJobWithJobInfo:(NSMutableDictionary *)jobInfo;
-- (void)removeAccessToken;
+- (void)removePassword;
 - (void)removeUserDefaults;
 
 @end

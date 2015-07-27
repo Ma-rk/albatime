@@ -54,16 +54,17 @@
               NSLog(@"Data : %@", JSON);
               NSInteger successIndicator = [[JSON objectForKey:@"result"] integerValue];
               if (successIndicator == 1) {
-                  NSMutableDictionary *userCredential = [NSMutableDictionary new];
-                  [userCredential setObject:email forKey:@"email"];
-                  // add token info which are aquired from data
-                  [userCredential setObject:[[JSON objectForKey:@"data"] objectForKey:@"currentJwToken"] forKey:@"token"];
-                  [userCredential setObject:[[JSON objectForKey:@"data"] objectForKey:@"id"] forKey:@"id"];
-                  [userCredential setObject:[[JSON objectForKey:@"data"] objectForKey:@"userJwTokenKeySeq"] forKey:@"tokenSeq"];
 
+                  // set cookie for later use
+                  NSArray *cookies = [NSHTTPCookie cookiesWithResponseHeaderFields:[(NSHTTPURLResponse*)response allHeaderFields]
+                                                                            forURL:[response URL]];
+                  [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:cookies
+                                                                     forURL:[response URL] mainDocumentURL:nil];
+                  
                   // at LoginViewController.m
-                  if ([self.delegate respondsToSelector:@selector(loginSucceedWithUserCredential:)])
-                      [self.delegate loginSucceedWithUserCredential:userCredential];
+                  if ([self.delegate respondsToSelector:@selector(loginSucceedWithEmail:andPswd:)])
+                      [self.delegate loginSucceedWithEmail:email
+                                                   andPswd:password];
               }
               else if (successIndicator == 0){
                   // at LoginViewController.m
@@ -109,12 +110,16 @@
             NSLog(@"Data : %@", JSON);
             NSInteger successIndicator = [[JSON objectForKey:@"result"] integerValue];
             if (successIndicator == 1) {
+                
+                /* set cookie for later use
+                NSArray *cookies = [NSHTTPCookie cookiesWithResponseHeaderFields:[(NSHTTPURLResponse*)response allHeaderFields]
+                                                                          forURL:[response URL]];
+                [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:cookies
+                                                                   forURL:[response URL] mainDocumentURL:nil];
+                 */
+                
                 // at SignUpVC
                 if ([self.delegate respondsToSelector:@selector(signUpSucceedWithUserCredential:)]) {
-                    // add token info which are aquired from data
-                    [userCredential setObject:[[JSON objectForKey:@"data"] objectForKey:@"currentJwToken"] forKey:@"token"];
-                    [userCredential setObject:[[JSON objectForKey:@"data"] objectForKey:@"id"] forKey:@"id"];
-                    [userCredential setObject:[[JSON objectForKey:@"data"] objectForKey:@"userJwTokenKeySeq"] forKey:@"tokenSeq"];
                     [self.delegate signUpSucceedWithUserCredential:userCredential];
                 }
             }
@@ -200,12 +205,6 @@
 }
 
 - (void)uplaodNewJobInfo:(NSMutableDictionary *)jobInfo {
-
-    // 헤더에 아래 정보 세팅
-    NSString *token = jobInfo[@"token"];
-    NSInteger idInt = [jobInfo[@"id"] integerValue];
-    NSInteger tokenSeq = [jobInfo[@"tokenSeq"] integerValue];
-    
     NSString *name = jobInfo[@"name"];
     NSInteger workTimeUnit = [jobInfo[@"workTimeUnit"] integerValue];
     NSInteger alarmBefore = [jobInfo[@"alarmBefore"] integerValue];
@@ -216,13 +215,11 @@
     float taxRate = [jobInfo[@"taxRate"] floatValue];
     
     NSString *urlString = [NSString stringWithFormat:@"%@/actor", BASE_URL];
-    NSString *tokenString = [NSString stringWithFormat:@"jwToken=%@, userIdInCookie=%ld, userTokenSeqInCookie=%ld", token, idInt, tokenSeq];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
-    [request setValue:tokenString forHTTPHeaderField:@"Set-Cookie"];
 
-    NSString *postString = [NSString stringWithFormat:@"name=%@&workTimeUnit=%ld&alarmBefore=%ld&bgColor=%@&unpaidBreakFlag=%c&basicWage=%f&taxRate=%f",
+    NSString *postString = [NSString stringWithFormat:@"name=%@&workTimeUnit=%ld&alarmBefore=%ld&bgColor=%@&unpaidbreakFlag=%c&basicWage=%f&taxRate=%f",
                             name, (long)workTimeUnit, (long)alarmBefore, RGBColor, unpaidBreakFlag, defaultWage, taxRate];
     NSData *data = [postString dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:data];
