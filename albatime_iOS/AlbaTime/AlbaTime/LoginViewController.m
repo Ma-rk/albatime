@@ -38,6 +38,7 @@
     [super viewDidLoad];
 }
 
+// set view elements here otherwise will have problem when logout or delete account
 - (void)viewWillAppear:(BOOL)animated {
     self.loginModel = [(AppDelegate *)[[UIApplication sharedApplication] delegate] loginModel];
     self.loginModel.delegate = self;
@@ -212,11 +213,9 @@
 
 #pragma mark - NetworkHandler Delegate Methods
 
-- (void)loginSucceedWithUserCredential:(NSMutableDictionary *)userCredential {
-    // save userCredential in LoginModel
-    if (userCredential) {
-        [self.loginModel loginSucceedWithUserCredential:userCredential];
-    }
+- (void)loginSucceedWithEmail:(NSString *)email andPswd:(NSString *)password {
+    [self.loginModel saveLoginInfoWithEmail:email
+                                    andPswd:password];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self hideIndicator];
         [self performSegueWithIdentifier:@"ToWageViewSegue" sender:self];

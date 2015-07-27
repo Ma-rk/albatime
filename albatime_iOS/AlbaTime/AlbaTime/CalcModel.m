@@ -12,7 +12,7 @@
 #import "NetworkHandler.h"
 #import "Definitions.h"
 
-@interface CalcModel () <NetworkHandlerDelegate>
+@interface CalcModel ()
 
 @end
 
@@ -28,52 +28,26 @@
     return self;
 }
 
-- (void)creatNewJobWithJobInfo:(NSMutableDictionary *)jobInfo {
-    NSMutableDictionary *tokenDic = [[NSMutableDictionary alloc] initWithDictionary:[self getToken]];
-    [jobInfo setObject:tokenDic[@"token"] forKey:@"token"];
-    [jobInfo setObject:tokenDic[@"id"] forKey:@"id"];
-    [jobInfo setObject:tokenDic[@"tokenSeq"] forKey:@"tokenSeq"];
-    
-    [self.networkHandler uplaodNewJobInfo:jobInfo];
-}
-
-- (NSMutableDictionary *)getToken {
-    NSMutableDictionary *tokenDic = [NSMutableDictionary new];
-    
-    NSString *token = [SSKeychain passwordForService:SERVICE_TITLE
-                                             account:[self.defaults objectForKey:@"email"]];
-    [tokenDic setObject:token forKey:@"token"];
-    [tokenDic setObject:[self.defaults objectForKey:@"id"] forKey:@"id"];
-    [tokenDic setObject:[self.defaults objectForKey:@"tokenSeq"] forKey:@"tokenSeq"];
-    
-    return tokenDic;
-}
 
 - (void)removeUserDefaults {
     NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
     [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
 }
 
-- (void)removeAccessToken {
+- (void)removePassword {
     NSError *error;
     if ([SSKeychain deletePasswordForService:SERVICE_TITLE
                                      account:[self.defaults objectForKey:@"email"]
                                        error:&error]) {
-        if ([self.delegate respondsToSelector:@selector(removeTokenSucceed)]) {
-            [self.delegate removeTokenSucceed];
+        if ([self.delegate respondsToSelector:@selector(removePswdSucceed)]) {
+            [self.delegate removePswdSucceed];
         }
     }
     else {
-        if ([self.delegate respondsToSelector:@selector(removeTokenFailedWithError:)]) {
-            [self.delegate removeTokenFailedWithError:[NSString stringWithFormat:@"%@", error]];
+        if ([self.delegate respondsToSelector:@selector(removePswdFailedWithError:)]) {
+            [self.delegate removePswdFailedWithError:[NSString stringWithFormat:@"%@", error]];
         }
     }
-}
-
-#pragma mark - NetworkHandler Delegate Methods
-
-- (void)newJobCreatedWithJobInfo:(NSDictionary *)jobInfo {
-    // DB에 잡 정보 저장
 }
 
 @end
