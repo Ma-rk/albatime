@@ -144,7 +144,7 @@
 				<entry key="cardRetrieveCards" value="select crd_seq, crd_actor_seq, crd_name, crd_memo, crd_time_from, crd_time_to, crd_unpaid_break_min, crd_type, crd_stus, crd_created, crd_edited from tb_card where crd_actor_seq=?" />
 				<entry key="cardUpdateCards" value="update tb_card set crd_name=?, crd_memo=?, crd_time_from=?, crd_time_to=?, crd_unpaid_break_min=?, crd_stus=? where crd_seq=? and crd_actor_seq=? " />
 				<entry key="login_InsertJwTokenKey" value="insert into tb_tk_key (tk_usr_id, tk_key, tk_stus) values (?,?,?)" />
-				<entry key="autologin_retrieveJwTokenKey" value="select tk_key from tb_token where tk_seq = ? and tk_usr_id = ? and tk_stus=?" />
+				<entry key="autologin_retrieveJwTokenKey" value="select tk_key from tb_tk_key where tk_seq = ? and tk_usr_id = ? and tk_stus=?" />
 				<entry key="tkRetireveToken" value="select tk_device_type, tk_created from tb_token where tk_usr_id = ? and tk_stus=?" />
 				<entry key="tkExpireToken" value="update tb_token set tk_stus=? where tk_usr_id=? and tk_seq!=? and tk_stus!=?" />
 				<entry key="getLastId" value="select last_insert_id()" />
