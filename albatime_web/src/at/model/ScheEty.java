@@ -21,20 +21,20 @@ public class ScheEty {
 	long seq;
 
 	@NotNull
-	long actorId;
+	long actorSeq;
 
 	@Size(min = 1, max = 256)
 	String memo;
 
 	@NotNull
-	Time scheTimeFrom;
+	Time timeFrom;
 
 	@NotNull
-	Time scheTimeTo;
+	Time timeTo;
 
 	@Min(0)
 	@Max(120)
-	String unpaidbreakMin;
+	int unpaidbreakMin;
 
 	@Pattern(regexp = "[A-Z]{3}[_][A-Z]{3}[_][0-9]{2}")
 	String stus;

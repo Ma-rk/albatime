@@ -59,7 +59,10 @@ public class ActorEty {
 	private String bgColor;
 	private String phone1;
 	private String addr1;
+
+	@Pattern(regexp = "[A-Z]{3}[_][A-Z]{3}[_][0-9]{2}")
 	private String stus;
+
 	private Date created;
 	private Date edited;
 
