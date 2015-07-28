@@ -78,11 +78,12 @@ public class AccountCont {
 		UserEty userInfo = accountBiz.login(user);
 
 		if (userInfo != null) {
-			Cookie[] cookies = { new Cookie(CC.JWT_TOKEN, userInfo.getCurrentJwToken()),
+			Cookie[] cookies = { new Cookie(CC.JW_TOKEN, userInfo.getCurrentJwToken()),
 					new Cookie(CC.USER_ID_IN_COOKIE, String.valueOf(userInfo.getId())),
 					new Cookie(CC.USER_TOKEN_SEQ_IN_COOKIE, String.valueOf(userInfo.getUserJwTokenKeySeq())) };
 			for (Cookie cookie : cookies) {
 				cookie.setPath("/");
+				cookie.setMaxAge(CC.SECONDS_FOR_COOKIE_DURATION);
 				response.addCookie(cookie);
 			}
 			resultEty = new ResultEty(userInfo);

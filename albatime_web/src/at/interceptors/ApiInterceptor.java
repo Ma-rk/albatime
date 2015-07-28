@@ -47,7 +47,7 @@ public class ApiInterceptor implements HandlerInterceptor {
 		}
 
 		// step 1. find jwt
-		String jwToken = CookieMgr.getCookie(request.getCookies(), CC.JWT_TOKEN);
+		String jwToken = CookieMgr.getCookie(request.getCookies(), CC.JW_TOKEN);
 		if (jwToken == null) {
 			lgr.debug("cookie has no jwToken. redirect to login.html");
 			response.sendRedirect(CC.PAGE_LOGIN);
