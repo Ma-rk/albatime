@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 
 import org.joda.time.DateTime;
 
+import at.supp.CC;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -41,4 +42,12 @@ public class ScheEty {
 
 	DateTime created;
 	DateTime edited;
+
+	public void setAsNormalStus() {
+		this.stus = CC.SCHE_STUS_NORMAL;
+	}
+
+	public void setAsUpdatedStus() {
+		this.stus = CC.SCHE_STUS_EDITED;
+	}
 }
