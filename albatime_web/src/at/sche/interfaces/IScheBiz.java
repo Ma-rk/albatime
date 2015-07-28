@@ -1,5 +1,13 @@
 package at.sche.interfaces;
 
-public interface IScheBiz {
+import java.util.List;
 
+import at.model.ScheEty;
+
+public interface IScheBiz {
+	int createScheBiz(ScheEty sche);
+
+	List<ScheEty> retireveScheListBiz(ScheEty sche);
+
+	int updateScheBiz(ScheEty sche);
 }

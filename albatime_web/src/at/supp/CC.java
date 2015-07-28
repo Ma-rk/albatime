@@ -38,6 +38,10 @@ public class CC {
 	public static final String CARD_STUS_NORMAL = "CRD_STU_01";
 	public static final String CARD_STUS_EDITED = "CRD_STU_02";
 	public static final String CARD_STUS_DELETED = "CRD_STU_03";
+	
+	public static final String SCHE_STUS_NORMAL = "SCH_STU_01";
+	public static final String SCHE_STUS_EDITED = "SCH_STU_02";
+	public static final String SCHE_STUS_DELETED = "SCH_STU_03";
 
 	public static final String USER_TYPE_ALBA = "USR_TYP_01";
 	public static final String USER_TYPE_OWNER = "USR_TYP_02";

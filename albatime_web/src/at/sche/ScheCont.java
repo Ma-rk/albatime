@@ -14,5 +14,4 @@ public class ScheCont {
 	public void setScheBiz(IScheBiz scheBiz) {
 		this.scheBiz = scheBiz;
 	}
-
 }
