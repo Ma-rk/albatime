@@ -44,7 +44,6 @@
     self.loginModel.delegate = self;
     
     [self setViewElements];
-    [self observeDisconnectedNotification];
 }
 
 - (void)setViewElements {
@@ -82,13 +81,23 @@
 }
 
 - (IBAction)submitButtonTapped:(id)sender {
-    if ([self validateUserInput]) {
+    if (!self.loginModel.hasNetworkConnection) {
+        NSString *title = @"No network connection!";
+        NSString *message = @"Please connect internet";
+        [self showAlertViewTitle:title
+                         message:message];
+    }
+    else if ([self validateUserInput]) {
         [self showIndicator];
         NSMutableDictionary *userCredential = [NSMutableDictionary new];
-        [userCredential setObject:self.emailTextField.text forKey:@"email"];
-        [userCredential setObject:self.pswdTextField.text forKey:@"password"];
-        [userCredential setObject:self.identityTextField.text forKey:@"identity"];
-        [userCredential setObject:self.usernameTextField.text forKey:@"username"];
+        [userCredential setObject:self.emailTextField.text
+                           forKey:@"email"];
+        [userCredential setObject:self.pswdTextField.text
+                           forKey:@"password"];
+        [userCredential setObject:self.identityTextField.text
+                           forKey:@"identity"];
+        [userCredential setObject:self.usernameTextField.text
+                           forKey:@"username"];
         
         [self.loginModel.networkHandler signUpWithUserCredential:userCredential];
     }
@@ -100,37 +109,37 @@
         NSString *title = @"Incomplete form";
         NSString *message = @"Please enter your e-mail";
         [self showAlertViewTitle:title
-                     withMessage:message];
+                         message:message];
         return NO;
     } else if (self.pswdTextField.text.length == 0) {
         NSString *title = @"Incomplete form";
         NSString *message = @"Please enter your password";
         [self showAlertViewTitle:title
-                     withMessage:message];
+                         message:message];
         return NO;
     } else if (self.identityTextField.text.length == 0) {
         NSString *title = @"Incomplete form";
         NSString *message = @"Please tell us who you are";
         [self showAlertViewTitle:title
-                     withMessage:message];
+                         message:message];
         return NO;
     } else if (self.usernameTextField.text.length == 0) {
         NSString *title = @"Incomplete form";
         NSString *message = @"Please enter your username";
         [self showAlertViewTitle:title
-                     withMessage:message];
+                         message:message];
         return NO;
     } else if (![self.loginModel validateEmail:self.emailTextField.text]){
         NSString *title = @"Invalid e-mail";
         NSString *message = @"Your e-mail is NOT valid, please check again";
         [self showAlertViewTitle:title
-                     withMessage:message];
+                         message:message];
         return NO;
     } else if (!self.isEmailAvailable) {
         NSString *title = @"E-mail in use";
         NSString *message = @"Your e-mail is already in use, please try different e-mail";
         [self showAlertViewTitle:title
-                     withMessage:message];
+                         message:message];
         return NO;
     }
     return YES;
@@ -230,21 +239,6 @@
     return YES;
 }
 
-#pragma mark - Set internet disconnection notification
-
-- (void)observeDisconnectedNotification {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(disconnectionAlert:)
-                                                 name:@"networkDisconnected"
-                                               object:nil];
-}
-
-- (void)disconnectionAlert:(NSNotification *)notification {
-    NSString *title = @"WARNING!\nYou have no network connection!";
-    NSString *message = @"Connect internet before doing further modification, otherwise you may lose your recent changes";
-    [self showAlertViewTitle:title withMessage:message];
-}
-
 #pragma mark - NetworkHandler Delegate Methods
 
 // should explicitly delcare to do this method on main thread since this is a view related job but coming from background thread(Networking)
@@ -262,7 +256,8 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self hideIndicator];
         NSString *title = @"SignUp failed";
-        [self showAlertViewTitle:title withMessage:error];
+        [self showAlertViewTitle:title
+                         message:error];
     });
 }
 
@@ -288,7 +283,7 @@
     });
 }
 
-- (void)showAlertViewTitle:(NSString *)title withMessage:(NSString *)message {
+- (void)showAlertViewTitle:(NSString *)title message:(NSString *)message {
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:title
                                           message:message
@@ -313,7 +308,7 @@
 - (void)saveTokenFailedWithError:(NSString *)error {
     NSString *title = @"Saving token failed";
     [self showAlertViewTitle:title
-                 withMessage:error];
+                     message:error];
 }
 
 /*

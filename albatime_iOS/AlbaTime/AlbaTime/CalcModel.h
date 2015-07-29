@@ -15,6 +15,7 @@
 
 - (void)removePswdSucceed;
 - (void)removePswdFailedWithError:(NSString *)error;
+- (void)showAlertViewTitle:(NSString *)title message:(NSString *)message;
 
 @end
 
@@ -23,6 +24,7 @@
 @property (weak, nonatomic) id<CalcModelDelegate> delegate;
 @property (strong, nonatomic) NetworkHandler *networkHandler;
 @property (strong, nonatomic) NSUserDefaults *defaults;
+@property BOOL hasNetworkConnection;
 
 - (void)removePassword;
 - (void)removeUserDefaults;

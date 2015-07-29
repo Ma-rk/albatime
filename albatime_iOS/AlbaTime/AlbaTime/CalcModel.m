@@ -24,10 +24,10 @@
     if (self) {
         self.networkHandler = [(AppDelegate *)[[UIApplication sharedApplication] delegate] networkHandler];
         self.defaults = [NSUserDefaults standardUserDefaults];
+        self.hasNetworkConnection = YES;
     }
     return self;
 }
-
 
 - (void)removeUserDefaults {
     NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
@@ -48,6 +48,31 @@
             [self.delegate removePswdFailedWithError:[NSString stringWithFormat:@"%@", error]];
         }
     }
+}
+
+#pragma mark - Set internet disconnection notification
+
+- (void)observeDisconnectedNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(disconnectionAlert:)
+                                                 name:@"networkDisconnected"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(networkConnected:)
+                                                 name:@"networkConnected"
+                                               object:nil];
+}
+
+- (void)disconnectionAlert:(NSNotification *)notification {
+    self.hasNetworkConnection = NO;
+    NSString *title = @"WARNING!\nYou have no network connection!";
+    NSString *message = @"Connect internet before further modification, otherwise you may lose your recent changes";
+    [self.delegate showAlertViewTitle:title
+                              message:message];
+}
+
+- (void)networkConnected:(NSNotification *)notification {
+    self.hasNetworkConnection = YES;
 }
 
 @end

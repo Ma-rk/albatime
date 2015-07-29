@@ -12,6 +12,7 @@
 #import "NetworkHandler.h"
 
 @interface PswdFindViewController () <UITextFieldDelegate, LoginModelDelegate, NetworkHandlerDelegate>
+
 @property (weak, nonatomic) IBOutlet UILabel *invalidEmailWarning;
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UIButton *sendButton;
@@ -30,7 +31,7 @@
     
     self.loginModel = [(AppDelegate *)[[UIApplication sharedApplication] delegate] loginModel];
     self.loginModel.networkHandler.delegate = self;
-    [self observeDisconnectedNotification];
+    self.loginModel.delegate = self;
     
     [self setViewElements];
 }
@@ -53,19 +54,25 @@
 }
 
 - (IBAction)sendButtonTapped:(id)sender {
-    
     NSString *email = self.emailTextField.text;
-    if (email.length == 0) {
+    
+    if (!self.loginModel.hasNetworkConnection) {
+        NSString *title = @"No network connection!";
+        NSString *message = @"Please connect internet";
+        [self showAlertViewTitle:title
+                         message:message];
+    }
+    else if (email.length == 0) {
         NSString *title = @"E-mail is empty!";
         NSString *message = @"Please enter your e-mail";
         [self showAlertViewTitle:title
-                     withMessage:message];
+                         message:message];
     }
     else if (![self.loginModel validateEmail:email]){
         NSString *title = @"Invalid email!";
         NSString *message = @"Invalid email, please check again";
         [self showAlertViewTitle:title
-                     withMessage:message];
+                         message:message];
     }
     else {
         [self showIndicator];
@@ -98,7 +105,7 @@
 
 - (void)textFieldDidBeginEditing:(nonnull UITextField *)textField {
         self.invalidEmailWarning.hidden = YES;
-        self.resetRequestResult.hidden = NO;
+        self.resetRequestResult.hidden = YES;
 }
 
 - (void)textFieldDidEndEditing:(nonnull UITextField *)textField {
@@ -115,37 +122,6 @@
     return YES;
 }
 
-#pragma mark - Set internet disconnection notification
-
-- (void)observeDisconnectedNotification {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(disconnectionAlert:)
-                                                 name:@"networkDisconnected"
-                                               object:nil];
-}
-
-- (void)disconnectionAlert:(NSNotification *)notification {
-    NSString *title = @"WARNING!\nYou have no network connection!";
-    NSString *message = @"Connect internet before doing further modification, otherwise you may lose your recent changes";
-    [self showAlertViewTitle:title withMessage:message];
-}
-
-- (void)showAlertViewTitle:(NSString *)title withMessage:(NSString *)message {
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:title
-                                          message:message
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okAction = [UIAlertAction
-                               actionWithTitle:NSLocalizedString(@"OK", @"OK action")
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction *action)
-                               {
-                                   NSLog(@"ok button tapped");
-                               }];
-    [alertController addAction:okAction];
-    [self presentViewController:alertController animated:YES completion:nil];
-}
-
 #pragma mark - NetworkHandler Delegate Methods
 
 - (void)emailCheckResult:(NSInteger)result {
@@ -153,12 +129,14 @@
         if (result == 0) {
             NSString *title = @"Email Not Found!";
             NSString *message = @"Your email has not found in our server";
-            [self showAlertViewTitle:title withMessage:message];
+            [self showAlertViewTitle:title
+                             message:message];
         }
         else if (result >= 2){
             NSString *title = @"Find Email Error";
-            NSString *message = @"Error occurred when finding your email";
-            [self showAlertViewTitle:title withMessage:message];
+            NSString *message = @"Error finding your email";
+            [self showAlertViewTitle:title
+                             message:message];
         }
     });
 }
@@ -177,6 +155,24 @@
         self.resetRequestResult.text = @"E-mail NOT sent";
         self.resetRequestResult.hidden = NO;
     });
+}
+
+#pragma mark - LoginModel Delegate Methods
+
+- (void)showAlertViewTitle:(NSString *)title message:(NSString *)message {
+    UIAlertController *alertController = [UIAlertController
+                                          alertControllerWithTitle:title
+                                          message:message
+                                          preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction
+                               actionWithTitle:NSLocalizedString(@"OK", @"OK action")
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction *action)
+                               {
+                                   NSLog(@"ok button tapped");
+                               }];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 

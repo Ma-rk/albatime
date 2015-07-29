@@ -43,6 +43,12 @@
                                                                 object:nil
                                                               userInfo:nil];
         }
+        NSLog(@"Reachability status: %@", AFStringFromNetworkReachabilityStatus(status));
+        if (status > 0) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"networkConnected"
+                                                                object:nil
+                                                              userInfo:nil];
+        }
     }];
     
     return YES;

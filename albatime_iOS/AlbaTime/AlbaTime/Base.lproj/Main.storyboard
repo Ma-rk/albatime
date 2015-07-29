@@ -471,7 +471,7 @@
                                 <items>
                                     <barButtonItem systemItem="done" id="fMm-vc-l2O">
                                         <connections>
-                                            <action selector="pickerViewDoneTapped:" destination="mH6-kh-Een" id="YBB-Gz-w81"/>
+                                            <action selector="timeUnitToolBarDoneTapped:" destination="mH6-kh-Een" id="16K-Wo-y2y"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="a8Z-ec-a0j"/>
@@ -485,7 +485,7 @@
                                 <items>
                                     <barButtonItem systemItem="done" id="Kr1-qD-sx0">
                                         <connections>
-                                            <action selector="pickerViewDoneTapped:" destination="mH6-kh-Een" id="2ds-PA-1sc"/>
+                                            <action selector="alarmToolBarDoneTapped:" destination="mH6-kh-Een" id="2r6-KB-N7v"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="uBY-Lf-bLc"/>
