@@ -9,10 +9,13 @@ import com.google.gson.Gson;
 public class CC {
 	public static final Gson gson = new Gson();
 
+	public static final int DAYS_FOR_COOKIE_DURATION = 60;
+	public static final long SESSION_DURATION_DAYS_FOR_JWT = 21L;
 	public static final long MS_FOR_ONE_DAY = 1000L * 60L * 60L * 24L;
-	public static final long DEFAULT_SESSION_DURATION_DAYS = 21L;
+	public static final int SECONDS_FOR_ONE_DAY = 60 * 60 * 24;
+	public static final int SECONDS_FOR_COOKIE_DURATION = SECONDS_FOR_ONE_DAY * DAYS_FOR_COOKIE_DURATION;
 
-	public static final String JWT_TOKEN = "jwToken";
+	public static final String JW_TOKEN = "jwToken";
 	public static final String USER_ID_IN_COOKIE = "userIdInCookie";
 	public static final String USER_TOKEN_SEQ_IN_COOKIE = "userTokenSeqInCookie";
 
@@ -35,6 +38,10 @@ public class CC {
 	public static final String CARD_STUS_NORMAL = "CRD_STU_01";
 	public static final String CARD_STUS_EDITED = "CRD_STU_02";
 	public static final String CARD_STUS_DELETED = "CRD_STU_03";
+	
+	public static final String SCHE_STUS_NORMAL = "SCH_STU_01";
+	public static final String SCHE_STUS_EDITED = "SCH_STU_02";
+	public static final String SCHE_STUS_DELETED = "SCH_STU_03";
 
 	public static final String USER_TYPE_ALBA = "USR_TYP_01";
 	public static final String USER_TYPE_OWNER = "USR_TYP_02";

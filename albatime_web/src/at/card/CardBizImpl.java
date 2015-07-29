@@ -25,10 +25,10 @@ public class CardBizImpl implements ICardBiz {
 	 * functional methods
 	 */
 	public int createCardBiz(CardEty card) {
-		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
+		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		card.setAsNormalStus();
-		int insertCardResult = cardDao.insertCardBiz(card);
-		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
+		int insertCardResult = cardDao.insertCardDao(card);
+		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return insertCardResult;
 	}
 

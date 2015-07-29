@@ -6,6 +6,9 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.joda.time.DateTime;
 
 import at.supp.CC;
 import lombok.AllArgsConstructor;
@@ -15,42 +18,36 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CardEty {
-	private long seq;
+public class ScheEty {
+	long seq;
 
 	@NotNull
-	private long actorSeq;
+	long actorSeq;
+
+	@Size(min = 1, max = 256)
+	String memo;
 
 	@NotNull
-	private String name;
-
-	private String memo;
+	Time timeFrom;
 
 	@NotNull
-	private Time timeFrom;
-
-	@NotNull
-	private Time timeTo;
+	Time timeTo;
 
 	@Min(0)
 	@Max(120)
-	private int unpaidbreakMin;
+	int unpaidbreakMin;
 
 	@Pattern(regexp = "[A-Z]{3}[_][A-Z]{3}[_][0-9]{2}")
-	private String stus;
+	String stus;
 
-	private String created;
-	private String edited;
+	DateTime created;
+	DateTime edited;
 
 	public void setAsNormalStus() {
-		this.stus = CC.CARD_STUS_NORMAL;
+		this.stus = CC.SCHE_STUS_NORMAL;
 	}
 
-	public void setAsEditedStus() {
-		this.stus = CC.CARD_STUS_EDITED;
-	}
-
-	public void setAsDeletedStus() {
-		this.stus = CC.CARD_STUS_DELETED;
+	public void setAsUpdatedStus() {
+		this.stus = CC.SCHE_STUS_EDITED;
 	}
 }

@@ -33,9 +33,9 @@ public class SupportTest {
 	public void createJsonWebTokenTest() {
 		long userId = 5l;
 		String jwTokenKey = JwtMgr.generateJwTokenKey();
-		lgr.info("value of jwTokenKey: [" + jwTokenKey + "]");
-		lgr.info("value of jwToken: [" + JwtMgr.createJsonWebToken(userId, CC.DEFAULT_SESSION_DURATION_DAYS, jwTokenKey)
-				+ "]");
+		lgr.info("value of jwTokenKey: [{}]", jwTokenKey);
+		lgr.info("value of jwToken: [{}]",
+				JwtMgr.createJsonWebToken(userId, CC.SESSION_DURATION_DAYS_FOR_JWT, jwTokenKey));
 
 	}
 }

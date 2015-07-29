@@ -5,9 +5,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="/api/login" method="post">
-		email: <input type="text" name="email" value="email@mail.com"><br>
-		pw: <input type="text" name="pw" value="pwpw"><br>
+	<form action="/api/account" method="post">
+		<input type="hidden" name="_method" value="put" />
+		email: <input type="text" name="email" value="e@mail.com"><br>
+		pw: <input type="text" name="pw" value="pwpwpw"><br>
 		<input type="submit" value="Submit">
 	</form>
 	<form action="/api/account" method="post">

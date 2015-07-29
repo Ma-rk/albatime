@@ -37,11 +37,12 @@ public class CardDaoJdbc implements ICardDao {
 	/*
 	 * functional methods
 	 */
-	public int insertCardBiz(CardEty card) {
+	public int insertCardDao(CardEty card) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		int insertCardResult = this.jdbcTemplate.update(this.sqls.getSql("cardInsertCard"), card.getActorSeq(),
 				card.getName(), card.getMemo(), card.getTimeFrom(), card.getTimeTo(), card.getUnpaidbreakMin(),
 				card.getStus());
+		lgr.debug("{} result: [{}]", new Object() {}.getClass().getEnclosingMethod().getName(), insertCardResult);
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return insertCardResult;
 	}
@@ -52,7 +53,7 @@ public class CardDaoJdbc implements ICardDao {
 			public CardEty mapRow(ResultSet rs, int rowNum) {
 				try {
 					return new CardEty(rs.getLong("crd_seq"), rs.getLong("crd_actor_seq"), rs.getString("crd_name"),
-							rs.getString("crd_memo"), rs.getString("crd_time_from"), rs.getString("crd_time_to"),
+							rs.getString("crd_memo"), rs.getTime("crd_time_from"), rs.getTime("crd_time_to"),
 							rs.getInt("crd_unpaid_break_min"), rs.getString("crd_stus"), rs.getString("crd_created"),
 							rs.getString("crd_edited"));
 				} catch (SQLException e) {
@@ -70,7 +71,16 @@ public class CardDaoJdbc implements ICardDao {
 		int updateCardResult = this.jdbcTemplate.update(this.sqls.getSql("cardUpdateCards"), card.getName(),
 				card.getMemo(), card.getTimeFrom(), card.getTimeTo(), card.getUnpaidbreakMin(), card.getStus(),
 				card.getSeq(), card.getActorSeq());
+		lgr.debug("{} result: [{}]", new Object() {}.getClass().getEnclosingMethod().getName(), updateCardResult);
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return updateCardResult;
+	}
+
+	public int cleanTbActorDao() {
+		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		int truncateCardResult = this.jdbcTemplate.update(this.sqls.getSql("cardCleanTbCard"));
+		lgr.debug("{} result: [{}]", new Object() {}.getClass().getEnclosingMethod().getName(), truncateCardResult);
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return truncateCardResult;
 	}
 }
