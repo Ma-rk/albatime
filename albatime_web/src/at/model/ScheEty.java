@@ -11,19 +11,27 @@ import org.joda.time.DateTime;
 import at.supp.CC;
 import at.supp.HourMin;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class ScheEty {
+	@Getter
+	@Setter
 	long seq;
 
 	@NotNull
+	@Getter
+	@Setter
 	long actorSeq;
 
 	@Size(min = 1, max = 256)
+	@Getter
+	@Setter
 	String memo;
 
 	@NotNull
@@ -34,12 +42,18 @@ public class ScheEty {
 
 	@Min(0)
 	@Max(120)
+	@Getter
+	@Setter
 	int unpaidbreakMin;
 
 	@Pattern(regexp = "[A-Z]{3}[_][A-Z]{3}[_][0-9]{2}")
+	@Getter
 	String stus;
 
+	@Getter
 	DateTime created;
+
+	@Getter
 	DateTime edited;
 
 	public void setAsNormalStus() {
@@ -47,6 +61,10 @@ public class ScheEty {
 	}
 
 	public void setAsUpdatedStus() {
+		this.stus = CC.SCHE_STUS_EDITED;
+	}
+
+	public void setAsEditedStus() {
 		this.stus = CC.SCHE_STUS_EDITED;
 	}
 

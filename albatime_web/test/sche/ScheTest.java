@@ -57,7 +57,7 @@ public class ScheTest {
 	public void retrieveScheTest() {
 		ScheEty retrieveQry = new ScheEty();
 		retrieveQry.setActorSeq(1l);
-		retrieveQry.setStus(CC.SCHE_STUS_NORMAL);;
+		retrieveQry.setAsNormalStus();
 		List<ScheEty> retrievedScheList = scheBiz.retireveScheListBiz(retrieveQry);
 
 		for (int i = 0; i < retrievedScheList.size(); i++) {
@@ -74,7 +74,7 @@ public class ScheTest {
 	public void updateScheTest() {
 		ScheEty retrieveQryForOriginal = new ScheEty();
 		retrieveQryForOriginal.setActorSeq(1l);
-		retrieveQryForOriginal.setStus(CC.SCHE_STUS_NORMAL);
+		retrieveQryForOriginal.setAsNormalStus();
 		List<ScheEty> originalScheList = scheBiz.retireveScheListBiz(retrieveQryForOriginal);
 
 		originalScheList.get(0).setMemo("updated memo 0");
@@ -91,7 +91,7 @@ public class ScheTest {
 
 		ScheEty retrieveQryForUpdated = new ScheEty();
 		retrieveQryForUpdated.setActorSeq(1l);
-		retrieveQryForUpdated.setStus(CC.SCHE_STUS_EDITED);
+		retrieveQryForUpdated.setAsEditedStus();
 		List<ScheEty> updatedCardList = scheBiz.retireveScheListBiz(retrieveQryForUpdated);
 
 		for (int i = 0; i < updatedCardList.size(); i++) {
