@@ -12,7 +12,7 @@
 @optional
 
 - (void)loginSucceed;
-- (void)loginSucceedWithEmail:(NSString *)email andPswd:(NSString *)password;
+- (void)loginSucceedWithEmail:(NSString *)email password:(NSString *)password;
 - (void)loginFailedWithError:(NSString *)error;
 - (void)signUpSucceed;
 - (void)signUpSucceedWithUserCredential:(NSMutableDictionary *)userCredential;
@@ -29,7 +29,7 @@
 
 @property (weak, nonatomic) id<NetworkHandlerDelegate> delegate;
 
-- (void)userAuthenticationWithEmail:(NSString *)email andPassword:(NSString *)password;
+- (void)userAuthenticationWithEmail:(NSString *)email password:(NSString *)password;
 - (void)checkEmailAvailability:(NSString *)email;
 - (void)sendResetRequest:(NSString *)email;
 - (void)signUpWithUserCredential:(NSMutableDictionary *)userCredential;

@@ -12,7 +12,7 @@
 #import "CalcModel.h"
 
 
-@interface JobSettingViewController () <UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, NetworkHandlerDelegate>
+@interface JobSettingViewController () <UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, NetworkHandlerDelegate, CalcModelDelegate>
 
 // Below 4 textFields are disabled long-press action by setting subclass ActionDisabledUITextField in IB
 @property (weak, nonatomic) IBOutlet UITextField *timeUnitTextField;
@@ -43,6 +43,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.calcModel = [CalcModel new];
+    self.calcModel.delegate = self;
     self.calcModel.networkHandler.delegate = self;
     
     // default time unit data source
@@ -62,9 +63,8 @@
     // set tags
     self.timeUnitPickerView.tag = TIME_UNIT;
     self.alarmPickerView.tag = ALARM_MINS;
-    self.timeUnitTextField.tag = TIME_UNIT;
-    self.alarmMinsTextField.tag = ALARM_MINS;
     
+    [self.jobTitleTextField setReturnKeyType:UIReturnKeyDone];
     self.timeUnitTextField.inputView = self.timeUnitPickerView;
     self.timeUnitTextField.inputAccessoryView = self.timeUnitToolBar;
     self.alarmMinsTextField.inputView = self.alarmPickerView;
@@ -75,6 +75,7 @@
     self.alarmPickerView.dataSource = self;
     self.timeUnitPickerView.delegate = self;
     self.timeUnitPickerView.dataSource = self;
+    self.jobTitleTextField.delegate = self;
     
     // set number pad for some textFields
     self.taxTextField.keyboardType = UIKeyboardTypeDecimalPad;
@@ -104,18 +105,26 @@
 - (IBAction)doneButtonTapped:(id)sender {
     if ([self validateUserInput]) {
         NSMutableDictionary *jobInfo = [NSMutableDictionary new];
-        [jobInfo setObject:self.jobTitleTextField.text forKey:@"name"];
-        [jobInfo setObject:self.timeUnitTextField.text forKey:@"workTimeUnit"];
-        [jobInfo setObject:self.defaultWageTextField.text forKey:@"defaultWage"];
-        [jobInfo setObject:self.RGBColor forKey:@"RGBColor"];
+        [jobInfo setObject:self.jobTitleTextField.text
+                    forKey:@"name"];
+        [jobInfo setObject:self.timeUnitTextField.text
+                    forKey:@"workTimeUnit"];
+        [jobInfo setObject:self.defaultWageTextField.text
+                    forKey:@"defaultWage"];
+        [jobInfo setObject:self.RGBColor
+                    forKey:@"RGBColor"];
         if (self.taxTextField.text)
-            [jobInfo setObject:self.taxTextField.text forKey:@"taxRate"];
+            [jobInfo setObject:self.taxTextField.text
+                        forKey:@"taxRate"];
         if (self.isAlarmOn && self.alarmMinsTextField.text)
-            [jobInfo setObject:self.alarmMinsTextField.text forKey:@"alarmBefore"];
+            [jobInfo setObject:self.alarmMinsTextField.text
+                        forKey:@"alarmBefore"];
         if (self.hasUnpaidBTSwitch.selectedSegmentIndex == UNPIAD_BREAK_TIME_TRUE)
-            [jobInfo setObject:@"y" forKey:@"unpaidBreakFlag"];
+            [jobInfo setObject:@"y"
+                        forKey:@"unpaidBreakFlag"];
         else if (self.hasUnpaidBTSwitch.selectedSegmentIndex == UNPIAD_BREAK_TIME_FALSE)
-            [jobInfo setObject:@"n" forKey:@"unpaidBreakFlag"];
+            [jobInfo setObject:@"n"
+                        forKey:@"unpaidBreakFlag"];
         
         [self.calcModel.networkHandler uplaodNewJobInfo:jobInfo];
     }
@@ -125,21 +134,24 @@
     if (self.jobTitleTextField.text.length == 0) {
         NSString *title = @"Incomplete form";
         NSString *message = @"Please enter your job name";
-        [self showAlertViewTitle:title withMessage:message];
+        [self showAlertViewTitle:title
+                         message:message];
         return NO;
     } else if (self.timeUnitTextField.text.length == 0) {
         NSString *title = @"Incomplete form";
         NSString *message = @"Please enter your time unit";
-        [self showAlertViewTitle:title withMessage:message];
+        [self showAlertViewTitle:title
+                         message:message];
         return NO;
     } else if (self.defaultWageTextField.text.length == 0) {
         NSString *title = @"Incomplete form";
         NSString *message = @"Please enter your default wage per hour";
-        [self showAlertViewTitle:title withMessage:message];
+        [self showAlertViewTitle:title
+                         message:message];
         return NO;
     }
     
-    // 숫자 자릿수 양식 체크해야 함
+    // calcModeld에서 숫자 자릿수 양식 체크해야 함
     
     return YES;
 }
@@ -147,18 +159,30 @@
 - (IBAction)jobColorButtonTapped:(id)sender {
     NSString *title = @"Sorry";
     NSString *message = @"This function is not ready yet";
-    [self showAlertViewTitle:title withMessage:message];
+    [self showAlertViewTitle:title
+                     message:message];
 }
 
 - (IBAction)wageItemNumChanged:(id)sender {
     NSString *title = @"Sorry";
     NSString *message = @"This function is not ready yet";
-    [self showAlertViewTitle:title withMessage:message];
+    [self showAlertViewTitle:title
+                     message:message];
 }
 
-- (IBAction)pickerViewDoneTapped:(id)sender {
+- (IBAction)timeUnitToolBarDoneTapped:(id)sender {
+    NSInteger row = [self.timeUnitPickerView selectedRowInComponent:0];
+    self.timeUnitTextField.text = [self.timeUnits[row] stringValue];
     [self.timeUnitTextField endEditing:YES];
+}
+
+- (IBAction)alarmToolBarDoneTapped:(id)sender {
+    NSInteger row = [self.alarmPickerView selectedRowInComponent:0];
+    self.alarmMinsTextField.text = [self.alarmMins[row] stringValue];
     [self.alarmMinsTextField endEditing:YES];
+    [self.alarmSwitch setOn:YES
+                   animated:YES];
+    self.isAlarmOn = YES;
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -171,19 +195,10 @@
 
 #pragma mark - UITextField Delegate methods
 
--(BOOL)textFieldShouldReturn:(UITextField *)textField {
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     return YES;
 }
-
-- (void)textFieldDidBeginEditing:(nonnull UITextField *)textField {
-
-}
-
-- (void)textFieldDidEndEditing:(nonnull UITextField *)textField {
-
-}
-
 
 #pragma mark - UIPickerView delegate methods
 
@@ -217,20 +232,16 @@
     }
     else if (pickerView.tag == ALARM_MINS) {
         self.alarmMinsTextField.text = [self.alarmMins[row] stringValue];
-        [self.alarmSwitch setOn:YES animated:YES];
+        [self.alarmSwitch setOn:YES
+                       animated:YES];
         self.isAlarmOn = YES;
     }
 }
 
 #pragma mark - NetworkHandler Delegate Methods
 
-
-
 - (void)newJobCreatedWithJobInfo:(NSDictionary *)jobInfo {
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *title = @"Job Created!";
-        NSString *message = jobInfo.description;
-        [self showAlertViewTitle:title withMessage:message];
         [self performSegueWithIdentifier:@"FromJobSettingToWageViewSegue" sender:self];
     });
 }
@@ -238,26 +249,14 @@
 - (void)createJobFailedWithError:(NSString *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
         NSString *title = @"Creating a new job has failed";
-        [self showAlertViewTitle:title withMessage:error];
+        [self showAlertViewTitle:title
+                         message:error];
     });
 }
 
-#pragma mark - Set internet disconnection notification
+#pragma mark - calcModel Delegate Methods
 
-- (void)observeDisconnectedNotification {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(disconnectionAlert:)
-                                                 name:@"networkDisconnected"
-                                               object:nil];
-}
-
-- (void)disconnectionAlert:(NSNotification *)notification {
-    NSString *title = @"WARNING!\nYou have no network connection!";
-    NSString *message = @"Connect internet before doing further modification, otherwise you may lose your recent changes";
-    [self showAlertViewTitle:title withMessage:message];
-}
-
-- (void)showAlertViewTitle:(NSString *)title withMessage:(NSString *)message {
+- (void)showAlertViewTitle:(NSString *)title message:(NSString *)message {
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:title
                                           message:message

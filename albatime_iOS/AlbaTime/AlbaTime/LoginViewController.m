@@ -8,9 +8,6 @@
 
 #import "LoginViewController.h"
 #import "Definitions.h"
-#import "SignUpViewController.h"
-#import "WageViewController.h"
-#import "PswdFindViewController.h"
 #import "AppDelegate.h"
 #import "LoginModel.h"
 #import "NetworkHandler.h"
@@ -18,13 +15,14 @@
 @interface LoginViewController () <UITextFieldDelegate, LoginModelDelegate, NetworkHandlerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
-// This textField disabled long-press action by setting subclass ActionDisabledUITextField in IB
-@property (weak, nonatomic) IBOutlet UITextField *pswdTextField;
 @property (weak, nonatomic) IBOutlet UISwitch *autoLoginSwitch;
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *signUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *pswdFindButton;
+
+// This textField disabled long-press action by setting subclass ActionDisabledUITextField in IB
+@property (weak, nonatomic) IBOutlet UITextField *pswdTextField;
 
 @property (weak, nonatomic) NSString *placeHolderTextForEmail;
 @property (weak, nonatomic) NSString *placeHolderTextForPswd;
@@ -36,23 +34,28 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-}
-
-// set view elements here otherwise will have problem when logout or delete account
-- (void)viewWillAppear:(BOOL)animated {
+    
     self.loginModel = [(AppDelegate *)[[UIApplication sharedApplication] delegate] loginModel];
     self.loginModel.delegate = self;
     self.loginModel.networkHandler.delegate = self;
+}
+
+// load userDefaults and set view elements in viewWillAppear otherwise will have problem when logout or delete account
+- (void)viewWillAppear:(BOOL)animated {
     [self.loginModel loadUserDefaults];
-    [self observeDisconnectedNotification];
-    
     self.navigationController.navigationBar.hidden = YES;
 }
 
 - (IBAction)loginButtonTapped:(id)sender {
-    if ([self validateUserInput]) {
+    if (!self.loginModel.hasNetworkConnection) {
+        NSString *title = @"No network connection!";
+        NSString *message = @"Please connect internet";
+        [self showAlertViewTitle:title
+                         message:message];
+    }
+    else if ([self validateUserInput]) {
         [self.loginModel.networkHandler userAuthenticationWithEmail:self.emailTextField.text
-                                                        andPassword:self.pswdTextField.text];
+                                                           password:self.pswdTextField.text];
         [self showIndicator];
     }
 }
@@ -62,14 +65,14 @@
         NSString *title = @"Incomplete form";
         NSString *message = @"Please enter your e-mail";
         [self showAlertViewTitle:title
-                     withMessage:message];
+                         message:message];
         return NO;
     }
     else if (self.pswdTextField.text.length == 0) {
         NSString *title = @"Incomplete form";
         NSString *message = @"Please enter your password";
         [self showAlertViewTitle:title
-                     withMessage:message];
+                         message:message];
         return NO;
     }
     else {
@@ -80,7 +83,7 @@
             NSString *title = @"Invalid e-mail";
             NSString *message = @"Your e-mail is NOT valid, please check again";
             [self showAlertViewTitle:title
-                         withMessage:message];
+                             message:message];
             return NO;
         }
     }
@@ -95,11 +98,13 @@
 }
 
 - (IBAction)signUpButtonTapped:(id)sender {
-    [self performSegueWithIdentifier:@"SignUpSegue" sender:sender];
+    [self performSegueWithIdentifier:@"SignUpSegue"
+                              sender:sender];
 }
 
 - (IBAction)pswdFindButtonTapped:(id)sender {
-    [self performSegueWithIdentifier:@"FindPswdSegue" sender:sender];
+    [self performSegueWithIdentifier:@"FindPswdSegue"
+                              sender:sender];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -124,38 +129,6 @@
     self.activityIndicator.hidden = YES;
 }
 
-#pragma mark - Set internet disconnection notification
-
-- (void)observeDisconnectedNotification {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(disconnectionAlert:)
-                                                 name:@"networkDisconnected"
-                                               object:nil];
-}
-
-- (void)disconnectionAlert:(NSNotification *)notification {
-    NSString *title = @"WARNING!\nYou have no network connection!";
-    NSString *message = @"Connect internet before doing further modification, otherwise you may lose your recent changes";
-    [self showAlertViewTitle:title
-                 withMessage:message];
-}
-
-- (void)showAlertViewTitle:(NSString *)title withMessage:(NSString *)message {
-    UIAlertController *alertController = [UIAlertController
-                                          alertControllerWithTitle:title
-                                          message:message
-                                          preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okAction = [UIAlertAction
-                               actionWithTitle:NSLocalizedString(@"OK", @"OK action")
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction *action)
-                               {
-                                   NSLog(@"ok button tapped");
-                               }];
-    [alertController addAction:okAction];
-    [self presentViewController:alertController animated:YES completion:nil];
-}
-
 #pragma mark - UITextField Delegate Methods
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -165,14 +138,14 @@
 
 #pragma mark - LoginModel Delegate Methods
 
-- (void)saveTokenSucceed {
+- (void)savePasswordSucceed {
     NSLog(@"Save access token to keyCahin succeed");
 }
 
-- (void)saveTokenFailed {
+- (void)savePasswordFailedWithError:(NSString *)error {
     NSString *title = @"Warning";
-    NSString *message = @"Failed to save access token in keychain";
-    [self showAlertViewTitle:title withMessage:message];
+    [self showAlertViewTitle:title
+                     message:error];
 }
 
    // set view elements right after user defaults are loaded
@@ -199,9 +172,10 @@
         [self.autoLoginSwitch setOn:NO];
     
     // auto fill out email textfield if exists
-    if (self.loginModel.email) {
+    if (self.loginModel.email)
         self.emailTextField.text = self.loginModel.email;
-    }
+    else
+        self.emailTextField.text = @"";
     
     // empty out password textfield if exists
     if (self.pswdTextField.text) {
@@ -211,14 +185,31 @@
     [self hideIndicator];
 }
 
+- (void)showAlertViewTitle:(NSString *)title message:(NSString *)message {
+    UIAlertController *alertController = [UIAlertController
+                                          alertControllerWithTitle:title
+                                          message:message
+                                          preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction
+                               actionWithTitle:NSLocalizedString(@"OK", @"OK action")
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction *action)
+                               {
+                                   NSLog(@"ok button tapped");
+                               }];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
 #pragma mark - NetworkHandler Delegate Methods
 
-- (void)loginSucceedWithEmail:(NSString *)email andPswd:(NSString *)password {
+- (void)loginSucceedWithEmail:(NSString *)email password:(NSString *)password {
     [self.loginModel saveLoginInfoWithEmail:email
-                                    andPswd:password];
+                                   password:password];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self hideIndicator];
-        [self performSegueWithIdentifier:@"ToWageViewSegue" sender:self];
+        [self performSegueWithIdentifier:@"ToWageViewSegue"
+                                  sender:self];
     });
 }
 
@@ -226,7 +217,8 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self hideIndicator];
         NSString *title = @"Login failed";
-        [self showAlertViewTitle:title withMessage:error];
+        [self showAlertViewTitle:title
+                         message:error];
     });
 }
 

@@ -7,11 +7,13 @@
 //
 
 #import "WageViewController.h"
+#import "NetworkHandler.h"
+#import "CalcModel.h"
 
-@interface WageViewController ()
+@interface WageViewController () <CalcModelDelegate, NetworkHandlerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *arrowImageView;
-
+@property (strong, nonatomic) CalcModel *calcModel;
 
 @end
 
@@ -19,6 +21,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.calcModel = [CalcModel new];
+    self.calcModel.delegate = self;
+    self.calcModel.networkHandler.delegate = self;
     
     [self setViewElements];
 }
@@ -32,7 +38,8 @@
 }
 
 - (void)gotoNextView {
-    [self performSegueWithIdentifier:@"ScheduleViewSegue" sender:self];
+    [self performSegueWithIdentifier:@"ScheduleViewSegue"
+                              sender:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -44,22 +51,9 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Set internet disconnection notification
+#pragma mark - calcModel Delegate Methods
 
-- (void)observeDisconnectedNotification {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(disconnectionAlert:)
-                                                 name:@"networkDisconnected"
-                                               object:nil];
-}
-
-- (void)disconnectionAlert:(NSNotification *)notification {
-    NSString *title = @"WARNING!\nYou have no network connection!";
-    NSString *message = @"Connect internet before doing further modification, otherwise you may lose your recent changes";
-    [self showAlertViewTitle:title withMessage:message];
-}
-
-- (void)showAlertViewTitle:(NSString *)title withMessage:(NSString *)message {
+- (void)showAlertViewTitle:(NSString *)title message:(NSString *)message {
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:title
                                           message:message

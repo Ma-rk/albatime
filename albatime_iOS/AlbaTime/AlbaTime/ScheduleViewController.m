@@ -7,9 +7,10 @@
 //
 
 #import "ScheduleViewController.h"
+#import "NetworkHandler.h"
 #import "CalcModel.h"
 
-@interface ScheduleViewController () <CalcModelDelegate>
+@interface ScheduleViewController () <CalcModelDelegate, NetworkHandlerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *arrowImageView;
 @property (weak, nonatomic) IBOutlet UITableView *timeCardTableView;
@@ -24,6 +25,7 @@
     
     self.calcModel = [CalcModel new];
     self.calcModel.delegate = self;
+    self.calcModel.networkHandler.delegate = self;
     
     [self setViewElements];
 }
@@ -69,7 +71,9 @@
                                    }];
     [alertController addAction:okAction];
     [alertController addAction:cancelAction];
-    [self presentViewController:alertController animated:YES completion:nil];
+    [self presentViewController:alertController
+                       animated:YES
+                     completion:nil];
 }
 
 
@@ -86,8 +90,7 @@
                                handler:^(UIAlertAction *action)
                                {
                                    // 여기서 DB 데이터 지우자
-                                   // 계정을 지웠는데 루트뷰에서 이메일이 자동으로 채워져 있는 문제 해결
-                                   // remove all userInfo
+                                   // remove all userInfo and password
                                    [self.calcModel removePassword];
                                    [self.calcModel removeUserDefaults];
                                    [self.navigationController popToRootViewControllerAnimated:YES];
@@ -101,7 +104,9 @@
                                    }];
     [alertController addAction:okAction];
     [alertController addAction:cancelAction];
-    [self presentViewController:alertController animated:YES completion:nil];
+    [self presentViewController:alertController
+                       animated:YES
+                     completion:nil];
 }
 
 
@@ -121,25 +126,13 @@
 
 - (void)removePswdFailedWithError:(NSString *)error {
     NSString *title = @"Removing password failed";
-    [self showAlertViewTitle:title withMessage:error];
+    [self showAlertViewTitle:title
+                     message:error];
 }
 
-#pragma mark - Set internet disconnection notification
+#pragma mark - calcModel Delegate Methods
 
-- (void)observeDisconnectedNotification {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(disconnectionAlert:)
-                                                 name:@"networkDisconnected"
-                                               object:nil];
-}
-
-- (void)disconnectionAlert:(NSNotification *)notification {
-    NSString *title = @"WARNING!\nYou have no network connection!";
-    NSString *message = @"Connect internet before doing further modification, otherwise you may lose your recent changes";
-    [self showAlertViewTitle:title withMessage:message];
-}
-
-- (void)showAlertViewTitle:(NSString *)title withMessage:(NSString *)message {
+- (void)showAlertViewTitle:(NSString *)title message:(NSString *)message {
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:title
                                           message:message

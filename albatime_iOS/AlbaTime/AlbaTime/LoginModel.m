@@ -26,6 +26,8 @@
     if (self) {
         self.networkHandler = [(AppDelegate *)[[UIApplication sharedApplication] delegate] networkHandler];
         self.defaults = [NSUserDefaults standardUserDefaults];
+        [self observeDisconnectedNotification];
+        self.hasNetworkConnection = YES;
     }
     return self;
 }
@@ -35,11 +37,17 @@
     self.email = [self.defaults objectForKey:@"email"];
     
     // proceed autoLogin if possible
-    if (self.autoLogin && self.email) {
+    if (!self.hasNetworkConnection) {
+        NSString *title = @"No network connection!";
+        NSString *message = @"Please connect internet";
+        [self.delegate showAlertViewTitle:title
+                                  message:message];
+    }
+    else if (self.autoLogin && self.email) {
         NSString *password = [self retrievePasswordForEmail:self.email];
         if (password) {
             [self.networkHandler userAuthenticationWithEmail:self.email
-                                                 andPassword:password];
+                                                    password:password];
         }
     }
     else {
@@ -62,17 +70,20 @@
     return [emailTest evaluateWithObject:candidate];
 }
 
-- (void)saveLoginInfoWithEmail:(NSString *)email andPswd:(NSString *)password {
-    [self.defaults setObject:email forKey:@"email"];
+- (void)saveLoginInfoWithEmail:(NSString *)email password:(NSString *)password {
+    [self.defaults setObject:email
+                      forKey:@"email"];
     [self savePassword:password
             forService:SERVICE_TITLE
            withAccount:email];
     
     // save autoLogin state
     if (self.autoLogin)
-        [self.defaults setBool:YES forKey:@"autoLogin"];
+        [self.defaults setBool:YES
+                        forKey:@"autoLogin"];
     else
-        [self.defaults setBool:NO forKey:@"autoLogin"];
+        [self.defaults setBool:NO
+                        forKey:@"autoLogin"];
     
     [self.defaults synchronize];
 }
@@ -82,9 +93,12 @@
     [self savePassword:userCredential[@"password"]
             forService:SERVICE_TITLE
            withAccount:email];
-    [self.defaults setObject:email forKey:@"email"];
-    [self.defaults setObject:userCredential[@"identity"] forKey:@"identity"];
-    [self.defaults setObject:userCredential[@"username"] forKey:@"username"];
+    [self.defaults setObject:email
+                      forKey:@"email"];
+    [self.defaults setObject:userCredential[@"identity"]
+                      forKey:@"identity"];
+    [self.defaults setObject:userCredential[@"username"]
+                      forKey:@"username"];
     [self.defaults synchronize];
 }
 
@@ -94,13 +108,13 @@
                      forService:SERVICE_TITLE
                         account:email
                           error:&error]) {
-        if ([self.delegate respondsToSelector:@selector(savePswdSucceed)]) {
-            [self.delegate savePswdSucceed];
+        if ([self.delegate respondsToSelector:@selector(savePasswordSucceed)]) {
+            [self.delegate savePasswordSucceed];
         }
     }
     else {
-        if ([self.delegate respondsToSelector:@selector(savePswdFailedWithError:)]) {
-            [self.delegate savePswdFailedWithError:[NSString stringWithFormat:@"%@", error]];
+        if ([self.delegate respondsToSelector:@selector(savePasswordFailedWithError:)]) {
+            [self.delegate savePasswordFailedWithError:[NSString stringWithFormat:@"%@", error]];
         }
     }
 }
@@ -108,6 +122,31 @@
 - (NSString *)retrievePasswordForEmail:(NSString *)email {
     return [SSKeychain passwordForService:SERVICE_TITLE
                                   account:email];
+}
+
+#pragma mark - Set internet disconnection notification
+
+- (void)observeDisconnectedNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(disconnectionAlert:)
+                                                 name:@"networkDisconnected"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(networkConnected:)
+                                                 name:@"networkConnected"
+                                               object:nil];
+}
+
+- (void)disconnectionAlert:(NSNotification *)notification {
+    self.hasNetworkConnection = NO;
+    NSString *title = @"WARNING!\nYou have no network connection!";
+    NSString *message = @"Connect internet before further modification, otherwise you may lose your recent changes";
+    [self.delegate showAlertViewTitle:title
+                              message:message];
+}
+
+- (void)networkConnected:(NSNotification *)notification {
+    self.hasNetworkConnection = YES;
 }
 
 @end

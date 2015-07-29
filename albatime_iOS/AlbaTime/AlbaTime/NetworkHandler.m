@@ -30,7 +30,7 @@
 }
 
     // login request
-- (void)userAuthenticationWithEmail:(NSString *)email andPassword:(NSString *)password {
+- (void)userAuthenticationWithEmail:(NSString *)email password:(NSString *)password {
     
     NSString *urlString = [NSString stringWithFormat:@"%@/account", BASE_URL];
     urlString = [urlString stringByAppendingString:[NSString stringWithFormat:@"?email=%@&pw=%@", email, password]];
@@ -62,9 +62,9 @@
                                                                      forURL:[response URL] mainDocumentURL:nil];
                   
                   // at LoginViewController.m
-                  if ([self.delegate respondsToSelector:@selector(loginSucceedWithEmail:andPswd:)])
+                  if ([self.delegate respondsToSelector:@selector(loginSucceedWithEmail:password:)])
                       [self.delegate loginSucceedWithEmail:email
-                                                   andPswd:password];
+                                                  password:password];
               }
               else if (successIndicator == 0){
                   // at LoginViewController.m
@@ -91,7 +91,8 @@
     NSString *postString = [NSString stringWithFormat:@"email=%@&pw=%@&nick=%@&type=%@", userCredential[@"email"], userCredential[@"password"], userCredential[@"username"], type];
     NSData *data = [postString dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:data];
-    [request setValue:[NSString stringWithFormat:@"%lu", [data length]] forHTTPHeaderField:@"Content-Length"];
+    [request setValue:[NSString stringWithFormat:@"%lu", [data length]]
+   forHTTPHeaderField:@"Content-Length"];
     
     [[self.session dataTaskWithRequest:request
                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
@@ -145,7 +146,8 @@
     NSString *postString = [NSString stringWithFormat:@"email=%@", email];
     NSData *data = [postString dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:data];
-    [request setValue:[NSString stringWithFormat:@"%lu", [data length]] forHTTPHeaderField:@"Content-Length"];
+    [request setValue:[NSString stringWithFormat:@"%lu", [data length]]
+   forHTTPHeaderField:@"Content-Length"];
     
     [[self.session dataTaskWithRequest:request
                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
@@ -223,7 +225,8 @@
                             name, (long)workTimeUnit, (long)alarmBefore, RGBColor, unpaidBreakFlag, defaultWage, taxRate];
     NSData *data = [postString dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:data];
-    [request setValue:[NSString stringWithFormat:@"%lu", [data length]] forHTTPHeaderField:@"Content-Length"];
+    [request setValue:[NSString stringWithFormat:@"%lu", [data length]]
+   forHTTPHeaderField:@"Content-Length"];
     
     [[self.session dataTaskWithRequest:request
                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
