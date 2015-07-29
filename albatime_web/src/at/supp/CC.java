@@ -38,7 +38,7 @@ public class CC {
 	public static final String CARD_STUS_NORMAL = "CRD_STU_01";
 	public static final String CARD_STUS_EDITED = "CRD_STU_02";
 	public static final String CARD_STUS_DELETED = "CRD_STU_03";
-	
+
 	public static final String SCHE_STUS_NORMAL = "SCH_STU_01";
 	public static final String SCHE_STUS_EDITED = "SCH_STU_02";
 	public static final String SCHE_STUS_DELETED = "SCH_STU_03";
@@ -79,5 +79,6 @@ public class CC {
 	public static final String API_CARD = "/api/card";
 	public static final String API_USER = "/api/user";
 	public static final String API_TOKEN = "/api/token";
+	public static final String API_SCHE = "/api/sche";
 	public static final String PAGE_LOGIN = "/html/login.html";
 }

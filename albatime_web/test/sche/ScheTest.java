@@ -2,7 +2,6 @@ package sche;
 
 import static org.junit.Assert.assertEquals;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +31,6 @@ public class ScheTest {
 
 	List<ScheEty> scheListFixture = new ArrayList<ScheEty>();
 
-	@SuppressWarnings("deprecation")
 	@Before
 	public void setUp() {
 		lgr.debug("deleted lows: [{}]", scheDao.cleanTbScheDao());
@@ -40,14 +38,14 @@ public class ScheTest {
 		scheListFixture.add(new ScheEty());
 		scheListFixture.get(0).setActorSeq(1l);
 		scheListFixture.get(0).setMemo("mememem momomo");
-		scheListFixture.get(0).setTimeFrom(new Time(5, 6, 7));
-		scheListFixture.get(0).setTimeTo(new Time(8, 9, 10));
+		scheListFixture.get(0).setTimeFrom("01:01");
+		scheListFixture.get(0).setTimeTo("10:10");
 		scheListFixture.get(0).setUnpaidbreakMin(60);
 		scheListFixture.add(new ScheEty());
 		scheListFixture.get(1).setActorSeq(1l);
 		scheListFixture.get(1).setMemo("mememem momomo2");
-		scheListFixture.get(1).setTimeFrom(new Time(10, 11, 12));
-		scheListFixture.get(1).setTimeTo(new Time(12, 11, 9));
+		scheListFixture.get(1).setTimeFrom("12:34");
+		scheListFixture.get(1).setTimeTo("23:45");
 		scheListFixture.get(1).setUnpaidbreakMin(90);
 
 		for (ScheEty sche : scheListFixture) {
@@ -72,27 +70,29 @@ public class ScheTest {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@Test
 	public void updateScheTest() {
-		ScheEty retrieveQry = new ScheEty();
-		retrieveQry.setActorSeq(1l);
-		retrieveQry.setStus(CC.SCHE_STUS_NORMAL);;
-		List<ScheEty> originalScheList = scheBiz.retireveScheListBiz(retrieveQry);
+		ScheEty retrieveQryForOriginal = new ScheEty();
+		retrieveQryForOriginal.setActorSeq(1l);
+		retrieveQryForOriginal.setStus(CC.SCHE_STUS_NORMAL);
+		List<ScheEty> originalScheList = scheBiz.retireveScheListBiz(retrieveQryForOriginal);
 
 		originalScheList.get(0).setMemo("updated memo 0");
-		originalScheList.get(0).setTimeFrom(new Time(5, 4, 3));
-		originalScheList.get(0).setTimeTo(new Time(11, 10, 9));
+		originalScheList.get(0).setTimeFrom("10:10");
+		originalScheList.get(0).setTimeTo("12:30");
 		originalScheList.get(0).setUnpaidbreakMin(15);
 		originalScheList.get(1).setMemo("updated memo 0");
-		originalScheList.get(1).setTimeFrom(new Time(5, 4, 3));
-		originalScheList.get(1).setTimeTo(new Time(11, 10, 9));
+		originalScheList.get(1).setTimeFrom("23:50");
+		originalScheList.get(1).setTimeTo("00:00");
 		originalScheList.get(1).setUnpaidbreakMin(15);
 
 		assertEquals(1, scheBiz.updateScheBiz(originalScheList.get(0)));
 		assertEquals(1, scheBiz.updateScheBiz(originalScheList.get(1)));
 
-		List<ScheEty> updatedCardList = scheBiz.retireveScheListBiz(retrieveQry);
+		ScheEty retrieveQryForUpdated = new ScheEty();
+		retrieveQryForUpdated.setActorSeq(1l);
+		retrieveQryForUpdated.setStus(CC.SCHE_STUS_EDITED);
+		List<ScheEty> updatedCardList = scheBiz.retireveScheListBiz(retrieveQryForUpdated);
 
 		for (int i = 0; i < updatedCardList.size(); i++) {
 			assertEquals(originalScheList.get(i).getMemo(), updatedCardList.get(i).getMemo());

@@ -1,7 +1,5 @@
 package at.model;
 
-import java.sql.Time;
-
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -11,6 +9,7 @@ import javax.validation.constraints.Size;
 import org.joda.time.DateTime;
 
 import at.supp.CC;
+import at.supp.HourMin;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,10 +27,10 @@ public class ScheEty {
 	String memo;
 
 	@NotNull
-	Time timeFrom;
+	HourMin timeFrom;
 
 	@NotNull
-	Time timeTo;
+	HourMin timeTo;
 
 	@Min(0)
 	@Max(120)
@@ -49,5 +48,21 @@ public class ScheEty {
 
 	public void setAsUpdatedStus() {
 		this.stus = CC.SCHE_STUS_EDITED;
+	}
+
+	public void setTimeFrom(String hm) {
+		this.timeFrom = new HourMin(hm);
+	}
+
+	public void setTimeTo(String hm) {
+		this.timeTo = new HourMin(hm);
+	}
+
+	public String getTimeFrom() {
+		return String.valueOf(timeFrom.getHour()) + ":" + String.valueOf(timeFrom.getMin());
+	}
+
+	public String getTimeTo() {
+		return String.valueOf(timeTo.getHour()) + ":" + String.valueOf(timeTo.getMin());
 	}
 }

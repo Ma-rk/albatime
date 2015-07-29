@@ -16,6 +16,7 @@ import org.springframework.jdbc.core.RowMapper;
 import at.model.ScheEty;
 import at.sche.interfaces.IScheDao;
 import at.supp.CC;
+import at.supp.HourMin;
 import at.supp.interfaces.ISqlService;
 
 public class ScheDaoJdbc implements IScheDao {
@@ -58,8 +59,9 @@ public class ScheDaoJdbc implements IScheDao {
 			public ScheEty mapRow(ResultSet rs, int rowNum) {
 				try {
 					return new ScheEty(rs.getLong("sch_seq"), rs.getLong("sch_actor_seq"), rs.getString("sch_memo"),
-							rs.getTime("sch_time_from"), rs.getTime("sch_time_to"), rs.getInt("sch_unpaid_break_min"),
-							rs.getString("sch_stus"), new DateTime(rs.getTimestamp("sch_created").getTime()),
+							new HourMin(rs.getString("sch_time_from")), new HourMin(rs.getString("sch_time_to")),
+							rs.getInt("sch_unpaid_break_min"), rs.getString("sch_stus"),
+							new DateTime(rs.getTimestamp("sch_created").getTime()),
 							new DateTime(rs.getTimestamp("sch_edited")));
 				} catch (SQLException e) {
 					throw new BeanInstantiationException(ScheEty.class, e.getMessage(), e);
