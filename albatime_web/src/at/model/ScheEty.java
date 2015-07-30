@@ -22,39 +22,39 @@ import lombok.ToString;
 public class ScheEty {
 	@Getter
 	@Setter
-	long seq;
+	private long seq;
 
 	@NotNull
 	@Getter
 	@Setter
-	long actorSeq;
+	private long actorSeq;
 
 	@Size(min = 1, max = 256)
 	@Getter
 	@Setter
-	String memo;
+	private String memo;
 
 	@NotNull
-	HourMin timeFrom;
+	private HourMin timeFrom;
 
 	@NotNull
-	HourMin timeTo;
+	private HourMin timeTo;
 
 	@Min(0)
 	@Max(120)
 	@Getter
 	@Setter
-	int unpaidbreakMin;
+	private int unpaidbreakMin;
 
 	@Pattern(regexp = "[A-Z]{3}[_][A-Z]{3}[_][0-9]{2}")
 	@Getter
-	String stus;
+	private String stus;
 
 	@Getter
-	DateTime created;
+	private DateTime created;
 
 	@Getter
-	DateTime edited;
+	private DateTime edited;
 
 	public void setAsNormalStus() {
 		this.stus = CC.SCHE_STUS_NORMAL;
