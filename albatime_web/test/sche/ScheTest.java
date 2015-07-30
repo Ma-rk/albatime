@@ -49,7 +49,7 @@ public class ScheTest {
 		scheListFixture.get(1).setUnpaidbreakMin(90);
 
 		for (ScheEty sche : scheListFixture) {
-			scheBiz.createScheBiz(sche);
+			scheBiz.insertScheBiz(sche);
 		}
 	}
 

@@ -31,11 +31,11 @@ public class ScheCont {
 	public String insertScheCont(@Valid ScheEty sche, BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {
-			return CC.gson.toJson(new ResultEty(false, CC.ERROR_ACTOR_CREATE_FAIL));
+			return CC.gson.toJson(new ResultEty(false, CC.ERROR_SCHEDULE_CREATE_FAIL));
 		}
 		lgr.debug(sche.toString());
 
-		int insertScheResult = scheBiz.createScheBiz(sche);
+		int insertScheResult = scheBiz.insertScheBiz(sche);
 
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return CC.gson.toJson(new ResultEty(insertScheResult));

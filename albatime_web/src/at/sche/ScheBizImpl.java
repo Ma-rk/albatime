@@ -16,9 +16,9 @@ public class ScheBizImpl implements IScheBiz {
 		this.scheDao = scheDao;
 	}
 
-	public int createScheBiz(ScheEty sche) {
+	public int insertScheBiz(ScheEty sche) {
 		sche.setAsNormalStus();
-		return scheDao.createScheDao(sche);
+		return scheDao.insertScheDao(sche);
 	}
 
 	public List<ScheEty> retireveScheListBiz(ScheEty sche) {

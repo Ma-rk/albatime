@@ -30,7 +30,7 @@ public class ActorCont {
 	}
 
 	@RequestMapping(value = CC.API_ACTOR, produces = "application/json", method = RequestMethod.POST)
-	public String createActorCont(@CookieValue(CC.USER_ID_IN_COOKIE) long userId, @Valid ActorEty actor,
+	public String insertActorCont(@CookieValue(CC.USER_ID_IN_COOKIE) long userId, @Valid ActorEty actor,
 			BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {

@@ -56,8 +56,9 @@ public class CC {
 	/*
 	 * error codes
 	 */
-	public static final String ERROR_ACCOUNT_REGISTER_FAIL = "ERR_ACC_01";
-	public static final String ERROR_ACCOUNT_EMAILCHECK_FAIL = "ERR_ACC_02";
+	public static final String ERROR_ACCOUNT_EMAILCHECK_FAIL = "ERR_ACC_01";
+	public static final String ERROR_ACCOUNT_REGISTER_FAIL = "ERR_ACC_02";
+	public static final String ERROR_ACCOUNT_LOGIN_FAIL = "ERR_USR_03";
 
 	public static final String ERROR_ACTOR_CREATE_FAIL = "ERR_ACT_01";
 	public static final String ERROR_ACTOR_RETRIEVE_FAIL = "ERR_ACT_02";
@@ -69,7 +70,10 @@ public class CC {
 	public static final String ERROR_CARD_UPDATE_FAIL = "ERR_CRD_03";
 	public static final String ERROR_CARD_DELETE_FAIL = "ERR_CRD_04";
 
-	public static final String ERROR_USER_LOGIN_FAIL = "ERR_USR_01";
+	public static final String ERROR_SCHEDULE_CREATE_FAIL = "ERR_SCH_01";
+	public static final String ERROR_SCHEDULE_RETRIEVE_FAIL = "ERR_SCH_02";
+	public static final String ERROR_SCHEDULE_UPDATE_FAIL = "ERR_SCH_03";
+	public static final String ERROR_SCHEDULE_DELETE_FAIL = "ERR_SCH_04";
 
 	/*
 	 * api uri

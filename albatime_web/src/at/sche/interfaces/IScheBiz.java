@@ -5,7 +5,7 @@ import java.util.List;
 import at.model.ScheEty;
 
 public interface IScheBiz {
-	int createScheBiz(ScheEty sche);
+	int insertScheBiz(ScheEty sche);
 
 	List<ScheEty> retireveScheListBiz(ScheEty sche);
 

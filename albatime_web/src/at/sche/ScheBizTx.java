@@ -15,8 +15,8 @@ public class ScheBizTx implements IScheBiz {
 		this.scheBiz = scheBiz;
 	}
 
-	public int createScheBiz(ScheEty sche) {
-		return scheBiz.createScheBiz(sche);
+	public int insertScheBiz(ScheEty sche) {
+		return scheBiz.insertScheBiz(sche);
 	}
 
 	public List<ScheEty> retireveScheListBiz(ScheEty sche) {

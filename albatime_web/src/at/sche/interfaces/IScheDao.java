@@ -7,7 +7,7 @@ import at.model.ScheEty;
 public interface IScheDao {
 	int cleanTbScheDao();
 
-	int createScheDao(ScheEty sche);
+	int insertScheDao(ScheEty sche);
 
 	List<ScheEty> retrieveScheListDao(ScheEty sche);
 

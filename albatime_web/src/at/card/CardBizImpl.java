@@ -24,7 +24,7 @@ public class CardBizImpl implements ICardBiz {
 	/*
 	 * functional methods
 	 */
-	public int createCardBiz(CardEty card) {
+	public int insertCardBiz(CardEty card) {
 		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		card.setAsNormalStus();
 		int insertCardResult = cardDao.insertCardDao(card);

@@ -44,13 +44,13 @@ public class ScheDaoJdbc implements IScheDao {
 		return truncateScheResult;
 	}
 
-	public int createScheDao(ScheEty sche) {
+	public int insertScheDao(ScheEty sche) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		int createScheResult = this.jdbcTemplate.update(this.sqls.getSql("scheInsertSche"), sche.getActorSeq(),
+		int insertScheResult = this.jdbcTemplate.update(this.sqls.getSql("scheInsertSche"), sche.getActorSeq(),
 				sche.getMemo(), sche.getTimeFrom(), sche.getTimeTo(), sche.getUnpaidbreakMin(), sche.getStus());
-		lgr.debug("{} result: [{}]", new Object() {}.getClass().getEnclosingMethod().getName(), createScheResult);
+		lgr.debug("{} result: [{}]", new Object() {}.getClass().getEnclosingMethod().getName(), insertScheResult);
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return createScheResult;
+		return insertScheResult;
 	}
 
 	public List<ScheEty> retrieveScheListDao(ScheEty sche) {

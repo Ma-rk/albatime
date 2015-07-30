@@ -70,7 +70,7 @@ public class AccountCont {
 	public String login(HttpServletResponse response, @Valid UserEty user, BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {
-			return CC.gson.toJson(new ResultEty(false, CC.ERROR_USER_LOGIN_FAIL));
+			return CC.gson.toJson(new ResultEty(false, CC.ERROR_ACCOUNT_LOGIN_FAIL));
 		}
 		lgr.debug(user.toString());
 
@@ -88,7 +88,7 @@ public class AccountCont {
 			}
 			resultEty = new ResultEty(userInfo);
 		} else {
-			resultEty = new ResultEty(false, CC.ERROR_USER_LOGIN_FAIL);
+			resultEty = new ResultEty(false, CC.ERROR_ACCOUNT_LOGIN_FAIL);
 		}
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return CC.gson.toJson(resultEty);

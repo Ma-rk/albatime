@@ -53,7 +53,7 @@ public class CardTest {
 		cardListFixture.get(1).setUnpaidbreakMin(90);
 
 		for (CardEty card : cardListFixture) {
-			cardBiz.createCardBiz(card);
+			cardBiz.insertCardBiz(card);
 		}
 	}
 

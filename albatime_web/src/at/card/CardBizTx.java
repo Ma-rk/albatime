@@ -18,8 +18,8 @@ public class CardBizTx implements ICardBiz {
 	/*
 	 * functional methods
 	 */
-	public int createCardBiz(CardEty card) {
-		return cardBiz.createCardBiz(card);
+	public int insertCardBiz(CardEty card) {
+		return cardBiz.insertCardBiz(card);
 	}
 
 	public List<CardEty> retireveCardListBiz(CardEty card) {

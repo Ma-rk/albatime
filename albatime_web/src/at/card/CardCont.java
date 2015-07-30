@@ -33,14 +33,14 @@ public class CardCont {
 	 * functional methods
 	 */
 	@RequestMapping(value = CC.API_CARD, produces = "application/json", method = RequestMethod.POST)
-	public String createCardCont(@Valid CardEty card, BindingResult result) {
+	public String insertCardCont(@Valid CardEty card, BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {
 			return CC.gson.toJson(new ResultEty(false, CC.ERROR_CARD_CREATE_FAIL));
 		}
 		lgr.debug(card.toString());
 
-		int inserActorResult = cardBiz.createCardBiz(card);
+		int inserActorResult = cardBiz.insertCardBiz(card);
 
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return CC.gson.toJson(new ResultEty(inserActorResult));
