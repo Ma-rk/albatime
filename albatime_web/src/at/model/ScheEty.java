@@ -40,6 +40,9 @@ public class ScheEty {
 	@NotNull
 	private HourMin timeTo;
 
+	@NotNull
+	private HourMin workedHours;
+
 	@Min(0)
 	@Max(120)
 	@Getter
@@ -68,6 +71,23 @@ public class ScheEty {
 		this.stus = CC.SCHE_STUS_EDITED;
 	}
 
+	public void setTerm() {
+		int hourFrom = timeFrom.getHour();
+		int hourTo = timeTo.getHour();
+		int min = timeTo.getMin() - timeFrom.getMin();
+		if (min < 0) {
+			hourTo--;
+			min += 60;
+		}
+		int hour = hourTo - hourFrom;
+		if (hour < 0)
+			hour += 24;
+		this.workedHours = new HourMin(hour, min);
+	}
+
+	/*
+	 * getters and setters
+	 */
 	public void setTimeFrom(String hm) {
 		this.timeFrom = new HourMin(hm);
 	}
@@ -82,5 +102,9 @@ public class ScheEty {
 
 	public String getTimeTo() {
 		return String.valueOf(timeTo.getHour()) + ":" + String.valueOf(timeTo.getMin());
+	}
+
+	public String getWorkedHours() {
+		return String.valueOf(workedHours.getHour()) + ":" + String.valueOf(workedHours.getMin());
 	}
 }

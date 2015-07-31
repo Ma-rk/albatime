@@ -47,7 +47,8 @@ public class ScheDaoJdbc implements IScheDao {
 	public int insertScheDao(ScheEty sche) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		int insertScheResult = this.jdbcTemplate.update(this.sqls.getSql("scheInsertSche"), sche.getActorSeq(),
-				sche.getMemo(), sche.getTimeFrom(), sche.getTimeTo(), sche.getUnpaidbreakMin(), sche.getStus());
+				sche.getMemo(), sche.getTimeFrom(), sche.getTimeTo(), sche.getWorkedHours(), sche.getUnpaidbreakMin(),
+				sche.getStus());
 		lgr.debug("{} result: [{}]", new Object() {}.getClass().getEnclosingMethod().getName(), insertScheResult);
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return insertScheResult;
@@ -60,8 +61,8 @@ public class ScheDaoJdbc implements IScheDao {
 				try {
 					return new ScheEty(rs.getLong("sch_seq"), rs.getLong("sch_actor_seq"), rs.getString("sch_memo"),
 							new HourMin(rs.getString("sch_time_from")), new HourMin(rs.getString("sch_time_to")),
-							rs.getInt("sch_unpaid_break_min"), rs.getString("sch_stus"),
-							new DateTime(rs.getTimestamp("sch_created").getTime()),
+							new HourMin(rs.getString("sch_worked_hours")), rs.getInt("sch_unpaid_break_min"),
+							rs.getString("sch_stus"), new DateTime(rs.getTimestamp("sch_created").getTime()),
 							new DateTime(rs.getTimestamp("sch_edited")));
 				} catch (SQLException e) {
 					throw new BeanInstantiationException(ScheEty.class, e.getMessage(), e);
@@ -78,7 +79,8 @@ public class ScheDaoJdbc implements IScheDao {
 	public int updateScheDao(ScheEty sche) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		int updateScheResult = this.jdbcTemplate.update(this.sqls.getSql("scheUpdateSche"), sche.getMemo(),
-				sche.getTimeFrom(), sche.getTimeTo(), sche.getUnpaidbreakMin(), sche.getStus(), sche.getSeq());
+				sche.getTimeFrom(), sche.getTimeTo(), sche.getWorkedHours(), sche.getUnpaidbreakMin(), sche.getStus(),
+				sche.getSeq());
 		lgr.debug("{} result: [{}]", new Object() {}.getClass().getEnclosingMethod().getName(), updateScheResult);
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return updateScheResult;

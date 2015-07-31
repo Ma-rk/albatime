@@ -38,14 +38,14 @@ public class ScheTest {
 		scheListFixture.add(new ScheEty());
 		scheListFixture.get(0).setActorSeq(1l);
 		scheListFixture.get(0).setMemo("mememem momomo");
-		scheListFixture.get(0).setTimeFrom("01:01");
+		scheListFixture.get(0).setTimeFrom("10:10");
 		scheListFixture.get(0).setTimeTo("10:10");
 		scheListFixture.get(0).setUnpaidbreakMin(60);
 		scheListFixture.add(new ScheEty());
 		scheListFixture.get(1).setActorSeq(1l);
 		scheListFixture.get(1).setMemo("mememem momomo2");
-		scheListFixture.get(1).setTimeFrom("12:34");
-		scheListFixture.get(1).setTimeTo("23:45");
+		scheListFixture.get(1).setTimeFrom("23:45");
+		scheListFixture.get(1).setTimeTo("23:44");
 		scheListFixture.get(1).setUnpaidbreakMin(90);
 
 		for (ScheEty sche : scheListFixture) {
@@ -68,6 +68,8 @@ public class ScheTest {
 			assertEquals(scheListFixture.get(i).getUnpaidbreakMin(), retrievedScheList.get(i).getUnpaidbreakMin());
 			assertEquals(CC.SCHE_STUS_NORMAL, retrievedScheList.get(i).getStus());
 		}
+		assertEquals("0:0", retrievedScheList.get(0).getWorkedHours().toString());
+		assertEquals("23:59", retrievedScheList.get(1).getWorkedHours().toString());
 	}
 
 	@Test
@@ -92,15 +94,17 @@ public class ScheTest {
 		ScheEty retrieveQryForUpdated = new ScheEty();
 		retrieveQryForUpdated.setActorSeq(1l);
 		retrieveQryForUpdated.setAsEditedStus();
-		List<ScheEty> updatedCardList = scheBiz.retireveScheListBiz(retrieveQryForUpdated);
+		List<ScheEty> updatedScheList = scheBiz.retireveScheListBiz(retrieveQryForUpdated);
 
-		for (int i = 0; i < updatedCardList.size(); i++) {
-			assertEquals(originalScheList.get(i).getMemo(), updatedCardList.get(i).getMemo());
-			assertEquals(originalScheList.get(i).getTimeFrom(), updatedCardList.get(i).getTimeFrom());
-			assertEquals(originalScheList.get(i).getTimeTo(), updatedCardList.get(i).getTimeTo());
-			assertEquals(originalScheList.get(i).getUnpaidbreakMin(), updatedCardList.get(i).getUnpaidbreakMin());
-			assertEquals(CC.SCHE_STUS_EDITED, updatedCardList.get(i).getStus());
+		for (int i = 0; i < updatedScheList.size(); i++) {
+			assertEquals(originalScheList.get(i).getMemo(), updatedScheList.get(i).getMemo());
+			assertEquals(originalScheList.get(i).getTimeFrom(), updatedScheList.get(i).getTimeFrom());
+			assertEquals(originalScheList.get(i).getTimeTo(), updatedScheList.get(i).getTimeTo());
+			assertEquals(originalScheList.get(i).getUnpaidbreakMin(), updatedScheList.get(i).getUnpaidbreakMin());
+			assertEquals(CC.SCHE_STUS_EDITED, updatedScheList.get(i).getStus());
 		}
+		assertEquals("2:20", updatedScheList.get(0).getWorkedHours().toString());
+		assertEquals("0:10", updatedScheList.get(1).getWorkedHours().toString());
 	}
 
 	@After

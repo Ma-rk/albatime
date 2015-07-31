@@ -168,9 +168,9 @@
 				<entry key="cardUpdateCards" value="update tb_card set crd_name=?, crd_memo=?, crd_time_from=?, crd_time_to=?, crd_unpaid_break_min=?, crd_stus=? where crd_seq=? and crd_actor_seq=? " />
 				<entry key="login_InsertJwTokenKey" value="insert into tb_tk_key (tk_usr_id, tk_key, tk_stus) values (?,?,?)" />
 				<entry key="scheCleanTbSche" value="delete from tb_sche" />
-				<entry key="scheInsertSche" value="insert into tb_sche (sch_actor_seq, sch_memo, sch_time_from, sch_time_to, sch_unpaid_break_min, sch_stus) values (?,?,?,?,?,?)" />
-				<entry key="scheRetrieveSches" value="select sch_seq, sch_actor_seq, sch_memo, sch_time_from, sch_time_to, sch_unpaid_break_min, sch_stus, sch_created, sch_edited from tb_sche where sch_actor_seq=? and sch_stus=?" />
-				<entry key="scheUpdateSche" value="update tb_sche set sch_memo=?, sch_time_from=?, sch_time_to=?, sch_unpaid_break_min=?, sch_stus=? where sch_seq=? " />
+				<entry key="scheInsertSche" value="insert into tb_sche (sch_actor_seq, sch_memo, sch_time_from, sch_time_to, sch_worked_hours, sch_unpaid_break_min, sch_stus) values (?,?,?,?,?,?,?)" />
+				<entry key="scheRetrieveSches" value="select sch_seq, sch_actor_seq, sch_memo, sch_time_from, sch_time_to, sch_worked_hours, sch_unpaid_break_min, sch_stus, sch_created, sch_edited from tb_sche where sch_actor_seq=? and sch_stus=?" />
+				<entry key="scheUpdateSche" value="update tb_sche set sch_memo=?, sch_time_from=?, sch_time_to=?, sch_worked_hours=?, sch_unpaid_break_min=?, sch_stus=? where sch_seq=? " />
 				<entry key="autologin_retrieveJwTokenKey" value="select tk_key from tb_tk_key where tk_seq = ? and tk_usr_id = ? and tk_stus=?" />
 				<entry key="tkRetireveToken" value="select tk_device_type, tk_created from tb_token where tk_usr_id = ? and tk_stus=?" />
 				<entry key="tkExpireToken" value="update tb_token set tk_stus=? where tk_usr_id=? and tk_seq!=? and tk_stus!=?" />
