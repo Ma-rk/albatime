@@ -36,13 +36,13 @@ public class ScheTest {
 		lgr.debug("deleted lows: [{}]", scheDao.cleanTbScheDao());
 
 		scheListFixture.add(new ScheEty());
-		scheListFixture.get(0).setActorSeq(1l);
+		scheListFixture.get(0).setActorSeq(33l);
 		scheListFixture.get(0).setMemo("mememem momomo");
 		scheListFixture.get(0).setTimeFrom("10:10");
 		scheListFixture.get(0).setTimeTo("10:10");
 		scheListFixture.get(0).setUnpaidbreakMin(60);
 		scheListFixture.add(new ScheEty());
-		scheListFixture.get(1).setActorSeq(1l);
+		scheListFixture.get(1).setActorSeq(33l);
 		scheListFixture.get(1).setMemo("mememem momomo2");
 		scheListFixture.get(1).setTimeFrom("23:45");
 		scheListFixture.get(1).setTimeTo("23:44");
@@ -56,7 +56,7 @@ public class ScheTest {
 	@Test
 	public void retrieveScheTest() {
 		ScheEty retrieveQry = new ScheEty();
-		retrieveQry.setActorSeq(1l);
+		retrieveQry.setActorSeq(33l);
 		retrieveQry.setAsNormalStus();
 		List<ScheEty> retrievedScheList = scheBiz.retireveScheListBiz(retrieveQry);
 
@@ -66,16 +66,16 @@ public class ScheTest {
 			assertEquals(scheListFixture.get(i).getTimeFrom(), retrievedScheList.get(i).getTimeFrom());
 			assertEquals(scheListFixture.get(i).getTimeTo(), retrievedScheList.get(i).getTimeTo());
 			assertEquals(scheListFixture.get(i).getUnpaidbreakMin(), retrievedScheList.get(i).getUnpaidbreakMin());
+			assertEquals(scheListFixture.get(i).getHours(), retrievedScheList.get(i).getHours());
+			assertEquals(scheListFixture.get(i).getMins(), retrievedScheList.get(i).getMins());
 			assertEquals(CC.SCHE_STUS_NORMAL, retrievedScheList.get(i).getStus());
 		}
-		assertEquals("0:0", retrievedScheList.get(0).getWorkedHours().toString());
-		assertEquals("23:59", retrievedScheList.get(1).getWorkedHours().toString());
 	}
 
 	@Test
 	public void updateScheTest() {
 		ScheEty retrieveQryForOriginal = new ScheEty();
-		retrieveQryForOriginal.setActorSeq(1l);
+		retrieveQryForOriginal.setActorSeq(33l);
 		retrieveQryForOriginal.setAsNormalStus();
 		List<ScheEty> originalScheList = scheBiz.retireveScheListBiz(retrieveQryForOriginal);
 
@@ -92,7 +92,7 @@ public class ScheTest {
 		assertEquals(1, scheBiz.updateScheBiz(originalScheList.get(1)));
 
 		ScheEty retrieveQryForUpdated = new ScheEty();
-		retrieveQryForUpdated.setActorSeq(1l);
+		retrieveQryForUpdated.setActorSeq(33l);
 		retrieveQryForUpdated.setAsEditedStus();
 		List<ScheEty> updatedScheList = scheBiz.retireveScheListBiz(retrieveQryForUpdated);
 
@@ -103,12 +103,12 @@ public class ScheTest {
 			assertEquals(originalScheList.get(i).getUnpaidbreakMin(), updatedScheList.get(i).getUnpaidbreakMin());
 			assertEquals(CC.SCHE_STUS_EDITED, updatedScheList.get(i).getStus());
 		}
-		assertEquals("2:20", updatedScheList.get(0).getWorkedHours().toString());
-		assertEquals("0:10", updatedScheList.get(1).getWorkedHours().toString());
+		assertEquals("2:20", updatedScheList.get(0).getHours().toString());
+		assertEquals("0:10", updatedScheList.get(1).getHours().toString());
 	}
 
 	@After
 	public void tearDown() {
-		lgr.debug("deleted lows: [{}]", scheDao.cleanTbScheDao());
+//		lgr.debug("deleted lows: [{}]", scheDao.cleanTbScheDao());
 	}
 }

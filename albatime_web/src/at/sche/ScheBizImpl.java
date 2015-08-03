@@ -18,7 +18,6 @@ public class ScheBizImpl implements IScheBiz {
 
 	public int insertScheBiz(ScheEty sche) {
 		sche.setAsNormalStus();
-		sche.setTerm();
 		return scheDao.insertScheDao(sche);
 	}
 
@@ -28,8 +27,6 @@ public class ScheBizImpl implements IScheBiz {
 
 	public int updateScheBiz(ScheEty sche) {
 		sche.setAsUpdatedStus();
-		sche.setTerm();
 		return scheDao.updateScheDao(sche);
 	}
-
 }
