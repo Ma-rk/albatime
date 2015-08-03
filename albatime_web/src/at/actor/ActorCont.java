@@ -18,6 +18,7 @@ import at.com.CommUtil;
 import at.model.ActorEty;
 import at.model.ResultEty;
 import at.supp.CC;
+import at.supp.ResultFac;
 
 @RestController
 public class ActorCont {
@@ -55,7 +56,7 @@ public class ActorCont {
 		List<ActorEty> actorList = actorBiz.retireveActorListBiz(actor);
 
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return CC.gson.toJson(new ResultEty(actorList));
+		return CC.gson.toJson(ResultFac.rf(actorList));
 	}
 
 	@RequestMapping(value = CC.API_ACTOR, produces = "application/json", method = RequestMethod.PUT)
