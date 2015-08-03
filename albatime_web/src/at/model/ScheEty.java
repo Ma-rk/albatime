@@ -41,7 +41,11 @@ public class ScheEty {
 	private HourMin timeTo;
 
 	@NotNull
-	private HourMin workedHours;
+	private HourMin hours;
+
+	@NotNull
+	@Getter
+	private int mins;
 
 	@Min(0)
 	@Max(120)
@@ -71,7 +75,7 @@ public class ScheEty {
 		this.stus = CC.SCHE_STUS_EDITED;
 	}
 
-	public void setTerm() {
+	public void setHours() {
 		int hourFrom = timeFrom.getHour();
 		int hourTo = timeTo.getHour();
 		int min = timeTo.getMin() - timeFrom.getMin();
@@ -82,7 +86,11 @@ public class ScheEty {
 		int hour = hourTo - hourFrom;
 		if (hour < 0)
 			hour += 24;
-		this.workedHours = new HourMin(hour, min);
+		this.hours = new HourMin(hour, min);
+	}
+
+	public void setMins() {
+		this.mins = this.hours.getHour() * 60 + this.hours.getMin();
 	}
 
 	/*
@@ -90,10 +98,18 @@ public class ScheEty {
 	 */
 	public void setTimeFrom(String hm) {
 		this.timeFrom = new HourMin(hm);
+		if (this.timeTo != null) {
+			setHours();
+			setMins();
+		}
 	}
 
 	public void setTimeTo(String hm) {
 		this.timeTo = new HourMin(hm);
+		if (this.timeFrom != null) {
+			setHours();
+			setMins();
+		}
 	}
 
 	public String getTimeFrom() {
@@ -104,7 +120,7 @@ public class ScheEty {
 		return String.valueOf(timeTo.getHour()) + ":" + String.valueOf(timeTo.getMin());
 	}
 
-	public String getWorkedHours() {
-		return String.valueOf(workedHours.getHour()) + ":" + String.valueOf(workedHours.getMin());
+	public String getHours() {
+		return String.valueOf(hours.getHour()) + ":" + String.valueOf(hours.getMin());
 	}
 }
