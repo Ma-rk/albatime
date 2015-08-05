@@ -12,7 +12,7 @@ public class ResultFac {
 		return rf(false, errorCoe, 0);
 	}
 
-	public static Map<String, Object> rf(Boolean result, String errorCoe, Object data) {
+	private static Map<String, Object> rf(Boolean result, String errorCoe, Object data) {
 		HashMap<String, Object> resultMap = new HashMap<>();
 		resultMap.put("result", result);
 		if (result) {
