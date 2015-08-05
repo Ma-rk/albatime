@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ResultFac {
+	public static Map<String, Object> rf() {
+		return rf(true, "NO_ERROR", "[]");
+	}
+
 	public static Map<String, Object> rf(Object data) {
 		return rf(true, "NO_ERROR", data);
 	}

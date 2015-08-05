@@ -6,14 +6,16 @@ import lombok.ToString;
 public class ResultEty {
 	private Boolean result = true;
 	private String errorCode = "NO_ERROR";
-	private Object data = "NO_DATA";
+	private Object data = "[]";
+
+	public ResultEty() {}
+
+	public ResultEty(Object data) {
+		this.data = data;
+	}
 
 	public ResultEty(Boolean result, String errorCode) {
 		this.result = result;
 		this.errorCode = errorCode;
-	}
-
-	public ResultEty(Object data) {
-		this.data = data;
 	}
 }

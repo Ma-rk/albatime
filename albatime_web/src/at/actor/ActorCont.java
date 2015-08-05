@@ -88,5 +88,6 @@ public class ActorCont {
 
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return CC.gson.toJson(new ResultEty(updateActorResult));
+		return CC.gson.toJson(new ResultEty());
 	}
 }
