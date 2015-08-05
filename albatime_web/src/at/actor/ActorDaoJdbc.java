@@ -1,21 +1,19 @@
 package at.actor;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.sql.DataSource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import at.actor.interfaces.IActorDao;
 import at.model.ActorEty;
 import at.supp.CC;
 import at.supp.interfaces.ISqlService;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanInstantiationException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 
 public class ActorDaoJdbc implements IActorDao {
 	private static final Logger lgr = LoggerFactory.getLogger(ActorDaoJdbc.class);
@@ -39,45 +37,55 @@ public class ActorDaoJdbc implements IActorDao {
 	 */
 	public int insertActorDao(ActorEty actor) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		int insertActorResult = this.jdbcTemplate.update(this.sqls.getSql("actorCreateActor"), actor.getUserId(),
-				actor.getName(), actor.getMemo(), actor.getPeriodFrom(), actor.getPeriodTo(), actor.getWorkTimeUnit(),
-				actor.getAlarmBefore(), actor.getUnpaidbreakFlag(), actor.getTaxRate(), actor.getBasicWage(),
-				actor.getBgColor(), actor.getPhone1(), actor.getAddr1(), actor.getStus());
-		lgr.debug("created [{}] actor(s).", String.valueOf(insertActorResult));
+
+		EntityManager em = CC.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		em.persist(actor);
+		tx.commit();
+
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return insertActorResult;
+		return 1;
 	}
 
 	public List<ActorEty> retireveActorListDao(ActorEty actor) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		RowMapper<ActorEty> rowMapper = new RowMapper<ActorEty>() {
-			public ActorEty mapRow(ResultSet rs, int rowNum) {
-				try {
-					return new ActorEty(rs.getLong("ac_seq"), rs.getLong("ac_usr_id"), rs.getString("ac_name"),
-							rs.getString("ac_memo"), rs.getDate("ac_period_from"), rs.getDate("ac_period_to"),
-							rs.getInt("ac_worktime_unit"), rs.getInt("ac_alarm_before"),
-							rs.getString("ac_unpaidbreak_flag"), rs.getFloat("ac_tax_rate"),
-							rs.getFloat("ac_basic_wage"), rs.getString("ac_color_bg"), rs.getString("ac_phone1"),
-							rs.getString("ac_addr1_1"), rs.getString("ac_stus"), rs.getDate("ac_created"),
-							rs.getDate("ac_edited"));
-				} catch (SQLException e) {
-					throw new BeanInstantiationException(ActorEty.class, e.getMessage(), e);
-				}
-			}
-		};
-		List<ActorEty> actorList = this.jdbcTemplate.query(this.sqls.getSql("actorRetrieveActors"), rowMapper,
-				actor.getUserId(), actor.getStus());
-		lgr.debug("retrieved [{}] rows.", String.valueOf(actorList.size()));
+
+		EntityManager em = CC.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		List<ActorEty> actors = em
+				.createQuery("select a from ActorEty as a where a.userId = :userId and a.stus = :stus", ActorEty.class)
+				.setParameter("userId", actor.getUserId()).setParameter("stus", actor.getStus()).getResultList();
+		tx.commit();
+
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return actorList;
+		return actors;
 	}
 
 	public int updateActorDao(ActorEty actor) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		int updateActorResult = this.jdbcTemplate.update(this.sqls.getSql("actorUpdateActor"), actor.getName(),
-				actor.getMemo(), actor.getPeriodFrom(), actor.getPeriodTo(), actor.getWorkTimeUnit(),
-				actor.getAlarmBefore(), actor.getUnpaidbreakFlag(), actor.getTaxRate(), actor.getBasicWage(),
-				actor.getBgColor(), actor.getPhone1(), actor.getAddr1(), actor.getSeq(), actor.getUserId());
+
+		EntityManager em = CC.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		ActorEty retrievedActor = em.find(ActorEty.class, actor.getSeq());
+		retrievedActor.setName(actor.getName());
+		retrievedActor.setMemo(actor.getMemo());
+		retrievedActor.setPeriodFrom(actor.getPeriodFrom());
+		retrievedActor.setPeriodTo(actor.getPeriodTo());
+		retrievedActor.setWorkTimeUnit(actor.getWorkTimeUnit());
+		retrievedActor.setAlarmBefore(actor.getAlarmBefore());
+		retrievedActor.setUnpaidbreakFlag(actor.getUnpaidbreakFlag());
+		retrievedActor.setDefaultWage(actor.getDefaultWage());
+		retrievedActor.setTaxRate(actor.getTaxRate());
+		retrievedActor.setBgColor(actor.getBgColor());
+		retrievedActor.setPhone1(actor.getPhone1());
+		retrievedActor.setAddr1(actor.getAddr1());
+		retrievedActor.setStus(actor.getStus());
+		tx.commit();
+
+		int updateActorResult = 1000;
 		lgr.debug("updateActorDao result: [{}]", updateActorResult);
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return updateActorResult;
@@ -86,8 +94,15 @@ public class ActorDaoJdbc implements IActorDao {
 	public int deleteActorDao(ActorEty actor) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		lgr.debug("deleting User [{}]'s Actor [{}]", actor.getUserId(), actor.getSeq());
-		int deleteActorResult = this.jdbcTemplate.update(this.sqls.getSql("actorDeleteActor"), actor.getStus(),
-				actor.getSeq(), actor.getUserId());
+		int deleteActorResult = 10000;
+
+		EntityManager em = CC.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		ActorEty retrievedActor = em.find(ActorEty.class, actor.getSeq());
+		retrievedActor.setStus(actor.getStus());
+		tx.commit();
+
 		lgr.debug("deleteActorDao result: [{}]", deleteActorResult);
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return deleteActorResult;

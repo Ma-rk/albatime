@@ -2,6 +2,13 @@ package at.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
@@ -19,9 +26,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class ActorEty {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long seq;
+
 	private long userId;
 
 	@NotNull
@@ -31,7 +42,9 @@ public class ActorEty {
 	@Size(min = 1, max = 256)
 	private String memo;
 
+	@Temporal(TemporalType.DATE)
 	private Date periodFrom;
+	@Temporal(TemporalType.DATE)
 	private Date periodTo;
 
 	@DecimalMin(value = "1")
@@ -48,13 +61,13 @@ public class ActorEty {
 	private String unpaidbreakFlag;
 
 	@Min(0)
+	@Digits(integer = 7, fraction = 2)
+	private float defaultWage;
+
+	@Min(0)
 	@Max(100)
 	@Digits(integer = 3, fraction = 3)
 	private float taxRate;
-
-	@Min(0)
-	@Digits(integer = 7, fraction = 2)
-	private float basicWage;
 
 	private String bgColor;
 	private String phone1;
@@ -63,7 +76,10 @@ public class ActorEty {
 	@Pattern(regexp = "[A-Z]{3}[_][A-Z]{3}[_][0-9]{2}")
 	private String stus;
 
+	@Column(insertable = false)
 	private Date created;
+
+	@Column(updatable = false)
 	private Date edited;
 
 	public void setAsNormalStus() {

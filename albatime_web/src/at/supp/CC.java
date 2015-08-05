@@ -1,5 +1,8 @@
 package at.supp;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 import com.google.gson.Gson;
 
 /**
@@ -8,6 +11,7 @@ import com.google.gson.Gson;
  */
 public class CC {
 	public static final Gson gson = new Gson();
+	public static EntityManagerFactory emf = Persistence.createEntityManagerFactory("at_emf");
 
 	public static final int DAYS_FOR_COOKIE_DURATION = 60;
 	public static final long SESSION_DURATION_DAYS_FOR_JWT = 21L;

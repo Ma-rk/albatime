@@ -66,11 +66,18 @@
 			<version>1.1.2</version>
 		</dependency>
 
-		<!-- hibernate -->
+		<!-- hibernate validator -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>5.2.0.CR1</version>
+		</dependency>
+
+		<!-- hibernate entity manager -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>4.3.10.Final</version>
 		</dependency>
 
 		<!-- lombok -->
@@ -105,8 +112,6 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.0</version>
 		</dependency>
-
-		<!-- <dependency> <groupId>joda-time</groupId> <artifactId>joda-time</artifactId> <version>2.7</version> </dependency> -->
 
 		<!-- embedded tomcat -->
 		<dependency>
@@ -146,6 +151,7 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
+	
 	<build>
 		<finalName>${project.artifactId}-${project.version}</finalName>
 		<sourceDirectory>src</sourceDirectory>

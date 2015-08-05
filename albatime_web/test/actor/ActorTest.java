@@ -48,7 +48,7 @@ public class ActorTest {
 		actorListFixture.get(0).setAlarmBefore(120);
 		actorListFixture.get(0).setUnpaidbreakFlag("y");
 		actorListFixture.get(0).setTaxRate(5.5f);
-		actorListFixture.get(0).setBasicWage(7500.5f);
+		actorListFixture.get(0).setDefaultWage(7500.5f);
 		actorListFixture.get(0).setBgColor("FFFFFF");
 		actorListFixture.get(0).setPhone1("010-0101-0101");
 		actorListFixture.get(0).setAddr1("경기도 성남시");
@@ -62,7 +62,7 @@ public class ActorTest {
 		actorListFixture.get(1).setAlarmBefore(120);
 		actorListFixture.get(1).setUnpaidbreakFlag("y");
 		actorListFixture.get(1).setTaxRate(5.5f);
-		actorListFixture.get(1).setBasicWage(7500.5f);
+		actorListFixture.get(1).setDefaultWage(7500.5f);
 		actorListFixture.get(1).setBgColor("FFFFFF");
 		actorListFixture.get(1).setPhone1("010-0101-0101");
 		actorListFixture.get(1).setAddr1("경기도 성남시");
@@ -86,7 +86,7 @@ public class ActorTest {
 			assertEquals(retrievedActorList.get(i).getAlarmBefore(), actorListFixture.get(i).getAlarmBefore());
 			assertEquals(retrievedActorList.get(i).getUnpaidbreakFlag(), actorListFixture.get(i).getUnpaidbreakFlag());
 			assertEquals(retrievedActorList.get(i).getTaxRate(), actorListFixture.get(i).getTaxRate(), DELTA);
-			assertEquals(retrievedActorList.get(i).getBasicWage(), actorListFixture.get(i).getBasicWage(), DELTA);
+			assertEquals(retrievedActorList.get(i).getDefaultWage(), actorListFixture.get(i).getDefaultWage(), DELTA);
 			assertEquals(retrievedActorList.get(i).getBgColor(), actorListFixture.get(i).getBgColor());
 			assertEquals(retrievedActorList.get(i).getPhone1(), actorListFixture.get(i).getPhone1());
 			assertEquals(retrievedActorList.get(i).getAddr1(), actorListFixture.get(i).getAddr1());
@@ -107,7 +107,7 @@ public class ActorTest {
 		retrievedActorList.get(0).setAlarmBefore(10);
 		retrievedActorList.get(0).setUnpaidbreakFlag("n");
 		retrievedActorList.get(0).setTaxRate(0.5f);
-		retrievedActorList.get(0).setBasicWage(40f);
+		retrievedActorList.get(0).setDefaultWage(40f);
 		retrievedActorList.get(0).setBgColor("000000");
 		retrievedActorList.get(0).setPhone1("02-0000-0000");
 		retrievedActorList.get(0).setAddr1("우리집");
@@ -119,13 +119,13 @@ public class ActorTest {
 		retrievedActorList.get(1).setAlarmBefore(15);
 		retrievedActorList.get(1).setUnpaidbreakFlag("n");
 		retrievedActorList.get(1).setTaxRate(0.6f);
-		retrievedActorList.get(1).setBasicWage(4f);
+		retrievedActorList.get(1).setDefaultWage(4f);
 		retrievedActorList.get(1).setBgColor("aaaaaa");
 		retrievedActorList.get(1).setPhone1("02-0110-0110");
 		retrievedActorList.get(1).setAddr1("니네집");
 
-		assertEquals(1, actorBiz.updateActorBiz(retrievedActorList.get(0)));
-		assertEquals(1, actorBiz.updateActorBiz(retrievedActorList.get(1)));
+		assertEquals(1000, actorBiz.updateActorBiz(retrievedActorList.get(0)));
+		assertEquals(1000, actorBiz.updateActorBiz(retrievedActorList.get(1)));
 
 		List<ActorEty> updatedActorList = actorBiz.retireveActorListBiz(actorListFixture.get(0));
 
@@ -139,7 +139,7 @@ public class ActorTest {
 			assertEquals(retrievedActorList.get(i).getAlarmBefore(), updatedActorList.get(i).getAlarmBefore());
 			assertEquals(retrievedActorList.get(i).getUnpaidbreakFlag(), updatedActorList.get(i).getUnpaidbreakFlag());
 			assertEquals(retrievedActorList.get(i).getTaxRate(), updatedActorList.get(i).getTaxRate(), DELTA);
-			assertEquals(retrievedActorList.get(i).getBasicWage(), updatedActorList.get(i).getBasicWage(), DELTA);
+			assertEquals(retrievedActorList.get(i).getDefaultWage(), updatedActorList.get(i).getDefaultWage(), DELTA);
 			assertEquals(retrievedActorList.get(i).getBgColor(), updatedActorList.get(i).getBgColor());
 			assertEquals(retrievedActorList.get(i).getPhone1(), updatedActorList.get(i).getPhone1());
 			assertEquals(retrievedActorList.get(i).getAddr1(), updatedActorList.get(i).getAddr1());
@@ -151,7 +151,7 @@ public class ActorTest {
 		List<ActorEty> retrievedActorList = actorBiz.retireveActorListBiz(actorListFixture.get(0));
 
 		for (int i = 0; i < retrievedActorList.size(); i++) {
-			assertEquals(1, actorBiz.deleteActorBiz(retrievedActorList.get(i)));
+			assertEquals(10000, actorBiz.deleteActorBiz(retrievedActorList.get(i)));
 		}
 		assertEquals(new ArrayList<ActorEty>(), actorBiz.retireveActorListBiz(actorListFixture.get(0)));
 	}
