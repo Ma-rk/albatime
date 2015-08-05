@@ -31,7 +31,7 @@ public class ActorBizTx implements IActorBiz {
 		return actorBiz.updateActorBiz(actor);
 	}
 
-	public int deleteActorBiz(ActorEty actor) {
-		return actorBiz.deleteActorBiz(actor);
+	public void deleteActorBiz(ActorEty actor) {
+		actorBiz.deleteActorBiz(actor);
 	}
 }

@@ -84,10 +84,9 @@ public class ActorCont {
 		}
 		actor.setUserId(userId);
 
-		int updateActorResult = actorBiz.deleteActorBiz(actor);
+		actorBiz.deleteActorBiz(actor);
 
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return CC.gson.toJson(new ResultEty(updateActorResult));
 		return CC.gson.toJson(new ResultEty());
 	}
 }

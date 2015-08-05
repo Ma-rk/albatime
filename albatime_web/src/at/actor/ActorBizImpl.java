@@ -33,8 +33,8 @@ public class ActorBizImpl implements IActorBiz {
 		return actorDao.updateActorDao(actor);
 	}
 
-	public int deleteActorBiz(ActorEty actor) {
+	public void deleteActorBiz(ActorEty actor) {
 		actor.setAsDeactivatedStus();
-		return actorDao.deleteActorDao(actor);
+		actorDao.deleteActorDao(actor);
 	}
 }

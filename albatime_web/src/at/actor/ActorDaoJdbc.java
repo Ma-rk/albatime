@@ -91,10 +91,9 @@ public class ActorDaoJdbc implements IActorDao {
 		return updateActorResult;
 	}
 
-	public int deleteActorDao(ActorEty actor) {
+	public void deleteActorDao(ActorEty actor) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		lgr.debug("deleting User [{}]'s Actor [{}]", actor.getUserId(), actor.getSeq());
-		int deleteActorResult = 10000;
 
 		EntityManager em = CC.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
@@ -103,9 +102,8 @@ public class ActorDaoJdbc implements IActorDao {
 		retrievedActor.setStus(actor.getStus());
 		tx.commit();
 
-		lgr.debug("deleteActorDao result: [{}]", deleteActorResult);
+		lgr.debug("deleted.");
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return deleteActorResult;
 	}
 
 	public int cleanTbActorDao() {

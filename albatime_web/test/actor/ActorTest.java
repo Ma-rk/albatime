@@ -151,7 +151,7 @@ public class ActorTest {
 		List<ActorEty> retrievedActorList = actorBiz.retireveActorListBiz(actorListFixture.get(0));
 
 		for (int i = 0; i < retrievedActorList.size(); i++) {
-			assertEquals(10000, actorBiz.deleteActorBiz(retrievedActorList.get(i)));
+			actorBiz.deleteActorBiz(retrievedActorList.get(i));
 		}
 		assertEquals(new ArrayList<ActorEty>(), actorBiz.retireveActorListBiz(actorListFixture.get(0)));
 	}

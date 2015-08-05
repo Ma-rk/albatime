@@ -15,7 +15,7 @@ public interface IActorDao {
 
 	int updateActorDao(ActorEty actor);
 
-	int deleteActorDao(ActorEty actor);
+	void deleteActorDao(ActorEty actor);
 
 	int cleanTbActorDao();
 }
