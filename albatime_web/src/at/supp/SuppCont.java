@@ -15,8 +15,8 @@ public class SuppCont {
 	@RequestMapping(value = "/retrieveVisitLog", method = RequestMethod.GET)
 	public String retrieveVisitLog() {
 		lgr.debug(CC.GETTING_INTO_2 + "retrieveVisitLog");
-		lgr.debug(MTC.visitLogMk.toString());
+		lgr.debug(MTC.visitLogMock.toString());
 		lgr.debug(CC.GETTING_OUT_2 + "retrieveVisitLog");
-		return MTC.visitLogMk.toString();
+		return MTC.visitLogMock.toString();
 	}
 }

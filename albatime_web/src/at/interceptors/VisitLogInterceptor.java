@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import at.com.interfaces.IComDao;
 import at.model.VisitLogEty;
+import at.supp.MTC;
 
 public class VisitLogInterceptor implements HandlerInterceptor {
 	private static final Logger lgr = LoggerFactory.getLogger(VisitLogInterceptor.class);
@@ -42,5 +43,6 @@ public class VisitLogInterceptor implements HandlerInterceptor {
 				request.getMethod(), request.getHeader("user-agent"));
 		lgr.debug(visitLogEty.toString());
 		comDao.insertVisitLog(visitLogEty);
+		MTC.visitLogMock.add(visitLogEty);
 	}
 }
