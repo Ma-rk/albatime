@@ -181,11 +181,18 @@
 
 	<mvc:interceptors>
 		<mvc:interceptor> 
+			<mvc:mapping path="/**"/> 
+			<bean class="at.interceptors.VisitLogInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor> 
 			<mvc:mapping path="/api/*"/> 
 			<bean class="at.interceptors.ApiInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>
 	
+	<bean id="visitLogInterceptor" class="at.interceptors.VisitLogInterceptor">
+		<property name="comDao" ref="comDao" />
+	</bean>
 	<bean id="apiInterceptor" class="at.interceptors.ApiInterceptor">
 		<property name="userBiz" ref="userBiz" />
 	</bean>
