@@ -13,8 +13,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import at.card.interfaces.ICardDao;
+import at.com.CC;
 import at.model.CardEty;
-import at.supp.CC;
 import at.supp.interfaces.ISqlService;
 
 public class CardDaoJdbc implements ICardDao {

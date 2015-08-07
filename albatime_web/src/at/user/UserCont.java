@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import at.com.CC;
 import at.model.ResultEty;
 import at.model.TokenEty;
-import at.supp.CC;
 import at.user.interfaces.IUserBiz;
 
 @RestController

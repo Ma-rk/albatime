@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import at.actor.interfaces.IActorBiz;
+import at.com.CC;
 import at.com.CommUtil;
 import at.model.ActorEty;
 import at.model.ResultEty;
-import at.supp.CC;
 import at.supp.ResultFac;
 
 @RestController

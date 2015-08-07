@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import at.account.interfaces.IAccountBiz;
+import at.com.CC;
 import at.com.CommUtil;
 import at.model.ResultEty;
 import at.model.UserEty;
-import at.supp.CC;
 
 @RestController
 @RequestMapping(value = CC.API_ACCOUNT)

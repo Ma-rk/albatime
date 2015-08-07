@@ -13,9 +13,9 @@ import org.springframework.beans.BeanInstantiationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import at.com.CC;
 import at.model.ScheEty;
 import at.sche.interfaces.IScheDao;
-import at.supp.CC;
 import at.supp.HourMin;
 import at.supp.interfaces.ISqlService;
 

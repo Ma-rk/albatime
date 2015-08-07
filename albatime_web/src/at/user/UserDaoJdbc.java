@@ -7,10 +7,10 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import at.com.CC;
 import at.model.TokenEty;
 import at.model.TokenKeyEty;
 import at.model.UserEty;
-import at.supp.CC;
 import at.supp.interfaces.ISqlService;
 import at.user.interfaces.IUserDao;
 

@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import at.card.interfaces.ICardBiz;
+import at.com.CC;
 import at.com.CommUtil;
 import at.model.CardEty;
 import at.model.ResultEty;
-import at.supp.CC;
 
 @RestController
 public class CardCont {

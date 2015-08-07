@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import at.card.interfaces.ICardBiz;
 import at.card.interfaces.ICardDao;
+import at.com.CC;
 import at.model.CardEty;
-import at.supp.CC;
 
 public class CardBizImpl implements ICardBiz {
 	private static final Logger lgr = LoggerFactory.getLogger(CardBizImpl.class);

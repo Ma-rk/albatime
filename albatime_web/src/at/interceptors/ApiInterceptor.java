@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import at.com.CC;
 import at.model.TokenEty;
 import at.model.TokenKeyEty;
-import at.supp.CC;
 import at.supp.CookieMgr;
 import at.supp.JwtMgr;
 import at.user.interfaces.IUserBiz;

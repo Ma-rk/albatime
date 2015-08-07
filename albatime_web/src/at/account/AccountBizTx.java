@@ -8,8 +8,8 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import at.account.interfaces.IAccountBiz;
+import at.com.CC;
 import at.model.UserEty;
-import at.supp.CC;
 
 public class AccountBizTx implements IAccountBiz {
 	private static final Logger lgr = LoggerFactory.getLogger(AccountBizTx.class);

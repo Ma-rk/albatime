@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import at.account.interfaces.IAccountDao;
+import at.com.CC;
 import at.model.UserEty;
-import at.supp.CC;
 import at.supp.interfaces.ISqlService;
 
 import org.slf4j.Logger;

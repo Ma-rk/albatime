@@ -6,9 +6,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import at.com.CC;
 import at.model.TokenEty;
 import at.model.TokenKeyEty;
-import at.supp.CC;
 import at.user.interfaces.IUserBiz;
 import at.user.interfaces.IUserDao;
 

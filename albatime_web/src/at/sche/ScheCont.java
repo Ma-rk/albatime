@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import at.com.CC;
 import at.com.CommUtil;
 import at.model.ResultEty;
 import at.model.ScheEty;
 import at.sche.interfaces.IScheBiz;
-import at.supp.CC;
 
 @RestController
 @RequestMapping(value = CC.API_SCHE)

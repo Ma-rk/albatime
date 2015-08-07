@@ -18,8 +18,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import at.actor.interfaces.IActorBiz;
 import at.actor.interfaces.IActorDao;
+import at.com.CC;
 import at.model.ActorEty;
-import at.supp.CC;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/at-servlet.xml")

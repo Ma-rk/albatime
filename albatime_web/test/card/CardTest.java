@@ -18,8 +18,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import at.card.interfaces.ICardBiz;
 import at.card.interfaces.ICardDao;
+import at.com.CC;
 import at.model.CardEty;
-import at.supp.CC;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/at-servlet.xml")

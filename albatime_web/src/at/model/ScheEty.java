@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 
 import org.joda.time.DateTime;
 
-import at.supp.CC;
+import at.com.CC;
 import at.supp.HourMin;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

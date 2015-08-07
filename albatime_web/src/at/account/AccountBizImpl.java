@@ -6,10 +6,10 @@ import org.springframework.dao.DuplicateKeyException;
 
 import at.account.interfaces.IAccountBiz;
 import at.account.interfaces.IAccountDao;
+import at.com.CC;
 import at.com.interfaces.IComDao;
 import at.model.TokenKeyEty;
 import at.model.UserEty;
-import at.supp.CC;
 import at.supp.JwtMgr;
 import at.user.interfaces.IUserDao;
 

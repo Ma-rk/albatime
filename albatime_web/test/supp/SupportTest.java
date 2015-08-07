@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import at.supp.CC;
+import at.com.CC;
 import at.supp.JwtMgr;
 
 @RunWith(SpringJUnit4ClassRunner.class)

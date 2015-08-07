@@ -5,7 +5,7 @@ import java.util.Date;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import at.supp.CC;
+import at.com.CC;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

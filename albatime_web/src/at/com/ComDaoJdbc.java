@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import at.com.interfaces.IComDao;
-import at.supp.CC;
 import at.supp.interfaces.ISqlService;
 
 public class ComDaoJdbc implements IComDao {

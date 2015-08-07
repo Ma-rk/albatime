@@ -11,8 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import at.actor.interfaces.IActorDao;
+import at.com.CC;
 import at.model.ActorEty;
-import at.supp.CC;
 import at.supp.interfaces.ISqlService;
 
 public class ActorDaoJdbc implements IActorDao {

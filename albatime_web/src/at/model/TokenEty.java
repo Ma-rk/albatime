@@ -2,7 +2,7 @@ package at.model;
 
 import org.joda.time.DateTime;
 
-import at.supp.CC;
+import at.com.CC;
 
 public class TokenEty {
 	private long userId = -1l;
