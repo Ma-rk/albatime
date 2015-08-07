@@ -1,5 +1,7 @@
 package at.com;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.sql.DataSource;
 
 import org.slf4j.Logger;
@@ -7,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import at.com.interfaces.IComDao;
+import at.model.VisitLogEty;
 import at.supp.interfaces.ISqlService;
 
 public class ComDaoJdbc implements IComDao {
@@ -34,5 +37,15 @@ public class ComDaoJdbc implements IComDao {
 		long lastInsertId = this.jdbcTemplate.queryForObject(this.sqls.getSql("getLastId"), Long.class);
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return lastInsertId;
+	}
+
+	public void insertVisitLog(VisitLogEty visitLogEty) {
+		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		EntityManager em = CC.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		em.persist(visitLogEty);
+		tx.commit();
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 	}
 }

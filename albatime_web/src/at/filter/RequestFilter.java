@@ -1,10 +1,6 @@
 package at.filter;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -13,7 +9,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,27 +25,6 @@ public class RequestFilter implements Filter {
 			throws IOException, ServletException {
 		request.setCharacterEncoding(DEFAULT_ENCODING);
 		response.setCharacterEncoding(DEFAULT_ENCODING);
-		lgr.debug("servlet filtering...");
-
-		HttpServletRequest httpRequest = (HttpServletRequest) request;
-
-		String visitorIp = httpRequest.getRemoteAddr();
-		String requestedPage = httpRequest.getRequestURI().toString();
-		String requestMethod = httpRequest.getMethod();
-		String userAgent = httpRequest.getHeader("user-agent");
-		lgr.debug("visitorIp: " + visitorIp);
-		lgr.debug("requestedPage: " + requestedPage);
-		lgr.debug("userAgent: " + requestMethod);
-		lgr.debug("userAgent: " + userAgent);
-
-		insertVisitorLogMock(new VisitLogEty(visitorIp, requestedPage, requestMethod, userAgent));
-		// try {
-		// insertVisitorLog(new VisitLogEty(visitorIp, requestedPage,
-		// requestMethod, userAgent));
-		// } catch (ClassNotFoundException | SQLException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
 		chain.doFilter(request, response);
 	}
 
@@ -61,22 +35,5 @@ public class RequestFilter implements Filter {
 	public void insertVisitorLogMock(VisitLogEty visitLog) {
 		lgr.debug(visitLog.toString());
 		MTC.visitLogMk.add(visitLog);
-	}
-
-	public void insertVisitorLog(VisitLogEty visitLog) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.jdbc.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:mysql://192.168.56.101:3306/at_dev", "mark", "k");
-		PreparedStatement pstmt = conn.prepareStatement(
-				"insert into tb_visit_log(vl_ip, vl_req_page, vl_req_method, vl_usr_agent) values (?,?,?,?)");
-
-		pstmt.setString(1, visitLog.getVisitorIp());
-		pstmt.setString(2, visitLog.getRequestedPage());
-		pstmt.setString(3, visitLog.getRequestMethod());
-		pstmt.setString(4, visitLog.getUserAgent());
-
-		pstmt.executeUpdate();
-
-		pstmt.close();
-		conn.close();
 	}
 }
