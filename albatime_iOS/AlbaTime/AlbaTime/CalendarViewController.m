@@ -6,11 +6,11 @@
 //  Copyright © 2015년 Vincent Gigandet. All rights reserved.
 //
 
-#import "ScheduleViewController.h"
+#import "CalendarViewController.h"
 #import "NetworkHandler.h"
 #import "CalcModel.h"
 
-@interface ScheduleViewController () <CalcModelDelegate, NetworkHandlerDelegate>
+@interface CalendarViewController () <CalcModelDelegate, NetworkHandlerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *arrowImageView;
 @property (weak, nonatomic) IBOutlet UITableView *timeCardTableView;
@@ -18,7 +18,7 @@
 
 @end
 
-@implementation ScheduleViewController
+@implementation CalendarViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -33,12 +33,12 @@
 - (void)setViewElements {
     [self.arrowImageView setUserInteractionEnabled:YES];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                          action:@selector(gotoPreviousView)];
+                                                                          action:@selector(goToWageView)];
     [tap setNumberOfTapsRequired:1];
     [self.arrowImageView addGestureRecognizer:tap];
 }
 
-- (void)gotoPreviousView {
+- (void)goToWageView {
     [self.navigationController popViewControllerAnimated:YES];
 }
 

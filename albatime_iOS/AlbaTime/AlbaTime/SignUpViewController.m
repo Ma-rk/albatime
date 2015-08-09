@@ -12,6 +12,10 @@
 #import "LoginModel.h"
 #import "NetworkHandler.h"
 
+/* 
+ 회원가입은 한 기기에서 한 번만 가능하도록 통제 / 회원가입이나 로그인하면 유저디폴트에 회원가입한 아이디라고 표시 
+ */
+
 @interface SignUpViewController () <UITextFieldDelegate, LoginModelDelegate, NetworkHandlerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;

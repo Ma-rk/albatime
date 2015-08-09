@@ -32,5 +32,6 @@
 - (void)saveSignUpInfoWithUserCredential:(NSMutableDictionary *)userCredential;
 - (void)loadUserDefaults;
 - (BOOL)validateEmail:(NSString *)candidate;
+- (BOOL)hasSignUpRecord;
 
 @end

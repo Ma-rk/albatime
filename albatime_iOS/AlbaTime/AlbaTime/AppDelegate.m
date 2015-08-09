@@ -34,20 +34,38 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
+    // check if the user has a signUp record
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    // Conditionally start at different places depends on signUp record
+    // Segue 실행 방법 두 가지 다 동작하는데 어떤게 맞는지 모르겠다.
+    if ([defaults boolForKey:@"hasSignUpRecord"]) {
+        UIViewController *initViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+        //[self.window setRootViewController:initViewController];
+        [(UINavigationController *)self.window.rootViewController pushViewController:initViewController animated:NO];
+    } else {
+        UIViewController *initViewController = [storyboard instantiateViewControllerWithIdentifier:@"WageViewController"];
+        //[self.window setRootViewController:initViewController];
+        [(UINavigationController *)self.window.rootViewController pushViewController:initViewController animated:NO];
+    }
+    
     // Start monitoring the internet connection
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
-    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-        NSLog(@"Reachability status: %@", AFStringFromNetworkReachabilityStatus(status));
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status)
+    {
         if (status <= 0) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"networkDisconnected"
                                                                 object:nil
                                                               userInfo:nil];
+            NSLog(@"Reachability status: %@", AFStringFromNetworkReachabilityStatus(status));
         }
         NSLog(@"Reachability status: %@", AFStringFromNetworkReachabilityStatus(status));
         if (status > 0) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"networkConnected"
                                                                 object:nil
                                                               userInfo:nil];
+            NSLog(@"Reachability status: %@", AFStringFromNetworkReachabilityStatus(status));
         }
     }];
     

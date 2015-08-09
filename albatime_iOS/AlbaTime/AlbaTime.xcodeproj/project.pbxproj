@@ -13,7 +13,7 @@
 		3D0A55BD1B44413E00FCAE2D /* NetworkHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0A55BC1B44413E00FCAE2D /* NetworkHandler.m */; };
 		3D0A55C01B445DFA00FCAE2D /* WageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0A55BF1B445DFA00FCAE2D /* WageViewController.m */; };
 		3D0A55C31B445E9100FCAE2D /* PswdFindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0A55C21B445E9100FCAE2D /* PswdFindViewController.m */; };
-		3D229F1D1B6357F400D9EBD4 /* ScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D229F1C1B6357F400D9EBD4 /* ScheduleViewController.m */; };
+		3D229F1D1B6357F400D9EBD4 /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D229F1C1B6357F400D9EBD4 /* CalendarViewController.m */; };
 		3D229F201B63B4E300D9EBD4 /* ActionDisabledUITextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D229F1F1B63B4E300D9EBD4 /* ActionDisabledUITextField.m */; };
 		3D4B18801B42D9E000F7D615 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4B187F1B42D9E000F7D615 /* main.m */; };
 		3D4B18831B42D9E000F7D615 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4B18821B42D9E000F7D615 /* AppDelegate.m */; };
@@ -22,6 +22,11 @@
 		3D5111D01B642B71007950AD /* CalcModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D5111CF1B642B71007950AD /* CalcModel.m */; };
 		3D631BF41B42FD5F0070A851 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D631BF31B42FD5F0070A851 /* LoginViewController.m */; };
 		3DD459371B57CF3A000EB9CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DD459361B57CF3A000EB9CC /* LaunchScreen.storyboard */; };
+		3DE7B3EB1B76BBA30028FD41 /* TransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE7B3EA1B76BBA30028FD41 /* TransitionAnimator.m */; };
+		3DE7B3EE1B76BC180028FD41 /* NavigationControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE7B3ED1B76BC180028FD41 /* NavigationControllerDelegate.m */; };
+		3DE7B3F01B76BD5B0028FD41 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE7B3EF1B76BD5B0028FD41 /* CoreGraphics.framework */; };
+		3DE7B3F21B76BD660028FD41 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE7B3F11B76BD660028FD41 /* Foundation.framework */; };
+		3DE7B3F41B76BD6F0028FD41 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE7B3F31B76BD6F0028FD41 /* UIKit.framework */; };
 		3DED0C3A1B60237E0035244A /* JobSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DED0C391B60237E0035244A /* JobSettingViewController.m */; };
 		3DF3ADF11B46BA990004B742 /* LoginModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF3ADF01B46BA990004B742 /* LoginModel.m */; };
 /* End PBXBuildFile section */
@@ -37,8 +42,8 @@
 		3D0A55BF1B445DFA00FCAE2D /* WageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WageViewController.m; sourceTree = "<group>"; };
 		3D0A55C11B445E9100FCAE2D /* PswdFindViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PswdFindViewController.h; sourceTree = "<group>"; };
 		3D0A55C21B445E9100FCAE2D /* PswdFindViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PswdFindViewController.m; sourceTree = "<group>"; };
-		3D229F1B1B6357F400D9EBD4 /* ScheduleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScheduleViewController.h; sourceTree = "<group>"; };
-		3D229F1C1B6357F400D9EBD4 /* ScheduleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScheduleViewController.m; sourceTree = "<group>"; };
+		3D229F1B1B6357F400D9EBD4 /* CalendarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarViewController.h; sourceTree = "<group>"; };
+		3D229F1C1B6357F400D9EBD4 /* CalendarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarViewController.m; sourceTree = "<group>"; };
 		3D229F1E1B63B4E300D9EBD4 /* ActionDisabledUITextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionDisabledUITextField.h; sourceTree = "<group>"; };
 		3D229F1F1B63B4E300D9EBD4 /* ActionDisabledUITextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionDisabledUITextField.m; sourceTree = "<group>"; };
 		3D4B187B1B42D9E000F7D615 /* AlbaTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AlbaTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -54,6 +59,13 @@
 		3D631BF31B42FD5F0070A851 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		3DD459361B57CF3A000EB9CC /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3DD5EC691B44123600F724AD /* Definitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Definitions.h; sourceTree = "<group>"; };
+		3DE7B3E91B76BBA30028FD41 /* TransitionAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransitionAnimator.h; sourceTree = "<group>"; };
+		3DE7B3EA1B76BBA30028FD41 /* TransitionAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransitionAnimator.m; sourceTree = "<group>"; };
+		3DE7B3EC1B76BC180028FD41 /* NavigationControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationControllerDelegate.h; sourceTree = "<group>"; };
+		3DE7B3ED1B76BC180028FD41 /* NavigationControllerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationControllerDelegate.m; sourceTree = "<group>"; };
+		3DE7B3EF1B76BD5B0028FD41 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		3DE7B3F11B76BD660028FD41 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		3DE7B3F31B76BD6F0028FD41 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3DED0C381B60237E0035244A /* JobSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JobSettingViewController.h; sourceTree = "<group>"; };
 		3DED0C391B60237E0035244A /* JobSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JobSettingViewController.m; sourceTree = "<group>"; };
 		3DF3ADEF1B46BA990004B742 /* LoginModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginModel.h; sourceTree = "<group>"; };
@@ -67,6 +79,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DE7B3F41B76BD6F0028FD41 /* UIKit.framework in Frameworks */,
+				3DE7B3F21B76BD660028FD41 /* Foundation.framework in Frameworks */,
+				3DE7B3F01B76BD5B0028FD41 /* CoreGraphics.framework in Frameworks */,
 				3D0A55B71B4431F400FCAE2D /* Security.framework in Frameworks */,
 				2FF713D4F6A0BADD29C102EB /* libPods-AlbaTime.a in Frameworks */,
 			);
@@ -104,8 +119,12 @@
 				3DED0C391B60237E0035244A /* JobSettingViewController.m */,
 				3D0A55BE1B445DFA00FCAE2D /* WageViewController.h */,
 				3D0A55BF1B445DFA00FCAE2D /* WageViewController.m */,
-				3D229F1B1B6357F400D9EBD4 /* ScheduleViewController.h */,
-				3D229F1C1B6357F400D9EBD4 /* ScheduleViewController.m */,
+				3D229F1B1B6357F400D9EBD4 /* CalendarViewController.h */,
+				3D229F1C1B6357F400D9EBD4 /* CalendarViewController.m */,
+				3DE7B3E91B76BBA30028FD41 /* TransitionAnimator.h */,
+				3DE7B3EA1B76BBA30028FD41 /* TransitionAnimator.m */,
+				3DE7B3EC1B76BC180028FD41 /* NavigationControllerDelegate.h */,
+				3DE7B3ED1B76BC180028FD41 /* NavigationControllerDelegate.m */,
 				3D5111CE1B642B71007950AD /* CalcModel.h */,
 				3D5111CF1B642B71007950AD /* CalcModel.m */,
 				3D229F1E1B63B4E300D9EBD4 /* ActionDisabledUITextField.h */,
@@ -156,6 +175,9 @@
 		8E854F4072AF98FB82E255D5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3DE7B3F31B76BD6F0028FD41 /* UIKit.framework */,
+				3DE7B3F11B76BD660028FD41 /* Foundation.framework */,
+				3DE7B3EF1B76BD5B0028FD41 /* CoreGraphics.framework */,
 				3D0A55B61B4431F400FCAE2D /* Security.framework */,
 				3BA1351E5220BE951D85E7AB /* libPods-AlbaTime.a */,
 			);
@@ -276,12 +298,14 @@
 				3D0A55C01B445DFA00FCAE2D /* WageViewController.m in Sources */,
 				3DF3ADF11B46BA990004B742 /* LoginModel.m in Sources */,
 				3D5111D01B642B71007950AD /* CalcModel.m in Sources */,
+				3DE7B3EB1B76BBA30028FD41 /* TransitionAnimator.m in Sources */,
 				3DED0C3A1B60237E0035244A /* JobSettingViewController.m in Sources */,
 				3D631BF41B42FD5F0070A851 /* LoginViewController.m in Sources */,
+				3DE7B3EE1B76BC180028FD41 /* NavigationControllerDelegate.m in Sources */,
 				3D0A55C31B445E9100FCAE2D /* PswdFindViewController.m in Sources */,
 				3D4B18831B42D9E000F7D615 /* AppDelegate.m in Sources */,
 				3D0A55BA1B443A0B00FCAE2D /* SignUpViewController.m in Sources */,
-				3D229F1D1B6357F400D9EBD4 /* ScheduleViewController.m in Sources */,
+				3D229F1D1B6357F400D9EBD4 /* CalendarViewController.m in Sources */,
 				3D4B18801B42D9E000F7D615 /* main.m in Sources */,
 				3D229F201B63B4E300D9EBD4 /* ActionDisabledUITextField.m in Sources */,
 				3D0A55BD1B44413E00FCAE2D /* NetworkHandler.m in Sources */,

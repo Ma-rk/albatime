@@ -7,6 +7,7 @@
 //
 
 #import "WageViewController.h"
+#import "NavigationControllerDelegate.h"
 #import "NetworkHandler.h"
 #import "CalcModel.h"
 
@@ -32,13 +33,13 @@
 - (void)setViewElements {
     [self.arrowImageView setUserInteractionEnabled:YES];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                          action:@selector(gotoNextView)];
+                                                                          action:@selector(gotoCalendarView)];
     [tap setNumberOfTapsRequired:1];
     [self.arrowImageView addGestureRecognizer:tap];
 }
 
-- (void)gotoNextView {
-    [self performSegueWithIdentifier:@"ScheduleViewSegue"
+- (void)gotoCalendarView {
+    [self performSegueWithIdentifier:@"CalendarViewSegue"
                               sender:self];
 }
 
@@ -66,7 +67,9 @@
                                    NSLog(@"ok button tapped");
                                }];
     [alertController addAction:okAction];
-    [self presentViewController:alertController animated:YES completion:nil];
+    [self presentViewController:alertController
+                       animated:YES
+                     completion:nil];
 }
 
 /*

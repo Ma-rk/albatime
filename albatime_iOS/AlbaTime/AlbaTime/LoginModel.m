@@ -16,6 +16,10 @@
 
 @property (strong, nonatomic) NSUserDefaults *defaults;
 
+/*
+ 이미 회원가입한 사람 로그인하면 이메일에 딸린 ID값을 받아와서 덮어쓰는 과정이 필요함 / 그래야 다른 기기에서 로그인시 그 기기의 ID값-이메일 간 consistency 보장
+ */
+
 @end
 
 @implementation LoginModel

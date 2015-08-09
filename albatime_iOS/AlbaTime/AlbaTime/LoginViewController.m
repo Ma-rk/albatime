@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *signUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *pswdFindButton;
+@property (weak, nonatomic) IBOutlet UILabel *invalidEmailWarn;
 
 // This textField disabled long-press action by setting subclass ActionDisabledUITextField in IB
 @property (weak, nonatomic) IBOutlet UITextField *pswdTextField;
@@ -43,7 +44,7 @@
 // load userDefaults and set view elements in viewWillAppear otherwise will have problem when logout or delete account
 - (void)viewWillAppear:(BOOL)animated {
     [self.loginModel loadUserDefaults];
-    self.navigationController.navigationBar.hidden = YES;
+    self.navigationController.navigationBar.hidden = NO;
 }
 
 - (IBAction)loginButtonTapped:(id)sender {
@@ -88,6 +89,14 @@
         }
     }
     return NO;
+}
+
+// check email format only, do NOT check availability
+- (void)instantValidateEmail:(NSString *)candidate {
+    if (![self.loginModel validateEmail:candidate]) {
+        self.invalidEmailWarn.text = @"Invalid e-mail, please check again";
+        self.invalidEmailWarn.hidden = NO;
+    }
 }
 
 - (IBAction)autoLoginChanged:(id)sender {
@@ -136,6 +145,18 @@
     return YES;
 }
 
+- (void)textFieldDidBeginEditing:(nonnull UITextField *)textField {
+    if (textField.tag == EMAIL_TEXTFIELD) {
+        self.invalidEmailWarn.hidden = YES;
+    }
+}
+
+- (void)textFieldDidEndEditing:(nonnull UITextField *)textField {
+    if (textField.tag == EMAIL_TEXTFIELD && textField.text.length > 0) {
+        [self instantValidateEmail:textField.text];
+    }
+}
+
 #pragma mark - LoginModel Delegate Methods
 
 - (void)savePasswordSucceed {
@@ -150,6 +171,9 @@
 
    // set view elements right after user defaults are loaded
 - (void)setViewElementsAfterUserDefaultsLoaded {
+    self.emailTextField.tag = EMAIL_TEXTFIELD;
+    
+    self.invalidEmailWarn.hidden = YES;
     self.emailTextField.delegate = self;
     self.pswdTextField.delegate = self;
     self.pswdTextField.secureTextEntry = YES;
