@@ -1,5 +1,7 @@
 package at.model;
 
+import java.util.Date;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -33,6 +35,11 @@ public class ScheEty {
 	@Getter
 	@Setter
 	private String memo;
+	
+	@Getter
+	@Setter
+	@NotNull
+	private Date date;
 
 	@NotNull
 	private HourMin timeFrom;
