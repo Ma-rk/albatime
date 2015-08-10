@@ -2,7 +2,6 @@ package card;
 
 import static org.junit.Assert.assertEquals;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,24 +31,28 @@ public class CardTest {
 
 	List<CardEty> cardListFixture = new ArrayList<CardEty>();
 
-	@SuppressWarnings("deprecation")
 	@Before
 	public void setUp() {
-		lgr.debug("deleted lows: [{}]", cardDao.cleanTbActorDao());
+		lgr.debug("deleted lows: [{}]", cardDao.cleanTbCardDao());
 
 		cardListFixture.add(new CardEty());
 		cardListFixture.get(0).setActorSeq(1l);
 		cardListFixture.get(0).setName("card1");
 		cardListFixture.get(0).setMemo("mememem momomo");
-		cardListFixture.get(0).setTimeFrom(new Time(5, 6, 7));
-		cardListFixture.get(0).setTimeTo(new Time(8, 9, 10));
+		cardListFixture.get(0).setHourFrom(10);
+		cardListFixture.get(0).setMinFrom(0);
+		cardListFixture.get(0).setHourTo(17);
+		cardListFixture.get(0).setMinTo(59);
 		cardListFixture.get(0).setUnpaidbreakMin(60);
+
 		cardListFixture.add(new CardEty());
 		cardListFixture.get(1).setActorSeq(1l);
 		cardListFixture.get(1).setName("card2");
 		cardListFixture.get(1).setMemo("mememem momomo2");
-		cardListFixture.get(1).setTimeFrom(new Time(10, 11, 12));
-		cardListFixture.get(1).setTimeTo(new Time(12, 11, 9));
+		cardListFixture.get(1).setHourFrom(8);
+		cardListFixture.get(1).setMinFrom(0);
+		cardListFixture.get(1).setHourTo(8);
+		cardListFixture.get(1).setMinTo(59);
 		cardListFixture.get(1).setUnpaidbreakMin(90);
 
 		for (CardEty card : cardListFixture) {
@@ -64,27 +67,32 @@ public class CardTest {
 		for (int i = 0; i < retrievedCardList.size(); i++) {
 			assertEquals(cardListFixture.get(i).getName(), retrievedCardList.get(i).getName());
 			assertEquals(cardListFixture.get(i).getMemo(), retrievedCardList.get(i).getMemo());
-			assertEquals(cardListFixture.get(i).getTimeFrom(), retrievedCardList.get(i).getTimeFrom());
-			assertEquals(cardListFixture.get(i).getTimeTo(), retrievedCardList.get(i).getTimeTo());
+			assertEquals(cardListFixture.get(i).getHourFrom(), retrievedCardList.get(i).getHourFrom());
+			assertEquals(cardListFixture.get(i).getMinTo(), retrievedCardList.get(i).getMinTo());
+			assertEquals(cardListFixture.get(i).getHourFrom(), retrievedCardList.get(i).getHourFrom());
+			assertEquals(cardListFixture.get(i).getMinTo(), retrievedCardList.get(i).getMinTo());
 			assertEquals(cardListFixture.get(i).getUnpaidbreakMin(), retrievedCardList.get(i).getUnpaidbreakMin());
 			assertEquals(CC.CARD_STUS_NORMAL, retrievedCardList.get(i).getStus());
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@Test
 	public void updateCardTest() {
 		List<CardEty> retrievedCardList = cardBiz.retireveCardListBiz(cardListFixture.get(0));
 
 		retrievedCardList.get(0).setName("updated name 0");
 		retrievedCardList.get(0).setMemo("updated memo 0");
-		retrievedCardList.get(0).setTimeFrom(new Time(5, 4, 3));
-		retrievedCardList.get(0).setTimeTo(new Time(11, 10, 9));
+		retrievedCardList.get(0).setHourFrom(10);
+		retrievedCardList.get(0).setMinFrom(0);
+		retrievedCardList.get(0).setHourTo(17);
+		retrievedCardList.get(0).setMinTo(59);
 		retrievedCardList.get(0).setUnpaidbreakMin(15);
 		retrievedCardList.get(1).setName("updated name 0");
 		retrievedCardList.get(1).setMemo("updated memo 0");
-		retrievedCardList.get(1).setTimeFrom(new Time(5, 4, 3));
-		retrievedCardList.get(1).setTimeTo(new Time(11, 10, 9));
+		retrievedCardList.get(1).setHourFrom(11);
+		retrievedCardList.get(1).setMinFrom(10);
+		retrievedCardList.get(1).setHourTo(18);
+		retrievedCardList.get(1).setMinTo(40);
 		retrievedCardList.get(1).setUnpaidbreakMin(15);
 
 		assertEquals(1, cardBiz.updateCardBiz(retrievedCardList.get(0)));
@@ -95,8 +103,10 @@ public class CardTest {
 		for (int i = 0; i < updatedCardList.size(); i++) {
 			assertEquals(retrievedCardList.get(i).getName(), updatedCardList.get(i).getName());
 			assertEquals(retrievedCardList.get(i).getMemo(), updatedCardList.get(i).getMemo());
-			assertEquals(retrievedCardList.get(i).getTimeFrom(), updatedCardList.get(i).getTimeFrom());
-			assertEquals(retrievedCardList.get(i).getTimeTo(), updatedCardList.get(i).getTimeTo());
+			assertEquals(retrievedCardList.get(i).getHourFrom(), updatedCardList.get(i).getHourFrom());
+			assertEquals(retrievedCardList.get(i).getMinFrom(), updatedCardList.get(i).getMinFrom());
+			assertEquals(retrievedCardList.get(i).getHourTo(), updatedCardList.get(i).getHourTo());
+			assertEquals(retrievedCardList.get(i).getMinTo(), updatedCardList.get(i).getMinTo());
 			assertEquals(retrievedCardList.get(i).getUnpaidbreakMin(), updatedCardList.get(i).getUnpaidbreakMin());
 			assertEquals(CC.CARD_STUS_EDITED, updatedCardList.get(i).getStus());
 		}
@@ -104,6 +114,6 @@ public class CardTest {
 
 	@After
 	public void tearDown() {
-		lgr.debug("deleted lows: [{}]", cardDao.cleanTbActorDao());
+		lgr.debug("deleted lows: [{}]", cardDao.cleanTbCardDao());
 	}
 }
