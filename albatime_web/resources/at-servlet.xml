@@ -164,7 +164,7 @@
 				<entry key="actorUpdateActor" value="update tb_actor set ac_name=?, ac_memo=?, ac_period_from=?, ac_period_to=?, ac_worktime_unit=?, ac_alarm_before=?, ac_unpaidbreak_flag=?, ac_tax_rate=?, ac_basic_wage=?, ac_color_bg=?, ac_phone1=?, ac_addr1_1=? where ac_seq=? and ac_usr_id=?" />
 				<entry key="cardInsertCard" value="insert tb_card (crd_actor_seq, crd_name, crd_memo, crd_time_from, crd_time_to, crd_unpaid_break_min, crd_stus) values (?,?,?,?,?,?,?)" />
 				<entry key="cardRetrieveCards" value="select crd_seq, crd_actor_seq, crd_name, crd_memo, crd_time_from, crd_time_to, crd_unpaid_break_min, crd_type, crd_stus, crd_created, crd_edited from tb_card where crd_actor_seq=?" />
-				<entry key="cardCleanTbCard" value="delete from tb_card" />
+				<entry key="cardCleanTbCard" value="delete from CardEty" />
 				<entry key="cardUpdateCards" value="update tb_card set crd_name=?, crd_memo=?, crd_time_from=?, crd_time_to=?, crd_unpaid_break_min=?, crd_stus=? where crd_seq=? and crd_actor_seq=? " />
 				<entry key="login_InsertJwTokenKey" value="insert into tb_tk_key (tk_usr_id, tk_key, tk_stus) values (?,?,?)" />
 				<entry key="scheCleanTbSche" value="delete from tb_sche" />

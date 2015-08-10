@@ -11,5 +11,5 @@ public interface ICardDao {
 
 	int updateCardDao(CardEty card);
 
-	int cleanTbActorDao();
+	int cleanTbCardDao();
 }

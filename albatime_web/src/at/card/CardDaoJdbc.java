@@ -1,16 +1,14 @@
 package at.card;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanInstantiationException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 
 import at.card.interfaces.ICardDao;
 import at.com.CC;
@@ -39,44 +37,50 @@ public class CardDaoJdbc implements ICardDao {
 	 */
 	public int insertCardDao(CardEty card) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		int insertCardResult = this.jdbcTemplate.update(this.sqls.getSql("cardInsertCard"), card.getActorSeq(),
-				card.getName(), card.getMemo(), card.getTimeFrom(), card.getTimeTo(), card.getUnpaidbreakMin(),
-				card.getStus());
-		lgr.debug("{} result: [{}]", new Object() {}.getClass().getEnclosingMethod().getName(), insertCardResult);
-		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return insertCardResult;
+		EntityManager em = CC.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		em.persist(card);
+		tx.commit();
+		return 1;
 	}
 
 	public List<CardEty> retrieveCardListDao(CardEty card) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		RowMapper<CardEty> rowMapper = new RowMapper<CardEty>() {
-			public CardEty mapRow(ResultSet rs, int rowNum) {
-				try {
-					return new CardEty(rs.getLong("crd_seq"), rs.getLong("crd_actor_seq"), rs.getString("crd_name"),
-							rs.getString("crd_memo"), rs.getTime("crd_time_from"), rs.getTime("crd_time_to"),
-							rs.getInt("crd_unpaid_break_min"), rs.getString("crd_stus"), rs.getString("crd_created"),
-							rs.getString("crd_edited"));
-				} catch (SQLException e) {
-					throw new BeanInstantiationException(CardEty.class, e.getMessage(), e);
-				}
-			}
-		};
+
+		EntityManager em = CC.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		List<CardEty> cards = em
+				.createQuery("select a from CardEty as a where a.actorSeq = :actorSeq and a.stus = :stus",
+						CardEty.class)
+				.setParameter("actorSeq", card.getActorSeq()).setParameter("stus", card.getStus()).getResultList();
+		tx.commit();
+
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return this.jdbcTemplate.query(this.sqls.getSql("cardRetrieveCards"), rowMapper, card.getActorSeq());
+		return cards;
 	}
 
 	public int updateCardDao(CardEty card) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		lgr.debug("updating card for actor [{}], card seq [{}]", card.getActorSeq(), card.getSeq());
-		int updateCardResult = this.jdbcTemplate.update(this.sqls.getSql("cardUpdateCards"), card.getName(),
-				card.getMemo(), card.getTimeFrom(), card.getTimeTo(), card.getUnpaidbreakMin(), card.getStus(),
-				card.getSeq(), card.getActorSeq());
-		lgr.debug("{} result: [{}]", new Object() {}.getClass().getEnclosingMethod().getName(), updateCardResult);
+		EntityManager em = CC.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		CardEty retrievedCard = em.find(CardEty.class, card.getSeq());
+		retrievedCard.setName(card.getName());
+		retrievedCard.setMemo(card.getMemo());
+		retrievedCard.setHourFrom(card.getHourFrom());
+		retrievedCard.setMinFrom(card.getMinFrom());
+		retrievedCard.setHourTo(card.getHourTo());
+		retrievedCard.setMinTo(card.getMinTo());
+		retrievedCard.setUnpaidbreakMin(card.getUnpaidbreakMin());
+		retrievedCard.setStus(card.getStus());
+		tx.commit();
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return updateCardResult;
+		return 1;
 	}
 
-	public int cleanTbActorDao() {
+	public int cleanTbCardDao() {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		int truncateCardResult = this.jdbcTemplate.update(this.sqls.getSql("cardCleanTbCard"));
 		lgr.debug("{} result: [{}]", new Object() {}.getClass().getEnclosingMethod().getName(), truncateCardResult);
