@@ -167,7 +167,7 @@
 				<entry key="cardCleanTbCard" value="delete from CardEty" />
 				<entry key="cardUpdateCards" value="update tb_card set crd_name=?, crd_memo=?, crd_time_from=?, crd_time_to=?, crd_unpaid_break_min=?, crd_stus=? where crd_seq=? and crd_actor_seq=? " />
 				<entry key="login_InsertJwTokenKey" value="insert into tb_tk_key (tk_usr_id, tk_key, tk_stus) values (?,?,?)" />
-				<entry key="scheCleanTbSche" value="delete from tb_sche" />
+				<entry key="scheCleanTbSche" value="delete from ScheEty" />
 				<entry key="scheInsertSche" value="insert into tb_sche (sch_actor_seq, sch_memo, sch_date, sch_time_from, sch_time_to, sch_hours, sch_mins, sch_unpaid_break_min, sch_stus) values (?,?,?,?,?,?,?,?,?)" />
 				<entry key="scheRetrieveSches" value="select sch_seq, sch_actor_seq, sch_memo, sch_date, sch_time_from, sch_time_to, sch_hours, sch_mins, sch_unpaid_break_min, sch_stus, sch_created, sch_edited from tb_sche where sch_actor_seq=? and sch_stus=?" />
 				<entry key="scheUpdateSche" value="update tb_sche set sch_memo=?, sch_date=?, sch_time_from=?, sch_time_to=?, sch_hours=?, sch_mins=?, sch_unpaid_break_min=?, sch_stus=? where sch_seq=? " />

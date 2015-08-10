@@ -1,23 +1,18 @@
 package at.sche;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.sql.DataSource;
 
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanInstantiationException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 
 import at.com.CC;
 import at.model.ScheEty;
 import at.sche.interfaces.IScheDao;
-import at.supp.HourMin;
 import at.supp.interfaces.ISqlService;
 
 public class ScheDaoJdbc implements IScheDao {
@@ -47,45 +42,51 @@ public class ScheDaoJdbc implements IScheDao {
 
 	public int insertScheDao(ScheEty sche) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		int insertScheResult = this.jdbcTemplate.update(this.sqls.getSql("scheInsertSche"), sche.getActorSeq(),
-				sche.getMemo(), sche.getDate(), sche.getTimeFrom(), sche.getTimeTo(), sche.getHours(), sche.getMins(),
-				sche.getUnpaidbreakMin(), sche.getStus());
-		lgr.debug("{} result: [{}]", new Object() {}.getClass().getEnclosingMethod().getName(), insertScheResult);
+
+		EntityManager em = CC.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		em.persist(sche);
+		tx.commit();
+
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return insertScheResult;
+		return 1;
 	}
 
 	public List<ScheEty> retrieveScheListDao(ScheEty sche) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		RowMapper<ScheEty> rowMapper = new RowMapper<ScheEty>() {
-			public ScheEty mapRow(ResultSet rs, int rowNum) {
-				try {
-					return new ScheEty(rs.getLong("sch_seq"), rs.getLong("sch_actor_seq"), rs.getString("sch_memo"),
-							new Date(rs.getString("date")), new HourMin(rs.getString("sch_time_from")),
-							new HourMin(rs.getString("sch_time_to")), new HourMin(rs.getString("sch_hours")),
-							rs.getInt("sch_mins"), rs.getInt("sch_unpaid_break_min"), rs.getString("sch_stus"),
-							new DateTime(rs.getTimestamp("sch_created").getTime()),
-							new DateTime(rs.getTimestamp("sch_edited")));
-				} catch (SQLException e) {
-					throw new BeanInstantiationException(ScheEty.class, e.getMessage(), e);
-				}
-			}
-		};
-		List<ScheEty> scheList = this.jdbcTemplate.query(this.sqls.getSql("scheRetrieveSches"), rowMapper,
-				sche.getActorSeq(), sche.getStus());
-		lgr.debug("retrieved [{}] rows.", String.valueOf(scheList.size()));
+
+		EntityManager em = CC.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		List<ScheEty> schedules = em
+				.createQuery("select a from ScheEty as a where a.actorSeq = :actorSeq and a.stus = :stus",
+						ScheEty.class)
+				.setParameter("actorSeq", sche.getActorSeq())
+				.setParameter("stus", sche.getStus())
+				.getResultList();
+		tx.commit();
+
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return scheList;
+		return schedules;
 	}
 
 	public int updateScheDao(ScheEty sche) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		int updateScheResult = this.jdbcTemplate.update(this.sqls.getSql("scheUpdateSche"), sche.getMemo(),
-				sche.getTimeFrom(), sche.getDate(), sche.getTimeTo(), sche.getHours(), sche.getUnpaidbreakMin(),
-				sche.getStus(), sche.getSeq());
-		lgr.debug("{} result: [{}]", new Object() {}.getClass().getEnclosingMethod().getName(), updateScheResult);
-		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return updateScheResult;
 
+		EntityManager em = CC.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		ScheEty retrievedSche = em.find(ScheEty.class, sche.getSeq());
+		retrievedSche.setMemo(sche.getMemo());
+		retrievedSche.setDate(sche.getDate());
+		retrievedSche.setHourFrom(sche.getHourFrom());
+		retrievedSche.setMinFrom(sche.getMinFrom());
+		retrievedSche.setHourTo(sche.getHourTo());
+		retrievedSche.setMinTo(sche.getMinTo());
+		tx.commit();
+
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return 1;
 	}
 }

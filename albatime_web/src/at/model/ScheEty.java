@@ -2,6 +2,11 @@ package at.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -11,7 +16,6 @@ import javax.validation.constraints.Size;
 import org.joda.time.DateTime;
 
 import at.com.CC;
-import at.supp.HourMin;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +25,10 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class ScheEty {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Getter
 	@Setter
 	private long seq;
@@ -35,20 +42,25 @@ public class ScheEty {
 	@Getter
 	@Setter
 	private String memo;
-	
+
 	@Getter
 	@Setter
 	@NotNull
 	private Date date;
 
+	@Getter
 	@NotNull
-	private HourMin timeFrom;
+	private int hourFrom;
+	@Getter
+	@NotNull
+	private int minFrom;
 
+	@Getter
 	@NotNull
-	private HourMin timeTo;
-
+	private int hourTo;
+	@Getter
 	@NotNull
-	private HourMin hours;
+	private int minTo;
 
 	@NotNull
 	@Getter
@@ -65,9 +77,11 @@ public class ScheEty {
 	private String stus;
 
 	@Getter
+	@Column(insertable = false, updatable = false)
 	private DateTime created;
 
 	@Getter
+	@Column(insertable = false, updatable = false)
 	private DateTime edited;
 
 	public void setAsNormalStus() {
@@ -82,52 +96,30 @@ public class ScheEty {
 		this.stus = CC.SCHE_STUS_EDITED;
 	}
 
-	public void setHours() {
-		int hourFrom = timeFrom.getHour();
-		int hourTo = timeTo.getHour();
-		int min = timeTo.getMin() - timeFrom.getMin();
-		if (min < 0) {
-			hourTo--;
-			min += 60;
-		}
-		int hour = hourTo - hourFrom;
-		if (hour < 0)
-			hour += 24;
-		this.hours = new HourMin(hour, min);
-	}
-
-	public void setMins() {
-		this.mins = this.hours.getHour() * 60 + this.hours.getMin();
-	}
-
 	/*
 	 * getters and setters
 	 */
-	public void setTimeFrom(String hm) {
-		this.timeFrom = new HourMin(hm);
-		if (this.timeTo != null) {
-			setHours();
-			setMins();
-		}
+	public void setMins() {
+		this.mins = (hourTo * 60 + minTo) - (hourFrom * 60 + minFrom);
 	}
 
-	public void setTimeTo(String hm) {
-		this.timeTo = new HourMin(hm);
-		if (this.timeFrom != null) {
-			setHours();
-			setMins();
-		}
+	public void setHourFrom(int hourFrom) {
+		setMins();
+		this.hourFrom = hourFrom;
 	}
 
-	public String getTimeFrom() {
-		return String.valueOf(timeFrom.getHour()) + ":" + String.valueOf(timeFrom.getMin());
+	public void setMinFrom(int minFrom) {
+		setMins();
+		this.hourFrom = minFrom;
 	}
 
-	public String getTimeTo() {
-		return String.valueOf(timeTo.getHour()) + ":" + String.valueOf(timeTo.getMin());
+	public void setHourTo(int hourTo) {
+		setMins();
+		this.hourTo = hourTo;
 	}
 
-	public String getHours() {
-		return String.valueOf(hours.getHour()) + ":" + String.valueOf(hours.getMin());
+	public void setMinTo(int minTo) {
+		setMins();
+		this.hourTo = minTo;
 	}
 }
