@@ -15,14 +15,14 @@ import at.module.card.interfaces.ICardDao;
 public class CardDaoJdbc implements ICardDao {
 	private static final Logger lgr = LoggerFactory.getLogger(CardDaoJdbc.class);
 
-	public int insertCardDao(CardEty card) {
+	public void insertCardDao(CardEty card) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		EntityManager em = CC.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
 		em.persist(card);
 		tx.commit();
-		return 1;
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 	}
 
 	public List<CardEty> retrieveCardListDao(CardEty card) {
@@ -41,8 +41,9 @@ public class CardDaoJdbc implements ICardDao {
 		return cards;
 	}
 
-	public int updateCardDao(CardEty card) {
+	public void updateCardDao(CardEty card) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+
 		EntityManager em = CC.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
@@ -55,7 +56,7 @@ public class CardDaoJdbc implements ICardDao {
 		retrievedCard.setMinTo(card.getMinTo());
 		retrievedCard.setUnpaidbreakMin(card.getUnpaidbreakMin());
 		tx.commit();
+
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return 1;
 	}
 }

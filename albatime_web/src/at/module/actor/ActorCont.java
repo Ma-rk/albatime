@@ -39,10 +39,10 @@ public class ActorCont {
 		actor.setUserId(userId);
 		lgr.debug(actor.toString());
 
-		int inserActorResult = actorBiz.insertActorBiz(actor);
+		actorBiz.insertActorBiz(actor);
 
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return CC.gson.toJson(ResultFac.rf(inserActorResult));
+		return CC.gson.toJson(ResultFac.rf());
 	}
 
 	@RequestMapping(value = CC.API_ACTOR, method = RequestMethod.GET)
@@ -68,10 +68,10 @@ public class ActorCont {
 		actor.setUserId(userId);
 		lgr.debug(actor.toString());
 
-		int updateActorResult = actorBiz.updateActorBiz(actor);
+		actorBiz.updateActorBiz(actor);
 
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return CC.gson.toJson(ResultFac.rf(updateActorResult));
+		return CC.gson.toJson(ResultFac.rf());
 	}
 
 	@RequestMapping(value = CC.API_ACTOR, produces = "application/json", method = RequestMethod.DELETE)

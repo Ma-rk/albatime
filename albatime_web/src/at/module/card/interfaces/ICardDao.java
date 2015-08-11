@@ -5,9 +5,9 @@ import java.util.List;
 import at.model.CardEty;
 
 public interface ICardDao {
-	int insertCardDao(CardEty card);
+	void insertCardDao(CardEty card);
 
 	List<CardEty> retrieveCardListDao(CardEty card);
 
-	int updateCardDao(CardEty card);
+	void updateCardDao(CardEty card);
 }

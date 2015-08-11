@@ -5,9 +5,9 @@ import java.util.List;
 import at.model.ScheEty;
 
 public interface IScheDao {
-	int insertScheDao(ScheEty sche);
+	void insertScheDao(ScheEty sche);
 
 	List<ScheEty> retrieveScheListDao(ScheEty sche);
 
-	int updateScheDao(ScheEty sche);
+	void updateScheDao(ScheEty sche);
 }

@@ -15,7 +15,7 @@ import at.module.sche.interfaces.IScheDao;
 public class ScheDaoJdbc implements IScheDao {
 	private static final Logger lgr = LoggerFactory.getLogger(ScheDaoJdbc.class);
 
-	public int insertScheDao(ScheEty sche) {
+	public void insertScheDao(ScheEty sche) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		EntityManager em = CC.emf.createEntityManager();
@@ -25,7 +25,6 @@ public class ScheDaoJdbc implements IScheDao {
 		tx.commit();
 
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return 1;
 	}
 
 	public List<ScheEty> retrieveScheListDao(ScheEty sche) {
@@ -44,7 +43,7 @@ public class ScheDaoJdbc implements IScheDao {
 		return schedules;
 	}
 
-	public int updateScheDao(ScheEty sche) {
+	public void updateScheDao(ScheEty sche) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		EntityManager em = CC.emf.createEntityManager();
@@ -61,6 +60,5 @@ public class ScheDaoJdbc implements IScheDao {
 		tx.commit();
 
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return 1;
 	}
 }

@@ -15,16 +15,16 @@ public class ScheBizTx implements IScheBiz {
 		this.scheBiz = scheBiz;
 	}
 
-	public int insertScheBiz(ScheEty sche) {
-		return scheBiz.insertScheBiz(sche);
+	public void insertScheBiz(ScheEty sche) {
+		scheBiz.insertScheBiz(sche);
 	}
 
 	public List<ScheEty> retireveScheListBiz(ScheEty sche) {
 		return scheBiz.retireveScheListBiz(sche);
 	}
 
-	public int updateScheBiz(ScheEty sche) {
-		return scheBiz.updateScheBiz(sche);
+	public void updateScheBiz(ScheEty sche) {
+		scheBiz.updateScheBiz(sche);
 	}
 
 }

@@ -47,13 +47,11 @@ public class AccountDaoJdbc implements IAccountDao {
 		return emailCount;
 	}
 
-	public int registerUserDao(UserEty user) throws DuplicateKeyException {
+	public void registerUserDao(UserEty user) throws DuplicateKeyException {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		int registerUserResult = this.jdbcTemplate.update(this.sqls.getSql("accountRegisterAccount"), user.getEmail(),
-				user.getPw(), user.getNick(), user.getGender(), user.getBirth(), user.getType(), user.getStus());
-		lgr.debug("{} result: [{}]", new Object() {}.getClass().getEnclosingMethod().getName(), registerUserResult);
+		this.jdbcTemplate.update(this.sqls.getSql("accountRegisterAccount"), user.getEmail(), user.getPw(),
+				user.getNick(), user.getGender(), user.getBirth(), user.getType(), user.getStus());
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return registerUserResult;
 	}
 
 	public UserEty getUserInfoByEmailAndPw(UserEty user) {

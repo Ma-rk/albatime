@@ -68,7 +68,7 @@ public class ActorTest {
 		actorListFixture.get(1).setAddr1("경기도 성남시");
 
 		for (ActorEty actor : actorListFixture) {
-			assertEquals(1, actorBiz.insertActorBiz(actor));
+			actorBiz.insertActorBiz(actor);
 		}
 	}
 
@@ -124,8 +124,8 @@ public class ActorTest {
 		retrievedActorList.get(1).setPhone1("02-0110-0110");
 		retrievedActorList.get(1).setAddr1("니네집");
 
-		assertEquals(1000, actorBiz.updateActorBiz(retrievedActorList.get(0)));
-		assertEquals(1000, actorBiz.updateActorBiz(retrievedActorList.get(1)));
+		actorBiz.updateActorBiz(retrievedActorList.get(0));
+		actorBiz.updateActorBiz(retrievedActorList.get(1));
 
 		List<ActorEty> updatedActorList = actorBiz.retireveActorListBiz(actorListFixture.get(0));
 

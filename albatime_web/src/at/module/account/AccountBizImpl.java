@@ -47,12 +47,11 @@ public class AccountBizImpl implements IAccountBiz {
 		return emailCount;
 	}
 
-	public int registerUserBiz(UserEty user) throws DuplicateKeyException {
+	public void registerUserBiz(UserEty user) throws DuplicateKeyException {
 		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		user.setAsNormalStus();
-		int registerUserResult = this.accountDao.registerUserDao(user);
+		this.accountDao.registerUserDao(user);
 		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return registerUserResult;
 	}
 
 	public UserEty login(UserEty user) {

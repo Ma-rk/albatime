@@ -15,7 +15,7 @@ import at.module.actor.interfaces.IActorDao;
 public class ActorDaoJdbc implements IActorDao {
 	private static final Logger lgr = LoggerFactory.getLogger(ActorDaoJdbc.class);
 
-	public int insertActorDao(ActorEty actor) {
+	public void insertActorDao(ActorEty actor) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		EntityManager em = CC.emf.createEntityManager();
@@ -25,7 +25,6 @@ public class ActorDaoJdbc implements IActorDao {
 		tx.commit();
 
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return 1;
 	}
 
 	public List<ActorEty> retireveActorListDao(ActorEty actor) {
@@ -43,7 +42,7 @@ public class ActorDaoJdbc implements IActorDao {
 		return actors;
 	}
 
-	public int updateActorDao(ActorEty actor) {
+	public void updateActorDao(ActorEty actor) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		EntityManager em = CC.emf.createEntityManager();
@@ -65,10 +64,7 @@ public class ActorDaoJdbc implements IActorDao {
 		retrievedActor.setStus(actor.getStus());
 		tx.commit();
 
-		int updateActorResult = 1000;
-		lgr.debug("updateActorDao result: [{}]", updateActorResult);
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return updateActorResult;
 	}
 
 	public void deleteActorDao(ActorEty actor) {

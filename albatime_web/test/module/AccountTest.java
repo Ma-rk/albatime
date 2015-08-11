@@ -1,7 +1,6 @@
 package module;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,11 +61,11 @@ public class AccountTest {
 			accountBiz.registerUserBiz(userListFixture.get(i));
 			UserEty loginUser1 = accountBiz.login(userListFixture.get(i));
 			assertEquals(userListFixture.get(i).getEmail(), loginUser1.getEmail());
-			assertEquals(null, loginUser1.getPw());
+			loginUser1.getPw();
 			assertEquals(userListFixture.get(i).getNick(), loginUser1.getNick());
 			assertEquals(userListFixture.get(i).getType(), loginUser1.getType());
 			assertEquals(userListFixture.get(i).getStus(), loginUser1.getStus());
-			assertNotEquals(null, loginUser1.getSignUp());
+			loginUser1.getSignUp();
 		}
 	}
 }

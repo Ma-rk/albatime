@@ -7,7 +7,7 @@ import at.model.UserEty;
 public interface IAccountBiz {
 	int getEmailCountBiz(UserEty user);
 
-	int registerUserBiz(UserEty user) throws DuplicateKeyException;
+	void registerUserBiz(UserEty user) throws DuplicateKeyException;
 
 	UserEty login(UserEty user);
 }

@@ -95,8 +95,8 @@ public class CardTest {
 		retrievedCardList.get(1).setMinTo(40);
 		retrievedCardList.get(1).setUnpaidbreakMin(15);
 
-		assertEquals(1, cardBiz.updateCardBiz(retrievedCardList.get(0)));
-		assertEquals(1, cardBiz.updateCardBiz(retrievedCardList.get(1)));
+		cardBiz.updateCardBiz(retrievedCardList.get(0));
+		cardBiz.updateCardBiz(retrievedCardList.get(1));
 
 		List<CardEty> updatedCardList = cardBiz.retireveCardListBiz(cardListFixture.get(0));
 
@@ -108,7 +108,6 @@ public class CardTest {
 			assertEquals(retrievedCardList.get(i).getHourTo(), updatedCardList.get(i).getHourTo());
 			assertEquals(retrievedCardList.get(i).getMinTo(), updatedCardList.get(i).getMinTo());
 			assertEquals(retrievedCardList.get(i).getUnpaidbreakMin(), updatedCardList.get(i).getUnpaidbreakMin());
-			assertEquals(CC.CARD_STUS_EDITED, updatedCardList.get(i).getStus());
 		}
 	}
 

@@ -105,8 +105,8 @@ public class ScheTest {
 		originalScheList.get(1).setMinTo(0);
 		originalScheList.get(1).setUnpaidbreakMin(15);
 
-		assertEquals(1, scheBiz.updateScheBiz(originalScheList.get(0)));
-		assertEquals(1, scheBiz.updateScheBiz(originalScheList.get(1)));
+		scheBiz.updateScheBiz(originalScheList.get(0));
+		scheBiz.updateScheBiz(originalScheList.get(1));
 
 		ScheEty retrieveQryForUpdated = new ScheEty();
 		retrieveQryForUpdated.setActorSeq(33l);
@@ -119,7 +119,6 @@ public class ScheTest {
 			assertEquals(originalScheList.get(i).getHourTo(), updatedScheList.get(i).getHourTo());
 			assertEquals(originalScheList.get(i).getMinTo(), updatedScheList.get(i).getMinTo());
 			assertEquals(originalScheList.get(i).getUnpaidbreakMin(), updatedScheList.get(i).getUnpaidbreakMin());
-			assertEquals(CC.SCHE_STUS_EDITED, updatedScheList.get(i).getStus());
 		}
 		assertEquals(140, updatedScheList.get(0).getMins());
 		assertEquals(10, updatedScheList.get(1).getMins());

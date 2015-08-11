@@ -35,8 +35,8 @@ public class AccountBizTx implements IAccountBiz {
 		return this.accountBiz.getEmailCountBiz(user);
 	}
 
-	public int registerUserBiz(UserEty user) throws DuplicateKeyException {
-		return this.accountBiz.registerUserBiz(user);
+	public void registerUserBiz(UserEty user) throws DuplicateKeyException {
+		this.accountBiz.registerUserBiz(user);
 	}
 
 	public UserEty login(UserEty user) {

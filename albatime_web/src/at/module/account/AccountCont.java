@@ -56,16 +56,14 @@ public class AccountCont {
 		}
 		lgr.debug(userEty.toString());
 
-		int registerResult;
 		try {
-			registerResult = accountBiz.registerUserBiz(userEty);
+			accountBiz.registerUserBiz(userEty);
 		} catch (DuplicateKeyException e) {
 			lgr.debug("IntegrityConstraintViolationException: " + e.getMessage());
 			return CC.gson.toJson(ResultFac.rf(false, CC.ERROR_ACCOUNT_REGISTER_FAIL));
 		}
-		lgr.debug("registerResult: " + registerResult);
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return CC.gson.toJson(ResultFac.rf(registerResult));
+		return CC.gson.toJson(ResultFac.rf());
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)

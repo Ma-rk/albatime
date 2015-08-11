@@ -19,9 +19,9 @@ public class ActorBizImpl implements IActorBiz {
 	/*
 	 * functional methods
 	 */
-	public int insertActorBiz(ActorEty actor) {
+	public void insertActorBiz(ActorEty actor) {
 		actor.setAsNormalStus();
-		return actorDao.insertActorDao(actor);
+		actorDao.insertActorDao(actor);
 	}
 
 	public List<ActorEty> retireveActorListBiz(ActorEty actor) {
@@ -29,9 +29,9 @@ public class ActorBizImpl implements IActorBiz {
 		return actorDao.retireveActorListDao(actor);
 	}
 
-	public int updateActorBiz(ActorEty actor) {
+	public void updateActorBiz(ActorEty actor) {
 		actor.setAsNormalStus();
-		return actorDao.updateActorDao(actor);
+		actorDao.updateActorDao(actor);
 	}
 
 	public void deleteActorBiz(ActorEty actor) {

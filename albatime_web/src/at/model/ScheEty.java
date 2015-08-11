@@ -90,7 +90,7 @@ public class ScheEty {
 	}
 
 	public void setAsDeletedStus() {
-		this.stus = CC.SCHE_STUS_EDITED;
+		this.stus = CC.SCHE_STUS_DELETED;
 	}
 
 	/*

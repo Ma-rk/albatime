@@ -24,12 +24,11 @@ public class CardBizImpl implements ICardBiz {
 	/*
 	 * functional methods
 	 */
-	public int insertCardBiz(CardEty card) {
+	public void insertCardBiz(CardEty card) {
 		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		card.setAsNormalStus();
-		int insertCardResult = cardDao.insertCardDao(card);
+		cardDao.insertCardDao(card);
 		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return insertCardResult;
 	}
 
 	public List<CardEty> retireveCardListBiz(CardEty card) {
@@ -40,10 +39,9 @@ public class CardBizImpl implements ICardBiz {
 		return cardList;
 	}
 
-	public int updateCardBiz(CardEty card) {
+	public void updateCardBiz(CardEty card) {
 		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
-		int updateCardResult = cardDao.updateCardDao(card);
+		cardDao.updateCardDao(card);
 		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return updateCardResult;
 	}
 }

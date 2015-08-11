@@ -11,7 +11,7 @@ public interface IAccountDao {
 
 	int getEmailCountDao(UserEty user);
 
-	int registerUserDao(UserEty user) throws DuplicateKeyException;
+	void registerUserDao(UserEty user) throws DuplicateKeyException;
 
 	UserEty getUserInfoByEmailAndPw(UserEty user);
 

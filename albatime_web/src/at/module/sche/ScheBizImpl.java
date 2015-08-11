@@ -16,16 +16,17 @@ public class ScheBizImpl implements IScheBiz {
 		this.scheDao = scheDao;
 	}
 
-	public int insertScheBiz(ScheEty sche) {
+	public void insertScheBiz(ScheEty sche) {
 		sche.setAsNormalStus();
-		return scheDao.insertScheDao(sche);
+		scheDao.insertScheDao(sche);
 	}
 
 	public List<ScheEty> retireveScheListBiz(ScheEty sche) {
+		sche.setAsNormalStus();
 		return scheDao.retrieveScheListDao(sche);
 	}
 
-	public int updateScheBiz(ScheEty sche) {
-		return scheDao.updateScheDao(sche);
+	public void updateScheBiz(ScheEty sche) {
+		scheDao.updateScheDao(sche);
 	}
 }

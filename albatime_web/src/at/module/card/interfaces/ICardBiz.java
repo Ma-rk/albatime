@@ -5,9 +5,9 @@ import java.util.List;
 import at.model.CardEty;
 
 public interface ICardBiz {
-	int insertCardBiz(CardEty card);
+	void insertCardBiz(CardEty card);
 
 	List<CardEty> retireveCardListBiz(CardEty card);
 
-	int updateCardBiz(CardEty card);
+	void updateCardBiz(CardEty card);
 }
