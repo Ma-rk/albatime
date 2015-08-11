@@ -9,8 +9,8 @@
 	<context:component-scan base-package="at.module.account" />
 	<context:component-scan base-package="at.module.actor" />
 	<context:component-scan base-package="at.module.sche" />
-	<context:component-scan base-package="at.module.supp" />
 	<context:component-scan base-package="at.module.user" />
+	<context:component-scan base-package="at.supp" />
 
 	<mvc:resources location="/html/" mapping="/html/**" />
 
