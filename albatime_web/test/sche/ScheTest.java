@@ -51,9 +51,9 @@ public class ScheTest {
 		scheListFixture.get(1).setMemo("mememem momomo2");
 		scheListFixture.get(1).setDate(new Date("2015/07/20"));
 		scheListFixture.get(1).setHourFrom(3);
-		scheListFixture.get(1).setMinTo(44);
-		scheListFixture.get(1).setHourTo(10);
-		scheListFixture.get(1).setMinTo(11);
+		scheListFixture.get(1).setMinFrom(44);
+		scheListFixture.get(1).setHourTo(4);
+		scheListFixture.get(1).setMinTo(55);
 		scheListFixture.get(1).setUnpaidbreakMin(90);
 
 		for (ScheEty sche : scheListFixture) {
@@ -79,6 +79,8 @@ public class ScheTest {
 			assertEquals(scheListFixture.get(i).getMins(), retrievedScheList.get(i).getMins());
 			assertEquals(CC.SCHE_STUS_NORMAL, retrievedScheList.get(i).getStus());
 		}
+		assertEquals(1, retrievedScheList.get(0).getMins());
+		assertEquals(71, retrievedScheList.get(1).getMins());
 	}
 
 	@Test
@@ -88,13 +90,14 @@ public class ScheTest {
 		retrieveQryForOriginal.setAsNormalStus();
 		List<ScheEty> originalScheList = scheBiz.retireveScheListBiz(retrieveQryForOriginal);
 
-		originalScheList.get(0).setMemo("updated memo 0");
+		originalScheList.get(0).setMemo("updated memo 1");
 		originalScheList.get(0).setHourFrom(10);
 		originalScheList.get(0).setMinFrom(10);
 		originalScheList.get(0).setHourTo(12);
 		originalScheList.get(0).setMinTo(30);
 		originalScheList.get(0).setUnpaidbreakMin(15);
-		originalScheList.get(1).setMemo("updated memo 0");
+		
+		originalScheList.get(1).setMemo("updated memo 2");
 		originalScheList.get(1).setHourFrom(23);
 		originalScheList.get(1).setMinFrom(50);
 		originalScheList.get(1).setHourTo(0);
@@ -118,7 +121,7 @@ public class ScheTest {
 			assertEquals(originalScheList.get(i).getUnpaidbreakMin(), updatedScheList.get(i).getUnpaidbreakMin());
 			assertEquals(CC.SCHE_STUS_EDITED, updatedScheList.get(i).getStus());
 		}
-		assertEquals(10, updatedScheList.get(0).getMins());
+		assertEquals(140, updatedScheList.get(0).getMins());
 		assertEquals(10, updatedScheList.get(1).getMins());
 	}
 

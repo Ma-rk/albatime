@@ -13,8 +13,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.joda.time.DateTime;
-
 import at.com.CC;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -64,7 +62,7 @@ public class ScheEty {
 
 	@NotNull
 	@Getter
-	private int mins;
+	private int mins = 0;
 
 	@Min(0)
 	@Max(120)
@@ -74,15 +72,18 @@ public class ScheEty {
 
 	@Pattern(regexp = "[A-Z]{3}[_][A-Z]{3}[_][0-9]{2}")
 	@Getter
+	@Setter
 	private String stus;
 
 	@Getter
-	@Column(insertable = false, updatable = false)
-	private DateTime created;
+	@Setter
+	@Column(insertable = false)
+	private String created;
 
 	@Getter
-	@Column(insertable = false, updatable = false)
-	private DateTime edited;
+	@Setter
+	@Column(updatable = false)
+	private String edited;
 
 	public void setAsNormalStus() {
 		this.stus = CC.SCHE_STUS_NORMAL;
@@ -101,25 +102,27 @@ public class ScheEty {
 	 */
 	public void setMins() {
 		this.mins = (hourTo * 60 + minTo) - (hourFrom * 60 + minFrom);
+		if (mins < 0)
+			this.mins += 1440;
 	}
 
 	public void setHourFrom(int hourFrom) {
-		setMins();
 		this.hourFrom = hourFrom;
+		setMins();
 	}
 
 	public void setMinFrom(int minFrom) {
+		this.minFrom = minFrom;
 		setMins();
-		this.hourFrom = minFrom;
 	}
 
 	public void setHourTo(int hourTo) {
-		setMins();
 		this.hourTo = hourTo;
+		setMins();
 	}
 
 	public void setMinTo(int minTo) {
+		this.minTo = minTo;
 		setMins();
-		this.hourTo = minTo;
 	}
 }

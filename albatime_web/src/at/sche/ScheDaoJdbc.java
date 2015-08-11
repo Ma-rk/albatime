@@ -84,6 +84,8 @@ public class ScheDaoJdbc implements IScheDao {
 		retrievedSche.setMinFrom(sche.getMinFrom());
 		retrievedSche.setHourTo(sche.getHourTo());
 		retrievedSche.setMinTo(sche.getMinTo());
+		retrievedSche.setUnpaidbreakMin(sche.getUnpaidbreakMin());
+		retrievedSche.setAsEditedStus();
 		tx.commit();
 
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
