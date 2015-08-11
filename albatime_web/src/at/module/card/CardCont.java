@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import at.com.CC;
 import at.com.CommUtil;
 import at.model.CardEty;
-import at.model.ResultEty;
 import at.module.card.interfaces.ICardBiz;
+import at.supp.ResultFac;
 
 @RestController
 public class CardCont {
@@ -36,41 +36,41 @@ public class CardCont {
 	public String insertCardCont(@Valid CardEty card, BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {
-			return CC.gson.toJson(new ResultEty(false, CC.ERROR_CARD_CREATE_FAIL));
+			return CC.gson.toJson(ResultFac.rf(false, CC.ERROR_CARD_CREATE_FAIL));
 		}
 		lgr.debug(card.toString());
 
-		int inserActorResult = cardBiz.insertCardBiz(card);
+		cardBiz.insertCardBiz(card);
 
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return CC.gson.toJson(new ResultEty(inserActorResult));
+		return CC.gson.toJson(ResultFac.rf());
 	}
 
 	@RequestMapping(value = CC.API_CARD, produces = "application/json", method = RequestMethod.GET)
 	public String retrieveCardListCont(@Valid CardEty card, BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {
-			return CC.gson.toJson(new ResultEty(false, CC.ERROR_CARD_RETRIEVE_FAIL));
+			return CC.gson.toJson(ResultFac.rf(false, CC.ERROR_CARD_RETRIEVE_FAIL));
 		}
 		lgr.debug(card.toString());
 
 		List<CardEty> cardList = cardBiz.retireveCardListBiz(card);
 
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return CC.gson.toJson(new ResultEty(cardList));
+		return CC.gson.toJson(ResultFac.rf(cardList));
 	}
 
 	@RequestMapping(value = CC.API_CARD, produces = "application/json", method = RequestMethod.PUT)
 	public String updateCardCont(@Valid CardEty card, BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {
-			return CC.gson.toJson(new ResultEty(false, CC.ERROR_CARD_UPDATE_FAIL));
+			return CC.gson.toJson(ResultFac.rf(false, CC.ERROR_CARD_UPDATE_FAIL));
 		}
 		lgr.debug(card.toString());
 
-		int updateCardResult = cardBiz.updateCardBiz(card);
+		cardBiz.updateCardBiz(card);
 
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return CC.gson.toJson(new ResultEty(updateCardResult));
+		return CC.gson.toJson(ResultFac.rf());
 	}
 }

@@ -76,17 +76,17 @@ public class ActorEty {
 	@Pattern(regexp = "[A-Z]{3}[_][A-Z]{3}[_][0-9]{2}")
 	private String stus;
 
-	@Column(insertable = false)
+	@Column(insertable = false, updatable = false)
 	private Date created;
 
-	@Column(updatable = false)
+	@Column(insertable = false, updatable = false)
 	private Date edited;
 
 	public void setAsNormalStus() {
 		this.stus = CC.ACTOR_STUS_NORMAL;
 	}
 
-	public void setAsDeactivatedStus() {
+	public void setAsDeletedStus() {
 		this.stus = CC.ACTOR_STUS_DELETED;
 	}
 }

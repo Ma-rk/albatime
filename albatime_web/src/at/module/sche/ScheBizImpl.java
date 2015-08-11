@@ -26,7 +26,6 @@ public class ScheBizImpl implements IScheBiz {
 	}
 
 	public int updateScheBiz(ScheEty sche) {
-		sche.setAsUpdatedStus();
 		return scheDao.updateScheDao(sche);
 	}
 }

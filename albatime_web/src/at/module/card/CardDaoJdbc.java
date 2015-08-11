@@ -54,7 +54,6 @@ public class CardDaoJdbc implements ICardDao {
 		retrievedCard.setHourTo(card.getHourTo());
 		retrievedCard.setMinTo(card.getMinTo());
 		retrievedCard.setUnpaidbreakMin(card.getUnpaidbreakMin());
-		retrievedCard.setStus(card.getStus());
 		tx.commit();
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return 1;

@@ -110,7 +110,6 @@ public class ScheTest {
 
 		ScheEty retrieveQryForUpdated = new ScheEty();
 		retrieveQryForUpdated.setActorSeq(33l);
-		retrieveQryForUpdated.setAsEditedStus();
 		List<ScheEty> updatedScheList = scheBiz.retireveScheListBiz(retrieveQryForUpdated);
 
 		for (int i = 0; i < updatedScheList.size(); i++) {

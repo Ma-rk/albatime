@@ -77,23 +77,19 @@ public class ScheEty {
 
 	@Getter
 	@Setter
-	@Column(insertable = false)
+	@Column(insertable = false, updatable = false)
 	private String created;
 
 	@Getter
 	@Setter
-	@Column(updatable = false)
+	@Column(insertable = false, updatable = false)
 	private String edited;
 
 	public void setAsNormalStus() {
 		this.stus = CC.SCHE_STUS_NORMAL;
 	}
 
-	public void setAsUpdatedStus() {
-		this.stus = CC.SCHE_STUS_EDITED;
-	}
-
-	public void setAsEditedStus() {
+	public void setAsDeletedStus() {
 		this.stus = CC.SCHE_STUS_EDITED;
 	}
 

@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import at.com.CC;
 import at.com.CommUtil;
-import at.model.ResultEty;
 import at.model.ScheEty;
 import at.module.sche.interfaces.IScheBiz;
+import at.supp.ResultFac;
 
 @RestController
 @RequestMapping(value = CC.API_SCHE)
@@ -31,13 +31,13 @@ public class ScheCont {
 	public String insertScheCont(@Valid ScheEty sche, BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {
-			return CC.gson.toJson(new ResultEty(false, CC.ERROR_SCHEDULE_CREATE_FAIL));
+			return CC.gson.toJson(ResultFac.rf(false, CC.ERROR_SCHEDULE_CREATE_FAIL));
 		}
 		lgr.debug(sche.toString());
 
-		int insertScheResult = scheBiz.insertScheBiz(sche);
+		scheBiz.insertScheBiz(sche);
 
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return CC.gson.toJson(new ResultEty(insertScheResult));
+		return CC.gson.toJson(ResultFac.rf());
 	}
 }

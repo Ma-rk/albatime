@@ -1,5 +1,7 @@
 package at.module.account;
 
+import java.util.Map;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -15,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import at.com.CC;
 import at.com.CommUtil;
-import at.model.ResultEty;
 import at.model.UserEty;
 import at.module.account.interfaces.IAccountBiz;
+import at.supp.ResultFac;
 
 @RestController
 @RequestMapping(value = CC.API_ACCOUNT)
@@ -34,7 +36,7 @@ public class AccountCont {
 	@RequestMapping(method = RequestMethod.GET)
 	public String checkEmailExistanceCont(@Valid UserEty user, BindingResult result) {
 		if (CommUtil.checkGotWrongParams(result)) {
-			return CC.gson.toJson(new ResultEty(false, CC.ERROR_ACCOUNT_EMAILCHECK_FAIL));
+			return CC.gson.toJson(ResultFac.rf(false, CC.ERROR_ACCOUNT_EMAILCHECK_FAIL));
 		}
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		lgr.debug("email: " + user.getEmail());
@@ -43,14 +45,14 @@ public class AccountCont {
 
 		lgr.debug("emailCount: " + emailCount);
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return CC.gson.toJson(new ResultEty(emailCount));
+		return CC.gson.toJson(ResultFac.rf(emailCount));
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String registerUserCont(@Valid UserEty userEty, BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {
-			return CC.gson.toJson(new ResultEty(false, CC.ERROR_ACCOUNT_REGISTER_FAIL));
+			return CC.gson.toJson(ResultFac.rf(false, CC.ERROR_ACCOUNT_REGISTER_FAIL));
 		}
 		lgr.debug(userEty.toString());
 
@@ -59,22 +61,22 @@ public class AccountCont {
 			registerResult = accountBiz.registerUserBiz(userEty);
 		} catch (DuplicateKeyException e) {
 			lgr.debug("IntegrityConstraintViolationException: " + e.getMessage());
-			return CC.gson.toJson(new ResultEty(false, CC.ERROR_ACCOUNT_REGISTER_FAIL));
+			return CC.gson.toJson(ResultFac.rf(false, CC.ERROR_ACCOUNT_REGISTER_FAIL));
 		}
 		lgr.debug("registerResult: " + registerResult);
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return CC.gson.toJson(new ResultEty(registerResult));
+		return CC.gson.toJson(ResultFac.rf(registerResult));
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
 	public String login(HttpServletResponse response, @Valid UserEty user, BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {
-			return CC.gson.toJson(new ResultEty(false, CC.ERROR_ACCOUNT_LOGIN_FAIL));
+			return CC.gson.toJson(ResultFac.rf(false, CC.ERROR_ACCOUNT_LOGIN_FAIL));
 		}
 		lgr.debug(user.toString());
 
-		ResultEty resultEty;
+		Map<String, Object> resultObje;
 		UserEty userInfo = accountBiz.login(user);
 
 		if (userInfo != null) {
@@ -86,11 +88,11 @@ public class AccountCont {
 				cookie.setMaxAge(CC.SECONDS_FOR_COOKIE_DURATION);
 				response.addCookie(cookie);
 			}
-			resultEty = new ResultEty(userInfo);
+			resultObje = ResultFac.rf(userInfo);
 		} else {
-			resultEty = new ResultEty(false, CC.ERROR_ACCOUNT_LOGIN_FAIL);
+			resultObje = ResultFac.rf(false, CC.ERROR_ACCOUNT_LOGIN_FAIL);
 		}
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return CC.gson.toJson(resultEty);
+		return CC.gson.toJson(resultObje);
 	}
 }

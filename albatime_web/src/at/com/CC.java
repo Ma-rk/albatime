@@ -33,11 +33,16 @@ public class CC {
 	/*
 	 * classification codes
 	 */
-	public static final String ACTOR_STUS_NORMAL = "ACT_STU_01";
-	public static final String ACTOR_STUS_DELETED = "ACT_STU_02";
-
 	public static final String ACCOUNT_STUS_NORMAL = "ACC_STU_01";
-	public static final String ACCOUNT_STUS_DEACTIVATED = "ACC_STU_02";
+	public static final String ACCOUNT_STUS_SLEEP = "ACC_STU_02";
+	public static final String ACCOUNT_STUS_DEACTIVATED = "ACC_STU_03";
+	
+	public static final String TOKEN_STUS_NORMAL = "TKN_STU_01";
+	public static final String TOKEN_STUS_EXPIRED = "TKN_STU_02";
+
+	public static final String ACTOR_STUS_NORMAL = "ACT_STU_01";
+	public static final String ACTOR_STUS_EDITED = "ACT_STU_02";
+	public static final String ACTOR_STUS_DELETED = "ACT_STU_03";
 
 	public static final String CARD_STUS_NORMAL = "CRD_STU_01";
 	public static final String CARD_STUS_EDITED = "CRD_STU_02";
@@ -53,9 +58,6 @@ public class CC {
 	public static final String USER_SEX_MAIL = "USR_SEX_01";
 	public static final String USER_SEX_FEMAIL = "USR_SEX_02";
 	public static final String USER_SEX_ETC = "USR_SEX_03";
-
-	public static final String TOKEN_STUS_NORMAL = "TKN_STU_01";
-	public static final String TOKEN_STUS_EXPIRED = "TKN_STU_02";
 
 	/*
 	 * error codes

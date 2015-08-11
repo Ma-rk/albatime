@@ -30,11 +30,12 @@ public class ActorBizImpl implements IActorBiz {
 	}
 
 	public int updateActorBiz(ActorEty actor) {
+		actor.setAsNormalStus();
 		return actorDao.updateActorDao(actor);
 	}
 
 	public void deleteActorBiz(ActorEty actor) {
-		actor.setAsDeactivatedStus();
+		actor.setAsDeletedStus();
 		actorDao.deleteActorDao(actor);
 	}
 }

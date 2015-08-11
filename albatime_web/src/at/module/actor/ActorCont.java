@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import at.com.CC;
 import at.com.CommUtil;
 import at.model.ActorEty;
-import at.model.ResultEty;
 import at.module.actor.interfaces.IActorBiz;
 import at.supp.ResultFac;
 
@@ -35,7 +34,7 @@ public class ActorCont {
 			BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {
-			return CC.gson.toJson(new ResultEty(false, CC.ERROR_ACTOR_CREATE_FAIL));
+			return CC.gson.toJson(ResultFac.rf(false, CC.ERROR_ACTOR_CREATE_FAIL));
 		}
 		actor.setUserId(userId);
 		lgr.debug(actor.toString());
@@ -43,7 +42,7 @@ public class ActorCont {
 		int inserActorResult = actorBiz.insertActorBiz(actor);
 
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return CC.gson.toJson(new ResultEty(inserActorResult));
+		return CC.gson.toJson(ResultFac.rf(inserActorResult));
 	}
 
 	@RequestMapping(value = CC.API_ACTOR, method = RequestMethod.GET)
@@ -64,7 +63,7 @@ public class ActorCont {
 			BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {
-			return CC.gson.toJson(new ResultEty(false, CC.ERROR_ACTOR_UPDATE_FAIL));
+			return CC.gson.toJson(ResultFac.rf(false, CC.ERROR_ACTOR_UPDATE_FAIL));
 		}
 		actor.setUserId(userId);
 		lgr.debug(actor.toString());
@@ -72,7 +71,7 @@ public class ActorCont {
 		int updateActorResult = actorBiz.updateActorBiz(actor);
 
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return CC.gson.toJson(new ResultEty(updateActorResult));
+		return CC.gson.toJson(ResultFac.rf(updateActorResult));
 	}
 
 	@RequestMapping(value = CC.API_ACTOR, produces = "application/json", method = RequestMethod.DELETE)
@@ -80,13 +79,13 @@ public class ActorCont {
 			BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		if (CommUtil.checkGotWrongParams(result)) {
-			return CC.gson.toJson(new ResultEty(false, CC.ERROR_ACTOR_DELETE_FAIL));
+			return CC.gson.toJson(ResultFac.rf(false, CC.ERROR_ACTOR_DELETE_FAIL));
 		}
 		actor.setUserId(userId);
 
 		actorBiz.deleteActorBiz(actor);
 
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return CC.gson.toJson(new ResultEty());
+		return CC.gson.toJson(ResultFac.rf());
 	}
 }

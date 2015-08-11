@@ -5,26 +5,25 @@ import java.util.Map;
 
 public class ResultFac {
 	public static Map<String, Object> rf() {
-		return rf(true, "NO_ERROR", "[]");
+		return rf(true, null, null);
 	}
 
 	public static Map<String, Object> rf(Object data) {
-		return rf(true, "NO_ERROR", data);
+		return rf(true, null, data);
 	}
 
 	public static Map<String, Object> rf(Boolean result, String errorCoe) {
-		return rf(false, errorCoe, 0);
+		return rf(false, errorCoe, null);
 	}
 
 	private static Map<String, Object> rf(Boolean result, String errorCoe, Object data) {
 		HashMap<String, Object> resultMap = new HashMap<>();
 		resultMap.put("result", result);
-		if (result) {
-			resultMap.put("errorCode", "NO_ERROR");
-			resultMap.put("data", data);
-		} else {
+		if (!result) {
 			resultMap.put("errorCode", errorCoe);
-			resultMap.put("data", 0);
+		}
+		if (data != null) {
+			resultMap.put("data", data);
 		}
 		return resultMap;
 	}

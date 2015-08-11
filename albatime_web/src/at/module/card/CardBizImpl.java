@@ -33,17 +33,17 @@ public class CardBizImpl implements ICardBiz {
 	}
 
 	public List<CardEty> retireveCardListBiz(CardEty card) {
-		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
+		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
+		card.setAsNormalStus();
 		List<CardEty> cardList = cardDao.retrieveCardListDao(card);
-		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
+		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return cardList;
 	}
 
 	public int updateCardBiz(CardEty card) {
-		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
-		card.setAsEditedStus();
+		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		int updateCardResult = cardDao.updateCardDao(card);
-		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
+		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return updateCardResult;
 	}
 }
