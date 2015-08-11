@@ -6,11 +6,11 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
-	<context:component-scan base-package="at.account" />
-	<context:component-scan base-package="at.actor" />
-	<context:component-scan base-package="at.sche" />
-	<context:component-scan base-package="at.supp" />
-	<context:component-scan base-package="at.user" />
+	<context:component-scan base-package="at.module.account" />
+	<context:component-scan base-package="at.module.actor" />
+	<context:component-scan base-package="at.module.sche" />
+	<context:component-scan base-package="at.module.supp" />
+	<context:component-scan base-package="at.module.user" />
 
 	<mvc:resources location="/html/" mapping="/html/**" />
 
@@ -39,59 +39,59 @@
 
 
 
-	<bean id="userDao" class="at.user.UserDaoJdbc">
+	<bean id="userDao" class="at.module.user.UserDaoJdbc">
 		<property name="dataSource" ref="dataSource" />
 		<property name="sqls" ref="sqls" />
 	</bean>
 
-	<bean id="userBizImpl" class="at.user.UserBizImpl">
+	<bean id="userBizImpl" class="at.module.user.UserBizImpl">
 		<property name="userDao" ref="userDao" />
 	</bean>
-	<bean id="userBiz" class="at.user.UserBizTx">
+	<bean id="userBiz" class="at.module.user.UserBizTx">
 		<property name="transactionManager" ref="transactionManager" />
 		<property name="userBiz" ref="userBizImpl" />
 	</bean>
 
-	<bean id="userCont" class="at.user.UserCont">
+	<bean id="userCont" class="at.module.user.UserCont">
 		<property name="userBiz" ref="userBiz" />
 	</bean>
 
 
 
 
-	<bean id="accountDao" class="at.account.AccountDaoJdbc">
+	<bean id="accountDao" class="at.module.account.AccountDaoJdbc">
 		<property name="dataSource" ref="dataSource" />
 		<property name="sqls" ref="sqls" />
 	</bean>
 
-	<bean id="accountBizImpl" class="at.account.AccountBizImpl">
+	<bean id="accountBizImpl" class="at.module.account.AccountBizImpl">
 		<property name="accountDao" ref="accountDao" />
 		<property name="comDao" ref="comDao" />
 		<property name="userDao" ref="userDao" />
 	</bean>
-	<bean id="accountBiz" class="at.account.AccountBizTx">
+	<bean id="accountBiz" class="at.module.account.AccountBizTx">
 		<property name="transactionManager" ref="transactionManager" />
 		<property name="accountBiz" ref="accountBizImpl" />
 	</bean>
 
-	<bean id="accountCont" class="at.account.AccountCont">
+	<bean id="accountCont" class="at.module.account.AccountCont">
 		<property name="accountBiz" ref="accountBiz" />
 	</bean>
 
 
 
 
-	<bean id="actorDao" class="at.actor.ActorDaoJdbc" />
+	<bean id="actorDao" class="at.module.actor.ActorDaoJdbc" />
 
-	<bean id="actorBizImpl" class="at.actor.ActorBizImpl">
+	<bean id="actorBizImpl" class="at.module.actor.ActorBizImpl">
 		<property name="actorDao" ref="actorDao" />
 	</bean>
 	
-	<bean id="actorBiz" class="at.actor.ActorBizTx">
+	<bean id="actorBiz" class="at.module.actor.ActorBizTx">
 		<property name="actorBiz" ref="actorBizImpl" />
 	</bean>
 
-	<bean id="actorCont" class="at.actor.ActorCont">
+	<bean id="actorCont" class="at.module.actor.ActorCont">
 		<property name="actorBiz" ref="actorBiz" />
 	</bean>
 
@@ -101,34 +101,34 @@
 
 
 
-	<bean id="cardDao" class="at.card.CardDaoJdbc" />
+	<bean id="cardDao" class="at.module.card.CardDaoJdbc" />
 
-	<bean id="cardBizImpl" class="at.card.CardBizImpl">
+	<bean id="cardBizImpl" class="at.module.card.CardBizImpl">
 		<property name="cardDao" ref="cardDao" />
 	</bean>
 	
-	<bean id="cardBiz" class="at.card.CardBizTx">
+	<bean id="cardBiz" class="at.module.card.CardBizTx">
 		<property name="cardBiz" ref="cardBizImpl" />
 	</bean>
 
-	<bean id="cardCont" class="at.card.CardCont">
+	<bean id="cardCont" class="at.module.card.CardCont">
 		<property name="cardBiz" ref="cardBiz" />
 	</bean>
 
 
 
 
-	<bean id="scheDao" class="at.sche.ScheDaoJdbc" />
+	<bean id="scheDao" class="at.module.sche.ScheDaoJdbc" />
 
-	<bean id="scheBizImpl" class="at.sche.ScheBizImpl">
+	<bean id="scheBizImpl" class="at.module.sche.ScheBizImpl">
 		<property name="scheDao" ref="scheDao" />
 	</bean>
 	
-	<bean id="scheBiz" class="at.sche.ScheBizTx">
+	<bean id="scheBiz" class="at.module.sche.ScheBizTx">
 		<property name="scheBiz" ref="scheBizImpl" />
 	</bean>
 
-	<bean id="scheCont" class="at.sche.ScheCont">
+	<bean id="scheCont" class="at.module.sche.ScheCont">
 		<property name="scheBiz" ref="scheBiz" />
 	</bean>
 
@@ -146,19 +146,9 @@
 				<entry key="accountEmailCount" value="select count(usr_email) from tb_usr where usr_email = ?" />
 				<entry key="accountRegisterAccount" value="insert into tb_usr(usr_email, usr_pw, usr_nick, usr_gender, usr_birth, usr_type, usr_stus) values (?,?,?,?,?,?,?)" />
 				<entry key="actorCleanTbActor" value="delete from ActorEty" />
-				<entry key="actorCreateActor" value="insert into tb_actor (ac_usr_id, ac_name, ac_memo, ac_period_from, ac_period_to, ac_worktime_unit, ac_alarm_before, ac_unpaidbreak_flag, ac_tax_rate, ac_basic_wage, ac_color_bg, ac_phone1, ac_addr1_1, ac_stus) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)" />
-				<entry key="actorDeleteActor" value="update tb_actor set ac_stus=? where ac_seq=? and ac_usr_id=?" />
-				<entry key="actorRetrieveActors" value="select ac_seq, ac_usr_id, ac_name, ac_memo, DATE_FORMAT(ac_period_from, '%Y-%m-%d %T') as ac_period_from, ac_period_to, ac_worktime_unit, ac_alarm_before, ac_unpaidbreak_flag, ac_tax_rate, ac_basic_wage, ac_color_bg, ac_phone1, ac_addr1_1, ac_stus, DATE_FORMAT(ac_created, '%Y-%m-%d %T') as ac_created, DATE_FORMAT(ac_edited, '%Y-%m-%d %T') as ac_edited from tb_actor where ac_usr_id = ? and ac_stus=?" />
-				<entry key="actorUpdateActor" value="update tb_actor set ac_name=?, ac_memo=?, ac_period_from=?, ac_period_to=?, ac_worktime_unit=?, ac_alarm_before=?, ac_unpaidbreak_flag=?, ac_tax_rate=?, ac_basic_wage=?, ac_color_bg=?, ac_phone1=?, ac_addr1_1=? where ac_seq=? and ac_usr_id=?" />
-				<entry key="cardInsertCard" value="insert tb_card (crd_actor_seq, crd_name, crd_memo, crd_time_from, crd_time_to, crd_unpaid_break_min, crd_stus) values (?,?,?,?,?,?,?)" />
-				<entry key="cardRetrieveCards" value="select crd_seq, crd_actor_seq, crd_name, crd_memo, crd_time_from, crd_time_to, crd_unpaid_break_min, crd_type, crd_stus, crd_created, crd_edited from tb_card where crd_actor_seq=?" />
 				<entry key="cardCleanTbCard" value="delete from CardEty" />
-				<entry key="cardUpdateCards" value="update tb_card set crd_name=?, crd_memo=?, crd_time_from=?, crd_time_to=?, crd_unpaid_break_min=?, crd_stus=? where crd_seq=? and crd_actor_seq=? " />
 				<entry key="login_InsertJwTokenKey" value="insert into tb_tk_key (tk_usr_id, tk_key, tk_stus) values (?,?,?)" />
 				<entry key="scheCleanTbSche" value="delete from ScheEty" />
-				<entry key="scheInsertSche" value="insert into tb_sche (sch_actor_seq, sch_memo, sch_date, sch_time_from, sch_time_to, sch_hours, sch_mins, sch_unpaid_break_min, sch_stus) values (?,?,?,?,?,?,?,?,?)" />
-				<entry key="scheRetrieveSches" value="select sch_seq, sch_actor_seq, sch_memo, sch_date, sch_time_from, sch_time_to, sch_hours, sch_mins, sch_unpaid_break_min, sch_stus, sch_created, sch_edited from tb_sche where sch_actor_seq=? and sch_stus=?" />
-				<entry key="scheUpdateSche" value="update tb_sche set sch_memo=?, sch_date=?, sch_time_from=?, sch_time_to=?, sch_hours=?, sch_mins=?, sch_unpaid_break_min=?, sch_stus=? where sch_seq=? " />
 				<entry key="autologin_retrieveJwTokenKey" value="select tk_key from tb_tk_key where tk_seq = ? and tk_usr_id = ? and tk_stus=?" />
 				<entry key="tkRetireveToken" value="select tk_device_type, tk_created from tb_token where tk_usr_id = ? and tk_stus=?" />
 				<entry key="tkExpireToken" value="update tb_token set tk_stus=? where tk_usr_id=? and tk_seq!=? and tk_stus!=?" />

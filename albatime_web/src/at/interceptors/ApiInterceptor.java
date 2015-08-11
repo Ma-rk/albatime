@@ -12,9 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 import at.com.CC;
 import at.model.TokenEty;
 import at.model.TokenKeyEty;
+import at.module.user.interfaces.IUserBiz;
 import at.supp.CookieMgr;
 import at.supp.JwtMgr;
-import at.user.interfaces.IUserBiz;
 
 public class ApiInterceptor implements HandlerInterceptor {
 	private static final Logger lgr = LoggerFactory.getLogger(ApiInterceptor.class);
@@ -111,11 +111,9 @@ public class ApiInterceptor implements HandlerInterceptor {
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-			ModelAndView modelAndView) throws Exception {
-	}
+			ModelAndView modelAndView) throws Exception {}
 
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
-			throws Exception {
-	}
+			throws Exception {}
 }
