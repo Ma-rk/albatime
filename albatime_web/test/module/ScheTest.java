@@ -124,6 +124,16 @@ public class ScheTest {
 		assertEquals(10, updatedScheList.get(1).getMins());
 	}
 
+	@Test
+	public void deleteScheTest() {
+		List<ScheEty> retrievedScheList = scheBiz.retireveScheListBiz(scheListFixture.get(0));
+
+		for (int i = 0; i < retrievedScheList.size(); i++) {
+			scheBiz.deleteScheBiz(retrievedScheList.get(i));
+		}
+		assertEquals(new ArrayList<ScheEty>(), scheBiz.retireveScheListBiz(scheListFixture.get(0)));
+	}
+
 	@After
 	public void tearDown() {
 		lgr.debug("deleted lows: [{}]", comDao.cleanTbScheDao());

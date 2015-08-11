@@ -10,4 +10,6 @@ public interface IScheBiz {
 	List<ScheEty> retireveScheListBiz(ScheEty sche);
 
 	void updateScheBiz(ScheEty sche);
+
+	void deleteScheBiz(ScheEty sche);
 }

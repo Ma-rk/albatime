@@ -10,4 +10,6 @@ public interface IScheDao {
 	List<ScheEty> retrieveScheListDao(ScheEty sche);
 
 	void updateScheDao(ScheEty sche);
+	
+	void deleteScheDao(ScheEty sche);
 }

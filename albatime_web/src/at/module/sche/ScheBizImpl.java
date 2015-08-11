@@ -29,4 +29,9 @@ public class ScheBizImpl implements IScheBiz {
 	public void updateScheBiz(ScheEty sche) {
 		scheDao.updateScheDao(sche);
 	}
+
+	public void deleteScheBiz(ScheEty sche) {
+		sche.setAsDeletedStus();
+		scheDao.deleteScheDao(sche);
+	}
 }

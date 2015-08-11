@@ -26,5 +26,8 @@ public class ScheBizTx implements IScheBiz {
 	public void updateScheBiz(ScheEty sche) {
 		scheBiz.updateScheBiz(sche);
 	}
-
+	
+	public void deleteScheBiz(ScheEty sche) {
+		scheBiz.deleteScheBiz(sche);
+	}
 }
