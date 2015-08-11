@@ -10,4 +10,6 @@ public interface ICardBiz {
 	List<CardEty> retireveCardListBiz(CardEty card);
 
 	void updateCardBiz(CardEty card);
+
+	void deleteCardBiz(CardEty card);
 }

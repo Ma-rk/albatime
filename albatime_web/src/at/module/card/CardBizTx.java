@@ -29,4 +29,8 @@ public class CardBizTx implements ICardBiz {
 	public void updateCardBiz(CardEty card) {
 		cardBiz.updateCardBiz(card);
 	}
+
+	public void deleteCardBiz(CardEty card) {
+		cardBiz.deleteCardBiz(card);
+	}
 }

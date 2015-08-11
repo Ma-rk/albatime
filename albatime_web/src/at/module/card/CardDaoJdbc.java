@@ -59,4 +59,19 @@ public class CardDaoJdbc implements ICardDao {
 
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 	}
+
+	public void deleteCardDao(CardEty card) {
+		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		lgr.debug("deleting Card [{}]", card.getSeq());
+
+		EntityManager em = CC.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		CardEty retrievedCard = em.find(CardEty.class, card.getSeq());
+		retrievedCard.setStus(card.getStus());
+		tx.commit();
+
+		lgr.debug("deleted.");
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+	}
 }

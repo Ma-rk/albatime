@@ -10,4 +10,6 @@ public interface ICardDao {
 	List<CardEty> retrieveCardListDao(CardEty card);
 
 	void updateCardDao(CardEty card);
+
+	void deleteCardDao(CardEty card);
 }

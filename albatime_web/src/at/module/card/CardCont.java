@@ -73,4 +73,18 @@ public class CardCont {
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return CC.gson.toJson(ResultFac.rf());
 	}
+
+	@RequestMapping(value = CC.API_CARD, produces = "application/json", method = RequestMethod.DELETE)
+	public String deleteCardCont(@Valid CardEty card, BindingResult result) {
+		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
+		if (CommUtil.checkGotWrongParams(result)) {
+			return CC.gson.toJson(ResultFac.rf(false, CC.ERROR_CARD_UPDATE_FAIL));
+		}
+		lgr.debug(card.toString());
+
+		cardBiz.deleteCardBiz(card);
+
+		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return CC.gson.toJson(ResultFac.rf());
+	}
 }

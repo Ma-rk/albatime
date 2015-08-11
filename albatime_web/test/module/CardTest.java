@@ -111,6 +111,16 @@ public class CardTest {
 		}
 	}
 
+	@Test
+	public void deleteCardTest() {
+		List<CardEty> retrievedCardList = cardBiz.retireveCardListBiz(cardListFixture.get(0));
+
+		for (CardEty card : retrievedCardList) {
+			cardBiz.deleteCardBiz(card);
+		}
+		assertEquals(new ArrayList<CardEty>(), cardBiz.retireveCardListBiz(cardListFixture.get(0)));
+	}
+
 	@After
 	public void tearDown() {
 		lgr.debug("deleted lows: [{}]", comDao.cleanTbCardDao());

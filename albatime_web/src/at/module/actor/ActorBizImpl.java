@@ -30,7 +30,6 @@ public class ActorBizImpl implements IActorBiz {
 	}
 
 	public void updateActorBiz(ActorEty actor) {
-		actor.setAsNormalStus();
 		actorDao.updateActorDao(actor);
 	}
 
