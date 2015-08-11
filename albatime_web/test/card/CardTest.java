@@ -16,8 +16,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import at.card.interfaces.ICardBiz;
-import at.card.interfaces.ICardDao;
 import at.com.CC;
+import at.com.interfaces.IComDao;
 import at.model.CardEty;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -25,7 +25,7 @@ import at.model.CardEty;
 public class CardTest {
 	private static final Logger lgr = LoggerFactory.getLogger(CardTest.class);
 	@Autowired
-	private ICardDao cardDao;
+	private IComDao comDao;
 	@Autowired
 	private ICardBiz cardBiz;
 
@@ -33,7 +33,7 @@ public class CardTest {
 
 	@Before
 	public void setUp() {
-		lgr.debug("deleted lows: [{}]", cardDao.cleanTbCardDao());
+		lgr.debug("deleted lows: [{}]", comDao.cleanTbCardDao());
 
 		cardListFixture.add(new CardEty());
 		cardListFixture.get(0).setActorSeq(1l);
@@ -114,6 +114,6 @@ public class CardTest {
 
 	@After
 	public void tearDown() {
-		lgr.debug("deleted lows: [{}]", cardDao.cleanTbCardDao());
+		lgr.debug("deleted lows: [{}]", comDao.cleanTbCardDao());
 	}
 }

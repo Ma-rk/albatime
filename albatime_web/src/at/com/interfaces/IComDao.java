@@ -10,4 +10,12 @@ public interface IComDao {
 	long getLastInsertId();
 
 	void insertVisitLog(VisitLogEty visitLogEty);
+
+	int cleanTbAccountDao();
+
+	int cleanTbActorDao();
+
+	int cleanTbCardDao();
+
+	int cleanTbScheDao();
 }

@@ -10,6 +10,4 @@ public interface ICardDao {
 	List<CardEty> retrieveCardListDao(CardEty card);
 
 	int updateCardDao(CardEty card);
-
-	int cleanTbCardDao();
 }

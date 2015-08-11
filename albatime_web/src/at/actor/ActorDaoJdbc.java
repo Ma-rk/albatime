@@ -4,37 +4,17 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import at.actor.interfaces.IActorDao;
 import at.com.CC;
 import at.model.ActorEty;
-import at.supp.interfaces.ISqlService;
 
 public class ActorDaoJdbc implements IActorDao {
 	private static final Logger lgr = LoggerFactory.getLogger(ActorDaoJdbc.class);
-	/*
-	 * DI codes
-	 */
-	private JdbcTemplate jdbcTemplate;
 
-	public void setDataSource(DataSource dataSource) {
-		this.jdbcTemplate = new JdbcTemplate(dataSource);
-	}
-
-	private ISqlService sqls;
-
-	public void setSqls(ISqlService sqls) {
-		this.sqls = sqls;
-	}
-
-	/*
-	 * functional methods
-	 */
 	public int insertActorDao(ActorEty actor) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 
@@ -104,13 +84,5 @@ public class ActorDaoJdbc implements IActorDao {
 
 		lgr.debug("deleted.");
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-	}
-
-	public int cleanTbActorDao() {
-		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		int truncateActorResult = this.jdbcTemplate.update(this.sqls.getSql("actorCleanTbActor"));
-		lgr.debug("{} result: [{}]", new Object() {}.getClass().getEnclosingMethod().getName(), truncateActorResult);
-		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return truncateActorResult;
 	}
 }

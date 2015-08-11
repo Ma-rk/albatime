@@ -17,16 +17,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import at.com.CC;
+import at.com.interfaces.IComDao;
 import at.model.ScheEty;
 import at.sche.interfaces.IScheBiz;
-import at.sche.interfaces.IScheDao;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/at-servlet.xml")
 public class ScheTest {
 	private static final Logger lgr = LoggerFactory.getLogger(ScheTest.class);
 	@Autowired
-	private IScheDao scheDao;
+	private IComDao comDao;
 	@Autowired
 	private IScheBiz scheBiz;
 
@@ -35,7 +35,7 @@ public class ScheTest {
 	@SuppressWarnings("deprecation")
 	@Before
 	public void setUp() {
-		lgr.debug("deleted lows: [{}]", scheDao.cleanTbScheDao());
+		lgr.debug("deleted lows: [{}]", comDao.cleanTbScheDao());
 
 		scheListFixture.add(new ScheEty());
 		scheListFixture.get(0).setActorSeq(33l);
@@ -46,6 +46,7 @@ public class ScheTest {
 		scheListFixture.get(0).setHourTo(10);
 		scheListFixture.get(0).setMinTo(11);
 		scheListFixture.get(0).setUnpaidbreakMin(60);
+
 		scheListFixture.add(new ScheEty());
 		scheListFixture.get(1).setActorSeq(33l);
 		scheListFixture.get(1).setMemo("mememem momomo2");
@@ -96,7 +97,7 @@ public class ScheTest {
 		originalScheList.get(0).setHourTo(12);
 		originalScheList.get(0).setMinTo(30);
 		originalScheList.get(0).setUnpaidbreakMin(15);
-		
+
 		originalScheList.get(1).setMemo("updated memo 2");
 		originalScheList.get(1).setHourFrom(23);
 		originalScheList.get(1).setMinFrom(50);
@@ -127,6 +128,6 @@ public class ScheTest {
 
 	@After
 	public void tearDown() {
-		lgr.debug("deleted lows: [{}]", scheDao.cleanTbScheDao());
+		lgr.debug("deleted lows: [{}]", comDao.cleanTbScheDao());
 	}
 }

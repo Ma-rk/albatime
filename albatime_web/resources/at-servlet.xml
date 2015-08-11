@@ -81,17 +81,13 @@
 
 
 
-	<bean id="actorDao" class="at.actor.ActorDaoJdbc">
-		<property name="dataSource" ref="dataSource" />
-		<property name="sqls" ref="sqls" />
-	</bean>
+	<bean id="actorDao" class="at.actor.ActorDaoJdbc" />
 
 	<bean id="actorBizImpl" class="at.actor.ActorBizImpl">
 		<property name="actorDao" ref="actorDao" />
 	</bean>
 	
 	<bean id="actorBiz" class="at.actor.ActorBizTx">
-		<!-- <property name="transactionManager" ref="transactionManager" /> -->
 		<property name="actorBiz" ref="actorBizImpl" />
 	</bean>
 
@@ -105,17 +101,13 @@
 
 
 
-	<bean id="cardDao" class="at.card.CardDaoJdbc">
-		<property name="dataSource" ref="dataSource" />
-		<property name="sqls" ref="sqls" />
-	</bean>
+	<bean id="cardDao" class="at.card.CardDaoJdbc" />
 
 	<bean id="cardBizImpl" class="at.card.CardBizImpl">
 		<property name="cardDao" ref="cardDao" />
 	</bean>
 	
 	<bean id="cardBiz" class="at.card.CardBizTx">
-		<!-- <property name="transactionManager" ref="transactionManager" /> -->
 		<property name="cardBiz" ref="cardBizImpl" />
 	</bean>
 
@@ -126,17 +118,13 @@
 
 
 
-	<bean id="scheDao" class="at.sche.ScheDaoJdbc">
-		<property name="dataSource" ref="dataSource" />
-		<property name="sqls" ref="sqls" />
-	</bean>
+	<bean id="scheDao" class="at.sche.ScheDaoJdbc" />
 
 	<bean id="scheBizImpl" class="at.sche.ScheBizImpl">
 		<property name="scheDao" ref="scheDao" />
 	</bean>
 	
 	<bean id="scheBiz" class="at.sche.ScheBizTx">
-		<!-- <property name="transactionManager" ref="transactionManager" /> -->
 		<property name="scheBiz" ref="scheBizImpl" />
 	</bean>
 

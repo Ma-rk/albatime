@@ -48,4 +48,36 @@ public class ComDaoJdbc implements IComDao {
 		tx.commit();
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 	}
+
+	public int cleanTbAccountDao() {
+		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		int cleanTbAccountResult = this.jdbcTemplate.update(this.sqls.getSql("accountCleanTbUser"));
+		lgr.debug("{} result: [{}]", new Object() {}.getClass().getEnclosingMethod().getName(), cleanTbAccountResult);
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return cleanTbAccountResult;
+	}
+
+	public int cleanTbActorDao() {
+		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		int truncateActorResult = this.jdbcTemplate.update(this.sqls.getSql("actorCleanTbActor"));
+		lgr.debug("{} result: [{}]", new Object() {}.getClass().getEnclosingMethod().getName(), truncateActorResult);
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return truncateActorResult;
+	}
+
+	public int cleanTbCardDao() {
+		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		int truncateCardResult = this.jdbcTemplate.update(this.sqls.getSql("cardCleanTbCard"));
+		lgr.debug("{} result: [{}]", new Object() {}.getClass().getEnclosingMethod().getName(), truncateCardResult);
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return truncateCardResult;
+	}
+
+	public int cleanTbScheDao() {
+		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		int truncateScheResult = this.jdbcTemplate.update(this.sqls.getSql("scheCleanTbSche"));
+		lgr.debug("{} result: [{}]", new Object() {}.getClass().getEnclosingMethod().getName(), truncateScheResult);
+		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return truncateScheResult;
+	}
 }

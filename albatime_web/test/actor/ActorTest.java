@@ -1,6 +1,6 @@
 package actor;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,8 +17,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import at.actor.interfaces.IActorBiz;
-import at.actor.interfaces.IActorDao;
 import at.com.CC;
+import at.com.interfaces.IComDao;
 import at.model.ActorEty;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -28,7 +28,7 @@ public class ActorTest {
 	@Autowired
 	private IActorBiz actorBiz;
 	@Autowired
-	private IActorDao actorDao;
+	private IComDao comDao;
 
 	List<ActorEty> actorListFixture = new ArrayList<ActorEty>();
 	final double DELTA = 1e-15;
@@ -36,7 +36,7 @@ public class ActorTest {
 	@SuppressWarnings("deprecation")
 	@Before
 	public void setUp() {
-		lgr.debug("deleted lows: [{}]", actorDao.cleanTbActorDao());
+		lgr.debug("deleted lows: [{}]", comDao.cleanTbActorDao());
 
 		actorListFixture.add(new ActorEty());
 		actorListFixture.get(0).setUserId(1l);
@@ -158,6 +158,6 @@ public class ActorTest {
 
 	@After
 	public void tearDown() {
-		lgr.debug("deleted lows: [{}]", actorDao.cleanTbActorDao());
+		lgr.debug("deleted lows: [{}]", comDao.cleanTbActorDao());
 	}
 }
