@@ -1,5 +1,7 @@
 package at.module.sche;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -36,6 +38,48 @@ public class ScheCont {
 		lgr.debug(sche.toString());
 
 		scheBiz.insertScheBiz(sche);
+
+		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return CC.gson.toJson(ResultFac.rf());
+	}
+
+	@RequestMapping(method = RequestMethod.GET)
+	public String retrieveScheListCont(@Valid ScheEty sche, BindingResult result) {
+		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
+		if (CommUtil.checkGotWrongParams(result)) {
+			return CC.gson.toJson(ResultFac.rf(false, CC.ERROR_SCHEDULE_RETRIEVE_FAIL));
+		}
+		lgr.debug(sche.toString());
+
+		List<ScheEty> scheList = scheBiz.retireveScheListBiz(sche);
+
+		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return CC.gson.toJson(ResultFac.rf(scheList));
+	}
+
+	@RequestMapping(method = RequestMethod.PUT)
+	public String updateScheCont(@Valid ScheEty sche, BindingResult result) {
+		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
+		if (CommUtil.checkGotWrongParams(result)) {
+			return CC.gson.toJson(ResultFac.rf(false, CC.ERROR_SCHEDULE_UPDATE_FAIL));
+		}
+		lgr.debug(sche.toString());
+
+		scheBiz.updateScheBiz(sche);
+
+		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
+		return CC.gson.toJson(ResultFac.rf());
+	}
+
+	@RequestMapping(method = RequestMethod.DELETE)
+	public String deleteScheCont(@Valid ScheEty sche, BindingResult result) {
+		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());
+		if (CommUtil.checkGotWrongParams(result)) {
+			return CC.gson.toJson(ResultFac.rf(false, CC.ERROR_SCHEDULE_DELETE_FAIL));
+		}
+		lgr.debug(sche.toString());
+
+		scheBiz.deleteScheBiz(sche);
 
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return CC.gson.toJson(ResultFac.rf());
