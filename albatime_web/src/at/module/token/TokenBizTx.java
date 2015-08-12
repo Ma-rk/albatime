@@ -1,4 +1,4 @@
-package at.module.user;
+package at.module.token;
 
 import java.util.List;
 import java.util.Map;
@@ -7,16 +7,16 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import at.model.TokenEty;
 import at.model.TokenKeyEty;
-import at.module.user.interfaces.IUserBiz;
+import at.module.token.interfaces.ITokenBiz;
 
-public class UserBizTx implements IUserBiz {
+public class TokenBizTx implements ITokenBiz {
 
 	/*
 	 * DI codes
 	 */
-	IUserBiz userBiz;
+	ITokenBiz userBiz;
 
-	public void setUserBiz(IUserBiz userBiz) {
+	public void setTokenBiz(ITokenBiz userBiz) {
 		this.userBiz = userBiz;
 	}
 

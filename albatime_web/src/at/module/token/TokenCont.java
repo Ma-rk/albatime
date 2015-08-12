@@ -1,4 +1,4 @@
-package at.module.user;
+package at.module.token;
 
 import java.util.List;
 import java.util.Map;
@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 import at.com.CC;
 import at.model.ResultEty;
 import at.model.TokenEty;
-import at.module.user.interfaces.IUserBiz;
+import at.module.token.interfaces.ITokenBiz;
 
 @RestController
-public class UserCont {
-	private static final Logger lgr = LoggerFactory.getLogger(UserCont.class);
+public class TokenCont {
+	private static final Logger lgr = LoggerFactory.getLogger(TokenCont.class);
 	@Autowired
-	IUserBiz userBiz;
+	ITokenBiz tokenBiz;
 
-	public void setUserBiz(IUserBiz userBiz) {
-		this.userBiz = userBiz;
+	public void setTokenBiz(ITokenBiz tokenBiz) {
+		this.tokenBiz = tokenBiz;
 	}
 
 	@RequestMapping(value = CC.API_TOKEN, method = RequestMethod.GET)
@@ -32,7 +32,7 @@ public class UserCont {
 		lgr.debug("retrieving tokens for user " + userId);
 		TokenEty tokenEty = new TokenEty(userId);
 
-		List<Map<String, Object>> jwTokenList = userBiz.retrieveJwTokenList(tokenEty);
+		List<Map<String, Object>> jwTokenList = tokenBiz.retrieveJwTokenList(tokenEty);
 
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return CC.gson.toJson(new ResultEty(jwTokenList));
@@ -45,7 +45,7 @@ public class UserCont {
 		lgr.debug("expiring tokens for user " + userId);
 		TokenEty tokenEty = new TokenEty(userId, jwTokenSeq);
 
-		int expireTokenResult = userBiz.expireJwTokens(tokenEty);
+		int expireTokenResult = tokenBiz.expireJwTokens(tokenEty);
 
 		lgr.debug(CC.GETTING_OUT_2 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return CC.gson.toJson(new ResultEty(expireTokenResult));

@@ -9,7 +9,7 @@
 	<context:component-scan base-package="at.module.account" />
 	<context:component-scan base-package="at.module.actor" />
 	<context:component-scan base-package="at.module.sche" />
-	<context:component-scan base-package="at.module.user" />
+	<context:component-scan base-package="at.module.token" />
 	<context:component-scan base-package="at.supp" />
 
 	<mvc:resources location="/html/" mapping="/html/**" />
@@ -39,21 +39,21 @@
 
 
 
-	<bean id="userDao" class="at.module.user.UserDaoJdbc">
+	<bean id="tokenDao" class="at.module.token.TokenDaoJdbc">
 		<property name="dataSource" ref="dataSource" />
 		<property name="sqls" ref="sqls" />
 	</bean>
 
-	<bean id="userBizImpl" class="at.module.user.UserBizImpl">
-		<property name="userDao" ref="userDao" />
+	<bean id="tokenBizImpl" class="at.module.token.TokenBizImpl">
+		<property name="tokenDao" ref="tokenDao" />
 	</bean>
-	<bean id="userBiz" class="at.module.user.UserBizTx">
+	<bean id="tokenBiz" class="at.module.token.TokenBizTx">
 		<property name="transactionManager" ref="transactionManager" />
-		<property name="userBiz" ref="userBizImpl" />
+		<property name="tokenBiz" ref="tokenBizImpl" />
 	</bean>
 
-	<bean id="userCont" class="at.module.user.UserCont">
-		<property name="userBiz" ref="userBiz" />
+	<bean id="tokenCont" class="at.module.token.TokenCont">
+		<property name="tokenBiz" ref="tokenBiz" />
 	</bean>
 
 
@@ -67,7 +67,7 @@
 	<bean id="accountBizImpl" class="at.module.account.AccountBizImpl">
 		<property name="accountDao" ref="accountDao" />
 		<property name="comDao" ref="comDao" />
-		<property name="userDao" ref="userDao" />
+		<property name="tokenDao" ref="tokenDao" />
 	</bean>
 	<bean id="accountBiz" class="at.module.account.AccountBizTx">
 		<property name="transactionManager" ref="transactionManager" />
@@ -172,6 +172,6 @@
 		<property name="comDao" ref="comDao" />
 	</bean>
 	<bean id="apiInterceptor" class="at.interceptors.ApiInterceptor">
-		<property name="userBiz" ref="userBiz" />
+		<property name="tokenBiz" ref="tokenBiz" />
 	</bean>
 </beans>

@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import at.model.TokenKeyEty;
 import at.model.UserEty;
-import at.module.user.UserDaoJdbc;
+import at.module.token.TokenDaoJdbc;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/at-servlet.xml")
@@ -21,7 +21,7 @@ public class UserTest {
 	UserEty user1;
 
 	@Autowired
-	private UserDaoJdbc userDao;
+	private TokenDaoJdbc userDao;
 
 	@Before
 	public void setUp() throws Exception {

@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import at.com.CC;
 import at.model.TokenEty;
 import at.model.TokenKeyEty;
-import at.module.user.interfaces.IUserBiz;
+import at.module.token.interfaces.ITokenBiz;
 import at.supp.CookieMgr;
 import at.supp.JwtMgr;
 
@@ -20,10 +20,10 @@ public class ApiInterceptor implements HandlerInterceptor {
 	private static final Logger lgr = LoggerFactory.getLogger(ApiInterceptor.class);
 
 	@Autowired
-	private IUserBiz userBiz;
+	private ITokenBiz tokenBiz;
 
-	public void setUserBiz(IUserBiz userBiz) {
-		this.userBiz = userBiz;
+	public void setTokenBiz(ITokenBiz tokenBiz) {
+		this.tokenBiz = tokenBiz;
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class ApiInterceptor implements HandlerInterceptor {
 			return false;
 		}
 		tokenKeyEty.setStusAsNormal();
-		String jwTokenKey = this.userBiz.retrieveJwTokenKey(tokenKeyEty);
+		String jwTokenKey = this.tokenBiz.retrieveJwTokenKey(tokenKeyEty);
 
 		if (jwTokenKey == null || jwTokenKey.isEmpty()) {
 			lgr.debug("tb_tk_key has no jwTokenKey for the user, cookie key. redirect to login.html");

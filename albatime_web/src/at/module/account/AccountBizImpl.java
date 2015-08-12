@@ -10,7 +10,7 @@ import at.model.TokenKeyEty;
 import at.model.UserEty;
 import at.module.account.interfaces.IAccountBiz;
 import at.module.account.interfaces.IAccountDao;
-import at.module.user.interfaces.IUserDao;
+import at.module.token.interfaces.ITokenDao;
 import at.supp.JwtMgr;
 
 public class AccountBizImpl implements IAccountBiz {
@@ -25,9 +25,9 @@ public class AccountBizImpl implements IAccountBiz {
 		this.accountDao = accountDao;
 	}
 
-	private IUserDao jwTokenDao;
+	private ITokenDao jwTokenDao;
 
-	public void setUserDao(IUserDao jwTokenDao) {
+	public void setTokenDao(ITokenDao jwTokenDao) {
 		this.jwTokenDao = jwTokenDao;
 	}
 

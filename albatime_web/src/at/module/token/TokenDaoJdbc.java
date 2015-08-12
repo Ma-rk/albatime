@@ -1,4 +1,4 @@
-package at.module.user;
+package at.module.token;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +11,7 @@ import at.com.CC;
 import at.model.TokenEty;
 import at.model.TokenKeyEty;
 import at.model.UserEty;
-import at.module.user.interfaces.IUserDao;
+import at.module.token.interfaces.ITokenDao;
 import at.supp.interfaces.ISqlService;
 
 import org.slf4j.Logger;
@@ -21,8 +21,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
-public class UserDaoJdbc implements IUserDao {
-	private static final Logger lgr = LoggerFactory.getLogger(UserDaoJdbc.class);
+public class TokenDaoJdbc implements ITokenDao {
+	private static final Logger lgr = LoggerFactory.getLogger(TokenDaoJdbc.class);
 	/*
 	 * DI codes
 	 */
