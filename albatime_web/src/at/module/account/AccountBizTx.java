@@ -2,6 +2,7 @@ package at.module.account;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
@@ -13,24 +14,12 @@ import at.module.account.interfaces.IAccountBiz;
 
 public class AccountBizTx implements IAccountBiz {
 	private static final Logger lgr = LoggerFactory.getLogger(AccountBizTx.class);
-	/*
-	 * DI codes
-	 */
+
+	@Autowired
 	private IAccountBiz accountBiz;
-
-	public void setAccountBiz(IAccountBiz accountBiz) {
-		this.accountBiz = accountBiz;
-	}
-
+	@Autowired
 	PlatformTransactionManager transactionManager;
 
-	public void setTransactionManager(PlatformTransactionManager transactionMansger) {
-		this.transactionManager = transactionMansger;
-	}
-
-	/*
-	 * functional methods
-	 */
 	public int getEmailCountBiz(UserEty user) {
 		return this.accountBiz.getEmailCountBiz(user);
 	}

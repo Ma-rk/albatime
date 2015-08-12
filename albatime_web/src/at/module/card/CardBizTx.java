@@ -2,22 +2,16 @@ package at.module.card;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import at.model.CardEty;
 import at.module.card.interfaces.ICardBiz;
 
 public class CardBizTx implements ICardBiz {
-	/*
-	 * DI codes
-	 */
+
+	@Autowired
 	private ICardBiz cardBiz;
 
-	public void setCardBiz(ICardBiz cardBiz) {
-		this.cardBiz = cardBiz;
-	}
-
-	/*
-	 * functional methods
-	 */
 	public void insertCardBiz(CardEty card) {
 		cardBiz.insertCardBiz(card);
 	}

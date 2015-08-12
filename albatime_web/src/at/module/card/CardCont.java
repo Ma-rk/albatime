@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,18 +21,10 @@ import at.supp.ResultFac;
 @RestController
 public class CardCont {
 	private static final Logger lgr = LoggerFactory.getLogger(CardCont.class);
-	/*
-	 * DI codes
-	 */
+
+	@Autowired
 	ICardBiz cardBiz;
 
-	public void setCardBiz(ICardBiz cardBiz) {
-		this.cardBiz = cardBiz;
-	}
-
-	/*
-	 * functional methods
-	 */
 	@RequestMapping(value = CC.API_CARD, produces = "application/json", method = RequestMethod.POST)
 	public String insertCardCont(@Valid CardEty card, BindingResult result) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());

@@ -2,6 +2,7 @@ package at.module.account;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 
 import at.com.CC;
@@ -16,30 +17,13 @@ import at.supp.JwtMgr;
 public class AccountBizImpl implements IAccountBiz {
 	private static final Logger lgr = LoggerFactory.getLogger(AccountBizImpl.class);
 
-	/*
-	 * DI codes
-	 */
+	@Autowired
 	private IAccountDao accountDao;
-
-	public void setAccountDao(IAccountDao accountDao) {
-		this.accountDao = accountDao;
-	}
-
+	@Autowired
 	private ITokenDao jwTokenDao;
-
-	public void setTokenDao(ITokenDao jwTokenDao) {
-		this.jwTokenDao = jwTokenDao;
-	}
-
+	@Autowired
 	private IComDao comDao;
 
-	public void setComDao(IComDao comDao) {
-		this.comDao = comDao;
-	}
-
-	/*
-	 * functional methods
-	 */
 	public int getEmailCountBiz(UserEty user) {
 		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		int emailCount = this.accountDao.getEmailCountDao(user);

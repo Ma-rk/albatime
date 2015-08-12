@@ -2,22 +2,14 @@ package at.module.actor;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import at.model.ActorEty;
 import at.module.actor.interfaces.IActorBiz;
 
 public class ActorBizTx implements IActorBiz {
-	/*
-	 * DI codes
-	 */
+	@Autowired
 	private IActorBiz actorBiz;
-
-	public void setActorBiz(IActorBiz actorBiz) {
-		this.actorBiz = actorBiz;
-	}
-
-	/*
-	 * functional methods
-	 */
 
 	public void insertActorBiz(ActorEty actor) {
 		actorBiz.insertActorBiz(actor);

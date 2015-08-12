@@ -29,10 +29,6 @@ public class AccountCont {
 	@Autowired
 	private IAccountBiz accountBiz;
 
-	public void setAccountBiz(IAccountBiz accountBiz) {
-		this.accountBiz = accountBiz;
-	}
-
 	@RequestMapping(method = RequestMethod.GET)
 	public String checkEmailExistanceCont(@Valid UserEty user, BindingResult result) {
 		if (CommUtil.checkGotWrongParams(result)) {

@@ -31,110 +31,53 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<bean id="comDao" class="at.com.ComDaoJdbc">
-		<property name="dataSource" ref="dataSource" />
-		<property name="sqls" ref="sqls" />
-	</bean>
 
 
 
 
 	<bean id="tokenDao" class="at.module.token.TokenDaoJdbc">
 		<property name="dataSource" ref="dataSource" />
-		<property name="sqls" ref="sqls" />
 	</bean>
-
-	<bean id="tokenBizImpl" class="at.module.token.TokenBizImpl">
-		<property name="tokenDao" ref="tokenDao" />
-	</bean>
-	<bean id="tokenBiz" class="at.module.token.TokenBizTx">
-		<property name="transactionManager" ref="transactionManager" />
-		<property name="tokenBiz" ref="tokenBizImpl" />
-	</bean>
-
-	<bean id="tokenCont" class="at.module.token.TokenCont">
-		<property name="tokenBiz" ref="tokenBiz" />
-	</bean>
-
-
-
+	<bean id="tokenBizImpl" class="at.module.token.TokenBizImpl" />
+	<bean id="tokenBiz" class="at.module.token.TokenBizTx" />
+	<bean id="tokenCont" class="at.module.token.TokenCont" />
 
 	<bean id="accountDao" class="at.module.account.AccountDaoJdbc">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="accountBizImpl" class="at.module.account.AccountBizImpl" />
+	<bean id="accountBiz" class="at.module.account.AccountBizTx" />
+	<bean id="accountCont" class="at.module.account.AccountCont" />
+
+	<bean id="actorDao" class="at.module.actor.ActorDaoJdbc" />
+	<bean id="actorBizImpl" class="at.module.actor.ActorBizImpl" />
+	<bean id="actorBiz" class="at.module.actor.ActorBizTx" />
+	<bean id="actorCont" class="at.module.actor.ActorCont" />
+
+	<bean id="cardDao" class="at.module.card.CardDaoJdbc" />
+	<bean id="cardBizImpl" class="at.module.card.CardBizImpl" />
+	<bean id="cardBiz" class="at.module.card.CardBizTx" />
+	<bean id="cardCont" class="at.module.card.CardCont" />
+
+	<bean id="scheDao" class="at.module.sche.ScheDaoJdbc" />
+	<bean id="scheBizImpl" class="at.module.sche.ScheBizImpl" />
+	<bean id="scheBiz" class="at.module.sche.ScheBizTx" />
+	<bean id="scheCont" class="at.module.sche.ScheCont" />
+
+
+
+	<bean id="comDao" class="at.com.ComDaoJdbc">
 		<property name="dataSource" ref="dataSource" />
 		<property name="sqls" ref="sqls" />
 	</bean>
 
-	<bean id="accountBizImpl" class="at.module.account.AccountBizImpl">
-		<property name="accountDao" ref="accountDao" />
+
+	<bean id="visitLogInterceptor" class="at.interceptors.VisitLogInterceptor">
 		<property name="comDao" ref="comDao" />
-		<property name="tokenDao" ref="tokenDao" />
 	</bean>
-	<bean id="accountBiz" class="at.module.account.AccountBizTx">
-		<property name="transactionManager" ref="transactionManager" />
-		<property name="accountBiz" ref="accountBizImpl" />
+	<bean id="apiInterceptor" class="at.interceptors.ApiInterceptor">
+		<property name="tokenBiz" ref="tokenBiz" />
 	</bean>
-
-	<bean id="accountCont" class="at.module.account.AccountCont">
-		<property name="accountBiz" ref="accountBiz" />
-	</bean>
-
-
-
-
-	<bean id="actorDao" class="at.module.actor.ActorDaoJdbc" />
-
-	<bean id="actorBizImpl" class="at.module.actor.ActorBizImpl">
-		<property name="actorDao" ref="actorDao" />
-	</bean>
-	
-	<bean id="actorBiz" class="at.module.actor.ActorBizTx">
-		<property name="actorBiz" ref="actorBizImpl" />
-	</bean>
-
-	<bean id="actorCont" class="at.module.actor.ActorCont">
-		<property name="actorBiz" ref="actorBiz" />
-	</bean>
-
-
-
-
-
-
-
-	<bean id="cardDao" class="at.module.card.CardDaoJdbc" />
-
-	<bean id="cardBizImpl" class="at.module.card.CardBizImpl">
-		<property name="cardDao" ref="cardDao" />
-	</bean>
-	
-	<bean id="cardBiz" class="at.module.card.CardBizTx">
-		<property name="cardBiz" ref="cardBizImpl" />
-	</bean>
-
-	<bean id="cardCont" class="at.module.card.CardCont">
-		<property name="cardBiz" ref="cardBiz" />
-	</bean>
-
-
-
-
-	<bean id="scheDao" class="at.module.sche.ScheDaoJdbc" />
-
-	<bean id="scheBizImpl" class="at.module.sche.ScheBizImpl">
-		<property name="scheDao" ref="scheDao" />
-	</bean>
-	
-	<bean id="scheBiz" class="at.module.sche.ScheBizTx">
-		<property name="scheBiz" ref="scheBizImpl" />
-	</bean>
-
-	<bean id="scheCont" class="at.module.sche.ScheCont">
-		<property name="scheBiz" ref="scheBiz" />
-	</bean>
-
-
-
-
 
 	<bean id="jwtMgr" class="at.supp.JwtMgr" />
 
@@ -142,7 +85,8 @@
 		<property name="sqlMap">
 			<map>
 				<entry key="accountCleanTbUser" value="delete from tb_usr" />
-				<entry key="accountLogin" value="select usr_id, usr_email, usr_nick, usr_gender, usr_birth, usr_type, usr_stus, usr_signup_date from tb_usr where usr_email = ? and usr_pw = ? and usr_stus = ?" />
+				<entry key="accountLogin"
+					value="select usr_id, usr_email, usr_nick, usr_gender, usr_birth, usr_type, usr_stus, usr_signup_date from tb_usr where usr_email = ? and usr_pw = ? and usr_stus = ?" />
 				<entry key="accountEmailCount" value="select count(usr_email) from tb_usr where usr_email = ?" />
 				<entry key="accountRegisterAccount" value="insert into tb_usr(usr_email, usr_pw, usr_nick, usr_gender, usr_birth, usr_type, usr_stus) values (?,?,?,?,?,?,?)" />
 				<entry key="actorCleanTbActor" value="delete from ActorEty" />
@@ -158,20 +102,14 @@
 	</bean>
 
 	<mvc:interceptors>
-		<mvc:interceptor> 
-			<mvc:mapping path="/**"/> 
-			<bean class="at.interceptors.VisitLogInterceptor"/>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="at.interceptors.VisitLogInterceptor" />
 		</mvc:interceptor>
-		<mvc:interceptor> 
-			<mvc:mapping path="/api/*"/> 
-			<bean class="at.interceptors.ApiInterceptor"/>
+		<mvc:interceptor>
+			<mvc:mapping path="/api/*" />
+			<bean class="at.interceptors.ApiInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
-	
-	<bean id="visitLogInterceptor" class="at.interceptors.VisitLogInterceptor">
-		<property name="comDao" ref="comDao" />
-	</bean>
-	<bean id="apiInterceptor" class="at.interceptors.ApiInterceptor">
-		<property name="tokenBiz" ref="tokenBiz" />
-	</bean>
+
 </beans>

@@ -22,12 +22,9 @@ import at.supp.ResultFac;
 @RequestMapping(value = CC.API_SCHE)
 public class ScheCont {
 	private static final Logger lgr = LoggerFactory.getLogger(ScheCont.class);
+
 	@Autowired
 	IScheBiz scheBiz;
-
-	public void setScheBiz(IScheBiz scheBiz) {
-		this.scheBiz = scheBiz;
-	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String insertScheCont(@Valid ScheEty sche, BindingResult result) {

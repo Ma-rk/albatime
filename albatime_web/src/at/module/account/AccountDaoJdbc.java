@@ -13,6 +13,7 @@ import at.supp.interfaces.ISqlService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanInstantiationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -29,15 +30,9 @@ public class AccountDaoJdbc implements IAccountDao {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
+	@Autowired
 	private ISqlService sqls;
 
-	public void setSqls(ISqlService sqls) {
-		this.sqls = sqls;
-	}
-
-	/*
-	 * functional methods
-	 */
 	public int getEmailCountDao(UserEty user) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		int emailCount = this.jdbcTemplate.queryForObject(this.sqls.getSql("accountEmailCount"),

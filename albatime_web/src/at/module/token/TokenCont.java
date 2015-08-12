@@ -22,10 +22,6 @@ public class TokenCont {
 	@Autowired
 	ITokenBiz tokenBiz;
 
-	public void setTokenBiz(ITokenBiz tokenBiz) {
-		this.tokenBiz = tokenBiz;
-	}
-
 	@RequestMapping(value = CC.API_TOKEN, method = RequestMethod.GET)
 	public String retrieveToken(@CookieValue(CC.USER_ID_IN_COOKIE) long userId) {
 		lgr.debug(CC.GETTING_INTO_2 + new Object() {}.getClass().getEnclosingMethod().getName());

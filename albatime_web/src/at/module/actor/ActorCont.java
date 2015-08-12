@@ -25,10 +25,6 @@ public class ActorCont {
 	@Autowired
 	IActorBiz actorBiz;
 
-	public void setActorBiz(IActorBiz actorBiz) {
-		this.actorBiz = actorBiz;
-	}
-
 	@RequestMapping(value = CC.API_ACTOR, produces = "application/json", method = RequestMethod.POST)
 	public String insertActorCont(@CookieValue(CC.USER_ID_IN_COOKIE) long userId, @Valid ActorEty actor,
 			BindingResult result) {

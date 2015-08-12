@@ -2,19 +2,16 @@ package at.module.sche;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import at.model.ScheEty;
 import at.module.sche.interfaces.IScheBiz;
 import at.module.sche.interfaces.IScheDao;
 
 public class ScheBizImpl implements IScheBiz {
-	/*
-	 * DI codes
-	 */
-	private IScheDao scheDao;
 
-	public void setScheDao(IScheDao scheDao) {
-		this.scheDao = scheDao;
-	}
+	@Autowired
+	private IScheDao scheDao;
 
 	public void insertScheBiz(ScheEty sche) {
 		sche.setAsNormalStus();

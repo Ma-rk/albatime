@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import at.com.CC;
 import at.model.TokenEty;
@@ -15,18 +16,9 @@ import at.module.token.interfaces.ITokenDao;
 public class TokenBizImpl implements ITokenBiz {
 	private static final Logger lgr = LoggerFactory.getLogger(TokenBizImpl.class);
 
-	/*
-	 * DI codes
-	 */
+	@Autowired
 	private ITokenDao tokenDao;
 
-	public void setTokenDao(ITokenDao tokenDao) {
-		this.tokenDao = tokenDao;
-	}
-
-	/*
-	 * functional methods
-	 */
 	public String retrieveJwTokenKey(TokenKeyEty tokenKeyEty) {
 		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		String jwTokenKey = this.tokenDao.retrieveJwTokenKey(tokenKeyEty);

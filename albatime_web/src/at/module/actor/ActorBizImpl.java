@@ -2,23 +2,17 @@ package at.module.actor;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import at.model.ActorEty;
 import at.module.actor.interfaces.IActorBiz;
 import at.module.actor.interfaces.IActorDao;
 
 public class ActorBizImpl implements IActorBiz {
-	/*
-	 * DI codes
-	 */
+
+	@Autowired
 	private IActorDao actorDao;
 
-	public void setActorDao(IActorDao actorDao) {
-		this.actorDao = actorDao;
-	}
-
-	/*
-	 * functional methods
-	 */
 	public void insertActorBiz(ActorEty actor) {
 		actor.setAsNormalStus();
 		actorDao.insertActorDao(actor);

@@ -17,6 +17,7 @@ import at.supp.interfaces.ISqlService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanInstantiationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -32,15 +33,9 @@ public class TokenDaoJdbc implements ITokenDao {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
+	@Autowired
 	private ISqlService sqls;
 
-	public void setSqls(ISqlService sqls) {
-		this.sqls = sqls;
-	}
-
-	/*
-	 * functional methods
-	 */
 	public int insertJwTokenKey(TokenKeyEty tokenKeyEty) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		int insertJwTokenResult = this.jdbcTemplate.update(this.sqls.getSql("login_InsertJwTokenKey"),
