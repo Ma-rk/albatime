@@ -21,6 +21,7 @@ public class TokenBizImpl implements ITokenBiz {
 
 	public String retrieveJwTokenKey(TokenKeyEty tokenKeyEty) {
 		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
+		tokenKeyEty.setAsNormalStus();
 		String jwTokenKey = this.tokenDao.retrieveJwTokenKey(tokenKeyEty);
 		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return jwTokenKey;

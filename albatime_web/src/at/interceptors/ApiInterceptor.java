@@ -22,10 +22,6 @@ public class ApiInterceptor implements HandlerInterceptor {
 	@Autowired
 	private ITokenBiz tokenBiz;
 
-	public void setTokenBiz(ITokenBiz tokenBiz) {
-		this.tokenBiz = tokenBiz;
-	}
-
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
@@ -46,7 +42,7 @@ public class ApiInterceptor implements HandlerInterceptor {
 			return true;
 		}
 
-		// step 1. find jwt
+		// step 1. find jwt from cookey
 		String jwToken = CookieMgr.getCookie(request.getCookies(), CC.JW_TOKEN);
 		if (jwToken == null) {
 			lgr.debug("cookie has no jwToken. redirect to login.html");
@@ -54,7 +50,7 @@ public class ApiInterceptor implements HandlerInterceptor {
 			return false;
 		}
 
-		// step 2. read cookie
+		// step 2. read userTokenSeq from cookie
 		String userTokenSeqInCookie = CookieMgr.getCookie(request.getCookies(), CC.USER_TOKEN_SEQ_IN_COOKIE);
 		if (userTokenSeqInCookie == null || userTokenSeqInCookie.isEmpty()) {
 			lgr.debug("cookie has no token seq. redirect to login.html");
@@ -62,6 +58,7 @@ public class ApiInterceptor implements HandlerInterceptor {
 			return false;
 		}
 
+		// step 3. read useuserIdFromCookierTokenSeq from cookie
 		String userIdFromCookie = CookieMgr.getCookie(request.getCookies(), CC.USER_ID_IN_COOKIE);
 		if (userIdFromCookie == null || userIdFromCookie.isEmpty()) {
 			lgr.debug("cookie has no userId. redirect to login.html");
@@ -69,7 +66,7 @@ public class ApiInterceptor implements HandlerInterceptor {
 			return false;
 		}
 
-		// step 3. get jwt key
+		// step 4. get jwt key from database table
 		TokenKeyEty tokenKeyEty;
 		try {
 			tokenKeyEty = new TokenKeyEty(Long.parseLong(userIdFromCookie), Long.parseLong(userTokenSeqInCookie));
@@ -80,7 +77,6 @@ public class ApiInterceptor implements HandlerInterceptor {
 			response.sendRedirect(CC.PAGE_LOGIN);
 			return false;
 		}
-		tokenKeyEty.setStusAsNormal();
 		String jwTokenKey = this.tokenBiz.retrieveJwTokenKey(tokenKeyEty);
 
 		if (jwTokenKey == null || jwTokenKey.isEmpty()) {

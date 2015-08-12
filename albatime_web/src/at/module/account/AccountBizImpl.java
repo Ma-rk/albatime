@@ -51,7 +51,9 @@ public class AccountBizImpl implements IAccountBiz {
 		String jwToken = JwtMgr.createJsonWebToken(userInfo.getId(), CC.SESSION_DURATION_DAYS_FOR_JWT, jwTokenKey);
 		userInfo.setCurrentJwToken(jwToken);
 
-		int insertJwTokenResult = this.jwTokenDao.insertJwTokenKey(new TokenKeyEty(userInfo.getId(), jwTokenKey));
+		TokenKeyEty k = new TokenKeyEty(userInfo.getId(), jwTokenKey);
+		k.setAsNormalStus();
+		int insertJwTokenResult = this.jwTokenDao.insertJwTokenKey(k);
 		if (insertJwTokenResult == 1) {
 			userInfo.setUserJwTokenKeySeq(comDao.getLastInsertId());
 		}

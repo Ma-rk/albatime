@@ -75,9 +75,7 @@
 	<bean id="visitLogInterceptor" class="at.interceptors.VisitLogInterceptor">
 		<property name="comDao" ref="comDao" />
 	</bean>
-	<bean id="apiInterceptor" class="at.interceptors.ApiInterceptor">
-		<property name="tokenBiz" ref="tokenBiz" />
-	</bean>
+	<bean id="apiInterceptor" class="at.interceptors.ApiInterceptor" />
 
 	<bean id="jwtMgr" class="at.supp.JwtMgr" />
 
@@ -91,7 +89,7 @@
 				<entry key="accountRegisterAccount" value="insert into tb_usr(usr_email, usr_pw, usr_nick, usr_gender, usr_birth, usr_type, usr_stus) values (?,?,?,?,?,?,?)" />
 				<entry key="actorCleanTbActor" value="delete from ActorEty" />
 				<entry key="cardCleanTbCard" value="delete from CardEty" />
-				<entry key="login_InsertJwTokenKey" value="insert into tb_tk_key (tk_usr_id, tk_key, tk_stus) values (?,?,?)" />
+				<entry key="login_InsertJwTokenKey" value="insert into TokenKeyEty (userId, jwTokenKey, stus) values (?,?,?)" />
 				<entry key="scheCleanTbSche" value="delete from ScheEty" />
 				<entry key="autologin_retrieveJwTokenKey" value="select tk_key from tb_tk_key where tk_seq = ? and tk_usr_id = ? and tk_stus=?" />
 				<entry key="tkRetireveToken" value="select tk_device_type, tk_created from tb_token where tk_usr_id = ? and tk_stus=?" />

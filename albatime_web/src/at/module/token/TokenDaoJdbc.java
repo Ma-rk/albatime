@@ -1,26 +1,22 @@
 package at.module.token;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.sql.DataSource;
 
 import at.com.CC;
 import at.model.TokenEty;
 import at.model.TokenKeyEty;
-import at.model.UserEty;
 import at.module.token.interfaces.ITokenDao;
 import at.supp.interfaces.ISqlService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanInstantiationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 
 public class TokenDaoJdbc implements ITokenDao {
 	private static final Logger lgr = LoggerFactory.getLogger(TokenDaoJdbc.class);
@@ -39,32 +35,33 @@ public class TokenDaoJdbc implements ITokenDao {
 	public int insertJwTokenKey(TokenKeyEty tokenKeyEty) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		int insertJwTokenResult = this.jdbcTemplate.update(this.sqls.getSql("login_InsertJwTokenKey"),
-				tokenKeyEty.getUserId(), tokenKeyEty.getKey(), tokenKeyEty.getStus());
+				tokenKeyEty.getUserId(), tokenKeyEty.getJwTokenKey(), tokenKeyEty.getStus());
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return insertJwTokenResult;
 	}
 
 	public String retrieveJwTokenKey(TokenKeyEty tokenKeyEty) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		lgr.debug("retireive token key for tkSeq [{}], userId [{}]", tokenKeyEty.getSeq(), tokenKeyEty.getSeqUser());
-		RowMapper<String> rowMapper = new RowMapper<String>() {
-			public String mapRow(ResultSet rs, int rowNum) {
-				try {
-					return rs.getString("tk_key");
-				} catch (SQLException e) {
-					throw new BeanInstantiationException(UserEty.class, e.getMessage(), e);
-				}
-			}
-		};
-		String jwTokenKey;
-		try {
-			jwTokenKey = this.jdbcTemplate.queryForObject(this.sqls.getSql("autologin_retrieveJwTokenKey"), rowMapper,
-					tokenKeyEty.getSeq(), tokenKeyEty.getSeqUser(), CC.TOKEN_STUS_NORMAL);
-		} catch (EmptyResultDataAccessException e) {
-			e.printStackTrace();
-			jwTokenKey = null;
+		lgr.debug("retireive token key for tkSeq [{}], userId [{}]", tokenKeyEty.getSeq(), tokenKeyEty.getUserId());
+
+		EntityManager em = CC.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		List<TokenKeyEty> jwTokenKeyList = em
+				.createQuery(
+						"select a from TokenKeyEty as a where a.seq = :seq and a.userId = :userId and a.stus = :stus",
+						TokenKeyEty.class)
+				.setParameter("seq", tokenKeyEty.getSeq()).setParameter("userId", tokenKeyEty.getUserId())
+				.setParameter("stus", tokenKeyEty.getStus()).getResultList();
+		tx.commit();
+
+		String jwTokenKey = null;
+		if (jwTokenKeyList != null && jwTokenKeyList.size() > 0) {
+			jwTokenKey = jwTokenKeyList.get(0).getJwTokenKey();
+			lgr.debug("jwTokenKey: [{}]", jwTokenKey);
+		} else {
+			lgr.debug("jwTokenKey: [{}]", "not exists...");
 		}
-		lgr.debug("jwTokenKey: " + jwTokenKey);
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return jwTokenKey;
 	}

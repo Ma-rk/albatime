@@ -1,71 +1,42 @@
 package at.model;
 
-import org.joda.time.DateTime;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 import at.com.CC;
+import lombok.Data;
+import lombok.ToString;
 
+@Data
+@ToString
+@Entity
 public class TokenKeyEty {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long seq;
-	private long seqUser;
 	private long userId;
-	private String key;
-	private String deviceType;
+	private String jwTokenKey;
 	private String stus;
-	private DateTime createdDate;
+	private String created;
 
 	public TokenKeyEty(long userId, String jwTokenKey) {
 		this.userId = userId;
-		this.key = jwTokenKey;
-		setStusAsNormal();
+		this.jwTokenKey = jwTokenKey;
 	}
 
-	public TokenKeyEty(long userId, long tokenSeq) {
-		this.seqUser = userId;
+	public TokenKeyEty(long tokenSeq, long userId) {
 		this.seq = tokenSeq;
+		this.userId = userId;
 	}
 
-	public void setStusAsNormal() {
+	public void setAsNormalStus() {
 		this.stus = CC.TOKEN_STUS_NORMAL;
 	}
 
-	public void setStusAsExpired() {
+	public void setAsExpiredStus() {
 		this.stus = CC.TOKEN_STUS_EXPIRED;
 	}
-
-	/*
-	 * getters and setters
-	 */
-	public long getSeq() {
-		return seq;
-	}
-
-	public long getSeqUser() {
-		return seqUser;
-	}
-
-	public long getUserId() {
-		return userId;
-	}
-
-	public String getKey() {
-		return key;
-	}
-
-	public String getDeviceType() {
-		return deviceType;
-	}
-
-	public String getStus() {
-		return stus;
-	}
-
-	public DateTime getCreatedDate() {
-		return createdDate;
-	}
-
-	public String toString() {
-		return "\nTokenKeyEty [seq=" + seq + ", seqUser=" + seqUser + ", userId=" + userId + ", key=" + key
-				+ ", deviceType=" + deviceType + ", stus=" + stus + ", createdDate=" + createdDate + "]";
-	}
-
 }

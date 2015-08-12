@@ -37,7 +37,7 @@ public class UserTest {
 	@Test
 	public void retrieveJwTokenKeyTest() {
 		TokenKeyEty tokenKeyEty = new TokenKeyEty(1l, 1l);
-		tokenKeyEty.setStusAsNormal();
+		tokenKeyEty.setAsNormalStus();
 		String key = userDao.retrieveJwTokenKey(tokenKeyEty);
 		lgr.info(key);
 	}
