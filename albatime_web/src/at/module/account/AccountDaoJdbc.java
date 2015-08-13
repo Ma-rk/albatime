@@ -73,12 +73,4 @@ public class AccountDaoJdbc implements IAccountDao {
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return useResult;
 	}
-
-	public int cleanTbAccountDao() {
-		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		int cleanTbAccountResult = this.jdbcTemplate.update(this.sqls.getSql("accountCleanTbUser"));
-		lgr.debug("{} result: [{}]", new Object() {}.getClass().getEnclosingMethod().getName(), cleanTbAccountResult);
-		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return cleanTbAccountResult;
-	}
 }

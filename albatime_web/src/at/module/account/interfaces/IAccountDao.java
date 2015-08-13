@@ -10,6 +10,4 @@ public interface IAccountDao {
 	void registerUserDao(UserEty user) throws DuplicateKeyException;
 
 	UserEty getUserInfoByEmailAndPw(UserEty user);
-
-	int cleanTbAccountDao();
 }

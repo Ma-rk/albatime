@@ -15,9 +15,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import at.com.CC;
+import at.com.interfaces.IComDao;
 import at.model.UserEty;
 import at.module.account.interfaces.IAccountBiz;
-import at.module.account.interfaces.IAccountDao;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/at-servlet.xml")
@@ -26,13 +26,13 @@ public class AccountTest {
 	@Autowired
 	IAccountBiz accountBiz;
 	@Autowired
-	IAccountDao accountDao;
+	IComDao comDao;
 
 	private List<UserEty> userListFixture = new ArrayList<UserEty>();
 
 	@Before
 	public void setUp() {
-		lgr.debug("deleted lows: [{}]", accountDao.cleanTbAccountDao());
+		lgr.debug("deleted lows: [{}]", comDao.cleanTbAccountDao());
 
 		userListFixture.add(new UserEty());
 		userListFixture.get(0).setEmail("e@mail.com");
