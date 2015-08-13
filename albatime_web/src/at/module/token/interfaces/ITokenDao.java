@@ -11,7 +11,7 @@ import at.model.TokenKeyEty;
 public interface ITokenDao {
 	void setDataSource(DataSource dataSource);
 
-	int insertJwTokenKey(TokenKeyEty tokenKeyEty);
+	long insertJwTokenKey(TokenKeyEty tokenKeyEty);
 
 	String retrieveJwTokenKey(TokenKeyEty tokenKeyEty);
 

@@ -51,15 +51,15 @@ public class AccountDaoJdbc implements IAccountDao {
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
 
-		List<UserEty> actors = em
-				.createQuery("select a from UserEty as a where a.id = :id and a.pw = :pw and a.stus = :stus",
+		List<UserEty> userList = em
+				.createQuery("select a from UserEty as a where a.email = :email and a.pw = :pw and a.stus = :stus",
 						UserEty.class)
-				.setParameter("id", user.getId()).setParameter("pw", user.getPw()).setParameter("stus", user.getStus())
+				.setParameter("email", user.getEmail()).setParameter("pw", user.getPw()).setParameter("stus", user.getStus())
 				.getResultList();
 		tx.commit();
 
-		if (actors.size() != 0) {
-			userInfo = actors.get(0);
+		if (userList.size() != 0) {
+			userInfo = userList.get(0);
 		}
 		lgr.debug("user: " + user);
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());

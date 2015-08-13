@@ -32,12 +32,18 @@ public class TokenDaoJdbc implements ITokenDao {
 	@Autowired
 	private ISqlService sqls;
 
-	public int insertJwTokenKey(TokenKeyEty tokenKeyEty) {
+	public long insertJwTokenKey(TokenKeyEty tokenKeyEty) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		int insertJwTokenResult = this.jdbcTemplate.update(this.sqls.getSql("login_InsertJwTokenKey"),
-				tokenKeyEty.getUserId(), tokenKeyEty.getJwTokenKey(), tokenKeyEty.getStus());
+
+		EntityManager em = CC.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		em.persist(tokenKeyEty);
+		long newJwTokenKeySeq = tokenKeyEty.getSeq();
+		tx.commit();
+
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return insertJwTokenResult;
+		return newJwTokenKeySeq;
 	}
 
 	public String retrieveJwTokenKey(TokenKeyEty tokenKeyEty) {

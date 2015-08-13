@@ -53,9 +53,9 @@ public class AccountBizImpl implements IAccountBiz {
 
 		TokenKeyEty k = new TokenKeyEty(userInfo.getId(), jwTokenKey);
 		k.setAsNormalStus();
-		int insertJwTokenResult = this.jwTokenDao.insertJwTokenKey(k);
-		if (insertJwTokenResult == 1) {
-			userInfo.setUserJwTokenKeySeq(comDao.getLastInsertId());
+		long insertJwTokenKeySeq = this.jwTokenDao.insertJwTokenKey(k);
+		if (insertJwTokenKeySeq != 0) {
+			userInfo.setUserJwTokenKeySeq(insertJwTokenKeySeq);
 		}
 		lgr.debug(CC.GETTING_OUT_4 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return userInfo;
