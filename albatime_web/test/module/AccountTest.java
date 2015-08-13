@@ -65,7 +65,17 @@ public class AccountTest {
 			assertEquals(userListFixture.get(i).getNick(), loginUser1.getNick());
 			assertEquals(userListFixture.get(i).getType(), loginUser1.getType());
 			assertEquals(userListFixture.get(i).getStus(), loginUser1.getStus());
-			loginUser1.getSignUp();
+			loginUser1.getSignupDate();
+		}
+	}
+
+	@Test
+	public void loginFailTest() {
+		for (UserEty user : userListFixture) {
+			accountBiz.registerUserBiz(user);
+			user.setPw("fake pw");
+			UserEty loginUser1 = accountBiz.login(user);
+			assertEquals(null, loginUser1);
 		}
 	}
 }
