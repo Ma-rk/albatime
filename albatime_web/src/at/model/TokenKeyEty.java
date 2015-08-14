@@ -7,9 +7,11 @@ import javax.persistence.Id;
 
 import at.com.CC;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
+@NoArgsConstructor
 @ToString
 @Entity
 public class TokenKeyEty {

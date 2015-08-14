@@ -35,9 +35,7 @@
 
 
 
-	<bean id="tokenDao" class="at.module.token.TokenDaoJdbc">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
+	<bean id="tokenDao" class="at.module.token.TokenDaoJdbc" />
 	<bean id="tokenBizImpl" class="at.module.token.TokenBizImpl" />
 	<bean id="tokenBiz" class="at.module.token.TokenBizTx" />
 	<bean id="tokenCont" class="at.module.token.TokenCont" />
@@ -86,8 +84,6 @@
 				<entry key="login_InsertJwTokenKey" value="insert into TokenKeyEty (userId, jwTokenKey, stus) values (?,?,?)" />
 				<entry key="scheCleanTbSche" value="delete from ScheEty" />
 				<entry key="autologin_retrieveJwTokenKey" value="select tk_key from tb_tk_key where tk_seq = ? and tk_usr_id = ? and tk_stus=?" />
-				<entry key="tkRetireveToken" value="select tk_device_type, tk_created from tb_token where tk_usr_id = ? and tk_stus=?" />
-				<entry key="tkExpireToken" value="update tb_token set tk_stus=? where tk_usr_id=? and tk_seq!=? and tk_stus!=?" />
 				<entry key="getLastId" value="select last_insert_id()" />
 			</map>
 		</property>

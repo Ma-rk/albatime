@@ -1,36 +1,19 @@
 package at.module.token;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.sql.DataSource;
 
 import at.com.CC;
-import at.model.TokenEty;
 import at.model.TokenKeyEty;
 import at.module.token.interfaces.ITokenDao;
-import at.supp.interfaces.ISqlService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 public class TokenDaoJdbc implements ITokenDao {
 	private static final Logger lgr = LoggerFactory.getLogger(TokenDaoJdbc.class);
-	/*
-	 * DI codes
-	 */
-	private JdbcTemplate jdbcTemplate;
-
-	public void setDataSource(DataSource dataSource) {
-		this.jdbcTemplate = new JdbcTemplate(dataSource);
-	}
-
-	@Autowired
-	private ISqlService sqls;
 
 	public long insertJwTokenKey(TokenKeyEty tokenKeyEty) {
 		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
@@ -70,21 +53,5 @@ public class TokenDaoJdbc implements ITokenDao {
 		}
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return jwTokenKey;
-	}
-
-	public List<Map<String, Object>> retrieveJwTokenList(TokenEty tokenEty) {
-		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		List<Map<String, Object>> jwTokenList = jdbcTemplate.queryForList(this.sqls.getSql("tkRetireveToken"),
-				tokenEty.getUserId(), tokenEty.getStus());
-		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return jwTokenList;
-	}
-
-	public int expireJwTokens(TokenEty tokenEty) {
-		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		int expireJwTokenResult = jdbcTemplate.update(this.sqls.getSql("tkExpireToken"), tokenEty.getStus(),
-				tokenEty.getUserId(), tokenEty.getJwTokenKeySeq(), tokenEty.getStus());
-		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-		return expireJwTokenResult;
 	}
 }

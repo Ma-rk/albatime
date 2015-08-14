@@ -6,12 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 
 import at.com.CC;
-import at.com.interfaces.IComDao;
 import at.model.TokenKeyEty;
 import at.model.UserEty;
 import at.module.account.interfaces.IAccountBiz;
 import at.module.account.interfaces.IAccountDao;
-import at.module.token.interfaces.ITokenDao;
+import at.module.token.interfaces.ITokenBiz;
 import at.supp.JwtMgr;
 
 public class AccountBizImpl implements IAccountBiz {
@@ -20,9 +19,7 @@ public class AccountBizImpl implements IAccountBiz {
 	@Autowired
 	private IAccountDao accountDao;
 	@Autowired
-	private ITokenDao jwTokenDao;
-	@Autowired
-	private IComDao comDao;
+	private ITokenBiz tokenBiz;
 
 	public int getEmailCountBiz(UserEty user) {
 		lgr.debug(CC.GETTING_INTO_4 + new Object() {}.getClass().getEnclosingMethod().getName());
@@ -53,7 +50,7 @@ public class AccountBizImpl implements IAccountBiz {
 
 		TokenKeyEty k = new TokenKeyEty(userInfo.getId(), jwTokenKey);
 		k.setAsNormalStus();
-		long insertJwTokenKeySeq = this.jwTokenDao.insertJwTokenKey(k);
+		long insertJwTokenKeySeq = this.tokenBiz.insertJwTokenKey(k);
 		if (insertJwTokenKeySeq != 0) {
 			userInfo.setUserJwTokenKeySeq(insertJwTokenKeySeq);
 		}
