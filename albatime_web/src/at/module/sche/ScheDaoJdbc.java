@@ -16,20 +16,16 @@ public class ScheDaoJdbc implements IScheDao {
 	private static final Logger lgr = LoggerFactory.getLogger(ScheDaoJdbc.class);
 
 	public void insertScheDao(ScheEty sche) {
-		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-
+		lgr.debug("inserting Schedule for actor [{}]", sche.getActorSeq());
 		EntityManager em = CC.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
 		em.persist(sche);
 		tx.commit();
-
-		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 	}
 
 	public List<ScheEty> retrieveScheListDao(ScheEty sche) {
-		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-
+		lgr.debug("retrieving Schedule for actor [{}]", sche.getActorSeq());
 		EntityManager em = CC.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
@@ -38,14 +34,11 @@ public class ScheDaoJdbc implements IScheDao {
 						ScheEty.class)
 				.setParameter("actorSeq", sche.getActorSeq()).setParameter("stus", sche.getStus()).getResultList();
 		tx.commit();
-
-		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return schedules;
 	}
 
 	public void updateScheDao(ScheEty sche) {
-		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-
+		lgr.debug("updating Schedule [{}]", sche.getSeq());
 		EntityManager em = CC.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
@@ -58,23 +51,15 @@ public class ScheDaoJdbc implements IScheDao {
 		retrievedSche.setMinTo(sche.getMinTo());
 		retrievedSche.setUnpaidbreakMin(sche.getUnpaidbreakMin());
 		tx.commit();
-
-		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 	}
 
 	public void deleteScheDao(ScheEty sche) {
-		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		lgr.debug("deleting Schedule [{}]", sche.getSeq());
-
 		EntityManager em = CC.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
 		ScheEty retrievedSche = em.find(ScheEty.class, sche.getSeq());
 		retrievedSche.setStus(sche.getStus());
 		tx.commit();
-
-		lgr.debug("deleted.");
-		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-
 	}
 }

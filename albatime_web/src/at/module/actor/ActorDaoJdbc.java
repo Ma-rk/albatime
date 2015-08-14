@@ -16,20 +16,16 @@ public class ActorDaoJdbc implements IActorDao {
 	private static final Logger lgr = LoggerFactory.getLogger(ActorDaoJdbc.class);
 
 	public void insertActorDao(ActorEty actor) {
-		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-
+		lgr.debug("inserting Actor for user [{}]", actor.getUserId());
 		EntityManager em = CC.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
 		em.persist(actor);
 		tx.commit();
-
-		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 	}
 
 	public List<ActorEty> retireveActorListDao(ActorEty actor) {
-		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-
+		lgr.debug("retrieving Actor for user [{}]", actor.getUserId());
 		EntityManager em = CC.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
@@ -38,12 +34,11 @@ public class ActorDaoJdbc implements IActorDao {
 				.setParameter("userId", actor.getUserId()).setParameter("stus", actor.getStus()).getResultList();
 		tx.commit();
 
-		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return actors;
 	}
 
 	public void updateActorDao(ActorEty actor) {
-		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		lgr.debug("updating Actor [{}]", actor.getSeq());
 
 		EntityManager em = CC.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
@@ -68,17 +63,12 @@ public class ActorDaoJdbc implements IActorDao {
 	}
 
 	public void deleteActorDao(ActorEty actor) {
-		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		lgr.debug("deleting User [{}]'s Actor [{}]", actor.getUserId(), actor.getSeq());
-
 		EntityManager em = CC.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
 		ActorEty retrievedActor = em.find(ActorEty.class, actor.getSeq());
 		retrievedActor.setStus(actor.getStus());
 		tx.commit();
-
-		lgr.debug("deleted.");
-		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 	}
 }

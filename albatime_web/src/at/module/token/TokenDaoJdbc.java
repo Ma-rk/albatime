@@ -16,21 +16,17 @@ public class TokenDaoJdbc implements ITokenDao {
 	private static final Logger lgr = LoggerFactory.getLogger(TokenDaoJdbc.class);
 
 	public long insertJwTokenKey(TokenKeyEty tokenKeyEty) {
-		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-
 		EntityManager em = CC.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
 		em.persist(tokenKeyEty);
 		long newJwTokenKeySeq = tokenKeyEty.getSeq();
+		lgr.debug("inserted token key [{}] for token seq [{}]");
 		tx.commit();
-
-		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return newJwTokenKeySeq;
 	}
 
 	public String retrieveJwTokenKey(TokenKeyEty tokenKeyEty) {
-		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		lgr.debug("retireive token key for tkSeq [{}], userId [{}]", tokenKeyEty.getSeq(), tokenKeyEty.getUserId());
 
 		EntityManager em = CC.emf.createEntityManager();
@@ -51,7 +47,6 @@ public class TokenDaoJdbc implements ITokenDao {
 		} else {
 			lgr.debug("jwTokenKey: [{}]", "not exists...");
 		}
-		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return jwTokenKey;
 	}
 }

@@ -16,18 +16,16 @@ public class CardDaoJdbc implements ICardDao {
 	private static final Logger lgr = LoggerFactory.getLogger(CardDaoJdbc.class);
 
 	public void insertCardDao(CardEty card) {
-		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
+		lgr.debug("inserting Card for actor [{}]", card.getActorSeq());
 		EntityManager em = CC.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
 		em.persist(card);
 		tx.commit();
-		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 	}
 
 	public List<CardEty> retrieveCardListDao(CardEty card) {
-		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-
+		lgr.debug("retrieving Cark for actor [{}]", card.getActorSeq());
 		EntityManager em = CC.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
@@ -36,14 +34,11 @@ public class CardDaoJdbc implements ICardDao {
 						CardEty.class)
 				.setParameter("actorSeq", card.getActorSeq()).setParameter("stus", card.getStus()).getResultList();
 		tx.commit();
-
-		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		return cards;
 	}
 
 	public void updateCardDao(CardEty card) {
-		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
-
+		lgr.debug("updating Cark [{}]", card.getSeq());
 		EntityManager em = CC.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
@@ -56,22 +51,15 @@ public class CardDaoJdbc implements ICardDao {
 		retrievedCard.setMinTo(card.getMinTo());
 		retrievedCard.setUnpaidbreakMin(card.getUnpaidbreakMin());
 		tx.commit();
-
-		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 	}
 
 	public void deleteCardDao(CardEty card) {
-		lgr.debug(CC.GETTING_INTO_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 		lgr.debug("deleting Card [{}]", card.getSeq());
-
 		EntityManager em = CC.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
 		CardEty retrievedCard = em.find(CardEty.class, card.getSeq());
 		retrievedCard.setStus(card.getStus());
 		tx.commit();
-
-		lgr.debug("deleted.");
-		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
 	}
 }
