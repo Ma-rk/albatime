@@ -14,6 +14,8 @@ public class ScheBizImpl implements IScheBiz {
 	private IScheDao scheDao;
 
 	public void insertScheBiz(ScheEty sche) {
+		sche.setAsWorkedNo();
+		sche.setAsPaidNo();
 		sche.setAsNormalStus();
 		scheDao.insertScheDao(sche);
 	}

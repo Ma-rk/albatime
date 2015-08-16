@@ -78,6 +78,8 @@ public class ScheTest {
 			assertEquals(scheListFixture.get(i).getHourFrom(), retrievedScheList.get(i).getHourFrom());
 			assertEquals(scheListFixture.get(i).getUnpaidbreakMin(), retrievedScheList.get(i).getUnpaidbreakMin());
 			assertEquals(scheListFixture.get(i).getMins(), retrievedScheList.get(i).getMins());
+			assertEquals(CC.SCHE_WORKED_NO, retrievedScheList.get(i).getWorked());
+			assertEquals(CC.SCHE_PAID_NO, retrievedScheList.get(i).getPaid());
 			assertEquals(CC.SCHE_STUS_NORMAL, retrievedScheList.get(i).getStus());
 		}
 		assertEquals(1, retrievedScheList.get(0).getMins());
@@ -97,6 +99,8 @@ public class ScheTest {
 		originalScheList.get(0).setHourTo(12);
 		originalScheList.get(0).setMinTo(30);
 		originalScheList.get(0).setUnpaidbreakMin(15);
+		originalScheList.get(0).setAsWorkedYes();
+		originalScheList.get(0).setAsPaidYes();
 
 		originalScheList.get(1).setMemo("updated memo 2");
 		originalScheList.get(1).setHourFrom(23);
@@ -104,9 +108,12 @@ public class ScheTest {
 		originalScheList.get(1).setHourTo(0);
 		originalScheList.get(1).setMinTo(0);
 		originalScheList.get(1).setUnpaidbreakMin(15);
+		originalScheList.get(1).setAsWorkedYes();
+		originalScheList.get(1).setAsPaidYes();
 
-		scheBiz.updateScheBiz(originalScheList.get(0));
-		scheBiz.updateScheBiz(originalScheList.get(1));
+		for (ScheEty sche : originalScheList) {
+			scheBiz.updateScheBiz(sche);
+		}
 
 		ScheEty retrieveQryForUpdated = new ScheEty();
 		retrieveQryForUpdated.setActorSeq(33l);
@@ -119,6 +126,8 @@ public class ScheTest {
 			assertEquals(originalScheList.get(i).getHourTo(), updatedScheList.get(i).getHourTo());
 			assertEquals(originalScheList.get(i).getMinTo(), updatedScheList.get(i).getMinTo());
 			assertEquals(originalScheList.get(i).getUnpaidbreakMin(), updatedScheList.get(i).getUnpaidbreakMin());
+			assertEquals(CC.SCHE_WORKED_YES, updatedScheList.get(i).getWorked());
+			assertEquals(CC.SCHE_PAID_YES, updatedScheList.get(i).getPaid());
 		}
 		assertEquals(140, updatedScheList.get(0).getMins());
 		assertEquals(10, updatedScheList.get(1).getMins());

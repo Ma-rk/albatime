@@ -70,6 +70,16 @@ public class ScheEty {
 	@Setter
 	private int unpaidbreakMin;
 
+	@Getter
+	@Setter
+	@Pattern(regexp = "[A-Z]{3}[_][A-Z]{3}[_][0-9]{2}")
+	String worked;
+
+	@Getter
+	@Setter
+	@Pattern(regexp = "[A-Z]{3}[_][A-Z]{3}[_][0-9]{2}")
+	String paid;
+
 	@Pattern(regexp = "[A-Z]{3}[_][A-Z]{3}[_][0-9]{2}")
 	@Getter
 	@Setter
@@ -91,6 +101,22 @@ public class ScheEty {
 
 	public void setAsDeletedStus() {
 		this.stus = CC.SCHE_STUS_DELETED;
+	}
+
+	public void setAsWorkedNo() {
+		this.worked = CC.SCHE_WORKED_NO;
+	}
+
+	public void setAsWorkedYes() {
+		this.worked = CC.SCHE_WORKED_YES;
+	}
+
+	public void setAsPaidNo() {
+		this.paid = CC.SCHE_PAID_NO;
+	}
+
+	public void setAsPaidYes() {
+		this.paid = CC.SCHE_PAID_YES;
 	}
 
 	/*

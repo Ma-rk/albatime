@@ -12,8 +12,8 @@ import at.module.token.interfaces.ITokenDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TokenDaoJdbc implements ITokenDao {
-	private static final Logger lgr = LoggerFactory.getLogger(TokenDaoJdbc.class);
+public class TokenDaoHBN implements ITokenDao {
+	private static final Logger lgr = LoggerFactory.getLogger(TokenDaoHBN.class);
 
 	public long insertJwTokenKey(TokenKeyEty tokenKeyEty) {
 		EntityManager em = CC.emf.createEntityManager();

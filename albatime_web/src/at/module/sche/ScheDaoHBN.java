@@ -50,6 +50,8 @@ public class ScheDaoHBN implements IScheDao {
 		retrievedSche.setHourTo(sche.getHourTo());
 		retrievedSche.setMinTo(sche.getMinTo());
 		retrievedSche.setUnpaidbreakMin(sche.getUnpaidbreakMin());
+		retrievedSche.setWorked(sche.getWorked());
+		retrievedSche.setPaid(sche.getPaid());
 		tx.commit();
 	}
 
