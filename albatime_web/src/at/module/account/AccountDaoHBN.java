@@ -13,8 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
 
-public class AccountDaoJdbc implements IAccountDao {
-	private static final Logger lgr = LoggerFactory.getLogger(AccountDaoJdbc.class);
+public class AccountDaoHBN implements IAccountDao {
+	private static final Logger lgr = LoggerFactory.getLogger(AccountDaoHBN.class);
 
 	public int getEmailCountDao(UserEty user) {
 		EntityManager em = CC.emf.createEntityManager();

@@ -12,8 +12,8 @@ import at.com.CC;
 import at.model.ScheEty;
 import at.module.sche.interfaces.IScheDao;
 
-public class ScheDaoJdbc implements IScheDao {
-	private static final Logger lgr = LoggerFactory.getLogger(ScheDaoJdbc.class);
+public class ScheDaoHBN implements IScheDao {
+	private static final Logger lgr = LoggerFactory.getLogger(ScheDaoHBN.class);
 
 	public void insertScheDao(ScheEty sche) {
 		lgr.debug("inserting Schedule for actor [{}]", sche.getActorSeq());

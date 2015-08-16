@@ -12,8 +12,8 @@ import at.com.CC;
 import at.model.ActorEty;
 import at.module.actor.interfaces.IActorDao;
 
-public class ActorDaoJdbc implements IActorDao {
-	private static final Logger lgr = LoggerFactory.getLogger(ActorDaoJdbc.class);
+public class ActorDaoHBN implements IActorDao {
+	private static final Logger lgr = LoggerFactory.getLogger(ActorDaoHBN.class);
 
 	public void insertActorDao(ActorEty actor) {
 		lgr.debug("inserting Actor for user [{}]", actor.getUserId());

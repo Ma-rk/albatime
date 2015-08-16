@@ -12,8 +12,8 @@ import at.com.CC;
 import at.model.CardEty;
 import at.module.card.interfaces.ICardDao;
 
-public class CardDaoJdbc implements ICardDao {
-	private static final Logger lgr = LoggerFactory.getLogger(CardDaoJdbc.class);
+public class CardDaoHBN implements ICardDao {
+	private static final Logger lgr = LoggerFactory.getLogger(CardDaoHBN.class);
 
 	public void insertCardDao(CardEty card) {
 		lgr.debug("inserting Card for actor [{}]", card.getActorSeq());
