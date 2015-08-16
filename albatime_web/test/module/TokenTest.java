@@ -11,17 +11,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import at.model.TokenKeyEty;
 import at.model.UserEty;
-import at.module.token.TokenDaoJdbc;
+import at.module.token.TokenDaoHBN;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/at-servlet.xml")
-public class UserTest {
-	private static final Logger lgr = LoggerFactory.getLogger(UserTest.class);
+public class TokenTest {
+	private static final Logger lgr = LoggerFactory.getLogger(TokenTest.class);
 
 	UserEty user1;
 
 	@Autowired
-	private TokenDaoJdbc userDao;
+	private TokenDaoHBN tokenDao;
 
 	@Before
 	public void setUp() throws Exception {
@@ -38,7 +38,7 @@ public class UserTest {
 	public void retrieveJwTokenKeyTest() {
 		TokenKeyEty tokenKeyEty = new TokenKeyEty(1l, 1l);
 		tokenKeyEty.setAsNormalStus();
-		String key = userDao.retrieveJwTokenKey(tokenKeyEty);
+		String key = tokenDao.retrieveJwTokenKey(tokenKeyEty);
 		lgr.info(key);
 	}
 }

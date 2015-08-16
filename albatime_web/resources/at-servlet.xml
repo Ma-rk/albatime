@@ -35,27 +35,27 @@
 
 
 
-	<bean id="tokenDao" class="at.module.token.TokenDaoJdbc" />
+	<bean id="tokenDao" class="at.module.token.TokenDaoHBN" />
 	<bean id="tokenBizImpl" class="at.module.token.TokenBizImpl" />
 	<bean id="tokenBiz" class="at.module.token.TokenBizTx" />
 	<bean id="tokenCont" class="at.module.token.TokenCont" />
 
-	<bean id="accountDao" class="at.module.account.AccountDaoJdbc" />
+	<bean id="accountDao" class="at.module.account.AccountDaoHBN" />
 	<bean id="accountBizImpl" class="at.module.account.AccountBizImpl" />
 	<bean id="accountBiz" class="at.module.account.AccountBizTx" />
 	<bean id="accountCont" class="at.module.account.AccountCont" />
 
-	<bean id="actorDao" class="at.module.actor.ActorDaoJdbc" />
+	<bean id="actorDao" class="at.module.actor.ActorDaoHBN" />
 	<bean id="actorBizImpl" class="at.module.actor.ActorBizImpl" />
 	<bean id="actorBiz" class="at.module.actor.ActorBizTx" />
 	<bean id="actorCont" class="at.module.actor.ActorCont" />
 
-	<bean id="cardDao" class="at.module.card.CardDaoJdbc" />
+	<bean id="cardDao" class="at.module.card.CardDaoHBN" />
 	<bean id="cardBizImpl" class="at.module.card.CardBizImpl" />
 	<bean id="cardBiz" class="at.module.card.CardBizTx" />
 	<bean id="cardCont" class="at.module.card.CardCont" />
 
-	<bean id="scheDao" class="at.module.sche.ScheDaoJdbc" />
+	<bean id="scheDao" class="at.module.sche.ScheDaoHBN" />
 	<bean id="scheBizImpl" class="at.module.sche.ScheBizImpl" />
 	<bean id="scheBiz" class="at.module.sche.ScheBizTx" />
 	<bean id="scheCont" class="at.module.sche.ScheCont" />
