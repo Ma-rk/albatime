@@ -41,10 +41,10 @@ public class CC {
 	public static final String TOKEN_STUS_EXPIRED = "TKN_STU_02";
 
 	public static final String ACTOR_STUS_NORMAL = "ACT_STU_01";
-	public static final String ACTOR_STUS_DELETED = "ACT_STU_01";
+	public static final String ACTOR_STUS_DELETED = "ACT_STU_02";
 
 	public static final String CARD_STUS_NORMAL = "CRD_STU_01";
-	public static final String CARD_STUS_DELETED = "CRD_STU_01";
+	public static final String CARD_STUS_DELETED = "CRD_STU_02";
 
 	public static final String SCHE_STUS_NORMAL = "SCH_STU_01";
 	public static final String SCHE_STUS_DELETED = "SCH_STU_02";
