@@ -56,7 +56,6 @@ public class ActorDaoHBN implements IActorDao {
 		retrievedActor.setBgColor(actor.getBgColor());
 		retrievedActor.setPhone1(actor.getPhone1());
 		retrievedActor.setAddr1(actor.getAddr1());
-		retrievedActor.setStus(actor.getStus());
 		tx.commit();
 
 		lgr.debug(CC.GETTING_OUT_6 + new Object() {}.getClass().getEnclosingMethod().getName());
