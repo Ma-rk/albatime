@@ -7,7 +7,7 @@
   - https://www.getpostman.com/collections/73031fb2e527668ee92f
 - 좌측 칼럼에서 원하는 `API`를 선택한다.
 - 우측 영역에서 알맞은 파라메터를 입력하고 `SEND` 버튼을 클릭해 `API`를 호출한다.
-- ![](http://i.imgur.com/Y1MrewZ.png)
+- ![](http://i.imgur.com/2EQEvD0.png)
 
 ##API 정의 문서
 - https://docs.google.com/spreadsheets/d/17GvyncJ7_ZeITFGHoWrOsOBcrKGt9tkrc8b3rIlX-7s/edit#gid=432552728
